@@ -5,16 +5,21 @@ title: Mis repositorios GitHub
 
 <h1>Repositorios de GitHub de Julian Cardozo</h1>
 
+
 <p>Soy un desarrollador apasionado por crear soluciones eficientes y elegantes. En esta página encontrarás mis proyectos públicos agrupados por lenguaje para que puedas explorar fácilmente mis habilidades.</p>
+
 <div id="repos-by-lang"></div>
 
 <script>
   const username = 'juliancardozo';
   const container = document.getElementById('repos-by-lang');
 
+
+
   fetch(`https://api.github.com/users/${username}/repos`)
     .then(response => response.json())
     .then(repos => {
+  
       const groups = {};
 
       repos.forEach(repo => {
