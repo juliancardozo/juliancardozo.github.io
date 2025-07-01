@@ -10,9 +10,11 @@ title: Mis repositorios GitHub
   const username = 'juliancardozo';
   const container = document.getElementById('repos-by-lang');
 
+
   fetch(`https://api.github.com/users/${username}/repos`)
     .then(response => response.json())
     .then(repos => {
+  
       const groups = {};
 
       repos.forEach(repo => {
@@ -42,6 +44,7 @@ title: Mis repositorios GitHub
     })
     .catch(err => {
       container.innerHTML = '<p>Error cargando repositorios.</p>';
+
       console.error(err);
     });
 </script>
