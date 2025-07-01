@@ -1,0 +1,26 @@
+---
+layout: default
+title: Mis repositorios GitHub
+---
+
+<h1>Repositorios de GitHub de Julian Cardozo</h1>
+<ul id="repo-list"></ul>
+
+<script>
+  const username = 'juliancardozo';
+
+  fetch(`https://api.github.com/users/${username}/repos`)
+    .then(response => response.json())
+    .then(repos => {
+      const ul = document.getElementById('repo-list');
+      repos.forEach(repo => {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.name}</a> - ${repo.description || 'Sin descripción'}`;
+        ul.appendChild(li);
+      });
+    })
+    .catch(err => {
+      document.body.innerHTML += '<p>Error cargando repositorios.</p>';
+      console.error(err);
+    });
+</script>
