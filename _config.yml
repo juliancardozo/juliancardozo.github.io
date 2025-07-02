@@ -1,6 +1,5 @@
-theme: jekyll-theme-primer
-remote_theme: pages-themes/primer@v0.2.0
+remote_theme: pages-themes/minimal
 plugins:
-- jekyll-remote-theme # add this line to the plugins list if you already have one
+  - jekyll-remote-theme
 title: Página de inicio Julián Cardozo Viggiano
 description: En este repositorio iré compartiendo mis proyectos.
