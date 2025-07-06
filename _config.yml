@@ -1,5 +1,5 @@
-remote_theme: pages-themes/minimal
+theme: minimal-mistakes-jekyll
 plugins:
   - jekyll-remote-theme
-title: Página de inicio Julián Cardozo Viggiano
+title: Mis Proyectos - Juli
 description: En este repositorio iré compartiendo mis proyectos.
