@@ -3,45 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <title>Mis repositorios GitHub</title>
+  <link rel="stylesheet" href="timeline.css">
 </head>
 <body>
   <header class="main-header">
-    <h1>Proyectos recientes de Julian Cardozo</h1>
-    <p class="subtitle">Explora mis últimos desarrollos con tecnologías actuales</p>
+    <h1>Innovando en la era de la Inteligencia Artificial</h1>
+    <p class="subtitle">Construyendo el futuro, un proyecto a la vez</p>
   </header>
-  <section class="projects-section">
-    <div id="projects-grid" class="projects-grid"></div>
+  <section class="timeline-section">
+    <div id="projects-timeline" class="projects-timeline"></div>
   </section>
 
   <script>
     const username = 'juliancardozo';
-    const daysAgo = 30; // Mostrar proyectos de los últimos 30 días
-    const grid = document.getElementById('projects-grid');
+    // Mostrar todos los proyectos, sin filtro de días
+    const timeline = document.getElementById('projects-timeline');
 
     fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`)
       .then(response => response.json())
       .then(repos => {
-        const now = new Date();
-        const recentRepos = repos.filter(repo => {
-          const updated = new Date(repo.updated_at);
-          const diffDays = (now - updated) / (1000 * 60 * 60 * 24);
-          return diffDays <= daysAgo;
-        });
-        if (recentRepos.length === 0) {
-          grid.innerHTML = '<p>No hay proyectos recientes en las últimas semanas.</p>';
+        const allRepos = repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
+        if (allRepos.length === 0) {
+          timeline.innerHTML = '<p>No hay proyectos disponibles.</p>';
           return;
         }
-        grid.innerHTML = recentRepos.map(repo => `
-          <div class="project-card">
-            <h2><a href="${repo.html_url}" target="_blank">${repo.name}</a></h2>
-            <p>${repo.description || 'Sin descripción'}</p>
-            <span class="tech-label">${repo.language || 'Varios'}</span>
-            <span class="date-label">Actualizado: ${new Date(repo.updated_at).toLocaleDateString()}</span>
-          </div>
-        `).join('');
+        timeline.innerHTML = `<div class="timeline">
+          ${allRepos.map((repo, idx) => `
+            <div class="timeline-item ${idx % 2 === 0 ? 'left' : 'right'}">
+              <div class="timeline-content">
+                <h2><a href="${repo.html_url}" target="_blank">${repo.name}</a></h2>
+                <p>${repo.description || 'Sin descripción'}</p>
+                <span class="date-label">${new Date(repo.updated_at).toLocaleDateString()}</span>
+              </div>
+            </div>
+          `).join('')}
+        </div>`;
       })
       .catch(err => {
-        grid.innerHTML = '<p>Error cargando proyectos.</p>';
+        timeline.innerHTML = '<p>Error cargando proyectos.</p>';
         console.error(err);
       });
   </script>
