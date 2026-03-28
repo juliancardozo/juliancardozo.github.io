@@ -5,24 +5,43 @@
   <title>Mis repositorios GitHub</title>
 </head>
 <body>
-  <h1>Repositorios de GitHub de Julian Cardozo</h1>
-  <ul id="repo-list"></ul>
+  <header class="main-header">
+    <h1>Proyectos recientes de Julian Cardozo</h1>
+    <p class="subtitle">Explora mis últimos desarrollos con tecnologías actuales</p>
+  </header>
+  <section class="projects-section">
+    <div id="projects-grid" class="projects-grid"></div>
+  </section>
 
   <script>
     const username = 'juliancardozo';
+    const daysAgo = 30; // Mostrar proyectos de los últimos 30 días
+    const grid = document.getElementById('projects-grid');
 
-    fetch(`https://api.github.com/users/${username}/repos`)
+    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`)
       .then(response => response.json())
       .then(repos => {
-        const ul = document.getElementById('repo-list');
-        repos.forEach(repo => {
-          const li = document.createElement('li');
-          li.innerHTML = `<a href="${repo.html_url}" target="_blank">${repo.name}</a> - ${repo.description || 'Sin descripción'}`;
-          ul.appendChild(li);
+        const now = new Date();
+        const recentRepos = repos.filter(repo => {
+          const updated = new Date(repo.updated_at);
+          const diffDays = (now - updated) / (1000 * 60 * 60 * 24);
+          return diffDays <= daysAgo;
         });
+        if (recentRepos.length === 0) {
+          grid.innerHTML = '<p>No hay proyectos recientes en las últimas semanas.</p>';
+          return;
+        }
+        grid.innerHTML = recentRepos.map(repo => `
+          <div class="project-card">
+            <h2><a href="${repo.html_url}" target="_blank">${repo.name}</a></h2>
+            <p>${repo.description || 'Sin descripción'}</p>
+            <span class="tech-label">${repo.language || 'Varios'}</span>
+            <span class="date-label">Actualizado: ${new Date(repo.updated_at).toLocaleDateString()}</span>
+          </div>
+        `).join('');
       })
       .catch(err => {
-        document.body.innerHTML += '<p>Error cargando repositorios.</p>';
+        grid.innerHTML = '<p>Error cargando proyectos.</p>';
         console.error(err);
       });
   </script>
