@@ -1,48 +1,613 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <title>Mis repositorios GitHub</title>
-  <link rel="stylesheet" href="timeline.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Julián Cardozo — Engineering Manager y product builder</title>
+<meta name="description" content="Engineering Manager y desarrollador con más de 15 años de experiencia en software, banca, fintech y plataformas. Convierto problemas reales en productos digitales: pagos, automotoras, salud animal, compliance e IA." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<link rel="canonical" href="https://juliancardozo.github.io/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Julián Cardozo — Engineering Manager y product builder" />
+<meta property="og:description" content="Engineering Manager y desarrollador con más de 15 años de experiencia en software, banca, fintech y plataformas. Convierto problemas reales en productos digitales: pagos, automotoras, salud animal, compliance e IA." />
+<meta property="og:url" content="https://juliancardozo.github.io/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Julián Cardozo — Engineering Manager y product builder" />
+<meta name="twitter:description" content="Engineering Manager y desarrollador con más de 15 años de experiencia en software, banca, fintech y plataformas. Convierto problemas reales en productos digitales: pagos, automotoras, salud animal, compliance e IA." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Julián Cardozo","url":"https://juliancardozo.github.io","jobTitle":"Engineering Manager","description":"Engineering Manager y desarrollador con más de 15 años de experiencia en software, banca, fintech y plataformas. Convierto problemas reales en productos digitales: pagos, automotoras, salud animal, compliance e IA.","sameAs":["https://github.com/juliancardozo","https://www.linkedin.com/in/juliancardozoviggiano/"],"knowsAbout":["Engineering Manager","Technical Leadership","Software Engineering","Product Builder","Java","Spring Boot","Fintech","Payment Platforms","APIs","Cloud","DevSecOps","AI-assisted development","Spec-driven development","Uruguay","LATAM"]}</script>
 </head>
-<body>
-  <header class="main-header">
-    <h1>Innovando en la era de la Inteligencia Artificial</h1>
-    <p class="subtitle">Construyendo el futuro, un proyecto a la vez</p>
-  </header>
-  <section class="timeline-section">
-    <div id="projects-timeline" class="projects-timeline"></div>
-  </section>
+<body class="page-home">
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="#productos">Productos</a></li><li><a href="#origen">Cómo nacen</a></li><li><a href="#laboratorio">Laboratorio</a></li><li><a href="#recorrido">Recorrido</a></li><li><a href="#capacidades">Capacidades</a></li><li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
 
-  <script>
-    const username = 'juliancardozo';
-    // Mostrar todos los proyectos, sin filtro de días
-    const timeline = document.getElementById('projects-timeline');
+<section class="hero">
+  <div class="shell">
+    <p class="hero__eyebrow">Engineering Manager · Product builder · Montevideo, Uruguay</p>
+    <h1 class="hero__title">Convierto problemas reales en productos digitales.</h1>
+    <p class="hero__lead">Soy Julián Cardozo. Hace más de 15 años que construyo software: sistemas empresariales en Java, plataformas de pagos en banca y fintech, y equipos de ingeniería. En el último año usé esa base para pasar de resolver problemas ajenos a construir producto propio: siete productos que nacieron de situaciones que viví de cerca, seis de ellos hoy en línea.</p>
+    <div class="hero__ctas">
+      <a class="btn btn--primary" href="#productos">Ver los productos</a><a class="btn btn--ghost" href="#recorrido">Conocer mi recorrido</a>
+    </div>
+    <p class="hero__note">Cada tarjeta indica en qué estado real está el proyecto: en línea, MVP funcional, prototipo o exploración. Nada más que eso.</p>
+    <dl class="facts">
+      <div class="facts__item"><dt class="facts__value">15+</dt><dd class="facts__label">años construyendo software</dd></div><div class="facts__item"><dt class="facts__value">7</dt><dd class="facts__label">productos propios en el último año</dd></div><div class="facts__item"><dt class="facts__value">6</dt><dd class="facts__label">con producto o sitio en línea hoy</dd></div><div class="facts__item"><dt class="facts__value">48</dt><dd class="facts__label">repositorios públicos</dd></div>
+    </dl>
+  </div>
+</section>
 
-    fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=100`)
-      .then(response => response.json())
-      .then(repos => {
-        const allRepos = repos.sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at));
-        if (allRepos.length === 0) {
-          timeline.innerHTML = '<p>No hay proyectos disponibles.</p>';
-          return;
-        }
-        timeline.innerHTML = `<div class="timeline">
-          ${allRepos.map((repo, idx) => `
-            <div class="timeline-item ${idx % 2 === 0 ? 'left' : 'right'}">
-              <div class="timeline-content">
-                <h2><a href="${repo.html_url}" target="_blank">${repo.name}</a></h2>
-                <p>${repo.description || 'Sin descripción'}</p>
-                <span class="date-label">${new Date(repo.updated_at).toLocaleDateString()}</span>
-              </div>
-            </div>
-          `).join('')}
-        </div>`;
-      })
-      .catch(err => {
-        timeline.innerHTML = '<p>Error cargando proyectos.</p>';
-        console.error(err);
-      });
-  </script>
+<section class="section" id="productos" aria-labelledby="productos-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">Productos</p>
+      <h2 class="section__title" id="productos-title">Siete productos, siete problemas que conocía de cerca</h2>
+      <p class="section__lead">No son ejercicios técnicos. Cada uno arrancó con una situación concreta —una mudanza, un perro, un auto, una ley nueva, una jam— y terminó en código que se puede leer. Entrá al caso de estudio para ver el problema, las decisiones y el estado real.</p>
+    </header>
+    <div class="cards">
+      
+<article class="card card--featured card--lead" data-reveal>
+  <a class="card__cover" href="/proyectos/micuota/" tabindex="-1" aria-hidden="true"><img class="cover cover--photo" src="/assets/img/shots/micuota.jpg" alt="Sitio de MiCuota.online: titular &quot;Cobrá por link, QR o suscripción sin perseguir pagos&quot; junto a un panel de ejemplo con ingresos, links activos y suscripciones." loading="eager" fetchpriority="high" decoding="async" width="1600" height="1000" /></a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span class="card__category">Fintech y pagos</span>
+      <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>En línea</span>
+      <span class="card__year">2025 – 2026</span>
+    </p>
+    <h3 class="card__title"><a href="/proyectos/micuota/">MiCuota</a></h3>
+    <p class="card__tagline">Cobrar cuotas sin perseguir a nadie por WhatsApp.</p>
+    <p class="card__origin"><span class="card__origin-label">Origen</span>Trabajé años en banca y fintech, donde un pago es una máquina de estados con conciliación y auditoría detrás.</p>
+    <ul class="chips"><li>Java 25</li><li>Spring Boot 3.5</li><li>Spring Data JPA</li><li>Flyway</li><li>PostgreSQL</li></ul>
+    <div class="card__actions">
+      <a class="link link--strong" href="/proyectos/micuota/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
+      <a class="link" href="https://micuota.netlify.app/" target="_blank" rel="noopener noreferrer">Ver MiCuota.online<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="link" href="https://github.com/juliancardozo/micuota-online-2026-MVP" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>
+<article class="card card--featured " data-reveal>
+  <a class="card__cover" href="/proyectos/patio/" tabindex="-1" aria-hidden="true"><img class="cover cover--photo" src="/assets/img/shots/patio.jpg" alt="Sitio de Patio: titular &quot;Sabé qué autos tenés, cuánto te costaron y cuál necesitás vender primero&quot; junto a un dashboard de ejemplo con stock, reservados, vendidos y margen." loading="lazy" fetchpriority="low" decoding="async" width="1600" height="1000" /></a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span class="card__category">Movilidad y plataformas</span>
+      <span class="badge badge--build"><span class="badge__dot" aria-hidden="true"></span>MVP funcional</span>
+      <span class="card__year">2026</span>
+    </p>
+    <h3 class="card__title"><a href="/proyectos/patio/">Patio</a></h3>
+    <p class="card__tagline">El stock de una automotora, sin la planilla compartida.</p>
+    <p class="card__origin"><span class="card__origin-label">Origen</span>Empecé a vender mi auto y terminé recorriendo automotoras.</p>
+    <ul class="chips"><li>NestJS</li><li>TypeScript</li><li>PostgreSQL + RLS</li><li>Redis</li><li>Next.js (App Router)</li></ul>
+    <div class="card__actions">
+      <a class="link link--strong" href="/proyectos/patio/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
+      <a class="link" href="https://patio-uy.netlify.app/" target="_blank" rel="noopener noreferrer">Sitio del producto<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="link" href="https://github.com/juliancardozo/AutoStock-mvp" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>
+<article class="card card--featured " data-reveal>
+  <a class="card__cover" href="/proyectos/milo-care/" tabindex="-1" aria-hidden="true"><img class="cover cover--photo" src="/assets/img/shots/milo-care.jpg" alt="Sitio de Milo Care: titular &quot;El cuidado de tu perro, sin que dependa de tu memoria&quot;, con acceso gratuito y disponibilidad para Argentina y Uruguay." loading="lazy" fetchpriority="low" decoding="async" width="1600" height="1000" /></a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span class="card__category">Salud y bienestar animal</span>
+      <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>En línea</span>
+      <span class="card__year">2026</span>
+    </p>
+    <h3 class="card__title"><a href="/proyectos/milo-care/">Milo Care</a></h3>
+    <p class="card__tagline">La salud de tu perro dejó de vivir en capturas de pantalla.</p>
+    <p class="card__origin"><span class="card__origin-label">Origen</span>Milo es mi perro. Cuando me tocó ordenar sus vacunas, su medicación y sus controles me di cuenta de que la información estaba en cuatro lugares distintos: una foto del carnet, un chat con la veterinaria, una nota en el celular y mi memoria.</p>
+    <ul class="chips"><li>Node.js 20</li><li>Express 4</li><li>MongoDB + Mongoose 8</li><li>React 18</li><li>Vite 5</li></ul>
+    <div class="card__actions">
+      <a class="link link--strong" href="/proyectos/milo-care/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
+      <a class="link" href="https://milocare.org/" target="_blank" rel="noopener noreferrer">Ir a Milo Care<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="link" href="https://github.com/juliancardozo/milo-care" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>
+<article class="card card--featured " data-reveal>
+  <a class="card__cover" href="/proyectos/compliance-uy/" tabindex="-1" aria-hidden="true"><svg class="cover" viewBox="0 40 390 210" role="img" aria-label="Ilustración abstracta del proyecto compliance-uy" focusable="false">
+    <g class="cover__lines">
+      <rect x="40" y="55" width="150" height="180" rx="10" />
+      <path d="M64 92 H166" /><path d="M64 122 H150" /><path d="M64 152 H166" /><path d="M64 182 H132" />
+    </g>
+    <g class="cover__accent">
+      <path d="M226 132 l24 26 52 -60" />
+      <circle cx="264" cy="145" r="72" />
+    </g></svg></a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span class="card__category">Compliance e IA</span>
+      <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>Herramienta publicada</span>
+      <span class="card__year">2026</span>
+    </p>
+    <h3 class="card__title"><a href="/proyectos/compliance-uy/">compliance-uy</a></h3>
+    <p class="card__tagline">La ley de protección de datos, convertida en una auditoría de tu repositorio.</p>
+    <p class="card__origin"><span class="card__origin-label">Origen</span>En cada proyecto donde toqué datos personales me encontré con la misma escena: la normativa existe, es pública, y aun así nadie del equipo técnico sabe qué implica para el código que está escribiendo.</p>
+    <ul class="chips"><li>Claude Code Skill</li><li>Markdown</li><li>Grep / Glob</li><li>JSON</li></ul>
+    <div class="card__actions">
+      <a class="link link--strong" href="/proyectos/compliance-uy/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
+      
+      <a class="link" href="https://github.com/juliancardozo/compliance-uy" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>
+<article class="card card--featured " data-reveal>
+  <a class="card__cover" href="/proyectos/webspec-ai/" tabindex="-1" aria-hidden="true"><img class="cover cover--photo" src="/assets/img/shots/webspec-ai.jpg" alt="Pantalla de creación de proyecto en WebSpec AI: un formulario con nombre e idea del proyecto y plantillas de flujo (Full Spec, Landing Page, MVP SaaS, Desktop App, API Backend)." loading="lazy" fetchpriority="low" decoding="async" width="1600" height="1000" /></a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span class="card__category">Inteligencia artificial</span>
+      <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>En línea</span>
+      <span class="card__year">2026</span>
+    </p>
+    <h3 class="card__title"><a href="/proyectos/webspec-ai/">WebSpec AI</a></h3>
+    <p class="card__tagline">De una idea vaga a una especificación que un equipo puede ejecutar.</p>
+    <p class="card__origin"><span class="card__origin-label">Origen</span>Trabajando con IA en mis propios productos confirmé algo que ya sabía por los proyectos con clientes: el cuello de botella nunca fue escribir código.</p>
+    <ul class="chips"><li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>Tailwind CSS</li><li>OpenAI API</li></ul>
+    <div class="card__actions">
+      <a class="link link--strong" href="/proyectos/webspec-ai/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
+      <a class="link" href="https://webspecai.netlify.app/" target="_blank" rel="noopener noreferrer">Probar WebSpec AI<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="link" href="https://github.com/juliancardozo/webgpt" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>
+<article class="card card--featured " data-reveal>
+  <a class="card__cover" href="/proyectos/casa-medanos/" tabindex="-1" aria-hidden="true"><img class="cover cover--photo" src="/assets/img/shots/casa-medanos.jpg" alt="Catálogo de Casa Médanos: &quot;Me mudo y vendo de todo&quot;, con filtros por categoría y ambiente, buscador, artículos marcados como vendidos y un asistente de venta por WhatsApp." loading="lazy" fetchpriority="low" decoding="async" width="1600" height="1000" /></a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span class="card__category">E-commerce</span>
+      <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>En línea</span>
+      <span class="card__year">2026</span>
+    </p>
+    <h3 class="card__title"><a href="/proyectos/casa-medanos/">Casa Médanos</a></h3>
+    <p class="card__tagline">Vender la casa entera antes de mudarme.</p>
+    <p class="card__origin"><span class="card__origin-label">Origen</span>Me mudaba y tenía que vender los muebles y electrodomésticos de una casa entera.</p>
+    <ul class="chips"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>n8n</li><li>GitHub Pages</li></ul>
+    <div class="card__actions">
+      <a class="link link--strong" href="/proyectos/casa-medanos/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
+      <a class="link" href="https://juliancardozo.github.io/vendo.uy/" target="_blank" rel="noopener noreferrer">Ver el sitio publicado<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="link" href="https://github.com/juliancardozo/vendo.uy" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>
+<article class="card card--featured " data-reveal>
+  <a class="card__cover" href="/proyectos/escalaimprov/" tabindex="-1" aria-hidden="true"><img class="cover cover--photo" src="/assets/img/shots/escalaimprov.jpg" alt="La app de EscalaImprov en vista Estudio: selector de tónica y escala, pestañas de teclado, guitarra, quintas, entrenador y armonía, con una guía de tres pasos para improvisar y un click con BPM." loading="lazy" fetchpriority="low" decoding="async" width="1600" height="1000" /></a>
+  <div class="card__body">
+    <p class="card__meta">
+      <span class="card__category">Música y creatividad</span>
+      <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>En línea</span>
+      <span class="card__year">2026</span>
+    </p>
+    <h3 class="card__title"><a href="/proyectos/escalaimprov/">EscalaImprov</a></h3>
+    <p class="card__tagline">Lo que necesitaba entender para animarme a tocar en una jam.</p>
+    <p class="card__origin"><span class="card__origin-label">Origen</span>Quería tocar en una jam y me faltaba lo mismo que a mucha gente: reconocer intervalos rápido y saber qué escala entra sobre qué acorde, sin pensarlo.</p>
+    <ul class="chips"><li>JavaScript</li><li>HTML</li><li>SVG</li><li>Web Audio</li><li>Electron (versión de escritorio)</li></ul>
+    <div class="card__actions">
+      <a class="link link--strong" href="/proyectos/escalaimprov/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
+      <a class="link" href="https://jam-uy.netlify.app/app" target="_blank" rel="noopener noreferrer">Abrir la app<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="link" href="https://github.com/juliancardozo/escalas-app" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="origen" aria-labelledby="origen-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">Método</p>
+      <h2 class="section__title" id="origen-title">Cómo nace un producto</h2>
+      <p class="section__lead">Todos siguieron el mismo recorrido. Lo que cambia es el dominio; el patrón se repite y es lo que mejor describe cómo trabajo.</p>
+    </header>
+    <ol class="flow">
+      <li class="flow__item" data-reveal>
+        <span class="flow__index" aria-hidden="true">01</span>
+        <h3 class="flow__title">Experiencia</h3>
+        <p class="flow__body">Vivo el problema en primera persona o lo veo de cerca en alguien. No parto de una idea de negocio abstracta.</p>
+      </li><li class="flow__item" data-reveal>
+        <span class="flow__index" aria-hidden="true">02</span>
+        <h3 class="flow__title">Problema observado</h3>
+        <p class="flow__body">Separo la molestia puntual del problema estructural. Casi siempre hay información dispersa, un proceso manual o una norma difícil de traducir a software.</p>
+      </li><li class="flow__item" data-reveal>
+        <span class="flow__index" aria-hidden="true">03</span>
+        <h3 class="flow__title">Idea y validación</h3>
+        <p class="flow__body">Escribo la especificación antes que el código: alcance, dominio, usuarios y qué significa &quot;funciona&quot;. Es donde más ahorro tiempo.</p>
+      </li><li class="flow__item" data-reveal>
+        <span class="flow__index" aria-hidden="true">04</span>
+        <h3 class="flow__title">Producto</h3>
+        <p class="flow__body">Construyo el MVP end-to-end: modelo de datos, API, frontend, despliegue. Sin frameworks de más ni infraestructura que el problema no pida.</p>
+      </li><li class="flow__item" data-reveal>
+        <span class="flow__index" aria-hidden="true">05</span>
+        <h3 class="flow__title">Nueva capacidad</h3>
+        <p class="flow__body">Cada producto deja algo reutilizable: un motor de cobros, un patrón multi-tenant, una skill de compliance. Ese es el activo que queda.</p>
+      </li>
+    </ol>
+    <ul class="origins" aria-label="Ejemplos de problemas convertidos en productos">
+      <li class="origins__item">
+        <span class="origins__from">Una mudanza</span>
+        <span class="origins__arrow" aria-hidden="true">→</span>
+        <a class="origins__to" href="/proyectos/casa-medanos/">Casa Médanos</a>
+      </li><li class="origins__item">
+        <span class="origins__from">Cuidar a Milo</span>
+        <span class="origins__arrow" aria-hidden="true">→</span>
+        <a class="origins__to" href="/proyectos/milo-care/">Milo Care</a>
+      </li><li class="origins__item">
+        <span class="origins__from">Vender mi auto</span>
+        <span class="origins__arrow" aria-hidden="true">→</span>
+        <a class="origins__to" href="/proyectos/patio/">Patio</a>
+      </li><li class="origins__item">
+        <span class="origins__from">La ley 18.331</span>
+        <span class="origins__arrow" aria-hidden="true">→</span>
+        <a class="origins__to" href="/proyectos/compliance-uy/">compliance-uy</a>
+      </li><li class="origins__item">
+        <span class="origins__from">Querer tocar en una jam</span>
+        <span class="origins__arrow" aria-hidden="true">→</span>
+        <a class="origins__to" href="/proyectos/escalaimprov/">EscalaImprov</a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="section" id="laboratorio" aria-labelledby="laboratorio-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">Laboratorio</p>
+      <h2 class="section__title" id="laboratorio-title">Experimentos, herramientas y fundamentos</h2>
+      <p class="section__lead">Proyectos secundarios, pruebas de concepto, trabajo para clientes y los trabajos académicos donde se formó la base. Filtrá por tipo para ver de qué está hecho el recorrido.</p>
+    </header>
+    <div class="filters" role="group" aria-label="Filtrar proyectos del laboratorio" data-filters>
+      <button type="button" class="filters__btn" data-filter="all" aria-pressed="true">Todo</button><button type="button" class="filters__btn" data-filter="ia" aria-pressed="false">IA</button><button type="button" class="filters__btn" data-filter="herramientas" aria-pressed="false">Backend y herramientas</button><button type="button" class="filters__btn" data-filter="clientes" aria-pressed="false">Clientes</button><button type="button" class="filters__btn" data-filter="musica" aria-pressed="false">Música</button><button type="button" class="filters__btn" data-filter="ecommerce" aria-pressed="false">Web</button><button type="button" class="filters__btn" data-filter="academico" aria-pressed="false">Académicos</button>
+    </div>
+    <div class="lab-grid" data-lab-grid>
+      
+<article class="lab-card" data-category="ia" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">IA y música</span>
+    <span class="badge badge--proto"><span class="badge__dot" aria-hidden="true"></span>Prototipo</span>
+    <span class="lab-card__year">2026</span>
+  </p>
+  <h3 class="lab-card__title">Neuro-Candombe engine</h3>
+  <p class="lab-card__tagline">Generación de patrones de candombe con un modelo tipo Transformer.</p>
+  <p class="lab-card__summary">MVP que genera patrones simbólicos de chico, repique y piano con un modelo tipo Transformer, servido por FastAPI con un demo web. Incluye análisis de audio de referencia para aproximar los tres instrumentos y controles de temperatura, densidad y semilla en la generación.</p>
+  <ul class="chips chips--sm"><li>Python</li><li>PyTorch</li><li>FastAPI</li><li>JavaScript</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/Neuro-Candombe-engine" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="ia" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">IA aplicada</span>
+    <span class="badge badge--proto"><span class="badge__dot" aria-hidden="true"></span>Prototipo</span>
+    <span class="lab-card__year">2025</span>
+  </p>
+  <h3 class="lab-card__title">ChefGPT</h3>
+  <p class="lab-card__tagline">Recetas a partir de lo que ya tenés en la heladera, con un modelo local.</p>
+  <p class="lab-card__summary">Aplicación web que genera recetas según los ingredientes disponibles, ejecutando el modelo en local con Ollama en vez de depender de una API externa. Incluye un sistema de diseño propio documentado, con paleta, tipografías y criterios de accesibilidad AA.</p>
+  <ul class="chips chips--sm"><li>Spring Boot</li><li>Java 17</li><li>Angular 17</li><li>PostgreSQL</li><li>Ollama</li><li>Docker</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/chefgpt" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="herramientas" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Backend</span>
+    <span class="badge badge--proto"><span class="badge__dot" aria-hidden="true"></span>Prototipo</span>
+    <span class="lab-card__year">2025</span>
+  </p>
+  <h3 class="lab-card__title">Datos Sensores</h3>
+  <p class="lab-card__tagline">Dos servicios Spring Boot para monitoreo industrial.</p>
+  <p class="lab-card__summary">API de lecturas de sensores y servicio de monitoreo de recolección de residuos industriales, con almacenamiento intercambiable entre SQL y MongoDB, especificación OpenAPI y colección Postman. Incluye documentación de propuesta de servicio y guía de simulación de casos de uso.</p>
+  <ul class="chips chips--sm"><li>Java</li><li>Spring Boot</li><li>MongoDB</li><li>OpenAPI</li><li>Maven</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/datos-sensores" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="clientes" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Clientes</span>
+    <span class="badge badge--build"><span class="badge__dot" aria-hidden="true"></span>Entregado</span>
+    <span class="lab-card__year">2026</span>
+  </p>
+  <h3 class="lab-card__title">Gestión de stock para una automotora</h3>
+  <p class="lab-card__tagline">El encargo de un cliente que terminó siendo el origen de Patio.</p>
+  <p class="lab-card__summary">Primera fase para una automotora uruguaya: alta de vehículos por compra, registro de ventas y métricas de negocio en tiempo real, con formato bimonetario USD/UYU y cálculo de días en stock. La experiencia de este proyecto derivó en el producto multi-tenant que hoy es Patio. Repositorio privado por acuerdo con el cliente.</p>
+  <ul class="chips chips--sm"><li>Next.js 14</li><li>TypeScript</li><li>Tailwind CSS</li></ul>
+  <div class="lab-card__actions"><span class="lab-card__private">Repositorio privado</span></div>
+</article>
+<article class="lab-card" data-category="clientes" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Clientes</span>
+    <span class="badge badge--build"><span class="badge__dot" aria-hidden="true"></span>Entregado</span>
+    <span class="lab-card__year">2026</span>
+  </p>
+  <h3 class="lab-card__title">Landing para un estudio creativo</h3>
+  <p class="lab-card__tagline">Narrativa scroll-driven con WebGL, sin framework.</p>
+  <p class="lab-card__summary">Experiencia de una sola página con narrativa por secciones, fondo animado en WebGL y transiciones con GSAP y ScrollTrigger, construida en JavaScript vanilla. Un ejercicio de que el impacto visual no requiere una SPA detrás. Repositorio privado por acuerdo con el cliente.</p>
+  <ul class="chips chips--sm"><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Three.js</li><li>GSAP</li></ul>
+  <div class="lab-card__actions"><span class="lab-card__private">Repositorio privado</span></div>
+</article>
+<article class="lab-card" data-category="herramientas" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Plataforma</span>
+    <span class="badge badge--proto"><span class="badge__dot" aria-hidden="true"></span>Exploración</span>
+    <span class="lab-card__year">2025</span>
+  </p>
+  <h3 class="lab-card__title">IDP experiment</h3>
+  <p class="lab-card__tagline">Exploración de una Internal Developer Platform mínima.</p>
+  <p class="lab-card__summary">Prueba de concepto sobre cómo sería una plataforma interna de desarrollo asistida por IA: qué automatiza, qué expone al desarrollador y dónde conviene poner los límites. Exploración temprana, sin implementación completa.</p>
+  <ul class="chips chips--sm"><li>Platform engineering</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/cursor-idp-mvp" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="musica" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Música</span>
+    <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>Herramienta publicada</span>
+    <span class="lab-card__year">2024</span>
+  </p>
+  <h3 class="lab-card__title">lacuerda a txt</h3>
+  <p class="lab-card__tagline">Descargar el cancionero de una banda a archivos de texto.</p>
+  <p class="lab-card__summary">Utilidad en Python que baja las canciones de una banda desde lacuerda y las guarda en una carpeta como texto plano, para poder leerlas y anotarlas sin depender de la conexión. Resuelto en una tarde, usado muchas veces.</p>
+  <ul class="chips chips--sm"><li>Python</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/lacuerda-canciones-a-txt" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="herramientas" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Empresarial</span>
+    <span class="badge badge--proto"><span class="badge__dot" aria-hidden="true"></span>Prototipo</span>
+    <span class="lab-card__year">2025</span>
+  </p>
+  <h3 class="lab-card__title">WildFly MDB + SQL Server</h3>
+  <p class="lab-card__tagline">Prueba de concepto de mensajería empresarial.</p>
+  <p class="lab-card__summary">POC de Message Driven Beans en WildFly consumiendo colas contra SQL Server. El tipo de integración que sostiene los sistemas empresariales que casi nadie ve, y que hay que saber depurar cuando falla.</p>
+  <ul class="chips chips--sm"><li>Java</li><li>WildFly</li><li>JMS</li><li>SQL Server</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/WildFly-MDB-SQL-Server" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="academico" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Fundamentos</span>
+    <span class="badge badge--muted"><span class="badge__dot" aria-hidden="true"></span>Trabajo académico</span>
+    <span class="lab-card__year">2022</span>
+  </p>
+  <h3 class="lab-card__title">Patrones de diseño en Java</h3>
+  <p class="lab-card__tagline">Repaso sistemático de patrones, escrito para entenderlos.</p>
+  <p class="lab-card__summary">Implementación de patrones de diseño en Java junto con pruebas de anotaciones de Spring y configuración por variables de entorno. Material de estudio propio que después se volvió referencia rápida en proyectos reales.</p>
+  <ul class="chips chips--sm"><li>Java</li><li>Spring</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/patrones" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="academico" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Trabajo académico</span>
+    <span class="badge badge--muted"><span class="badge__dot" aria-hidden="true"></span>Trabajo académico</span>
+    <span class="lab-card__year">2018</span>
+  </p>
+  <h3 class="lab-card__title">UcuBooks</h3>
+  <p class="lab-card__tagline">Sistema de gestión de biblioteca en Java.</p>
+  <p class="lab-card__summary">Proyecto académico de sistema de gestión de biblioteca: modelado de dominio, persistencia y capas separadas. Uno de los primeros lugares donde ordenar el dominio antes de codear dejó de ser un consejo y pasó a ser evidente.</p>
+  <ul class="chips chips--sm"><li>Java</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/UcubooksV2" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="academico" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Trabajo académico</span>
+    <span class="badge badge--muted"><span class="badge__dot" aria-hidden="true"></span>Trabajo académico</span>
+    <span class="lab-card__year">2018</span>
+  </p>
+  <h3 class="lab-card__title">Algoritmos y estructuras de datos</h3>
+  <p class="lab-card__tagline">La base que sigue apareciendo quince años después.</p>
+  <p class="lab-card__summary">Trabajos de algoritmos y estructuras de datos en Java, incluido el proyecto de preparación de examen de AED II. Complejidad, estructuras y análisis: exactamente lo que se necesita el día que una consulta tarda ocho segundos y hay que explicar por qué.</p>
+  <ul class="chips chips--sm"><li>Java</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/ExamenAED2" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="academico" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Trabajo académico</span>
+    <span class="badge badge--muted"><span class="badge__dot" aria-hidden="true"></span>Trabajo académico</span>
+    <span class="lab-card__year">2023</span>
+  </p>
+  <h3 class="lab-card__title">Estadística y ciencia de datos</h3>
+  <p class="lab-card__tagline">Probabilidad, estadística aplicada y proyecto final en Python.</p>
+  <p class="lab-card__summary">Trabajos de probabilidad y estadística aplicada, más el proyecto final desarrollado en equipo. La base cuantitativa que después permite discutir métricas de producto sin adivinar.</p>
+  <ul class="chips chips--sm"><li>Python</li><li>Jupyter</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/proyecto-final" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="ecommerce" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Web</span>
+    <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>En línea</span>
+    <span class="lab-card__year">2022</span>
+  </p>
+  <h3 class="lab-card__title">Recursos educativos interactivos</h3>
+  <p class="lab-card__tagline">Material didáctico web sobre cambio climático y aprendizaje interactivo.</p>
+  <p class="lab-card__summary">Recursos educativos publicados como sitios web: material interactivo sobre cambio climático y un recurso didáctico basado en mandalas. Trabajo de contenido y experiencia más que de complejidad técnica.</p>
+  <ul class="chips chips--sm"><li>HTML</li><li>CSS</li><li>JavaScript</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/mandala-renea-fiapp" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+<article class="lab-card" data-category="academico" data-reveal>
+  <p class="lab-card__meta">
+    <span class="lab-card__category">Trabajo académico</span>
+    <span class="badge badge--muted"><span class="badge__dot" aria-hidden="true"></span>Histórico</span>
+    <span class="lab-card__year">2017</span>
+  </p>
+  <h3 class="lab-card__title">Programación II en C#</h3>
+  <p class="lab-card__tagline">Windows Forms, manejo de archivos y un clon de Clash of Clans.</p>
+  <p class="lab-card__summary">Laboratorios de programación orientada a objetos en C#: interfaces gráficas con Windows Forms, manejo de archivos y un proyecto de simulación de juego. El punto de partida, en 2017.</p>
+  <ul class="chips chips--sm"><li>C#</li><li>.NET</li><li>Windows Forms</li></ul>
+  <div class="lab-card__actions"><a class="link" href="https://github.com/juliancardozo/PROGRAMACIONII-ClashOfClans" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a></div>
+</article>
+    </div>
+    <p class="lab-empty" data-lab-empty hidden>No hay proyectos en esta categoría.</p>
+  </div>
+</section>
+
+<section class="section section--alt" id="recorrido" aria-labelledby="recorrido-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">Recorrido</p>
+      <h2 class="section__title" id="recorrido-title">Cada etapa sumó una capacidad</h2>
+      <p class="section__lead">No es un currículum cronológico. Es la lista de lo que cada etapa me dejó y que sigo usando hoy.</p>
+    </header>
+    <ol class="path">
+      <li class="path__item" data-reveal>
+        <div class="path__marker" aria-hidden="true"></div>
+        <p class="path__period">Fundamentos</p>
+        <h3 class="path__title">Informática e ingeniería de software</h3>
+        <p class="path__body">Algoritmos, estructuras de datos, bases de datos y patrones de diseño. La parte que no caduca: cuando un sistema se cae a las tres de la mañana, lo que sirve es entender qué está pasando por debajo.</p>
+        <p class="path__gained"><span>Capacidad que sumó</span>Criterio para razonar sobre sistemas, no solo para usarlos.</p>
+      </li><li class="path__item" data-reveal>
+        <div class="path__marker" aria-hidden="true"></div>
+        <p class="path__period">Primeros años</p>
+        <h3 class="path__title">Desarrollador Java</h3>
+        <p class="path__body">Backend, APIs REST, Spring, persistencia, colas de mensajes. Sistemas empresariales donde un error no es un bug estético: es una transacción que no ocurrió.</p>
+        <p class="path__gained"><span>Capacidad que sumó</span>Solidez en backend y respeto por la consistencia de los datos.</p>
+      </li><li class="path__item" data-reveal>
+        <div class="path__marker" aria-hidden="true"></div>
+        <p class="path__period">Banca y medios de pago</p>
+        <h3 class="path__title">Transacciones, seguridad y normativa</h3>
+        <p class="path__body">Trabajé donde el dinero se mueve de verdad: conciliación, estados de pago, auditoría, control de acceso y requisitos regulatorios que no son negociables.</p>
+        <p class="path__gained"><span>Capacidad que sumó</span>Entender un pago como una máquina de estados auditable, no como una llamada HTTP.</p>
+      </li><li class="path__item" data-reveal>
+        <div class="path__marker" aria-hidden="true"></div>
+        <p class="path__period">Fintech</p>
+        <h3 class="path__title">Escala, integración y velocidad</h3>
+        <p class="path__body">Volumen, integraciones con terceros, webhooks, observabilidad y ciclos de entrega cortos sin bajar la vara de seguridad.</p>
+        <p class="path__gained"><span>Capacidad que sumó</span>Diseñar para la integración: todo sistema real convive con otros que no controlás.</p>
+      </li><li class="path__item" data-reveal>
+        <div class="path__marker" aria-hidden="true"></div>
+        <p class="path__period">Liderazgo</p>
+        <h3 class="path__title">Engineering Manager</h3>
+        <p class="path__body">Equipos multidisciplinarios, arquitectura, plataforma, prioridades y la conversación con negocio. Menos código propio y más decisiones que habilitan el código de otros.</p>
+        <p class="path__gained"><span>Capacidad que sumó</span>Estrategia técnica, mentoring y traducción entre ingeniería y negocio.</p>
+      </li><li class="path__item" data-reveal>
+        <div class="path__marker" aria-hidden="true"></div>
+        <p class="path__period">Agencia y clientes</p>
+        <h3 class="path__title">Producto, diseño y comunicación</h3>
+        <p class="path__body">Fundé y participé en una agencia de desarrollo y marketing digital: sitios, e-commerce, branding y entregas completas para clientes reales, con presupuesto y fecha.</p>
+        <p class="path__gained"><span>Capacidad que sumó</span>Vender, diseñar y comunicar una solución, no solo construirla.</p>
+      </li><li class="path__item" data-reveal>
+        <div class="path__marker" aria-hidden="true"></div>
+        <p class="path__period">Último año</p>
+        <h3 class="path__title">Productos propios e inteligencia artificial</h3>
+        <p class="path__body">Spec-driven development, desarrollo asistido por IA, agentes y MCP aplicados al ciclo completo. La IA no reemplaza el criterio: comprime el tiempo entre entender un problema y tener algo funcionando.</p>
+        <p class="path__gained"><span>Capacidad que sumó</span>Ir de la necesidad al producto desplegado sin depender de un equipo entero.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="capacidades" aria-labelledby="capacidades-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">Capacidades</p>
+      <h2 class="section__title" id="capacidades-title">Lo que puedo hacer, ordenado por etapa</h2>
+      <p class="section__lead">No es una nube de logos. Es el sistema con el que trabajo, de la primera conversación al día en que hay que operarlo.</p>
+    </header>
+    <div class="skills">
+      <article class="skills__group" data-reveal>
+        <h3 class="skills__title">Descubrir</h3>
+        <p class="skills__body">Encontrar el problema real antes de escribir código.</p>
+        <ul class="skills__list"><li>Investigación de usuarios</li><li>Product discovery</li><li>Validación de hipótesis</li><li>Análisis de mercado</li><li>Definición de alcance</li></ul>
+      </article><article class="skills__group" data-reveal>
+        <h3 class="skills__title">Diseñar</h3>
+        <p class="skills__body">Traducir el problema a un modelo que se sostenga.</p>
+        <ul class="skills__list"><li>Modelado de dominio</li><li>Arquitectura de solución</li><li>Diseño de APIs</li><li>UX/UI</li><li>Especificaciones ejecutables</li></ul>
+      </article><article class="skills__group" data-reveal>
+        <h3 class="skills__title">Construir</h3>
+        <p class="skills__body">Producto end-to-end, del esquema de datos al deploy.</p>
+        <ul class="skills__list"><li>Java / Spring Boot</li><li>Node.js / NestJS</li><li>React / Next.js / Angular</li><li>PostgreSQL / MongoDB</li><li>Integraciones y pagos</li></ul>
+      </article><article class="skills__group" data-reveal>
+        <h3 class="skills__title">Operar</h3>
+        <p class="skills__body">Que siga funcionando cuando ya no lo estás mirando.</p>
+        <ul class="skills__list"><li>Docker / Kubernetes</li><li>CI/CD</li><li>AWS y cloud</li><li>Observabilidad</li><li>DevSecOps</li><li>Infrastructure as Code</li></ul>
+      </article><article class="skills__group" data-reveal>
+        <h3 class="skills__title">Liderar</h3>
+        <p class="skills__body">Equipos que entregan sin depender de una sola persona.</p>
+        <ul class="skills__list"><li>Estrategia técnica</li><li>Gestión de equipos</li><li>Priorización</li><li>Mentoring</li><li>Cultura de ingeniería</li><li>Interlocución con negocio</li></ul>
+      </article><article class="skills__group" data-reveal>
+        <h3 class="skills__title">Acelerar con IA</h3>
+        <p class="skills__body">Usar IA en el ciclo completo, con criterio y verificación.</p>
+        <ul class="skills__list"><li>Spec-driven development</li><li>AI-assisted development</li><li>Agentes y MCP</li><li>Prototipado rápido</li><li>Automatización del ciclo</li></ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="filosofia" aria-labelledby="filosofia-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">Cómo trabajo</p>
+      <h2 class="section__title" id="filosofia-title">Seis cosas que aprendí construyendo</h2>
+    </header>
+    <div class="principles">
+      <article class="principles__item" data-reveal>
+        <h3 class="principles__title">La tecnología empieza por entender el problema</h3>
+        <p class="principles__body">La pregunta útil no es qué stack usar, sino qué le pasa a la persona que va a usarlo. El stack se elige después y casi siempre es más aburrido de lo que uno quisiera.</p>
+      </article><article class="principles__item" data-reveal>
+        <h3 class="principles__title">Un producto útil vale más que una demo compleja</h3>
+        <p class="principles__body">Una página que efectivamente vendió los muebles de una casa vale más que una arquitectura elegante sin nadie del otro lado.</p>
+      </article><article class="principles__item" data-reveal>
+        <h3 class="principles__title">La arquitectura acompaña al negocio</h3>
+        <p class="principles__body">Multi-tenancy, doble moneda o un ledger de eventos no son decisiones técnicas: son decisiones de negocio que se escriben en código y se pagan caro si llegan tarde.</p>
+      </article><article class="principles__item" data-reveal>
+        <h3 class="principles__title">La IA amplifica, no sustituye el criterio</h3>
+        <p class="principles__body">Acelera investigar, especificar y construir. Sigue siendo mío decidir qué se construye, revisar lo que produce y hacerme cargo del resultado.</p>
+      </article><article class="principles__item" data-reveal>
+        <h3 class="principles__title">Construir incluye medir, aprender e iterar</h3>
+        <p class="principles__body">Por eso los proyectos llevan tests, eventos auditables y estado explícito. Si no puedo saber qué pasó, no terminé de construirlo.</p>
+      </article><article class="principles__item" data-reveal>
+        <h3 class="principles__title">Los problemas cotidianos esconden oportunidades</h3>
+        <p class="principles__body">Mudarme, cuidar a mi perro o vender un auto me mostraron procesos rotos que nadie estaba mirando. La materia prima está más cerca de lo que parece.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section section--contact" id="contacto" aria-labelledby="contacto-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">Contacto</p>
+      <h2 class="section__title" id="contacto-title">Conversemos</h2>
+      <p class="section__lead">Si estás construyendo un producto, modernizando una plataforma, armando un equipo de ingeniería o explorando cómo aplicar inteligencia artificial a un problema concreto, escribime. Respondo todos los mensajes.</p>
+    </header>
+    <ul class="contact-topics">
+      <li>Liderazgo técnico y gestión de equipos de ingeniería</li><li>Plataformas de pagos, integraciones y arquitectura backend</li><li>Construcción de MVPs y productos de cero a producción</li><li>Adopción de IA en el ciclo de desarrollo</li>
+    </ul>
+    <div class="contact-links">
+      <a class="btn btn--primary" href="mailto:julian.cardozo.viggiano@gmail.com">Escribime</a>
+      <a class="btn btn--ghost" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a class="btn btn--ghost" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
 </body>
 </html>
