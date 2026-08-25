@@ -15,9 +15,11 @@ import { fileURLToPath } from 'node:url';
 
 import { site, content } from './src/data/site.js';
 import { projects } from './src/data/projects.js';
+import { articles } from './src/data/articles.js';
 import { layout } from './src/templates/layout.mjs';
 import { home } from './src/templates/home.mjs';
 import { projectPage } from './src/templates/project.mjs';
+import { blogIndex, articlePage } from './src/templates/blog.mjs';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const out = (...parts) => path.join(root, ...parts);
@@ -48,6 +50,35 @@ const personJsonLd = (t) => ({
   knowsAbout: t.meta.keywords,
 });
 
+const homeJsonLd = (t) => ({
+  '@context': 'https://schema.org',
+  '@graph': (() => {
+    const person = personJsonLd(t);
+    delete person['@context'];
+    return [
+      {
+        '@type': 'WebSite',
+        '@id': `${site.baseUrl}/#website`,
+        url: site.baseUrl,
+        name: site.author,
+        inLanguage: t.lang,
+        description: t.meta.description,
+      },
+      {
+        '@type': 'ProfilePage',
+        '@id': `${site.baseUrl}/#profile`,
+        url: site.baseUrl,
+        name: site.author,
+        mainEntity: { '@id': `${site.baseUrl}/#person` },
+      },
+      {
+        ...person,
+        '@id': `${site.baseUrl}/#person`,
+      },
+    ];
+  })(),
+});
+
 const projectJsonLd = (project, t, url) => ({
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
@@ -61,12 +92,27 @@ const projectJsonLd = (project, t, url) => ({
   ...(project.repositoryUrl ? { codeRepository: project.repositoryUrl } : {}),
 });
 
+const articleJsonLd = (article, t, url) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: article.title,
+  description: article.description,
+  datePublished: article.date,
+  dateModified: article.date,
+  inLanguage: t.lang,
+  url,
+  author: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
+  publisher: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
+  keywords: article.category,
+});
+
 const build = async () => {
   const written = [];
   const urls = [];
 
   // Limpieza de la salida generada (nunca toca src/, assets/img ni archivos de configuracion).
   if (existsSync(out('proyectos'))) await rm(out('proyectos'), { recursive: true, force: true });
+  if (existsSync(out('blog'))) await rm(out('blog'), { recursive: true, force: true });
   await rm(out('assets/css'), { recursive: true, force: true });
   await rm(out('assets/js'), { recursive: true, force: true });
 
@@ -83,10 +129,58 @@ const build = async () => {
         path: homePath,
         bodyClass: 'page-home',
         content: home({ t, featured, lab }),
-        jsonLd: personJsonLd(t),
+        jsonLd: homeJsonLd(t),
       })),
     );
     urls.push({ loc: `${site.baseUrl}${homePath}`, priority: '1.0' });
+
+    const blogPath = `${prefix}/blog/`;
+    written.push(
+      await write(`${blogPath.replace(/^\//, '')}index.html`, layout({
+        t,
+        title: `Blog de tecnología y producto | ${site.author}`,
+        description: 'Artículos sobre inteligencia artificial, arquitectura, infraestructura y emprendimiento a partir de proyectos propios.',
+        path: blogPath,
+        bodyClass: 'page-blog',
+        content: blogIndex({ articles }),
+        jsonLd: {
+          '@context': 'https://schema.org',
+          '@type': 'Blog',
+          name: `Blog de ${site.author}`,
+          url: `${site.baseUrl}${blogPath}`,
+          inLanguage: t.lang,
+          author: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
+        },
+      })),
+    );
+    urls.push({ loc: `${site.baseUrl}${blogPath}`, priority: '0.8' });
+
+    for (const article of articles) {
+      const pagePath = `${prefix}/blog/${article.slug}/`;
+      const relatedProject = projects.find((project) => project.slug === article.projectSlug);
+      if (article.projectSlug && !relatedProject) throw new Error(`Article "${article.slug}" references an unknown project.`);
+      const relatedArticles = articles
+        .filter((candidate) => candidate.slug !== article.slug)
+        .map((candidate) => ({
+          ...candidate,
+          score: candidate.tags.filter((tag) => article.tags.includes(tag)).length,
+        }))
+        .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date))
+        .slice(0, 3);
+      written.push(
+        await write(`${pagePath.replace(/^\//, '')}index.html`, layout({
+          t,
+          title: `${article.title} | ${site.author}`,
+          description: article.description,
+          path: pagePath,
+          bodyClass: 'page-article',
+          content: articlePage({ article, relatedProject, relatedArticles }),
+          jsonLd: articleJsonLd(article, t, `${site.baseUrl}${pagePath}`),
+          ogType: 'article',
+        })),
+      );
+      urls.push({ loc: `${site.baseUrl}${pagePath}`, priority: '0.7' });
+    }
 
     // Casos de estudio
     for (const project of featured) {
@@ -118,6 +212,7 @@ const build = async () => {
       description: 'La página que buscás no existe.',
       path: '/404.html',
       bodyClass: 'page-404',
+      robots: 'noindex, follow',
       content: `<section class="section notfound"><div class="shell">
         <p class="section__eyebrow">Error 404</p>
         <h1 class="section__title">Esta página no existe</h1>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Del problema observado al MVP: diseñar producto desde el trabajo real del usuario | Julián Cardozo</title>
+<meta name="description" content="EscalaImprov muestra cómo una fricción concreta puede convertirse en hipótesis, flujos diferenciados y capacidades reutilizables." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/emprender-desde-problemas-observados/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Del problema observado al MVP: diseñar producto desde el trabajo real del usuario | Julián Cardozo" />
+<meta property="og:description" content="EscalaImprov muestra cómo una fricción concreta puede convertirse en hipótesis, flujos diferenciados y capacidades reutilizables." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/emprender-desde-problemas-observados/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Del problema observado al MVP: diseñar producto desde el trabajo real del usuario | Julián Cardozo" />
+<meta name="twitter:description" content="EscalaImprov muestra cómo una fricción concreta puede convertirse en hipótesis, flujos diferenciados y capacidades reutilizables." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Del problema observado al MVP: diseñar producto desde el trabajo real del usuario","description":"EscalaImprov muestra cómo una fricción concreta puede convertirse en hipótesis, flujos diferenciados y capacidades reutilizables.","datePublished":"2026-08-09","dateModified":"2026-08-09","inLanguage":"es","url":"https://juliancardozo.github.io/blog/emprender-desde-problemas-observados/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Startups y emprendimiento"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>Startups y emprendimiento</span><time datetime="2026-08-09">9 de agosto de 2026</time><span>5 min de lectura</span></p>
+    <h1 class="article__title">Del problema observado al MVP: diseñar producto desde el trabajo real del usuario</h1>
+    <p class="article__lead">EscalaImprov comenzó con una necesidad observable: transformar teoría musical en decisiones inmediatas durante una jam. El caso ilustra una práctica de producto aplicable a cualquier negocio: partir de una fricción concreta, validarla como patrón y diseñar flujos distintos para los trabajos que el usuario realmente necesita resolver.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/escalaimprov/">EscalaImprov <span aria-hidden="true">→</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>Una fricción observada como hipótesis inicial</h2>
+          <p>Tener un problema propio no lo convierte automáticamente en una oportunidad de mercado. Lo que sí aporta es una ventaja inicial: uno conoce el momento exacto en que aparece la frustración, los atajos que intenta y el lenguaje con el que la gente lo explica.</p><p>En este caso, no hacía falta una enciclopedia de teoría musical. Hacía falta feedback inmediato mientras se practica y una guía breve cuando se toca. Esa diferencia entre “aprender sobre algo” y “necesitar hacer algo” terminó definiendo el producto.</p>
+        </section>
+        <section>
+          <h2>De la experiencia individual al patrón validable</h2>
+          <p>La experiencia propia es el comienzo de la investigación, no su reemplazo. Después hay que preguntar quién más vive esa fricción, cuándo aparece, qué alternativa usa y qué precio paga por no resolverla. Ahí se separa una historia interesante de un problema que merece producto.</p><p>Para EscalaImprov, esa observación llevó a separar dos momentos que parecían iguales: Estudio, para entender escalas, acordes e intervalos; y Jam, para tocar con una guía corta, notas de reposo y un click. No era una decisión estética: eran dos trabajos distintos.</p>
+        </section>
+        <section>
+          <h2>Capacidades reutilizables como activo de producto</h2>
+          <p>Construir algo propio no deja solo una aplicación publicada. Deja una forma de mirar el siguiente problema. En este caso, diseñar una herramienta de estudio obligó a entender de verdad el círculo de quintas, el feedback instantáneo y por qué tocar con mouse es incómodo.</p><p>El mismo patrón se repite entre dominios muy distintos. MiCuota dejó una base de pagos auditables; Patio, decisiones de multi-tenancy; WebSpec AI, un flujo para especificar. El activo más interesante no siempre es el producto: a veces es la capacidad reutilizable que quedó detrás.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Motor de teoría musical con flujos por contexto de uso
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="Un motor común de escalas alimenta dos experiencias. Estudio prioriza comprensión y feedback; Jam prioriza decisiones rápidas, navegación por teclado y acompañamiento rítmico.">
+        
+          
+          <div class="architecture__layer">
+            <p>Motor de dominio</p>
+            <ul><li>Escalas y tonalidades</li><li>Armonía e intervalos</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Modo Estudio</p>
+            <ul><li>Entrenador</li><li>Visualización y feedback</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Modo Jam</p>
+            <ul><li>Notas de reposo</li><li>Guía y click BPM</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Interacción</p>
+            <ul><li>Web Audio</li><li>SVG y teclado</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">Un motor común de escalas alimenta dos experiencias. Estudio prioriza comprensión y feedback; Jam prioriza decisiones rápidas, navegación por teclado y acompañamiento rítmico.</p>
+    </figure>
+      <p class="article__takeaway">Principio de producto: una experiencia propia no reemplaza la validación, pero produce mejores hipótesis iniciales y ayuda a separar funcionalidades de trabajos reales del usuario.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/infraestructura-proporcionada-problema/">
+        <span>Infraestructura y producto</span>
+        <strong>Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza</strong>
+        <small>Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP.</small>
+      </a></li><li><a href="/blog/milo-care-onboarding-calendario-clinico/">
+        <span>Producto y arquitectura</span>
+        <strong>Onboarding clínico: cómo evitar que un producto de salud empiece vacío</strong>
+        <small>La arquitectura de onboarding de Milo Care: reglas por país, calendario vacunal precargado y una primera sesión con valor operativo.</small>
+      </a></li><li><a href="/blog/ia-especificacion-antes-codigo/">
+        <span>IA y producto</span>
+        <strong>IA asistida: la especificación es el sistema de control de la ambigüedad</strong>
+        <small>Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

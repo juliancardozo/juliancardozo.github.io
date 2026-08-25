@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IA para compliance: una respuesta sin evidencia es un riesgo operativo | Julián Cardozo</title>
+<meta name="description" content="Diseño de agentes verificables para privacidad: evidencia rastreable, incertidumbre explícita y revisión humana." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/agentes-ia-salidas-verificables/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="IA para compliance: una respuesta sin evidencia es un riesgo operativo | Julián Cardozo" />
+<meta property="og:description" content="Diseño de agentes verificables para privacidad: evidencia rastreable, incertidumbre explícita y revisión humana." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/agentes-ia-salidas-verificables/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="IA para compliance: una respuesta sin evidencia es un riesgo operativo | Julián Cardozo" />
+<meta name="twitter:description" content="Diseño de agentes verificables para privacidad: evidencia rastreable, incertidumbre explícita y revisión humana." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"IA para compliance: una respuesta sin evidencia es un riesgo operativo","description":"Diseño de agentes verificables para privacidad: evidencia rastreable, incertidumbre explícita y revisión humana.","datePublished":"2026-08-15","dateModified":"2026-08-15","inLanguage":"es","url":"https://juliancardozo.github.io/blog/agentes-ia-salidas-verificables/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"IA y compliance"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>IA y compliance</span><time datetime="2026-08-15">15 de agosto de 2026</time><span>5 min de lectura</span></p>
+    <h1 class="article__title">IA para compliance: una respuesta sin evidencia es un riesgo operativo</h1>
+    <p class="article__lead">En privacidad y regulación, una salida plausible pero no verificable puede generar una decisión incorrecta con impacto legal y reputacional. Compliance UY usa IA para acelerar el relevamiento técnico, no para simular certeza: cada hallazgo se vincula con evidencia, nivel de riesgo, remediación y el punto donde debe intervenir una revisión humana.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/compliance-uy/">Compliance UY <span aria-hidden="true">→</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>Detección técnica: señales, no conclusiones</h2>
+          <p>Un repositorio puede revelar campos de email, teléfono, dirección, pagos o salud. Eso es una señal valiosa, pero no alcanza para conocer el propósito del tratamiento, quién accede a esa información o qué base legal lo sostiene. El nombre de una columna no cuenta toda la historia.</p><p>Ahí aparece el límite saludable de un agente. Puede recorrer, señalar, reunir contexto y formular preguntas que de otro modo quedarían escondidas. Lo que no debe hacer es transformar una inferencia en una conclusión definitiva porque suena bien escrita.</p>
+        </section>
+        <section>
+          <h2>Evidencia rastreable para revisión interdisciplinaria</h2>
+          <p>En Compliance UY, un hallazgo no llega solo con una etiqueta. Llega con evidencia archivo:línea, estado, nivel de riesgo y una remediación sugerida. Cuando falta certeza, se marca para verificar contra la fuente oficial en vez de rellenar el vacío con una respuesta probable.</p><p>Eso cambia la conversación. Ingeniería, legal y seguridad pueden mirar la misma evidencia, discutir el mismo caso y decidir qué hacer después. El informe deja de ser una caja negra y se vuelve una pieza de trabajo revisable.</p>
+        </section>
+        <section>
+          <h2>Límites explícitos y gobernanza de la salida</h2>
+          <p>La herramienta declara que produce diagnósticos técnicos y borradores, no asesoramiento legal. Decirlo no reduce su utilidad; la vuelve más honesta sobre el papel que puede cumplir y el que necesita una persona responsable.</p><p>Citar fuentes, separar jurisdicciones y pedir confirmación ante contexto insuficiente no son detalles de redacción. Son decisiones de producto. Una IA confiable no pretende saberlo todo: ayuda a que el usuario sepa qué revisar.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Flujo de análisis técnico verificable
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="La herramienta inspecciona el repositorio, identifica señales de datos y proveedores, y produce hallazgos con evidencia. La revisión humana valida las conclusiones antes de cualquier decisión de compliance.">
+        
+          
+          <div class="architecture__layer">
+            <p>Repositorio</p>
+            <ul><li>Código y configuración</li><li>Dependencias y servicios</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Análisis</p>
+            <ul><li>Detección de datos</li><li>Mapeo de proveedores</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Evidencia</p>
+            <ul><li>archivo:línea</li><li>Riesgo y remediación</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Decisión</p>
+            <ul><li>Revisión técnica</li><li>Validación legal</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">La herramienta inspecciona el repositorio, identifica señales de datos y proveedores, y produce hallazgos con evidencia. La revisión humana valida las conclusiones antes de cualquier decisión de compliance.</p>
+    </figure>
+      <p class="article__takeaway">Principio de gobernanza: en dominios regulados, la IA debe mejorar la calidad y velocidad de la revisión, no ocultar la evidencia ni sustituir la responsabilidad profesional.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/claude-watermarking-gobernanza-contenido-ia/">
+        <span>Noticias de IA</span>
+        <strong>Claude incorporará watermarking de texto: qué cambia para la gobernanza de IA</strong>
+        <small>Anthropic anunció que futuros modelos de Claude generarán texto con watermarking: implicancias para trazabilidad, compliance y controles de contenido generado por IA.</small>
+      </a></li><li><a href="/blog/kiro-acp-interoperabilidad-agentes-ide/">
+        <span>Noticias de IA</span>
+        <strong>Kiro adopta ACP: la interoperabilidad de agentes llega al IDE especializado</strong>
+        <small>Kiro CLI incorporó Agent Client Protocol para operar agentes en IDEs compatibles: impacto en herramientas especializadas, estandarización y control de ejecución.</small>
+      </a></li><li><a href="/blog/spec-kit-1-especificaciones-agentes-adopcion/">
+        <span>Noticias de IA</span>
+        <strong>Spec Kit 1.0: la especificación se consolida como interfaz para agentes</strong>
+        <small>GitHub publicó Spec Kit 1.0 y 1.0.1, con guías de adopción, quickstarts y extensiones: impacto en desarrollo spec-driven y automatización con agentes.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

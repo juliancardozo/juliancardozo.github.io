@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala | Julián Cardozo</title>
+<meta name="description" content="Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/qwen3-235b-open-weight-china/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala | Julián Cardozo" />
+<meta property="og:description" content="Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/qwen3-235b-open-weight-china/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala | Julián Cardozo" />
+<meta name="twitter:description" content="Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala","description":"Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"es","url":"https://juliancardozo.github.io/blog/qwen3-235b-open-weight-china/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"LLM open-weight"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>LLM open-weight</span><time datetime="2026-08-25">25 de agosto de 2026</time><span>7 min de lectura</span></p>
+    <h1 class="article__title">Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</h1>
+    <p class="article__lead">Qwen3-235B-A22B-Instruct-2507 condensa una tendencia que está redefiniendo el mercado open-weight: modelos de gran capacidad que activan una fracción de sus parámetros por token. El modelo de Qwen, desarrollado por el equipo de Alibaba, declara 235B de parámetros totales, 22B activos, soporte para 119 idiomas y hasta un millón de tokens de contexto extendido. Su licencia Apache 2.0 lo vuelve especialmente relevante para equipos que necesitan libertad comercial y de redistribución.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Contexto</p>
+      <span>Análisis de modelos open-weight</span>
+      <a href="https://huggingface.co/Qwen/Qwen3-235B-A22B-Instruct-2507" target="_blank" rel="noopener noreferrer">Fuente oficial: Qwen en Hugging Face <span aria-hidden="true">↗</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>Capacidad global con una licencia simple de evaluar</h2>
+          <p>La familia Qwen3 publica modelos densos y MoE bajo Apache 2.0. Para organizaciones que evalúan modelos open-weight, esta licencia reduce fricción en uso comercial, modificación y redistribución frente a licencias comunitarias con condiciones específicas.</p><p>El soporte declarado para 119 idiomas y dialectos es especialmente relevante para productos regionales o multilingües. Aun así, un listado de idiomas no sustituye una evaluación: español rioplatense, vocabulario de dominio, seguridad y calidad de herramientas deben medirse con un conjunto de pruebas propio antes de incorporar el modelo a un flujo de negocio.</p>
+        </section>
+        <section>
+          <h2>La economía del MoE a escala de 235B parámetros</h2>
+          <p>La arquitectura tiene 235B de parámetros totales, pero activa 22B mediante un router que selecciona ocho de 128 expertos por token. Esa sparsity busca concentrar cómputo en una porción del modelo y mejorar la relación entre capacidad y costo de inferencia.</p><p>El dato no debe interpretarse como que el modelo se ejecuta igual que uno de 22B. El checkpoint, el sistema de serving, el caché KV y el contexto largo siguen definiendo una huella de infraestructura significativa. La operación de precisión completa requiere recursos empresariales; cuantización y servidores como vLLM o SGLang son decisiones de plataforma que deben validarse por carga real.</p>
+        </section>
+        <section>
+          <h2>Contexto extendido necesita una política de recuperación</h2>
+          <p>Qwen declara 262.144 tokens de contexto nativo y extensión a aproximadamente un millón mediante YaRN. Este alcance abre casos de análisis de repositorios, documentación extensa y conversaciones largas, pero también amplifica los problemas de selección de información y costo por solicitud.</p><p>La arquitectura de producto debe decidir qué documentos entran, cómo se recuperan, cuándo se resumen y qué evidencia acompaña a la respuesta. Darle más contexto a un modelo no corrige una fuente incompleta, una política ambigua o una evaluación inexistente.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Qwen3-235B-A22B: MoE y atención agrupada
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="El texto multilingüe recorre 94 bloques transformer con Grouped Query Attention. El router MoE selecciona ocho de 128 expertos por token para producir una respuesta de instrucción directa.">
+        
+          
+          <div class="architecture__layer">
+            <p>Entrada</p>
+            <ul><li>Texto en 119 idiomas</li><li>Ventana nativa de 262K tokens</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Atención</p>
+            <ul><li>94 capas transformer</li><li>Grouped Query Attention</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Cómputo MoE</p>
+            <ul><li>128 expertos</li><li>8 activos por token</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Salida</p>
+            <ul><li>22B activos / 235B totales</li><li>Instruct no-thinking</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">El texto multilingüe recorre 94 bloques transformer con Grouped Query Attention. El router MoE selecciona ocho de 128 expertos por token para producir una respuesta de instrucción directa.</p>
+    </figure>
+      <p class="article__takeaway">Criterio de adopción: Qwen3-235B-A22B combina capacidad MoE, alcance multilingüe y Apache 2.0; su valor práctico depende de medir calidad local y diseñar la infraestructura, recuperación y gobierno necesarios para operarlo a escala.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/llama-4-scout-open-weight-usa/">
+        <span>LLM open-weight</span>
+        <strong>Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</strong>
+        <small>Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.</small>
+      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">
+        <span>Cloud y arquitectura</span>
+        <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
+        <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
+      </a></li><li><a href="/blog/web-corporativa-2026-impacto-rendimiento/">
+        <span>Experiencias web</span>
+        <strong>Web corporativa en 2026: diseñar impacto sin sacrificar rendimiento ni control</strong>
+        <small>Arquitectura para experiencias corporativas de alto impacto: narrativa scroll-driven, WebGL progresivo, animación con propósito y una base mantenible.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

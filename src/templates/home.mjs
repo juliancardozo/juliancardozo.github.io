@@ -66,6 +66,33 @@ export const home = ({ t, featured, lab }) => {
   </div>
 </section>
 
+<section class="section section--alt about" id="acerca" aria-labelledby="acerca-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">${esc(s.acerca.eyebrow)}</p>
+      <h2 class="section__title" id="acerca-title">${esc(s.acerca.title)}</h2>
+      <p class="section__lead">${esc(s.acerca.lead)}</p>
+    </header>
+    <ol class="about__path">
+      ${s.acerca.stages
+        .map(
+          (stage, index) => `<li class="about__stage" data-reveal>
+        <span class="about__index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+        <h3>${esc(stage.title)}</h3>
+        <p>${esc(stage.body)}</p>
+        <p class="about__scope"><span>Alcance</span>${esc(stage.scope)}</p>
+      </li>`,
+        )
+        .join('')}
+    </ol>
+    <aside class="about__future" data-reveal>
+      <p class="about__future-label">Proyección profesional</p>
+      <h3>${esc(s.acerca.future.title)}</h3>
+      <p>${esc(s.acerca.future.body)}</p>
+    </aside>
+  </div>
+</section>
+
 <section class="section" id="productos" aria-labelledby="productos-title">
   <div class="shell">
     <header class="section__head" data-reveal>

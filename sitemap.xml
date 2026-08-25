@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://juliancardozo.github.io/</loc><priority>1.0</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/</loc><priority>0.8</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/qwen3-235b-open-weight-china/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/claude-watermarking-gobernanza-contenido-ia/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/kiro-acp-interoperabilidad-agentes-ide/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/spec-kit-1-especificaciones-agentes-adopcion/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/aws-cloud-practitioner-conceptos-fundamentales/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/web-corporativa-2026-impacto-rendimiento/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/milo-care-onboarding-calendario-clinico/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/milo-care-recordatorios-confiables/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/webhooks-pagos-maquinas-de-estado/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/multi-tenancy-rls-frontera-datos/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/ia-especificacion-antes-codigo/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/agentes-ia-salidas-verificables/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/infraestructura-proporcionada-problema/</loc><priority>0.7</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/emprender-desde-problemas-observados/</loc><priority>0.7</priority></url>
   <url><loc>https://juliancardozo.github.io/proyectos/micuota/</loc><priority>0.8</priority></url>
   <url><loc>https://juliancardozo.github.io/proyectos/patio/</loc><priority>0.8</priority></url>
   <url><loc>https://juliancardozo.github.io/proyectos/milo-care/</loc><priority>0.8</priority></url>

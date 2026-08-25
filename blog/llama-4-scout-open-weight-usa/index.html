@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto | Julián Cardozo</title>
+<meta name="description" content="Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto | Julián Cardozo" />
+<meta property="og:description" content="Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto | Julián Cardozo" />
+<meta name="twitter:description" content="Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto","description":"Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"es","url":"https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"LLM open-weight"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>LLM open-weight</span><time datetime="2026-08-25">25 de agosto de 2026</time><span>7 min de lectura</span></p>
+    <h1 class="article__title">Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</h1>
+    <p class="article__lead">Llama 4 Scout es el modelo open-weight multimodal de Meta que conviene mirar al evaluar capacidades de visión, texto y contexto largo bajo una estrategia de despliegue propia. Su propuesta combina una arquitectura Mixture-of-Experts, 17 mil millones de parámetros activados por inferencia y una ventana de contexto declarada de hasta 10 millones de tokens. El punto crítico para negocio no es solo su capacidad: es entender qué implica operar 109 mil millones de parámetros totales bajo una licencia comunitaria específica.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Contexto</p>
+      <span>Análisis de modelos open-weight</span>
+      <a href="https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct" target="_blank" rel="noopener noreferrer">Fuente oficial: Meta Llama en Hugging Face <span aria-hidden="true">↗</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>La capacidad distintiva: multimodalidad y contexto largo</h2>
+          <p>Meta posiciona a Scout como un modelo con fusión temprana de texto e imágenes: la información visual no se agrega como una capa posterior, sino que participa de la representación desde el procesamiento del modelo. Para productos que trabajan con documentos, interfaces, imágenes o evidencia visual, esta arquitectura habilita flujos que un modelo solo textual no resuelve por sí mismo.</p><p>La ventana de contexto de hasta 10 millones de tokens es otra capacidad relevante, aunque debe tratarse como una restricción de ingeniería y no como un argumento de marketing. Contexto disponible no equivale automáticamente a recuperación precisa: el equipo debe medir calidad, latencia, costo y comportamiento con el tipo de corpus que realmente usará.</p>
+        </section>
+        <section>
+          <h2>MoE reduce cómputo activo, no elimina el costo de operación</h2>
+          <p>Scout usa Mixture-of-Experts con 16 expertos: activa 17B parámetros por paso, pero distribuye 109B de pesos totales. El patrón permite aumentar capacidad sin ejecutar todos los parámetros para cada token, una ventaja para inferencia frente a un modelo denso de tamaño equivalente.</p><p>Sin embargo, los pesos siguen necesitando memoria. La ficha del modelo y la operación práctica obligan a evaluar cuantización, distribución en varias GPU, throughput requerido y límites de latencia. Elegir un modelo open-weight significa asumir la responsabilidad de esa plataforma, no solo descargar un checkpoint.</p>
+        </section>
+        <section>
+          <h2>Open-weight no es sinónimo de open source</h2>
+          <p>Los pesos de Scout se descargan públicamente después de aceptar la Llama 4 Community License, pero esa licencia no es Apache 2.0 ni una licencia OSI. Incluye condiciones de uso para organizaciones que superen los 700 millones de usuarios activos mensuales.</p><p>Para una startup o una empresa, la revisión de licencia debe formar parte del diseño de adopción junto con seguridad, evaluación y privacidad. El modelo puede ser técnicamente adecuado y aun así no ser compatible con la distribución, el producto o la escala proyectada.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Llama 4 Scout: entrada multimodal y ejecución MoE
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="Texto e imágenes se integran temprano en la representación del modelo. Los bloques transformer enrutan cada token hacia expertos seleccionados antes de producir texto o código multilingüe.">
+        
+          
+          <div class="architecture__layer">
+            <p>Entradas</p>
+            <ul><li>Texto multilingüe</li><li>Imágenes</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Fusión temprana</p>
+            <ul><li>Representación multimodal</li><li>Embeddings compartidos</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Cómputo MoE</p>
+            <ul><li>16 expertos</li><li>17B activos / 109B totales</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Salida</p>
+            <ul><li>Texto y código</li><li>Contexto de hasta 10M tokens</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">Texto e imágenes se integran temprano en la representación del modelo. Los bloques transformer enrutan cada token hacia expertos seleccionados antes de producir texto o código multilingüe.</p>
+    </figure>
+      <p class="article__takeaway">Criterio de adopción: Llama 4 Scout es una alternativa open-weight potente para casos multimodales y de contexto largo, siempre que el equipo valide calidad en su dominio, planifique infraestructura y revise las obligaciones de su licencia comunitaria.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/qwen3-235b-open-weight-china/">
+        <span>LLM open-weight</span>
+        <strong>Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</strong>
+        <small>Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.</small>
+      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">
+        <span>Cloud y arquitectura</span>
+        <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
+        <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
+      </a></li><li><a href="/blog/web-corporativa-2026-impacto-rendimiento/">
+        <span>Experiencias web</span>
+        <strong>Web corporativa en 2026: diseñar impacto sin sacrificar rendimiento ni control</strong>
+        <small>Arquitectura para experiencias corporativas de alto impacto: narrativa scroll-driven, WebGL progresivo, animación con propósito y una base mantenible.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

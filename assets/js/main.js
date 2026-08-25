@@ -54,7 +54,60 @@
     });
   }
 
-  /* ── 2. Reveal on scroll ───────────────────────────────────────────────── */
+  /* ── 2. Filtros y carga progresiva del blog ─────────────────────────────── */
+  var blogFilterBar = document.querySelector('[data-blog-filters]');
+  var blogGrid = document.querySelector('[data-blog-grid]');
+  var blogEmpty = document.querySelector('[data-blog-empty]');
+  var loadMore = document.querySelector('[data-blog-load-more]');
+
+  if (blogFilterBar && blogGrid) {
+    var blogCards = Array.prototype.slice.call(blogGrid.querySelectorAll('[data-blog-card]'));
+    var blogButtons = Array.prototype.slice.call(blogFilterBar.querySelectorAll('[data-blog-filter]'));
+    var activeBlogTag = 'all';
+    var visibleLimit = 6;
+
+    var updateBlog = function () {
+      var matches = blogCards.filter(function (card) {
+        return activeBlogTag === 'all' || card.getAttribute('data-tags').split(' ').indexOf(activeBlogTag) !== -1;
+      });
+
+      blogCards.forEach(function (card) {
+        var matchIndex = matches.indexOf(card);
+        var show = matchIndex !== -1 && matchIndex < visibleLimit;
+        card.hidden = !show;
+        if (show) card.classList.add('is-visible');
+      });
+
+      if (blogEmpty) blogEmpty.hidden = matches.length !== 0;
+      if (loadMore) loadMore.hidden = matches.length <= visibleLimit;
+    };
+
+    blogCards.forEach(function (card, index) {
+      card.hidden = index >= visibleLimit;
+    });
+    updateBlog();
+
+    blogFilterBar.addEventListener('click', function (event) {
+      var button = event.target.closest('[data-blog-filter]');
+      if (!button) return;
+
+      activeBlogTag = button.getAttribute('data-blog-filter');
+      visibleLimit = 6;
+      blogButtons.forEach(function (other) {
+        other.setAttribute('aria-pressed', String(other === button));
+      });
+      updateBlog();
+    });
+
+    if (loadMore) {
+      loadMore.addEventListener('click', function () {
+        visibleLimit += 6;
+        updateBlog();
+      });
+    }
+  }
+
+  /* ── 3. Reveal on scroll ───────────────────────────────────────────────── */
   var revealTargets = document.querySelectorAll('[data-reveal]');
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -77,7 +130,7 @@
     });
   }
 
-  /* ── 3. Seccion activa ─────────────────────────────────────────────────── */
+  /* ── 4. Seccion activa ─────────────────────────────────────────────────── */
   var trackSections = function (linkSelector) {
     var links = Array.prototype.slice.call(document.querySelectorAll(linkSelector));
     if (!links.length || !('IntersectionObserver' in window)) return;

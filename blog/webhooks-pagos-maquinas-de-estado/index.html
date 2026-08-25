@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arquitectura de pagos: por qué un cobro no es una llamada HTTP | Julián Cardozo</title>
+<meta name="description" content="Patrones de integración, idempotencia y trazabilidad para modelar pagos como procesos de negocio auditables." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/webhooks-pagos-maquinas-de-estado/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Arquitectura de pagos: por qué un cobro no es una llamada HTTP | Julián Cardozo" />
+<meta property="og:description" content="Patrones de integración, idempotencia y trazabilidad para modelar pagos como procesos de negocio auditables." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/webhooks-pagos-maquinas-de-estado/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Arquitectura de pagos: por qué un cobro no es una llamada HTTP | Julián Cardozo" />
+<meta name="twitter:description" content="Patrones de integración, idempotencia y trazabilidad para modelar pagos como procesos de negocio auditables." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Arquitectura de pagos: por qué un cobro no es una llamada HTTP","description":"Patrones de integración, idempotencia y trazabilidad para modelar pagos como procesos de negocio auditables.","datePublished":"2026-08-24","dateModified":"2026-08-24","inLanguage":"es","url":"https://juliancardozo.github.io/blog/webhooks-pagos-maquinas-de-estado/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Pagos e infraestructura"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>Pagos e infraestructura</span><time datetime="2026-08-24">24 de agosto de 2026</time><span>6 min de lectura</span></p>
+    <h1 class="article__title">Arquitectura de pagos: por qué un cobro no es una llamada HTTP</h1>
+    <p class="article__lead">La experiencia en banca y fintech deja una regla operativa: crear un link no completa un cobro. Un proveedor responde de forma asíncrona, reintenta notificaciones y puede entregar información parcial. En MiCuota, esa realidad se tradujo en un modelo de estados, controles de idempotencia y un ledger auditable.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/micuota/">MiCuota <span aria-hidden="true">→</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>El cobro es un proceso asíncrono</h2>
+          <p>Para quien cobra una cuota, el flujo parece lineal: comparte un link, la persona paga y el dinero aparece. Del lado del sistema, en cambio, el proveedor puede avisar unos segundos después, volver a avisar si no recibió respuesta o mandar una notificación con menos datos de los que uno esperaba. Es una realidad conocida en pagos, pero se vuelve muy concreta cuando el negocio depende de saber con certeza quién pagó y quién no.</p><p>En MiCuota decidí tratar cada cobro como una máquina de estados. La operación nace, se envía, recibe novedades y cambia de estado con un origen y una fecha. El proveedor participa de esa historia, pero no la escribe por completo. La aplicación necesita su propia versión confiable de los hechos.</p>
+        </section>
+        <section>
+          <h2>Idempotencia como control de negocio</h2>
+          <p>El problema de un webhook repetido no es elegante ni académico. Puede ser una suscripción duplicada, una persona cobrada dos veces o un vendedor que pierde confianza en la herramienta. Por eso, procesar una notificación dos veces debe producir exactamente el mismo resultado que procesarla una sola.</p><p>Eso exige identificar la notificación, validar si la transición tiene sentido y volver a consultar al proveedor cuando el aviso llega incompleto. El external reference cumple una función humilde pero crucial: permite volver desde una señal parcial a la operación exacta que la originó.</p>
+        </section>
+        <section>
+          <h2>Ledger de eventos para soporte y conciliación</h2>
+          <p>Los logs son indispensables para entender qué hizo un servicio. Pero cuando alguien pregunta por qué un pago no impactó, necesita una respuesta de negocio, no una excursión por cinco paneles de observabilidad. Por eso guardé en un ledger la creación del cobro, el envío del link, cada webhook y cada transición.</p><p>La diferencia se siente en el primer incidente. En vez de reconstruir una versión probable de lo ocurrido, se puede leer la timeline de la operación. Y esa misma historia, que hoy sirve para soporte, mañana permite conciliación, recupero y reportes de mora.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Procesamiento de una operación de cobro
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="El prestador inicia un cobro en MiCuota. La plataforma registra la operación y delega la ejecución a un proveedor. Los webhooks actualizan el ledger mediante transiciones validadas e idempotentes.">
+        
+          
+          <div class="architecture__layer">
+            <p>Canales</p>
+            <ul><li>Backoffice del prestador</li><li>Página de pago</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Dominio MiCuota</p>
+            <ul><li>Operación de cobro</li><li>Máquina de estados</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Integración</p>
+            <ul><li>PaymentProviderGateway</li><li>Webhooks validados</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Trazabilidad</p>
+            <ul><li>payment_events</li><li>Conciliación y soporte</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">El prestador inicia un cobro en MiCuota. La plataforma registra la operación y delega la ejecución a un proveedor. Los webhooks actualizan el ledger mediante transiciones validadas e idempotentes.</p>
+    </figure>
+      <p class="article__takeaway">Principio operativo: un pago confiable exige transiciones válidas, procesamiento idempotente y una trazabilidad que permita explicar cada estado sin depender de logs dispersos.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/llama-4-scout-open-weight-usa/">
+        <span>LLM open-weight</span>
+        <strong>Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</strong>
+        <small>Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.</small>
+      </a></li><li><a href="/blog/qwen3-235b-open-weight-china/">
+        <span>LLM open-weight</span>
+        <strong>Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</strong>
+        <small>Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.</small>
+      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">
+        <span>Cloud y arquitectura</span>
+        <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
+        <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

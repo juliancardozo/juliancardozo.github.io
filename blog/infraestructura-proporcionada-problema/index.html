@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza | Julián Cardozo</title>
+<meta name="description" content="Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/infraestructura-proporcionada-problema/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza | Julián Cardozo" />
+<meta property="og:description" content="Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/infraestructura-proporcionada-problema/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza | Julián Cardozo" />
+<meta name="twitter:description" content="Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza","description":"Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP.","datePublished":"2026-08-12","dateModified":"2026-08-12","inLanguage":"es","url":"https://juliancardozo.github.io/blog/infraestructura-proporcionada-problema/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Infraestructura y producto"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>Infraestructura y producto</span><time datetime="2026-08-12">12 de agosto de 2026</time><span>4 min de lectura</span></p>
+    <h1 class="article__title">Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza</h1>
+    <p class="article__lead">Casa Médanos resolvía una necesidad acotada en tiempo: publicar, compartir y mantener disponible un inventario de muebles y electrodomésticos antes de una mudanza. El criterio de arquitectura fue operativo: eliminar trabajo manual y costo de mantenimiento, no anticipar capacidades de una plataforma de e-commerce que el caso no requería.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/casa-medanos/">Casa Médanos <span aria-hidden="true">→</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>La vida útil del problema define la solución</h2>
+          <p>La tentación técnica era conocida: cuentas, pagos, carrito, backend, inventario. Pero el problema tenía una fecha concreta. Cada semana que pasaba importaba más publicar el catálogo que diseñar una plataforma capaz de sobrevivir diez años.</p><p>Esa restricción ordenó la decisión. Casa Médanos se convirtió en un catálogo rápido y compartible: fotos, precios visibles, filtros por ambiente, buscador y un estado claro para lo vendido. Un único link reemplazó una cantidad absurda de mensajes repetidos.</p>
+        </section>
+        <section>
+          <h2>Arquitectura estática con valor de producto</h2>
+          <p>Elegir un sitio estático en GitHub Pages no fue recortar funcionalidad por deporte. Fue sacar de escena servidores que monitorear, bases que respaldar y costos que no ayudaban a vender un sillón. Para quien llega desde una red social, además, una página que carga rápido resuelve más que una arquitectura sofisticada.</p><p>La complejidad quedó donde sí había trabajo real: actualizar disponibilidad, encontrar un artículo y mostrar que algo ya se vendió sin hacerlo desaparecer. La tecnología siguió al flujo, no al revés.</p>
+        </section>
+        <section>
+          <h2>Automatización focalizada y costo operativo</h2>
+          <p>Las preguntas repetidas justificaban una automatización puntual. Un flujo de n8n, versionado junto al código, ayuda a responder sin inventar una aplicación de mensajería ni convertir una venta temporal en una operación permanente.</p><p>Desde entonces uso una prueba sencilla: si una pieza de infraestructura no reduce una tarea repetitiva, un riesgo real o un costo presente, todavía no pertenece al MVP. Puede llegar después. Hoy solo distrae.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Solución estática con automatización focalizada
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="Los visitantes consumen un catálogo publicado en GitHub Pages. Un panel actualiza disponibilidad y un workflow de n8n asiste las consultas repetitivas sin introducir un backend transaccional.">
+        
+          
+          <div class="architecture__layer">
+            <p>Adquisición</p>
+            <ul><li>Redes sociales</li><li>Link compartible</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Experiencia web</p>
+            <ul><li>Catálogo y buscador</li><li>Filtros y precios</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Publicación</p>
+            <ul><li>Sitio estático</li><li>GitHub Pages</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Operación</p>
+            <ul><li>Disponibilidad</li><li>Automatización n8n</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">Los visitantes consumen un catálogo publicado en GitHub Pages. Un panel actualiza disponibilidad y un workflow de n8n asiste las consultas repetitivas sin introducir un backend transaccional.</p>
+    </figure>
+      <p class="article__takeaway">Principio de arquitectura: la solución debe responder a la vida útil, el riesgo y el volumen del problema actual. Toda capacidad extra también agrega costo operativo.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/emprender-desde-problemas-observados/">
+        <span>Startups y emprendimiento</span>
+        <strong>Del problema observado al MVP: diseñar producto desde el trabajo real del usuario</strong>
+        <small>EscalaImprov muestra cómo una fricción concreta puede convertirse en hipótesis, flujos diferenciados y capacidades reutilizables.</small>
+      </a></li><li><a href="/blog/milo-care-onboarding-calendario-clinico/">
+        <span>Producto y arquitectura</span>
+        <strong>Onboarding clínico: cómo evitar que un producto de salud empiece vacío</strong>
+        <small>La arquitectura de onboarding de Milo Care: reglas por país, calendario vacunal precargado y una primera sesión con valor operativo.</small>
+      </a></li><li><a href="/blog/webhooks-pagos-maquinas-de-estado/">
+        <span>Pagos e infraestructura</span>
+        <strong>Arquitectura de pagos: por qué un cobro no es una llamada HTTP</strong>
+        <small>Patrones de integración, idempotencia y trazabilidad para modelar pagos como procesos de negocio auditables.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

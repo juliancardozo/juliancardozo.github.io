@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>IA asistida: la especificación es el sistema de control de la ambigüedad | Julián Cardozo</title>
+<meta name="description" content="Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/ia-especificacion-antes-codigo/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="IA asistida: la especificación es el sistema de control de la ambigüedad | Julián Cardozo" />
+<meta property="og:description" content="Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/ia-especificacion-antes-codigo/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="IA asistida: la especificación es el sistema de control de la ambigüedad | Julián Cardozo" />
+<meta name="twitter:description" content="Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"IA asistida: la especificación es el sistema de control de la ambigüedad","description":"Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código.","datePublished":"2026-08-18","dateModified":"2026-08-18","inLanguage":"es","url":"https://juliancardozo.github.io/blog/ia-especificacion-antes-codigo/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"IA y producto"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>IA y producto</span><time datetime="2026-08-18">18 de agosto de 2026</time><span>6 min de lectura</span></p>
+    <h1 class="article__title">IA asistida: la especificación es el sistema de control de la ambigüedad</h1>
+    <p class="article__lead">Los agentes reducen el tiempo de implementación, pero no resuelven decisiones de producto incompletas. De hecho, convierten una instrucción ambigua en más código incorrecto, en menos tiempo. WebSpec AI formaliza el contexto antes de la construcción: define alcance, usuarios, restricciones y backlog como una cadena trazable de artefactos.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/webspec-ai/">WebSpec AI <span aria-hidden="true">→</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>La ambigüedad como deuda de producto</h2>
+          <p>Trabajando en productos propios y con clientes comprobé una y otra vez que el atraso casi nunca empieza cuando alguien abre el editor. Empieza antes: en una idea que todavía no define a quién sirve, qué queda afuera o cómo sabremos que funcionó.</p><p>Antes de los agentes, esa ambigüedad se traducía en reuniones, interpretaciones y correcciones lentas. Ahora puede traducirse en pantallas, APIs y tests generados en minutos. La velocidad no elimina el costo de una decisión ausente; solo hace que el desperdicio llegue antes.</p>
+        </section>
+        <section>
+          <h2>Especificaciones encadenadas como contexto operativo</h2>
+          <p>WebSpec AI nació para ordenar ese momento previo. En vez de saltar de una frase vaga al código, guía un recorrido por brief, PRD, RFC, UX/UI, backlog y especificaciones. Cada documento aprovecha las decisiones del anterior y deja visibles las que todavía faltan.</p><p>El valor no está en producir un PDF prolijo. Está en hacer la pregunta correcta en el momento correcto: quién es el usuario, qué problema se intenta resolver, qué restricción no es negociable, qué métrica justificaría seguir. Una respuesta clara a cualquiera de ellas ahorra más que un prompt brillante.</p>
+        </section>
+        <section>
+          <h2>Trazabilidad para gestionar el cambio</h2>
+          <p>Una especificación no es una promesa de que nada va a cambiar. Es el registro de por qué se tomó una decisión, para que el cambio tenga contexto cuando inevitablemente llegue. Si el PRD se mueve, el backlog y las specs que dependen de él tienen que enterarse.</p><p>Esa trazabilidad es especialmente importante con IA. Le permite a un agente construir sobre la versión actual del producto, y le permite al equipo discutir una decisión antes de convertirla en cientos de líneas difíciles de desaprender.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Cadena de contexto para desarrollo asistido por IA
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="La idea inicial se transforma en artefactos de producto vinculados. Los equipos y agentes consumen la especificación actualizada en lugar de trabajar desde una instrucción aislada.">
+        
+          
+          <div class="architecture__layer">
+            <p>Descubrimiento</p>
+            <ul><li>Idea</li><li>Brief y usuarios</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Producto</p>
+            <ul><li>PRD</li><li>Métricas y alcance</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Diseño técnico</p>
+            <ul><li>RFC</li><li>UX/UI y backlog</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Ejecución</p>
+            <ul><li>Specs versionadas</li><li>Equipo y agentes de código</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">La idea inicial se transforma en artefactos de producto vinculados. Los equipos y agentes consumen la especificación actualizada en lugar de trabajar desde una instrucción aislada.</p>
+    </figure>
+      <p class="article__takeaway">Principio de entrega: la IA amplifica la calidad del contexto disponible. Una especificación trazable reduce retrabajo, mejora las decisiones y evita automatizar la ambigüedad.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/claude-watermarking-gobernanza-contenido-ia/">
+        <span>Noticias de IA</span>
+        <strong>Claude incorporará watermarking de texto: qué cambia para la gobernanza de IA</strong>
+        <small>Anthropic anunció que futuros modelos de Claude generarán texto con watermarking: implicancias para trazabilidad, compliance y controles de contenido generado por IA.</small>
+      </a></li><li><a href="/blog/kiro-acp-interoperabilidad-agentes-ide/">
+        <span>Noticias de IA</span>
+        <strong>Kiro adopta ACP: la interoperabilidad de agentes llega al IDE especializado</strong>
+        <small>Kiro CLI incorporó Agent Client Protocol para operar agentes en IDEs compatibles: impacto en herramientas especializadas, estandarización y control de ejecución.</small>
+      </a></li><li><a href="/blog/spec-kit-1-especificaciones-agentes-adopcion/">
+        <span>Noticias de IA</span>
+        <strong>Spec Kit 1.0: la especificación se consolida como interfaz para agentes</strong>
+        <small>GitHub publicó Spec Kit 1.0 y 1.0.1, con guías de adopción, quickstarts y extensiones: impacto en desarrollo spec-driven y automatización con agentes.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE | Julián Cardozo</title>
+<meta name="description" content="Cómo combinar identidad, RBAC y Row Level Security para proteger los datos de cada organización por diseño." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/multi-tenancy-rls-frontera-datos/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE | Julián Cardozo" />
+<meta property="og:description" content="Cómo combinar identidad, RBAC y Row Level Security para proteger los datos de cada organización por diseño." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/multi-tenancy-rls-frontera-datos/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE | Julián Cardozo" />
+<meta name="twitter:description" content="Cómo combinar identidad, RBAC y Row Level Security para proteger los datos de cada organización por diseño." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE","description":"Cómo combinar identidad, RBAC y Row Level Security para proteger los datos de cada organización por diseño.","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"es","url":"https://juliancardozo.github.io/blog/multi-tenancy-rls-frontera-datos/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Arquitectura y seguridad"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>Arquitectura y seguridad</span><time datetime="2026-08-21">21 de agosto de 2026</time><span>5 min de lectura</span></p>
+    <h1 class="article__title">Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE</h1>
+    <p class="article__lead">Patio administra vehículos, márgenes, documentación, reservas y oportunidades de múltiples automotoras. En ese contexto, un filtro omitido no es un defecto de interfaz: es un incidente de aislamiento. La arquitectura combina contexto autenticado, RBAC y políticas RLS en PostgreSQL para que una consulta incorrecta no cruce la frontera de una organización.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/patio/">Patio <span aria-hidden="true">→</span></a>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>El riesgo de delegar aislamiento en la aplicación</h2>
+          <p>Una automotora guarda datos que importan: el costo real de una unidad, sus documentos, la reserva de un cliente y el margen de una venta. En un producto compartido por varias organizaciones, esos datos deben estar separados siempre, incluso cuando el equipo suma un reporte, una consulta administrativa o una relación nueva.</p><p>Confiar esa separación a que cada endpoint recuerde agregar organization_id parece razonable hasta que deja de serlo. No hace falta una mala intención; alcanza con una consulta escrita a las apuradas. El defecto no es humano: es arquitectónico, porque permite que un olvido tenga consecuencias demasiado grandes.</p>
+        </section>
+        <section>
+          <h2>Row Level Security como control de datos</h2>
+          <p>Por eso Patio usa Row Level Security de PostgreSQL. Las políticas de la base expresan qué filas puede leer o modificar una organización, mientras la aplicación conserva la responsabilidad de autenticar personas y administrar sus roles. Una capa no reemplaza a la otra: se acompañan.</p><p>El RBAC responde qué puede hacer alguien dentro de su automotora. RLS responde una pregunta anterior: si esa fila siquiera pertenece a su automotora. Es defensa en profundidad aplicada a un riesgo cotidiano.</p>
+        </section>
+        <section>
+          <h2>Contexto de organización y mínimo privilegio</h2>
+          <p>La decisión importante no es solo activar una política; es evitar que el tenant viaje como un parámetro opcional por toda la aplicación. El contexto se deriva de la identidad autenticada y se establece para la transacción antes de tocar los datos. Así, una consulta que olvidó el filtro sigue encontrando una barrera.</p><p>Las excepciones de soporte existen, pero deben ser explícitas, auditadas y mínimas. Una excepción invisible no es flexibilidad: es una puerta que nadie está mirando.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>Defensa en profundidad para multi-tenancy
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="La identidad autenticada resuelve la organización y el rol. La aplicación aplica permisos de negocio y la base de datos restringe las filas disponibles mediante Row Level Security.">
+        
+          
+          <div class="architecture__layer">
+            <p>Identidad</p>
+            <ul><li>Usuario autenticado</li><li>Organización y rol</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Aplicación</p>
+            <ul><li>RBAC por rol</li><li>Permisos por sucursal</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Transacción</p>
+            <ul><li>Contexto de tenant</li><li>Acceso con mínimo privilegio</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>PostgreSQL</p>
+            <ul><li>Row Level Security</li><li>Filas aisladas por organización</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">La identidad autenticada resuelve la organización y el rol. La aplicación aplica permisos de negocio y la base de datos restringe las filas disponibles mediante Row Level Security.</p>
+    </figure>
+      <p class="article__takeaway">Principio de arquitectura: el aislamiento multi-tenant debe ser verificable en cada capa y, especialmente, seguir activo cuando el código de aplicación comete un error.</p>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/llama-4-scout-open-weight-usa/">
+        <span>LLM open-weight</span>
+        <strong>Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</strong>
+        <small>Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.</small>
+      </a></li><li><a href="/blog/qwen3-235b-open-weight-china/">
+        <span>LLM open-weight</span>
+        <strong>Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</strong>
+        <small>Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.</small>
+      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">
+        <span>Cloud y arquitectura</span>
+        <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
+        <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

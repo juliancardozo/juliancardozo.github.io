@@ -45,6 +45,8 @@ export const content = {
     },
 
     nav: [
+      { href: '/blog/', label: 'Blog' },
+      { href: '#acerca', label: 'Acerca de mí' },
       { href: '#productos', label: 'Productos' },
       { href: '#origen', label: 'Cómo nacen' },
       { href: '#laboratorio', label: 'Laboratorio' },
@@ -75,6 +77,32 @@ export const content = {
         eyebrow: 'Productos',
         title: 'Siete productos, siete problemas que conocía de cerca',
         lead: 'No son ejercicios técnicos. Cada uno arrancó con una situación concreta —una mudanza, un perro, un auto, una ley nueva, una jam— y terminó en código que se puede leer. Entrá al caso de estudio para ver el problema, las decisiones y el estado real.',
+      },
+      acerca: {
+        eyebrow: 'Acerca de mí',
+        title: 'De construir sistemas a habilitar organizaciones de ingeniería',
+        lead: 'Mi carrera evolucionó desde el desarrollo backend hacia una responsabilidad más amplia: crear las condiciones para que equipos, productos y plataformas entreguen valor de forma sostenible. No lo entiendo como una sucesión de títulos, sino como una ampliación progresiva del sistema bajo mi responsabilidad.',
+        stages: [
+          {
+            title: 'Desarrollador',
+            body: 'Fundamentos de informática, Java, APIs REST, Spring, persistencia y mensajería empresarial. La calidad se volvió concreta: una falla podía ser una transacción que no ocurrió o una integración que nadie podía recuperar.',
+            scope: 'Código, datos y consistencia.',
+          },
+          {
+            title: 'Senior y technical leader',
+            body: 'Banca, medios de pago y fintech ampliaron el problema: conciliación, auditoría, seguridad, normativa, webhooks e integraciones con terceros. La responsabilidad pasó a incluir estándares, decisiones de arquitectura y reducción de riesgos técnicos.',
+            scope: 'Sistemas operables y decisiones técnicas.',
+          },
+          {
+            title: 'Engineering Manager',
+            body: 'El foco se trasladó a equipos multidisciplinarios, arquitectura, plataforma, prioridades, mentoring y comunicación con negocio. Menos código escrito directamente; más decisiones que habilitan entrega sostenida.',
+            scope: 'Equipos, delivery y estrategia técnica.',
+          },
+        ],
+        future: {
+          title: 'Próximo alcance: liderazgo ejecutivo',
+          body: 'La dirección de mi desarrollo profesional está en roles donde tecnología, producto y negocio se alinean de forma explícita. CTO implica conectar arquitectura, seguridad y plataforma con la estrategia. VP Engineering o Head of Engineering, escalar talento, delivery y salud de la organización. Head of Product, integrar discovery, priorización y viabilidad técnica. Son trayectorias objetivo, no cargos actuales.',
+        },
       },
       origen: {
         eyebrow: 'Método',
@@ -184,7 +212,7 @@ export const content = {
           {
             title: 'Construir',
             body: 'Producto end-to-end, del esquema de datos al deploy.',
-            items: ['Java / Spring Boot', 'Node.js / NestJS', 'React / Next.js / Angular', 'PostgreSQL / MongoDB', 'Integraciones y pagos'],
+            items: ['Java / Spring Boot', 'Node.js / NestJS', 'React / Next.js / Angular', 'Webs corporativas de alto impacto', 'PostgreSQL / MongoDB', 'Integraciones y pagos'],
           },
           {
             title: 'Operar',
