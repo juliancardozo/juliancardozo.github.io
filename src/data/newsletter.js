@@ -9,7 +9,7 @@ export const newsletter = {
     'En cada edición hay una idea práctica, una experiencia real y una pregunta concreta para pensar mejor cómo construimos tecnología, productos, equipos y negocios.',
   cadence: 'Una edición principal cada dos semanas, con notas breves cuando aparece un aprendizaje que merece salir rápido.',
   statusNote:
-    'La página pública, el archivo y la secuencia editorial ya están definidos. La suscripción automática quedará activa cuando se elija proveedor, dominio de envío y flujo de consentimiento con doble opt-in.',
+    'La página pública, el archivo y la secuencia editorial ya están definidos. La suscripción real quedó conectada a un Worker seguro con consentimiento y primer flujo de bienvenida listo para activar en el envío.',
   primaryAudiences: [
     'Engineering Managers y Tech Leads',
     'CTOs y responsables de tecnología',
@@ -94,6 +94,53 @@ export const newsletter = {
       summary:
         'Invitación explícita a responder si el interés viene por liderazgo, arquitectura, producto, colaboración, prensa, evento, inversión u oportunidad profesional.',
       cta: 'Responder con el tipo de conversación que quiere abrir.',
+    },
+  ],
+  welcomeEmails: [
+    {
+      step: 1,
+      title: 'Bienvenida',
+      subject: 'Bienvenida a Notas desde el frente',
+      preheader: 'Liderazgo, arquitectura, IA y producto desde la práctica, no desde la teoría.',
+      ctaLabel: 'Responder con tu tema principal',
+      body:
+        'Hola,\n\nGracias por sumarte. Esta newsletter nace para compartir lo que aprendí liderando equipos, construyendo productos y tomando decisiones técnicas con contexto real.\n\nNo va a ser un resumen de tendencias ni una lista de consejos genéricos. Va a ser una nota útil: una idea práctica, un ejemplo concreto y una pregunta que nos ayude a pensar mejor cómo construimos tecnología, equipos y negocios.\n\nEn cada edición voy a escribir desde la experiencia: liderazgo técnico, arquitectura, plataforma, IA aplicada, producto y emprendimientos en LATAM. Si te interesa alguno de estos temas, te pido que me respondas con una sola línea: ¿qué te interesa más hoy?\n\nLiderazgo técnico\nArquitectura y plataforma\nIA aplicada\nProducto y MVPs\nFintech y pagos\n\nSi te parece, también podés responder con un problema real que estés viendo en tu equipo o empresa.\n\nGracias por estar acá.\n\nJulián',
+    },
+    {
+      step: 2,
+      title: 'Historia y propósito',
+      subject: '¿Por qué existe esta newsletter?',
+      preheader: 'Porque hay decisiones difíciles que no se resuelven solo con código.',
+      ctaLabel: 'Responder con tu caso más difícil',
+      body:
+        'Hola,\n\nCuando empecé a combinar liderazgo, arquitectura, producto y proyectos propios, me di cuenta de que muchas decisiones que parecen técnicas terminan siendo decisiones sobre personas, contexto y riesgo.\n\nLa newsletter nació para registrar ese punto de vista: no como una bio ni como un discurso, sino como una manera de compartir aprendizajes útiles en voz directa.\n\nTrabajo en ingeniería, liderazgo, platform y product, y además he construido proyectos propios en fintech, salud preventiva, IA y herramientas para equipos. Eso me dio una perspectiva muy concreta: los mejores resultados raramente vienen de “la mejor tecnología”, sino de decisiones claras, métricas honestas y un equipo que entiende el problema.\n\nEn estas notas voy a escribir sobre lo que aprendí en ese trayecto y sobre los temas que me siguen interesando: cómo liderar bien, cómo decidir arquitectura sin caer en el dogma, cómo usar IA para ayudar al equipo y cómo construir productos con sentido.\n\nSi te interesa, respondé con el problema más difícil que estuviste viendo en tu equipo en este último tiempo.\n\nJulián',
+    },
+    {
+      step: 3,
+      title: 'Lo que más te puede interesar',
+      subject: 'Tres caminos para empezar',
+      preheader: 'Elegí el hilo que más te sirve para empezar a leer.',
+      ctaLabel: 'Elegir tema',
+      body:
+        'Hola,\n\nSi esto es tu primer paso, te dejo tres maneras de entrar: \n\n1. Liderazgo técnico: cómo pasar de desarrollador a líder, construir equipos, dar feedback y sostener decisiones difíciles.\n2. Arquitectura y plataforma: APIs, cloud, observabilidad, seguridad, sistemas distribuidos y decisiones con impacto de negocio.\n3. IA aplicada: cómo usar la IA para acelerar trabajo, mejorar especificación, automatizar tareas y reforzar el criterio humano.\n\nTambién hay contenido sobre producto, finanzas, pagos y proyectos propios. Si querés, te puedo recomendar un camino concreto según tu interés.\n\nRespondé con el tema que más te interesa ahora y te paso una guía de lectura.\n\nJulián',
+    },
+    {
+      step: 4,
+      title: 'Proyectos como evidencia',
+      subject: 'Aprender desde proyectos reales',
+      preheader: 'No hay mejor criterio que un problema que se vive en la práctica.',
+      ctaLabel: 'Hablar de un proyecto',
+      body:
+        'Hola,\n\nLa mayor parte de lo que escribo nace de proyectos reales: MiCuota.online, Milo Care, WebspecAI y otros experimentos en productos, pagos y automatización.\n\nNo los veo como “casos de éxito” para exhibir, sino como laboratorios donde se prueba qué funciona, qué no y qué se vuelve más claro cuando la presión existe. Hay errores, decisiones poco elegantes, mejoras de arquitectura y también aprendizajes pequeños que terminan importando mucho.\n\nEso es lo que quiero compartir: no la versión final del producto, sino la decisión detrás del producto.\n\nSi tenés un proyecto en curso, una duda de producto o un problema de equipo en el que quieras pensar en voz alta, respondé este email. Estoy abierto a conversaciones muy concretas.\n\nJulián',
+    },
+    {
+      step: 5,
+      title: 'Conversación abierta',
+      subject: '¿Qué te gustaría discutir?',
+      preheader: 'La newsletter funciona mejor cuando abre una conversación real.',
+      ctaLabel: 'Responder al email',
+      body:
+        'Hola,\n\nLa idea de esta comunidad no es recibir contenido pasivamente. Es que haya una conversación útil detrás de cada nota.\n\nQuiero seguir aprendiendo de personas que lideran equipos, construyen productos, toman decisiones difíciles y están resolviendo problemas reales con tecnología.\n\nSi te interesa conversar, me podés responder con una de estas opciones:\n\n- Liderazgo y equipos\n- Arquitectura y plataforma\n- IA aplicada\n- Producto y MVPs\n- Fintech y pagos\n- Colaboración o proyecto\n- Eventual charla / podcast / media\n\nSi te sirve, también puedo escuchar una idea, un caso o una duda que te esté molestando en este momento.\n\nJulián',
     },
   ],
   issues: [

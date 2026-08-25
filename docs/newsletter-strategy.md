@@ -46,30 +46,31 @@ Experiencia o proyecto -> artículo profundo -> newsletter personal -> post en L
 ## Secuencia de bienvenida
 
 ### Email 1 — Bienvenida
-- Presentación breve
-- Promesa editorial
-- Pregunta de interés principal
+- Asunto: "Bienvenida a Notas desde el frente"
+- Preheader: "Liderazgo, arquitectura, IA y producto desde la práctica, no desde la teoría."
+- Texto: presentarse con tono cercano, explicar la promesa editorial y pedir al suscriptor que responda con el tema que más le importa hoy.
 
 ### Email 2 — Historia y propósito
-- Trayectoria y criterio
-- Por qué existe la newsletter
-- Qué problemas vale la pena explorar
+- Asunto: "¿Por qué existe esta newsletter?"
+- Preheader: "Porque hay decisiones difíciles que no se resuelven solo con código."
+- Texto: sintetizar la trayectoria, el criterio y la razón de la newsletter sin caer en una bio corporativa.
 
 ### Email 3 — Mejor contenido
-- Tres rutas por interés
-- Selección curada
-- Invitación a elegir próximo tema
+- Asunto: "Tres caminos para empezar"
+- Preheader: "Elegí el hilo que más te sirve para empezar a leer."
+- Texto: ofrecer tres rutas de entrada y pedir que responda con el interés principal.
 
 ### Email 4 — Proyectos como evidencia
-- Milo Care
-- MiCuota.online
-- WebspecAI
-- Pambú Tech
+- Asunto: "Aprender desde proyectos reales"
+- Preheader: "No hay mejor criterio que un problema que se vive en la práctica."
+- Texto: presentar proyectos reales como laboratorios y abrir una conversación con feedback o contexto.
 
-### Email 5 — Conversación
-- Tipos de conversación posibles
-- Vías de contacto
-- Invitación a responder
+### Email 5 — Conversación abierta
+- Asunto: "¿Qué te gustaría discutir?"
+- Preheader: "La newsletter funciona mejor cuando abre una conversación real."
+- Texto: invitar al lector a responder con su tema de interés o un problema concreto para hablarlo.
+
+El primer email ya quedó redactado en formato reutilizable dentro del modelo de datos de la newsletter para facilitar la activación del envío en Resend.
 
 ## Métricas principales
 

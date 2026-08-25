@@ -101,23 +101,15 @@ const upsertContact = async (env, payload) => {
   const contactPath = `/contacts/${encodeURIComponent(payload.email)}`;
   const lookup = await resendRequest(env, contactPath, { method: 'GET' });
 
-  const properties = {
-    interest: payload.interest,
-    source: payload.source || 'website',
-    page_path: payload.pagePath || '/',
-    form_kind: payload.formKind || 'full',
-    consent_source: 'website_form',
-    consented_at: new Date().toISOString(),
+  const contactPayload = {
+    first_name: payload.name || undefined,
+    unsubscribed: false,
   };
 
   if (lookup.response.status === 200) {
     const update = await resendRequest(env, contactPath, {
       method: 'PATCH',
-      body: JSON.stringify({
-        first_name: payload.name || undefined,
-        unsubscribed: false,
-        properties,
-      }),
+      body: JSON.stringify(contactPayload),
     });
     if (!update.response.ok) {
       throw new Error(`Resend update failed: ${update.response.status} ${JSON.stringify(update.data)}`);
@@ -133,9 +125,7 @@ const upsertContact = async (env, payload) => {
     method: 'POST',
     body: JSON.stringify({
       email: payload.email,
-      first_name: payload.name || undefined,
-      unsubscribed: false,
-      properties,
+      ...contactPayload,
     }),
   });
 
