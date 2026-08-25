@@ -29,6 +29,7 @@ export const layout = ({
 <meta name="author" content="${esc(site.author)}" />
 <meta name="keywords" content="${esc(t.meta.keywords.join(', '))}" />
 <meta name="robots" content="${esc(robots)}" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
 <link rel="canonical" href="${esc(canonical)}" />
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
