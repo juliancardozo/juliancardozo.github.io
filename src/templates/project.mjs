@@ -6,7 +6,7 @@ const list = (items = [], className = 'prose-list') =>
 const block = (id, title, body) =>
   body ? `<section class="case__block" id="${id}"><h2 class="case__block-title">${esc(title)}</h2>${body}</section>` : '';
 
-export const projectPage = ({ t, project, others }) => {
+export const projectPage = ({ t, project, others, articles = [] }) => {
   const u = t.ui;
 
   const toc = [
@@ -82,6 +82,22 @@ export const projectPage = ({ t, project, others }) => {
         .join('')}
     </ul>
   </div>
+  ${
+    articles.length
+      ? `<section class="shell case__insights" aria-labelledby="case-insights-title">
+    <p class="section__eyebrow">Aprendizajes aplicados</p>
+    <h2 class="case__more-title" id="case-insights-title">Lecturas que nacen de este proyecto</h2>
+    <ul class="case__more-list">
+      ${articles.map((article) => `<li>
+        <a href="/blog/${esc(article.slug)}/" class="js-track-project-insight">
+          <span class="case__more-name">${esc(article.title)}</span>
+          <span class="case__more-tagline">${esc(article.description)}</span>
+        </a>
+      </li>`).join('')}
+    </ul>
+  </section>`
+      : ''
+  }
 </article>
 `;
 };

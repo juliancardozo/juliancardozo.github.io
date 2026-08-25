@@ -46,6 +46,8 @@ export const content = {
 
     nav: [
       { href: '/blog/', label: 'Blog' },
+      { href: '/newsletter/', label: 'Newsletter' },
+      { href: '/blog/#pilares', label: 'Pilares' },
       { href: '#acerca', label: 'Acerca de mí' },
       { href: '#productos', label: 'Productos' },
       { href: '#origen', label: 'Cómo nacen' },
@@ -77,6 +79,19 @@ export const content = {
         eyebrow: 'Productos',
         title: 'Siete productos, siete problemas que conocía de cerca',
         lead: 'No son ejercicios técnicos. Cada uno arrancó con una situación concreta —una mudanza, un perro, un auto, una ley nueva, una jam— y terminó en código que se puede leer. Entrá al caso de estudio para ver el problema, las decisiones y el estado real.',
+      },
+      pilares: {
+        eyebrow: 'Pilares',
+        title: 'Cinco áreas de experiencia, organizadas en tres rutas de lectura',
+        lead: 'No son categorías arbitrarias. Son la forma más útil de conectar artículos, proyectos y conversaciones reales sobre liderazgo técnico, arquitectura y producto.',
+      },
+      newsletter: {
+        eyebrow: 'Newsletter',
+        title: 'Una newsletter para pensar mejor cómo construimos',
+        lead: 'Notas desde el frente conecta liderazgo técnico, arquitectura, producto, IA aplicada y aprendizajes de proyectos propios en un formato más personal y conversable que el blog.',
+        ctaPrimary: 'Ver archivo de la newsletter',
+        ctaSecondary: 'Quiero recibir la primera edición',
+        note: 'La suscripción se procesa con un endpoint seguro fuera de GitHub Pages para no exponer credenciales. El alta queda registrada con consentimiento e interés principal.',
       },
       acerca: {
         eyebrow: 'Acerca de mí',
@@ -274,6 +289,8 @@ export const content = {
         githubLabel: 'GitHub',
         linkedinLabel: 'LinkedIn',
         emailLabel: 'Escribime',
+        newsletterLabel: 'Newsletter',
+        privacyLabel: 'Privacidad',
       },
     },
 

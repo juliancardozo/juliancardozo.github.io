@@ -91,6 +91,8 @@ ${content}
     <p class="site-footer__name">${esc(site.author)} · ${year}</p>
     <p class="site-footer__note">${esc(t.ui.footerNote)}</p>
     <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       ${site.links.linkedin ? `<li><a href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>` : ''}
       ${site.links.email ? `<li><a href="mailto:${esc(site.links.email)}">Email</a></li>` : ''}

@@ -107,7 +107,125 @@
     }
   }
 
-  /* ── 3. Reveal on scroll ───────────────────────────────────────────────── */
+  /* ── 3. Suscripción a la newsletter ────────────────────────────────────── */
+  var newsletterForms = document.querySelectorAll('[data-newsletter-form]');
+  if (newsletterForms.length && 'fetch' in window) {
+    window.dataLayer = window.dataLayer || [];
+    Array.prototype.forEach.call(newsletterForms, function (form) {
+      var status = form.querySelector('[data-newsletter-status]');
+      var submit = form.querySelector('button[type="submit"]');
+      var originalLabel = submit ? submit.textContent : '';
+
+      form.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!submit) return;
+
+        var formData = new FormData(form);
+        var payload = {
+          name: formData.get('name') || '',
+          email: formData.get('email') || '',
+          interest: formData.get('interest') || '',
+          consent: formData.get('consent') || '',
+          company: formData.get('company') || '',
+          source: formData.get('source') || '',
+          page_path: window.location.pathname,
+          form_kind: formData.get('form_kind') || ''
+        };
+
+        submit.disabled = true;
+        submit.textContent = 'Enviando...';
+        if (status) {
+          status.textContent = '';
+          status.dataset.state = 'idle';
+        }
+
+        window.dataLayer.push({
+          event: 'newsletter_subscribe_submit',
+          source: payload.source,
+          interest: payload.interest,
+          page_path: payload.page_path
+        });
+
+        fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-Requested-With': 'fetch'
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(function (response) {
+            return response.json().then(function (body) {
+              return { ok: response.ok, body: body };
+            });
+          })
+          .then(function (result) {
+            if (!result.ok || !result.body.ok) {
+              throw new Error(result.body.message || 'No pude procesar la suscripción.');
+            }
+            form.reset();
+            if (status) {
+              status.textContent = result.body.message;
+              status.dataset.state = 'success';
+            }
+            window.dataLayer.push({
+              event: 'newsletter_subscribe_success',
+              source: payload.source,
+              interest: payload.interest,
+              page_path: payload.page_path
+            });
+          })
+          .catch(function (error) {
+            if (status) {
+              status.textContent = error.message;
+              status.dataset.state = 'error';
+            }
+            window.dataLayer.push({
+              event: 'newsletter_subscribe_error',
+              source: payload.source,
+              interest: payload.interest,
+              page_path: payload.page_path,
+              error_message: error.message
+            });
+          })
+          .finally(function () {
+            submit.disabled = false;
+            submit.textContent = originalLabel;
+          });
+      });
+    });
+  }
+
+  /* ── 4. dataLayer para medición editorial ──────────────────────────────── */
+  var trackedClicks = document.querySelectorAll(
+    '.js-track-conversation, .js-track-related-article, .js-track-origin-project, .js-track-project-insight, .js-track-pillar-hub, .js-track-article-card, .js-track-newsletter-interest, .js-track-newsletter-issue'
+  );
+  if (trackedClicks.length) {
+    window.dataLayer = window.dataLayer || [];
+    Array.prototype.forEach.call(trackedClicks, function (link) {
+      link.addEventListener('click', function () {
+        var href = link.getAttribute('href') || '';
+        var eventName = 'content_navigation_click';
+        if (link.classList.contains('js-track-conversation')) eventName = 'conversation_cta_click';
+        else if (link.classList.contains('js-track-related-article')) eventName = 'related_article_click';
+        else if (link.classList.contains('js-track-origin-project')) eventName = 'article_to_project_click';
+        else if (link.classList.contains('js-track-project-insight')) eventName = 'project_to_article_click';
+        else if (link.classList.contains('js-track-pillar-hub')) eventName = 'pillar_hub_click';
+        else if (link.classList.contains('js-track-article-card')) eventName = 'blog_card_click';
+        else if (link.classList.contains('js-track-newsletter-interest')) eventName = 'newsletter_interest_click';
+        else if (link.classList.contains('js-track-newsletter-issue')) eventName = 'newsletter_issue_click';
+        window.dataLayer.push({
+          event: eventName,
+          link_url: href,
+          link_text: (link.textContent || '').trim().slice(0, 140),
+          page_path: window.location.pathname,
+        });
+      });
+    });
+  }
+
+  /* ── 5. Reveal on scroll ───────────────────────────────────────────────── */
   var revealTargets = document.querySelectorAll('[data-reveal]');
 
   if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -130,7 +248,7 @@
     });
   }
 
-  /* ── 4. Seccion activa ─────────────────────────────────────────────────── */
+  /* ── 6. Seccion activa ─────────────────────────────────────────────────── */
   var trackSections = function (linkSelector) {
     var links = Array.prototype.slice.call(document.querySelectorAll(linkSelector));
     if (!links.length || !('IntersectionObserver' in window)) return;

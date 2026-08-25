@@ -1,6 +1,9 @@
 import { esc, inlineCode, statusBadge, cover, projectHref, externalLink, originExcerpt } from './components.mjs';
 import { labFilters } from '../data/projects.js';
 import { site } from '../data/site.js';
+import { pillars } from '../data/pillars.js';
+import { newsletter } from '../data/newsletter.js';
+import { newsletterForm } from './newsletter-form.mjs';
 
 const featuredCard = (project, t, index) => `
 <article class="card card--featured ${index === 0 ? 'card--lead' : ''}" data-reveal>
@@ -63,6 +66,62 @@ export const home = ({ t, featured, lab }) => {
         )
         .join('')}
     </dl>
+  </div>
+</section>
+
+<section class="section" id="pilares" aria-labelledby="pilares-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">${esc(s.pilares.eyebrow)}</p>
+      <h2 class="section__title" id="pilares-title">${esc(s.pilares.title)}</h2>
+      <p class="section__lead">${esc(s.pilares.lead)}</p>
+    </header>
+    <div class="pillar-strip">
+      ${pillars
+        .map(
+          (pillar) => `<article class="pillar-card" data-reveal>
+        <p class="pillar-card__meta">${esc(pillar.eyebrow)}</p>
+        <h3><a href="/temas/${esc(pillar.slug)}/">${esc(pillar.title)}</a></h3>
+        <p>${esc(pillar.description)}</p>
+      </article>`,
+        )
+        .join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt newsletter-home" id="newsletter" aria-labelledby="newsletter-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">${esc(s.newsletter.eyebrow)}</p>
+      <h2 class="section__title" id="newsletter-title">${esc(s.newsletter.title)}</h2>
+      <p class="section__lead">${esc(s.newsletter.lead)}</p>
+    </header>
+    <div class="newsletter-home__layout">
+      <article class="newsletter-panel" data-reveal>
+        <p class="newsletter-panel__label">Promesa editorial</p>
+        <h3>${esc(newsletter.fullTitle)}</h3>
+        <p>${esc(newsletter.promise)}</p>
+      </article>
+      <article class="newsletter-panel" data-reveal>
+        <p class="newsletter-panel__label">Cadencia</p>
+        <p>${esc(newsletter.cadence)}</p>
+        <p>${esc(s.newsletter.note)}</p>
+      </article>
+    </div>
+    <div data-reveal>
+      ${newsletterForm({
+        source: 'home-newsletter',
+        path: '/',
+        compact: true,
+        title: 'Sumate desde la home',
+        lead: 'Si te interesa liderazgo técnico, arquitectura, producto o IA aplicada, podés recibir la primera edición desde acá.',
+        buttonLabel: s.newsletter.ctaSecondary,
+      })}
+    </div>
+    <div class="hero__ctas" data-reveal>
+      <a class="btn btn--ghost" href="/newsletter/">${esc(s.newsletter.ctaPrimary)}</a>
+    </div>
   </div>
 </section>
 
@@ -244,6 +303,8 @@ export const home = ({ t, featured, lab }) => {
           ? `<a class="btn btn--ghost" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${esc(s.contacto.linkedinLabel)}</a>`
           : ''
       }
+      <a class="btn btn--ghost" href="/newsletter/">${esc(s.contacto.newsletterLabel)}</a>
+      <a class="btn btn--ghost" href="/privacidad/">${esc(s.contacto.privacyLabel)}</a>
       <a class="btn btn--ghost" href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">${esc(s.contacto.githubLabel)}</a>
     </div>
   </div>

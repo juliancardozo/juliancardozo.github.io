@@ -52,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="site-nav" aria-label="Secciones del sitio">
       <ul>
-        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
       </ul>
     </nav>
   </div>
@@ -68,8 +68,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
   <div class="shell article__layout">
     <aside class="article__aside">
-      <p>Este artículo nace del proyecto</p>
-      <a href="/proyectos/milo-care/">Milo Care <span aria-hidden="true">→</span></a>
+      <div><p>Pilar</p><a href="/temas/producto-mvps/" class="js-track-pillar-hub">Productos, startups y MVPs <span aria-hidden="true">→</span></a></div>
+      <div><p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/milo-care/" class="js-track-origin-project">Milo Care <span aria-hidden="true">→</span></a></div>
     </aside>
     <div class="article__content">
       
@@ -116,21 +117,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Los módulos clínicos registran eventos y fechas. Un job programado identifica recordatorios aplicables, aplica reglas de envío y entrega el correo mediante Resend. El historial conserva el contexto para el cuidador.</p>
     </figure>
       <p class="article__takeaway">Principio de confiabilidad: una notificación es parte de la experiencia de producto. Debe derivarse de un estado de dominio correcto, operar con reglas explícitas y poder explicarse cuando el usuario pregunta por qué la recibió.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás trabajando en un desafío parecido? Me interesa conocer el contexto y comparar experiencias.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Recordatorios%20confiables%3A%20dise%C3%B1ar%20notificaciones%20como%20una%20responsabilidad%20de%20producto&amp;body=%C2%BFEst%C3%A1s%20trabajando%20en%20un%20desaf%C3%ADo%20parecido%3F%20Me%20interesa%20conocer%20el%20contexto%20y%20comparar%20experiencias.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Recordatorios%20confiables%3A%20dise%C3%B1ar%20notificaciones%20como%20una%20responsabilidad%20de%20producto%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fmilo-care-recordatorios-confiables%2F">Escribirme sobre este tema</a>
+    </aside>
     </div>
   </div>
   <section class="shell article__related" aria-labelledby="related-articles-title">
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/milo-care-onboarding-calendario-clinico/">
+      <li><a href="/blog/milo-care-onboarding-calendario-clinico/" class="js-track-related-article">
         <span>Producto y arquitectura</span>
         <strong>Onboarding clínico: cómo evitar que un producto de salud empiece vacío</strong>
         <small>La arquitectura de onboarding de Milo Care: reglas por país, calendario vacunal precargado y una primera sesión con valor operativo.</small>
-      </a></li><li><a href="/blog/llama-4-scout-open-weight-usa/">
+      </a></li><li><a href="/blog/llama-4-scout-open-weight-usa/" class="js-track-related-article">
         <span>LLM open-weight</span>
         <strong>Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</strong>
         <small>Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.</small>
-      </a></li><li><a href="/blog/qwen3-235b-open-weight-china/">
+      </a></li><li><a href="/blog/qwen3-235b-open-weight-china/" class="js-track-related-article">
         <span>LLM open-weight</span>
         <strong>Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</strong>
         <small>Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.</small>
@@ -144,6 +151,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="site-footer__name">Julián Cardozo · 2026</p>
     <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
     <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>

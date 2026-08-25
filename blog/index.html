@@ -52,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="site-nav" aria-label="Secciones del sitio">
       <ul>
-        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
       </ul>
     </nav>
   </div>
@@ -65,7 +65,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="section__eyebrow">Blog</p>
       <h1 class="blog-index__title">Tecnología que sale de construir producto</h1>
       <p class="section__lead">Notas sobre IA, arquitectura, infraestructura y emprendimiento a partir de decisiones tomadas en proyectos propios.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--ghost" href="/newsletter/">Ver la newsletter</a>
+        <a class="btn btn--ghost js-track-newsletter-interest" href="/newsletter/#suscribirme">Suscribirme</a>
+      </div>
     </header>
+    <section class="blog-pillars" id="pilares" aria-labelledby="blog-pillars-title">
+      <p class="section__eyebrow">Pilares</p>
+      <h2 id="blog-pillars-title">Tres puertas de entrada para entender el recorrido</h2>
+      <div class="pillar-strip">
+        <article class="pillar-card">
+          <p class="pillar-card__meta">Pilar</p>
+          <h3><a href="/temas/liderazgo-tecnico/" class="js-track-pillar-hub">Liderazgo técnico y equipos</a></h3>
+          <p>Cómo pienso liderazgo técnico, autonomía, delivery sostenible y la relación entre ingeniería, producto y negocio.</p>
+        </article><article class="pillar-card">
+          <p class="pillar-card__meta">Pilar</p>
+          <h3><a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Platform Engineering y arquitectura</a></h3>
+          <p>Arquitectura de software, multi-tenancy, pagos, cloud, experiencia de desarrollo y sistemas que deben explicarse y operarse.</p>
+        </article><article class="pillar-card">
+          <p class="pillar-card__meta">Pilar</p>
+          <h3><a href="/temas/producto-mvps/" class="js-track-pillar-hub">Productos, startups y MVPs</a></h3>
+          <p>De la observación del problema al MVP: onboarding, experiencia de uso, hipótesis, validación y diseño de soluciones sostenibles.</p>
+        </article>
+      </div>
+    </section>
     <div class="filters blog-filters" role="group" aria-label="Filtrar artículos por tema" data-blog-filters>
       <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">Todo</button>
       <button type="button" class="filters__btn" data-blog-filter="actualidad" aria-pressed="false">Actualidad</button><button type="button" class="filters__btn" data-blog-filter="arquitectura" aria-pressed="false">Arquitectura</button><button type="button" class="filters__btn" data-blog-filter="aws" aria-pressed="false">AWS</button><button type="button" class="filters__btn" data-blog-filter="china" aria-pressed="false">China</button><button type="button" class="filters__btn" data-blog-filter="cloud" aria-pressed="false">Cloud</button><button type="button" class="filters__btn" data-blog-filter="compliance" aria-pressed="false">Compliance</button><button type="button" class="filters__btn" data-blog-filter="confiabilidad" aria-pressed="false">Confiabilidad</button><button type="button" class="filters__btn" data-blog-filter="diseno" aria-pressed="false">Diseño</button><button type="button" class="filters__btn" data-blog-filter="especificaciones" aria-pressed="false">Especificaciones</button><button type="button" class="filters__btn" data-blog-filter="gobernanza" aria-pressed="false">Gobernanza</button><button type="button" class="filters__btn" data-blog-filter="ia" aria-pressed="false">IA</button><button type="button" class="filters__btn" data-blog-filter="infraestructura" aria-pressed="false">Infraestructura</button><button type="button" class="filters__btn" data-blog-filter="llm" aria-pressed="false">LLM</button><button type="button" class="filters__btn" data-blog-filter="multilingue" aria-pressed="false">Multilingüe</button><button type="button" class="filters__btn" data-blog-filter="multimodal" aria-pressed="false">Multimodal</button><button type="button" class="filters__btn" data-blog-filter="mvp" aria-pressed="false">MVP</button><button type="button" class="filters__btn" data-blog-filter="open-weight" aria-pressed="false">Open-weight</button><button type="button" class="filters__btn" data-blog-filter="operacion" aria-pressed="false">Operación</button><button type="button" class="filters__btn" data-blog-filter="pagos" aria-pressed="false">Pagos</button><button type="button" class="filters__btn" data-blog-filter="producto" aria-pressed="false">Producto</button><button type="button" class="filters__btn" data-blog-filter="saas" aria-pressed="false">SaaS</button><button type="button" class="filters__btn" data-blog-filter="salud" aria-pressed="false">Salud</button><button type="button" class="filters__btn" data-blog-filter="seguridad" aria-pressed="false">Seguridad</button><button type="button" class="filters__btn" data-blog-filter="startups" aria-pressed="false">Startups</button><button type="button" class="filters__btn" data-blog-filter="usa" aria-pressed="false">USA</button><button type="button" class="filters__btn" data-blog-filter="web" aria-pressed="false">Web</button>
@@ -74,105 +97,105 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
         <article class="article-card" data-blog-card data-tags="llm open-weight usa multimodal arquitectura" data-reveal>
           <p class="article-card__meta"><span>LLM open-weight</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/llama-4-scout-open-weight-usa/">Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</a></h2>
+          <h2 class="article-card__title"><a href="/blog/llama-4-scout-open-weight-usa/" class="js-track-article-card">Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</a></h2>
           <p class="article-card__description">Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>LLM</li><li>Open-weight</li><li>USA</li><li>Multimodal</li><li>Arquitectura</li></ul>
           <div class="article-card__footer"><span>7 min de lectura</span><a href="/blog/llama-4-scout-open-weight-usa/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="llm open-weight china multilingue arquitectura" data-reveal>
           <p class="article-card__meta"><span>LLM open-weight</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/qwen3-235b-open-weight-china/">Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</a></h2>
+          <h2 class="article-card__title"><a href="/blog/qwen3-235b-open-weight-china/" class="js-track-article-card">Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</a></h2>
           <p class="article-card__description">Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>LLM</li><li>Open-weight</li><li>China</li><li>Multilingüe</li><li>Arquitectura</li></ul>
           <div class="article-card__footer"><span>7 min de lectura</span><a href="/blog/qwen3-235b-open-weight-china/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="ia actualidad gobernanza" data-reveal>
           <p class="article-card__meta"><span>Noticias de IA</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/claude-watermarking-gobernanza-contenido-ia/">Claude incorporará watermarking de texto: qué cambia para la gobernanza de IA</a></h2>
+          <h2 class="article-card__title"><a href="/blog/claude-watermarking-gobernanza-contenido-ia/" class="js-track-article-card">Claude incorporará watermarking de texto: qué cambia para la gobernanza de IA</a></h2>
           <p class="article-card__description">Anthropic anunció que futuros modelos de Claude generarán texto con watermarking: implicancias para trazabilidad, compliance y controles de contenido generado por IA.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>IA</li><li>Actualidad</li><li>Gobernanza</li></ul>
           <div class="article-card__footer"><span>6 min de lectura</span><a href="/blog/claude-watermarking-gobernanza-contenido-ia/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="ia actualidad gobernanza" data-reveal>
           <p class="article-card__meta"><span>Noticias de IA</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/kiro-acp-interoperabilidad-agentes-ide/">Kiro adopta ACP: la interoperabilidad de agentes llega al IDE especializado</a></h2>
+          <h2 class="article-card__title"><a href="/blog/kiro-acp-interoperabilidad-agentes-ide/" class="js-track-article-card">Kiro adopta ACP: la interoperabilidad de agentes llega al IDE especializado</a></h2>
           <p class="article-card__description">Kiro CLI incorporó Agent Client Protocol para operar agentes en IDEs compatibles: impacto en herramientas especializadas, estandarización y control de ejecución.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>IA</li><li>Actualidad</li><li>Gobernanza</li></ul>
           <div class="article-card__footer"><span>6 min de lectura</span><a href="/blog/kiro-acp-interoperabilidad-agentes-ide/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="ia actualidad gobernanza" data-reveal>
           <p class="article-card__meta"><span>Noticias de IA</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/spec-kit-1-especificaciones-agentes-adopcion/">Spec Kit 1.0: la especificación se consolida como interfaz para agentes</a></h2>
+          <h2 class="article-card__title"><a href="/blog/spec-kit-1-especificaciones-agentes-adopcion/" class="js-track-article-card">Spec Kit 1.0: la especificación se consolida como interfaz para agentes</a></h2>
           <p class="article-card__description">GitHub publicó Spec Kit 1.0 y 1.0.1, con guías de adopción, quickstarts y extensiones: impacto en desarrollo spec-driven y automatización con agentes.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>IA</li><li>Actualidad</li><li>Gobernanza</li></ul>
           <div class="article-card__footer"><span>7 min de lectura</span><a href="/blog/spec-kit-1-especificaciones-agentes-adopcion/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="cloud aws arquitectura" data-reveal>
           <p class="article-card__meta"><span>Cloud y arquitectura</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</a></h2>
+          <h2 class="article-card__title"><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-article-card">Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</a></h2>
           <p class="article-card__description">Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Cloud</li><li>AWS</li><li>Arquitectura</li></ul>
           <div class="article-card__footer"><span>7 min de lectura</span><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="web diseno arquitectura" data-reveal>
           <p class="article-card__meta"><span>Experiencias web</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/web-corporativa-2026-impacto-rendimiento/">Web corporativa en 2026: diseñar impacto sin sacrificar rendimiento ni control</a></h2>
+          <h2 class="article-card__title"><a href="/blog/web-corporativa-2026-impacto-rendimiento/" class="js-track-article-card">Web corporativa en 2026: diseñar impacto sin sacrificar rendimiento ni control</a></h2>
           <p class="article-card__description">Arquitectura para experiencias corporativas de alto impacto: narrativa scroll-driven, WebGL progresivo, animación con propósito y una base mantenible.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Web</li><li>Diseño</li><li>Arquitectura</li></ul>
           <div class="article-card__footer"><span>7 min de lectura</span><a href="/blog/web-corporativa-2026-impacto-rendimiento/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="producto arquitectura salud" data-reveal>
           <p class="article-card__meta"><span>Producto y arquitectura</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/milo-care-onboarding-calendario-clinico/">Onboarding clínico: cómo evitar que un producto de salud empiece vacío</a></h2>
+          <h2 class="article-card__title"><a href="/blog/milo-care-onboarding-calendario-clinico/" class="js-track-article-card">Onboarding clínico: cómo evitar que un producto de salud empiece vacío</a></h2>
           <p class="article-card__description">La arquitectura de onboarding de Milo Care: reglas por país, calendario vacunal precargado y una primera sesión con valor operativo.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Producto</li><li>Arquitectura</li><li>Salud</li></ul>
           <div class="article-card__footer"><span>6 min de lectura</span><a href="/blog/milo-care-onboarding-calendario-clinico/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="operacion confiabilidad salud" data-reveal>
           <p class="article-card__meta"><span>Operación y confiabilidad</span><time datetime="2026-08-25">25 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/milo-care-recordatorios-confiables/">Recordatorios confiables: diseñar notificaciones como una responsabilidad de producto</a></h2>
+          <h2 class="article-card__title"><a href="/blog/milo-care-recordatorios-confiables/" class="js-track-article-card">Recordatorios confiables: diseñar notificaciones como una responsabilidad de producto</a></h2>
           <p class="article-card__description">Cómo Milo Care modela vencimientos y jobs programados para que las notificaciones ayuden a cuidar, sin degradar la confianza del usuario.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Operación</li><li>Confiabilidad</li><li>Salud</li></ul>
           <div class="article-card__footer"><span>5 min de lectura</span><a href="/blog/milo-care-recordatorios-confiables/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="pagos infraestructura arquitectura" data-reveal>
           <p class="article-card__meta"><span>Pagos e infraestructura</span><time datetime="2026-08-24">24 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/webhooks-pagos-maquinas-de-estado/">Arquitectura de pagos: por qué un cobro no es una llamada HTTP</a></h2>
+          <h2 class="article-card__title"><a href="/blog/webhooks-pagos-maquinas-de-estado/" class="js-track-article-card">Arquitectura de pagos: por qué un cobro no es una llamada HTTP</a></h2>
           <p class="article-card__description">Patrones de integración, idempotencia y trazabilidad para modelar pagos como procesos de negocio auditables.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Pagos</li><li>Infraestructura</li><li>Arquitectura</li></ul>
           <div class="article-card__footer"><span>6 min de lectura</span><a href="/blog/webhooks-pagos-maquinas-de-estado/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="arquitectura seguridad saas" data-reveal>
           <p class="article-card__meta"><span>Arquitectura y seguridad</span><time datetime="2026-08-21">21 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/multi-tenancy-rls-frontera-datos/">Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE</a></h2>
+          <h2 class="article-card__title"><a href="/blog/multi-tenancy-rls-frontera-datos/" class="js-track-article-card">Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE</a></h2>
           <p class="article-card__description">Cómo combinar identidad, RBAC y Row Level Security para proteger los datos de cada organización por diseño.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Arquitectura</li><li>Seguridad</li><li>SaaS</li></ul>
           <div class="article-card__footer"><span>5 min de lectura</span><a href="/blog/multi-tenancy-rls-frontera-datos/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="ia producto especificaciones" data-reveal>
           <p class="article-card__meta"><span>IA y producto</span><time datetime="2026-08-18">18 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/ia-especificacion-antes-codigo/">IA asistida: la especificación es el sistema de control de la ambigüedad</a></h2>
+          <h2 class="article-card__title"><a href="/blog/ia-especificacion-antes-codigo/" class="js-track-article-card">IA asistida: la especificación es el sistema de control de la ambigüedad</a></h2>
           <p class="article-card__description">Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>IA</li><li>Producto</li><li>Especificaciones</li></ul>
           <div class="article-card__footer"><span>6 min de lectura</span><a href="/blog/ia-especificacion-antes-codigo/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="ia compliance gobernanza" data-reveal>
           <p class="article-card__meta"><span>IA y compliance</span><time datetime="2026-08-15">15 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/agentes-ia-salidas-verificables/">IA para compliance: una respuesta sin evidencia es un riesgo operativo</a></h2>
+          <h2 class="article-card__title"><a href="/blog/agentes-ia-salidas-verificables/" class="js-track-article-card">IA para compliance: una respuesta sin evidencia es un riesgo operativo</a></h2>
           <p class="article-card__description">Diseño de agentes verificables para privacidad: evidencia rastreable, incertidumbre explícita y revisión humana.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>IA</li><li>Compliance</li><li>Gobernanza</li></ul>
           <div class="article-card__footer"><span>5 min de lectura</span><a href="/blog/agentes-ia-salidas-verificables/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="infraestructura producto mvp" data-reveal>
           <p class="article-card__meta"><span>Infraestructura y producto</span><time datetime="2026-08-12">12 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/infraestructura-proporcionada-problema/">Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza</a></h2>
+          <h2 class="article-card__title"><a href="/blog/infraestructura-proporcionada-problema/" class="js-track-article-card">Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza</a></h2>
           <p class="article-card__description">Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Infraestructura</li><li>Producto</li><li>MVP</li></ul>
           <div class="article-card__footer"><span>4 min de lectura</span><a href="/blog/infraestructura-proporcionada-problema/">Leer artículo <span aria-hidden="true">→</span></a></div>
         </article>
         <article class="article-card" data-blog-card data-tags="startups producto mvp" data-reveal>
           <p class="article-card__meta"><span>Startups y emprendimiento</span><time datetime="2026-08-09">9 de agosto de 2026</time></p>
-          <h2 class="article-card__title"><a href="/blog/emprender-desde-problemas-observados/">Del problema observado al MVP: diseñar producto desde el trabajo real del usuario</a></h2>
+          <h2 class="article-card__title"><a href="/blog/emprender-desde-problemas-observados/" class="js-track-article-card">Del problema observado al MVP: diseñar producto desde el trabajo real del usuario</a></h2>
           <p class="article-card__description">EscalaImprov muestra cómo una fricción concreta puede convertirse en hipótesis, flujos diferenciados y capacidades reutilizables.</p>
           <ul class="article-card__tags" aria-label="Temas"><li>Startups</li><li>Producto</li><li>MVP</li></ul>
           <div class="article-card__footer"><span>5 min de lectura</span><a href="/blog/emprender-desde-problemas-observados/">Leer artículo <span aria-hidden="true">→</span></a></div>
@@ -180,6 +203,62 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <p class="blog-empty" data-blog-empty hidden>No hay artículos con esta combinación de tags.</p>
     <div class="blog-more"><button type="button" class="btn btn--ghost" data-blog-load-more>Cargar más artículos</button></div>
+    <div class="blog-newsletter">
+      
+  <section class="newsletter-signup newsletter-signup--compact" aria-labelledby="newsletter-signup-title-blog-index">
+    <div class="newsletter-signup__copy">
+      <p class="newsletter-panel__label">Suscripción</p>
+      <h2 id="newsletter-signup-title-blog-index">¿Querés recibir la primera edición?</h2>
+      <p>Si el blog te resulta útil, la newsletter sirve para profundizar ideas y abrir conversaciones con menos ruido que una red social.</p>
+    </div>
+    <form
+      class="newsletter-form"
+      data-newsletter-form
+      action="https://email-worker.julian-cardozo-viggiano.workers.dev/subscribe"
+      method="post"
+      novalidate
+    >
+      <input type="hidden" name="source" value="blog-index" />
+      <input type="hidden" name="page_path" value="/blog/" />
+      <input type="hidden" name="form_kind" value="compact" />
+
+      
+
+      <div class="newsletter-form__field">
+        <label for="newsletter-email-blog-index">Email</label>
+        <input id="newsletter-email-blog-index" name="email" type="email" inputmode="email" autocomplete="email" required />
+      </div>
+
+      <div class="newsletter-form__field">
+        <label for="newsletter-interest-blog-index">Interés principal</label>
+        <select id="newsletter-interest-blog-index" name="interest" required>
+          <option value="">Elegí una opción</option>
+          <option value="liderazgo">Liderazgo técnico</option>
+          <option value="arquitectura">Arquitectura y plataforma</option>
+          <option value="ia">IA aplicada</option>
+          <option value="producto">Producto y MVPs</option>
+          <option value="pagos">Fintech y pagos</option>
+        </select>
+      </div>
+
+      <div class="newsletter-form__field newsletter-form__field--hidden" aria-hidden="true">
+        <label for="newsletter-company-blog-index">Empresa</label>
+        <input id="newsletter-company-blog-index" name="company" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <label class="newsletter-form__consent">
+        <input type="checkbox" name="consent" value="yes" required />
+        <span>Acepto recibir la newsletter y actualizaciones relacionadas. Leé la <a href="/privacidad/">política de privacidad</a>.</span>
+      </label>
+
+      <div class="newsletter-form__actions">
+        <button type="submit" class="btn btn--primary">Suscribirme</button>
+        <p class="newsletter-form__meta">Sin spam. Podés pedir la baja en cualquier momento.</p>
+      </div>
+      <p class="newsletter-form__status" data-newsletter-status aria-live="polite"></p>
+    </form>
+  </section>
+    </div>
   </div>
 </section>
 </main>
@@ -188,6 +267,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="site-footer__name">Julián Cardozo · 2026</p>
     <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
     <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>

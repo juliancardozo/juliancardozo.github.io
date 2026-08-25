@@ -52,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="site-nav" aria-label="Secciones del sitio">
       <ul>
-        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
       </ul>
     </nav>
   </div>
@@ -68,9 +68,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
   <div class="shell article__layout">
     <aside class="article__aside">
-      <p>Contexto</p>
+      <div><p>Pilar</p><a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Platform Engineering y arquitectura <span aria-hidden="true">→</span></a></div>
+      <div><p>Contexto</p>
       <span>Análisis de modelos open-weight</span>
-      <a href="https://huggingface.co/Qwen/Qwen3-235B-A22B-Instruct-2507" target="_blank" rel="noopener noreferrer">Fuente oficial: Qwen en Hugging Face <span aria-hidden="true">↗</span></a>
+      <a href="https://huggingface.co/Qwen/Qwen3-235B-A22B-Instruct-2507" target="_blank" rel="noopener noreferrer">Fuente oficial: Qwen en Hugging Face <span aria-hidden="true">↗</span></a></div>
     </aside>
     <div class="article__content">
       
@@ -117,21 +118,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">El texto multilingüe recorre 94 bloques transformer con Grouped Query Attention. El router MoE selecciona ocho de 128 expertos por token para producir una respuesta de instrucción directa.</p>
     </figure>
       <p class="article__takeaway">Criterio de adopción: Qwen3-235B-A22B combina capacidad MoE, alcance multilingüe y Apache 2.0; su valor práctico depende de medir calidad local y diseñar la infraestructura, recuperación y gobierno necesarios para operarlo a escala.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás diseñando una arquitectura parecida? Podemos contrastar decisiones y trade-offs.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Qwen3-235B-A22B%3A%20el%20caso%20de%20China%20para%20inferencia%20open-weight%20a%20gran%20escala&amp;body=%C2%BFEst%C3%A1s%20dise%C3%B1ando%20una%20arquitectura%20parecida%3F%20Podemos%20contrastar%20decisiones%20y%20trade-offs.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Qwen3-235B-A22B%3A%20el%20caso%20de%20China%20para%20inferencia%20open-weight%20a%20gran%20escala%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fqwen3-235b-open-weight-china%2F">Escribirme sobre este tema</a>
+    </aside>
     </div>
   </div>
   <section class="shell article__related" aria-labelledby="related-articles-title">
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/llama-4-scout-open-weight-usa/">
+      <li><a href="/blog/llama-4-scout-open-weight-usa/" class="js-track-related-article">
         <span>LLM open-weight</span>
         <strong>Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</strong>
         <small>Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.</small>
-      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">
+      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-related-article">
         <span>Cloud y arquitectura</span>
         <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
         <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
-      </a></li><li><a href="/blog/web-corporativa-2026-impacto-rendimiento/">
+      </a></li><li><a href="/blog/web-corporativa-2026-impacto-rendimiento/" class="js-track-related-article">
         <span>Experiencias web</span>
         <strong>Web corporativa en 2026: diseñar impacto sin sacrificar rendimiento ni control</strong>
         <small>Arquitectura para experiencias corporativas de alto impacto: narrativa scroll-driven, WebGL progresivo, animación con propósito y una base mantenible.</small>
@@ -145,6 +152,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="site-footer__name">Julián Cardozo · 2026</p>
     <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
     <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>

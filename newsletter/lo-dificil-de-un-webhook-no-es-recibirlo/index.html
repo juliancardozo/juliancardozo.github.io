@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Lo difícil de un webhook no es recibirlo | Notas desde el frente: liderazgo en tech LATAM</title>
+<meta name="description" content="Una nota sobre webhooks, pagos y consistencia operativa: por qué el problema real no es recibir eventos sino gobernar estados, idempotencia y auditoría." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Lo difícil de un webhook no es recibirlo | Notas desde el frente: liderazgo en tech LATAM" />
+<meta property="og:description" content="Una nota sobre webhooks, pagos y consistencia operativa: por qué el problema real no es recibir eventos sino gobernar estados, idempotencia y auditoría." />
+<meta property="og:url" content="https://juliancardozo.github.io/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Lo difícil de un webhook no es recibirlo | Notas desde el frente: liderazgo en tech LATAM" />
+<meta name="twitter:description" content="Una nota sobre webhooks, pagos y consistencia operativa: por qué el problema real no es recibir eventos sino gobernar estados, idempotencia y auditoría." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Lo difícil de un webhook no es recibirlo","description":"El webhook no es una notificación simpática: es un borde operativo donde se decide si un sistema de pagos conserva consistencia o empieza a perder confianza.","datePublished":"2026-08-11","dateModified":"2026-08-11","inLanguage":"es","url":"https://juliancardozo.github.io/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Notas desde el frente: liderazgo en tech LATAM","url":"https://juliancardozo.github.io/newsletter/"}}</script>
+</head>
+<body class="page-newsletter-issue">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="newsletter-issue">
+  <header class="shell newsletter-issue__head">
+    <a class="case__back" href="/newsletter/"><span aria-hidden="true">←</span> Volver a la newsletter</a>
+    <p class="newsletter-issue__meta"><span>Edición 001</span><time datetime="2026-08-11">11 de agosto de 2026</time><span>Caso técnico</span></p>
+    <h1 class="newsletter-issue__title">Lo difícil de un webhook no es recibirlo</h1>
+    <p class="newsletter-issue__lead">Una integración de pagos se rompe menos por fallar al recibir eventos que por no saber qué hacer con eventos repetidos, desordenados o ambiguos.</p>
+  </header>
+
+  <div class="shell newsletter-issue__layout">
+    <aside class="newsletter-issue__aside">
+      <div>
+        <p>Audiencia principal</p>
+        <span>CTOs, Tech Leads y equipos fintech</span>
+      </div>
+      <div>
+        <p>Objetivo</p>
+        <span>Autoridad y conversación</span>
+      </div>
+      <div><p>Proyecto relacionado</p><a href="/proyectos/micuota/">MiCuota.online <span aria-hidden="true">→</span></a></div>
+      <div><p>Artículo relacionado</p><a href="/blog/webhooks-pagos-maquinas-de-estado/">Webhooks de pago y máquinas de estado auditables <span aria-hidden="true">→</span></a></div>
+    </aside>
+
+    <div class="newsletter-issue__content">
+      <p>Hay una escena que se repite en muchos equipos: el webhook llega, devuelve 200 y alguien respira tranquilo como si lo difícil ya hubiera pasado.</p><p>En pagos, ese momento recién marca el comienzo. El evento puede venir repetido, fuera de orden o con información parcial. Si el sistema no sabe leerlo dentro de una máquina de estados explícita, el costo no aparece como error técnico elegante: aparece como un cobro dudoso, una notificación incorrecta o una reconciliación manual al final del día.</p>
+      <section>
+        <h2>Dónde se rompe de verdad</h2>
+        <p>El problema no es recibir JSON. El problema es traducir una señal externa a una transición válida dentro de tu modelo. Si el proveedor dice &quot;pagado&quot; y vos no distinguís entre autorizado, capturado, conciliado o reversado, la integración se vuelve optimista donde debería ser estricta.</p><p>En MiCuota.online esto importa porque el usuario no está mirando la belleza del código. Está esperando saber si su cuota quedó registrada, si la cobranza fue exitosa y si puede confiar en que el sistema no le va a duplicar una acción por un reintento tardío.</p>
+      </section><section>
+        <h2>La decisión que reduce daño</h2>
+        <p>La decisión útil es tratar el webhook como entrada a una máquina de estados auditable. Cada evento se registra, se valida contra el estado actual y solo entonces produce efectos: marcar un pago, emitir una notificación o actualizar una vista para el usuario.</p><p>Eso obliga a modelar idempotencia, correlación y trazabilidad. También obliga a aceptar que algunos eventos deben quedar en cuarentena hasta que el contexto sea suficiente. No todo se resuelve &quot;en línea&quot; ni todo error debe esconderse detrás de un retry ciego.</p>
+      </section><section>
+        <h2>Qué se puede aplicar mañana</h2>
+        <p>Si hoy tu integración mezcla recepción de eventos, reglas de negocio y notificaciones en el mismo bloque, probablemente estás pagando deuda operativa disfrazada de velocidad.</p><p>Separar ingestión, validación y efectos no vuelve al sistema más lento: vuelve más claro quién decidió qué, con qué evidencia y sobre qué estado.</p>
+      </section>
+
+      <section class="newsletter-issue__tool">
+        <p class="newsletter-panel__label">Herramienta práctica</p>
+        <h2>Checklist mínimo para revisar un webhook de pagos</h2>
+        <ul class="prose-list"><li>¿Existe una máquina de estados explícita para el dominio del pago?</li><li>¿Cada evento tiene clave de idempotencia o una forma robusta de deduplicación?</li><li>¿Las transiciones inválidas se registran y quedan visibles para revisar?</li><li>¿Las notificaciones salen después de confirmar el estado, no antes?</li><li>¿Hay trazabilidad suficiente para volver del evento a la operación afectada?</li></ul>
+      </section>
+
+      <section class="newsletter-issue__cta">
+        <p class="newsletter-panel__label">Conexión con el ecosistema</p>
+        <p>El webhook no es una notificación simpática: es un borde operativo donde se decide si un sistema de pagos conserva consistencia o empieza a perder confianza.</p>
+        <div class="newsletter-card__links">
+          <a href="/blog/webhooks-pagos-maquinas-de-estado/">Ir al artículo técnico completo</a>
+          <a href="/proyectos/micuota/">Ver el caso de MiCuota.online</a>
+        </div>
+        <a class="btn btn--primary js-track-newsletter-interest" href="/newsletter/#suscribirme">Responder este tema</a>
+      </section>
+
+      <p class="article__takeaway">¿Cuál es la transición de estado más delicada de tu sistema y por qué hoy sigue dependiendo más de suerte que de diseño?</p>
+      <p>Julián
+Engineering Manager, product builder y fundador de Pambú Tech
+juliancardozo.github.io · LinkedIn</p>
+      <p><strong>PD:</strong> Si estás diseñando suscripciones, cobros o conciliación para Latinoamérica, contame dónde aparece la parte más frágil de la operación.</p>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

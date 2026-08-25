@@ -52,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="site-nav" aria-label="Secciones del sitio">
       <ul>
-        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
       </ul>
     </nav>
   </div>
@@ -68,8 +68,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
   <div class="shell article__layout">
     <aside class="article__aside">
-      <p>Este artículo nace del proyecto</p>
-      <a href="/proyectos/micuota/">MiCuota <span aria-hidden="true">→</span></a>
+      <div><p>Pilar</p><a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Platform Engineering y arquitectura <span aria-hidden="true">→</span></a></div>
+      <div><p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/micuota/" class="js-track-origin-project">MiCuota <span aria-hidden="true">→</span></a></div>
     </aside>
     <div class="article__content">
       
@@ -116,21 +117,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">El prestador inicia un cobro en MiCuota. La plataforma registra la operación y delega la ejecución a un proveedor. Los webhooks actualizan el ledger mediante transiciones validadas e idempotentes.</p>
     </figure>
       <p class="article__takeaway">Principio operativo: un pago confiable exige transiciones válidas, procesamiento idempotente y una trazabilidad que permita explicar cada estado sin depender de logs dispersos.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Trabajás en fintech, pagos o suscripciones? Me interesa comparar decisiones de producto y arquitectura.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Arquitectura%20de%20pagos%3A%20por%20qu%C3%A9%20un%20cobro%20no%20es%20una%20llamada%20HTTP&amp;body=%C2%BFTrabaj%C3%A1s%20en%20fintech%2C%20pagos%20o%20suscripciones%3F%20Me%20interesa%20comparar%20decisiones%20de%20producto%20y%20arquitectura.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Arquitectura%20de%20pagos%3A%20por%20qu%C3%A9%20un%20cobro%20no%20es%20una%20llamada%20HTTP%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fwebhooks-pagos-maquinas-de-estado%2F">Escribirme sobre este tema</a>
+    </aside>
     </div>
   </div>
   <section class="shell article__related" aria-labelledby="related-articles-title">
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/llama-4-scout-open-weight-usa/">
+      <li><a href="/blog/llama-4-scout-open-weight-usa/" class="js-track-related-article">
         <span>LLM open-weight</span>
         <strong>Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</strong>
         <small>Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.</small>
-      </a></li><li><a href="/blog/qwen3-235b-open-weight-china/">
+      </a></li><li><a href="/blog/qwen3-235b-open-weight-china/" class="js-track-related-article">
         <span>LLM open-weight</span>
         <strong>Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</strong>
         <small>Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.</small>
-      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/">
+      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-related-article">
         <span>Cloud y arquitectura</span>
         <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
         <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
@@ -144,6 +151,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="site-footer__name">Julián Cardozo · 2026</p>
     <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
     <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>

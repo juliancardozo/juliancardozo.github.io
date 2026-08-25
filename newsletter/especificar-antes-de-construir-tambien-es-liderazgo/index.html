@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Especificar antes de construir también es liderazgo | Notas desde el frente: liderazgo en tech LATAM</title>
+<meta name="description" content="Una edición sobre liderazgo técnico, especificación e IA aplicada: por qué escribir mejor antes de construir reduce retrabajo y mejora decisiones de producto e ingeniería." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Especificar antes de construir también es liderazgo | Notas desde el frente: liderazgo en tech LATAM" />
+<meta property="og:description" content="Una edición sobre liderazgo técnico, especificación e IA aplicada: por qué escribir mejor antes de construir reduce retrabajo y mejora decisiones de producto e ingeniería." />
+<meta property="og:url" content="https://juliancardozo.github.io/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Especificar antes de construir también es liderazgo | Notas desde el frente: liderazgo en tech LATAM" />
+<meta name="twitter:description" content="Una edición sobre liderazgo técnico, especificación e IA aplicada: por qué escribir mejor antes de construir reduce retrabajo y mejora decisiones de producto e ingeniería." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Especificar antes de construir también es liderazgo","description":"Cuando una idea todavía está borrosa, acelerar directo hacia el código suele parecer progreso. Muchas veces es solo una forma cara de posponer la conversación que faltaba.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"es","url":"https://juliancardozo.github.io/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Notas desde el frente: liderazgo en tech LATAM","url":"https://juliancardozo.github.io/newsletter/"}}</script>
+</head>
+<body class="page-newsletter-issue">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="newsletter-issue">
+  <header class="shell newsletter-issue__head">
+    <a class="case__back" href="/newsletter/"><span aria-hidden="true">←</span> Volver a la newsletter</a>
+    <p class="newsletter-issue__meta"><span>Edición 002</span><time datetime="2026-08-25">25 de agosto de 2026</time><span>Nota desde el frente</span></p>
+    <h1 class="newsletter-issue__title">Especificar antes de construir también es liderazgo</h1>
+    <p class="newsletter-issue__lead">Especificar bien no enlentece a un equipo: evita que la velocidad inicial se pague después en interpretaciones incompatibles, retrabajo y decisiones técnicas sin contexto.</p>
+  </header>
+
+  <div class="shell newsletter-issue__layout">
+    <aside class="newsletter-issue__aside">
+      <div>
+        <p>Audiencia principal</p>
+        <span>Engineering Managers, Tech Leads y Product Leaders</span>
+      </div>
+      <div>
+        <p>Objetivo</p>
+        <span>Autoridad y conversación</span>
+      </div>
+      <div><p>Proyecto relacionado</p><a href="/proyectos/webspec-ai/">WebspecAI <span aria-hidden="true">→</span></a></div>
+      <div><p>Artículo relacionado</p><a href="/blog/ia-especificacion-antes-codigo/">La IA aporta más valor en la especificación que en el código <span aria-hidden="true">→</span></a></div>
+    </aside>
+
+    <div class="newsletter-issue__content">
+      <p>Una de las frases más caras en un equipo de producto e ingeniería es: &quot;ya entendimos, arranquemos&quot;.</p><p>No porque siempre esté equivocada, sino porque muchas veces aparece justo antes de que cada persona complete los huecos con su propio modelo mental. Producto imagina una experiencia, diseño otra, backend una tercera y la conversación real recién aparece cuando el código ya existe y cambiarlo cuesta prestigio, tiempo y foco.</p>
+      <section>
+        <h2>Por qué esto también es liderazgo</h2>
+        <p>Especificar no es un trámite documental. Es una intervención de liderazgo: ordenar contexto, exponer supuestos, dejar visibles los trade-offs y darle al equipo una base compartida para decidir.</p><p>Cuando esa base no existe, el problema no es solo técnico. También se vuelve político. Nadie quiere frenar una iniciativa que &quot;ya empezó&quot;, aunque todos sospechen que se está construyendo sobre interpretaciones diferentes.</p>
+      </section><section>
+        <h2>Dónde la IA sí suma</h2>
+        <p>La IA me resulta más útil antes del código que durante el código cuando la idea todavía es inestable. Sirve para estructurar PRDs, RFCs, user stories y preguntas incómodas que un equipo ocupado suele patear para después.</p><p>Eso no reemplaza criterio. Al contrario: obliga a revisar mejor qué está diciendo cada documento, qué quedó asumido y qué todavía no merece automatizarse. WebspecAI nace exactamente de esa necesidad: comprimir el tiempo entre una hipótesis difusa y una especificación que permita trabajar con menos ruido.</p>
+      </section><section>
+        <h2>Qué cambia en la práctica</h2>
+        <p>Un equipo no necesita especificaciones eternas. Necesita claridad suficiente para entender el problema, el alcance, las restricciones y la señal que diría &quot;esto funcionó&quot;.</p><p>Cuando esa claridad aparece temprano, el código gana velocidad real: menos discusiones reactivas, menos retrabajo lateral y menos decisiones de arquitectura tomadas para sostener ambigüedades de producto.</p>
+      </section>
+
+      <section class="newsletter-issue__tool">
+        <p class="newsletter-panel__label">Herramienta práctica</p>
+        <h2>Cinco preguntas antes de escribir la primera línea</h2>
+        <ul class="prose-list"><li>¿Qué problema concreto estamos resolviendo y para quién?</li><li>¿Qué partes de la experiencia todavía son hipótesis y cuáles ya son restricciones?</li><li>¿Qué decisión técnica quedaría condicionada por una definición de producto todavía ambigua?</li><li>¿Cómo sabremos que esto funcionó sin discutirlo después del lanzamiento?</li><li>¿Qué pregunta incómoda conviene responder hoy para no pagarla dentro del sprint?</li></ul>
+      </section>
+
+      <section class="newsletter-issue__cta">
+        <p class="newsletter-panel__label">Conexión con el ecosistema</p>
+        <p>Cuando una idea todavía está borrosa, acelerar directo hacia el código suele parecer progreso. Muchas veces es solo una forma cara de posponer la conversación que faltaba.</p>
+        <div class="newsletter-card__links">
+          <a href="/blog/ia-especificacion-antes-codigo/">Leer el artículo de fondo sobre especificación e IA</a>
+          <a href="/proyectos/webspec-ai/">Ver cómo nace WebspecAI</a>
+        </div>
+        <a class="btn btn--primary js-track-newsletter-interest" href="/newsletter/#suscribirme">Responder esta edición</a>
+      </section>
+
+      <p class="article__takeaway">¿Qué conversación de producto o arquitectura está evitando hoy tu equipo y cuánto retrabajo podría ahorrar si la hicieran esta semana?</p>
+      <p>Julián
+Engineering Manager, product builder y fundador de Pambú Tech
+juliancardozo.github.io · LinkedIn</p>
+      <p><strong>PD:</strong> Si estás ordenando una iniciativa nueva, puedo compartirte el esquema mínimo que uso para bajar una idea borrosa a una especificación trabajable.</p>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

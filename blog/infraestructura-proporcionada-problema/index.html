@@ -52,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="site-nav" aria-label="Secciones del sitio">
       <ul>
-        <li><a href="/blog/">Blog</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
       </ul>
     </nav>
   </div>
@@ -68,8 +68,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </header>
   <div class="shell article__layout">
     <aside class="article__aside">
-      <p>Este artículo nace del proyecto</p>
-      <a href="/proyectos/casa-medanos/">Casa Médanos <span aria-hidden="true">→</span></a>
+      <div><p>Pilar</p><a href="/temas/producto-mvps/" class="js-track-pillar-hub">Productos, startups y MVPs <span aria-hidden="true">→</span></a></div>
+      <div><p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/casa-medanos/" class="js-track-origin-project">Casa Médanos <span aria-hidden="true">→</span></a></div>
     </aside>
     <div class="article__content">
       
@@ -116,21 +117,27 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Los visitantes consumen un catálogo publicado en GitHub Pages. Un panel actualiza disponibilidad y un workflow de n8n asiste las consultas repetitivas sin introducir un backend transaccional.</p>
     </figure>
       <p class="article__takeaway">Principio de arquitectura: la solución debe responder a la vida útil, el riesgo y el volumen del problema actual. Toda capacidad extra también agrega costo operativo.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás validando un producto? Me interesa conversar sobre la hipótesis y el camino técnico.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Arquitectura%20proporcional%3A%20no%20construyas%20un%20e-commerce%20para%20resolver%20una%20mudanza&amp;body=%C2%BFEst%C3%A1s%20validando%20un%20producto%3F%20Me%20interesa%20conversar%20sobre%20la%20hip%C3%B3tesis%20y%20el%20camino%20t%C3%A9cnico.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Arquitectura%20proporcional%3A%20no%20construyas%20un%20e-commerce%20para%20resolver%20una%20mudanza%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Finfraestructura-proporcionada-problema%2F">Escribirme sobre este tema</a>
+    </aside>
     </div>
   </div>
   <section class="shell article__related" aria-labelledby="related-articles-title">
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/emprender-desde-problemas-observados/">
+      <li><a href="/blog/emprender-desde-problemas-observados/" class="js-track-related-article">
         <span>Startups y emprendimiento</span>
         <strong>Del problema observado al MVP: diseñar producto desde el trabajo real del usuario</strong>
         <small>EscalaImprov muestra cómo una fricción concreta puede convertirse en hipótesis, flujos diferenciados y capacidades reutilizables.</small>
-      </a></li><li><a href="/blog/milo-care-onboarding-calendario-clinico/">
+      </a></li><li><a href="/blog/milo-care-onboarding-calendario-clinico/" class="js-track-related-article">
         <span>Producto y arquitectura</span>
         <strong>Onboarding clínico: cómo evitar que un producto de salud empiece vacío</strong>
         <small>La arquitectura de onboarding de Milo Care: reglas por país, calendario vacunal precargado y una primera sesión con valor operativo.</small>
-      </a></li><li><a href="/blog/webhooks-pagos-maquinas-de-estado/">
+      </a></li><li><a href="/blog/webhooks-pagos-maquinas-de-estado/" class="js-track-related-article">
         <span>Pagos e infraestructura</span>
         <strong>Arquitectura de pagos: por qué un cobro no es una llamada HTTP</strong>
         <small>Patrones de integración, idempotencia y trazabilidad para modelar pagos como procesos de negocio auditables.</small>
@@ -144,6 +151,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="site-footer__name">Julián Cardozo · 2026</p>
     <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
     <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>

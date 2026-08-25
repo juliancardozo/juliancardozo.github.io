@@ -1,0 +1,6 @@
+name = "newsletter-api"
+main = "index.mjs"
+compatibility_date = "2026-08-25"
+
+[vars]
+ALLOWED_ORIGINS = "https://juliancardozo.github.io,http://localhost:4321,http://127.0.0.1:4321"

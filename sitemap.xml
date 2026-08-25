@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://juliancardozo.github.io/</loc><priority>1.0</priority></url>
   <url><loc>https://juliancardozo.github.io/blog/</loc><priority>0.8</priority></url>
+  <url><loc>https://juliancardozo.github.io/privacidad/</loc><priority>0.4</priority></url>
+  <url><loc>https://juliancardozo.github.io/newsletter/</loc><priority>0.78</priority></url>
+  <url><loc>https://juliancardozo.github.io/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/</loc><priority>0.68</priority></url>
+  <url><loc>https://juliancardozo.github.io/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/</loc><priority>0.68</priority></url>
+  <url><loc>https://juliancardozo.github.io/temas/liderazgo-tecnico/</loc><priority>0.75</priority></url>
+  <url><loc>https://juliancardozo.github.io/temas/plataforma-arquitectura/</loc><priority>0.75</priority></url>
+  <url><loc>https://juliancardozo.github.io/temas/producto-mvps/</loc><priority>0.75</priority></url>
   <url><loc>https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/</loc><priority>0.7</priority></url>
   <url><loc>https://juliancardozo.github.io/blog/qwen3-235b-open-weight-china/</loc><priority>0.7</priority></url>
   <url><loc>https://juliancardozo.github.io/blog/claude-watermarking-gobernanza-contenido-ia/</loc><priority>0.7</priority></url>

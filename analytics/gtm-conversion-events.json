@@ -18,7 +18,7 @@
           {
             "type": "TEMPLATE",
             "key": "value",
-            "value": "G-T2NXQCQM1P"
+            "value": "G-2X95HY29R8"
           }
         ]
       }
@@ -228,6 +228,279 @@
             ]
           }
         ]
+      },
+      {
+        "triggerId": "6",
+        "name": "Click — Conversation CTA",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-conversation"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-conversation"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "7",
+        "name": "Click — Related article",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-related-article"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-related-article"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "8",
+        "name": "Click — Article to project",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-origin-project"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-origin-project"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "9",
+        "name": "Click — Project to article",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-project-insight"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-project-insight"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "10",
+        "name": "Click — Pillar hub",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-pillar-hub"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-pillar-hub"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "11",
+        "name": "Click — Newsletter interest",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-newsletter-interest"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-newsletter-interest"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "triggerId": "12",
+        "name": "Click — Newsletter issue",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-newsletter-issue"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click Classes}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "js-track-newsletter-issue"
+              }
+            ]
+          }
+        ]
       }
     ],
     "tag": [
@@ -345,11 +618,154 @@
         "firingTriggerId": [
           "5"
         ]
+      },
+      {
+        "tagId": "7",
+        "name": "GA4 event — conversation_cta_click",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "conversation_cta_click"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "6"
+        ]
+      },
+      {
+        "tagId": "8",
+        "name": "GA4 event — related_article_click",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "related_article_click"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "7"
+        ]
+      },
+      {
+        "tagId": "9",
+        "name": "GA4 event — article_to_project_click",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "article_to_project_click"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "8"
+        ]
+      },
+      {
+        "tagId": "10",
+        "name": "GA4 event — project_to_article_click",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "project_to_article_click"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "9"
+        ]
+      },
+      {
+        "tagId": "11",
+        "name": "GA4 event — pillar_hub_click",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "pillar_hub_click"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "10"
+        ]
+      },
+      {
+        "tagId": "12",
+        "name": "GA4 event — newsletter_interest_click",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "newsletter_interest_click"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "11"
+        ]
+      },
+      {
+        "tagId": "13",
+        "name": "GA4 event — newsletter_issue_click",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "newsletter_issue_click"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "12"
+        ]
       }
     ],
     "builtInVariable": [
       {
         "type": "CLICK_URL"
+      },
+      {
+        "type": "CLICK_CLASSES"
       }
     ]
   }
