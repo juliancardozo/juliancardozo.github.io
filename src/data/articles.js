@@ -4,6 +4,55 @@
  */
 const articleEntries = [
   {
+    slug: 'gpt-6-astra-openai-superinteligencia-especulaciones',
+    title: 'OpenAI lanza GPT-6 Astra: capacidad de frontera, presión competitiva y debate sobre superinteligencia',
+    description: 'Análisis técnico y estratégico del lanzamiento de GPT-6 Astra: capacidades declaradas, arquitectura de producto y qué sí (y qué no) significa hablar de superinteligencia.',
+    category: 'Noticias de IA',
+    tags: ['IA', 'Actualidad', 'Modelos fundacionales', 'Estrategia'],
+    date: '2026-09-04',
+    readingTime: '8 min de lectura',
+    projectSlug: '',
+    contextLabel: 'Análisis de actualidad en IA',
+    sourceUrl: 'https://openai.com/news/',
+    sourceLabel: 'Fuentes oficiales: OpenAI Newsroom',
+    lead: 'El anuncio de GPT-6 Astra volvió a mover la frontera de expectativas en IA: más capacidad de razonamiento, mayor integración multimodal y señales de una estrategia clara para cerrar el ciclo entre modelo, producto y operación empresarial. La discusión importante para equipos técnicos y de negocio no es si “ya llegó” la superinteligencia, sino qué evidencia existe, qué riesgos crecen y qué decisiones conviene tomar ahora.',
+    architecture: {
+      caption: 'Patrón de adopción de un modelo de frontera en producto real',
+      description: 'Un modelo fundacional de alta capacidad no crea valor por sí solo: necesita orquestación, evaluación, controles y una capa de producto que transforme respuestas en resultados de negocio.',
+      layers: [
+        { label: 'Entrada', items: ['Prompts y contexto de negocio', 'Datos internos y externos'] },
+        { label: 'Modelo de frontera', items: ['GPT-6 Astra', 'Razonamiento y multimodalidad'] },
+        { label: 'Orquestación', items: ['Herramientas, RAG y políticas', 'Control de costos y latencia'] },
+        { label: 'Gobernanza', items: ['Evaluación, seguridad y auditoría', 'Revisión humana en decisiones críticas'] },
+        { label: 'Resultado', items: ['Automatización útil', 'Decisiones más rápidas y trazables'] },
+      ],
+    },
+    sections: [
+      {
+        title: 'Qué cambia de verdad con GPT-6 Astra',
+        paragraphs: [
+          'Cada salto de modelo trae dos lecturas: la tecnológica y la operativa. En la primera, GPT-6 Astra eleva el estándar de lo que se espera en razonamiento, manejo de contexto y tareas multimodales. En la segunda, obliga a repensar dónde conviene automatizar, qué tareas requieren validación humana y cómo se mide valor más allá de benchmarks públicos.',
+          'Para líderes técnicos, la ventaja no está en “usar el modelo más nuevo” por inercia. Está en identificar fricciones concretas: tiempos de especificación, cuellos de documentación, análisis repetitivos o flujos de soporte interno donde una mejora incremental ya paga el costo de adopción.',
+        ],
+      },
+      {
+        title: 'Superinteligencia: señal de marketing, hipótesis científica o riesgo de interpretación',
+        paragraphs: [
+          'Las especulaciones sobre superinteligencia aparecen cada vez que un actor líder anuncia un modelo de frontera. El problema es semántico y práctico: no existe un umbral operativo universalmente aceptado que permita afirmar que un sistema ya alcanzó “superinteligencia” en sentido fuerte.',
+          'En términos de negocio, esa etiqueta aporta poco a la toma de decisiones. Lo que sí importa es evidencia verificable: desempeño por dominio, tasa de error en tareas críticas, robustez ante inputs adversarios, costo por caso de uso y cumplimiento de requisitos de seguridad y trazabilidad.',
+        ],
+      },
+      {
+        title: 'Marco de adopción para equipos ejecutivos y de ingeniería',
+        paragraphs: [
+          'Si GPT-6 Astra entra en el roadmap, conviene tratarlo como una iniciativa de plataforma y no como una simple integración de API. Eso implica definir casos de uso por impacto, diseñar guardrails desde el primer día y establecer métricas conjuntas de calidad, riesgo y eficiencia.',
+          'El patrón que mejor funciona en organizaciones técnicas es progresivo: pilotos acotados, evaluación continua, revisión humana en puntos de alto riesgo y escalado solo cuando hay evidencia de mejora sostenida. Sin ese marco, el costo de coordinar expectativas suele superar el beneficio inicial.',
+        ],
+      },
+    ],
+    takeaway: 'Conclusión ejecutiva: más allá del titular sobre superinteligencia, GPT-6 Astra debe evaluarse como un multiplicador de capacidad bajo gobernanza estricta. La ventaja competitiva no vendrá del hype, sino de convertir capacidad del modelo en flujos confiables de producto y operación.',
+  },
+  {
     slug: 'llama-4-scout-open-weight-usa',
     title: 'Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto',
     description: 'Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.',
