@@ -8,7 +8,7 @@ const articleEntries = [
     title: 'OpenAI lanza GPT-6 Astra: capacidad de frontera, presión competitiva y debate sobre superinteligencia',
     description: 'Análisis técnico y estratégico del lanzamiento de GPT-6 Astra: capacidades declaradas, arquitectura de producto y qué sí (y qué no) significa hablar de superinteligencia.',
     category: 'Noticias de IA',
-    tags: ['IA', 'Actualidad', 'Modelos fundacionales', 'Estrategia'],
+    tags: ['IA', 'Open-weight', 'Arquitectura'],
     date: '2026-09-04',
     readingTime: '8 min de lectura',
     projectSlug: '',
@@ -53,11 +53,156 @@ const articleEntries = [
     takeaway: 'Conclusión ejecutiva: más allá del titular sobre superinteligencia, GPT-6 Astra debe evaluarse como un multiplicador de capacidad bajo gobernanza estricta. La ventaja competitiva no vendrá del hype, sino de convertir capacidad del modelo en flujos confiables de producto y operación.',
   },
   {
+    slug: 'hardware-modelos-redifinen-arquitectura-ia',
+    title: 'El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA',
+    description: 'Análisis de la nueva discusión sobre hardware para modelos de frontera y por qué la infraestructura se volvió parte central de la estrategia de IA.',
+    category: 'Noticias de IA',
+    tags: ['IA', 'Arquitectura', 'Infraestructura'],
+    date: '2026-09-07',
+    readingTime: '7 min de lectura',
+    projectSlug: '',
+    contextLabel: 'Análisis de actualidad en IA',
+    sourceUrl: 'https://www.anthropic.com/news/model-hardware-standard-research-preview',
+    sourceLabel: 'Fuente oficial: Anthropic News',
+    lead: 'Cada salto de capacidad del modelo llega acompañado de una conversación nueva: no solo de inteligencia, sino de infraestructura. Cuando un proveedor define un estándar de hardware para modelos de frontera, la discusión deja de ser técnica de laboratorio y se vuelve operativa: costo, latencia, gobernanza y trazabilidad. Lo importante ya no es cerrar el mejor benchmark, sino diseñar una arquitectura capaz de sostener valor real.',
+    architecture: {
+      caption: 'Arquitectura IA con infraestructura como decisión de producto',
+      description: 'La capacidad del modelo ya no es el único eje de decisión; lo que rodea al modelo define si la solución escala con control o se vuelve frágil',
+      layers: [
+        { label: 'Entrada', items: ['Prompts y contexto', 'Datos internos y externos'] },
+        { label: 'Modelo', items: ['Modelo de frontera', 'Razonamiento y multimodalidad'] },
+        { label: 'Infraestructura', items: ['GPU, latencia y throughput', 'Servidores y caché'] },
+        { label: 'Gobernanza', items: ['Monitoreo', 'Revisión humana', 'Cost control'] },
+        { label: 'Resultado', items: ['Automatización útil', 'Decisiones operativas con trazabilidad'] },
+      ],
+    },
+    sections: [
+      {
+        title: 'La IA deja de ser solo una capa de modelo',
+        paragraphs: [
+          'La industria de IA está dejando de hablar solo de modelos y empezando a hablar de infraestructura como parte de la decisión de producto. La razón es simple: un modelo poderoso puede generar una experiencia mediocre si la ejecución no está pensada para el contexto real del negocio.',
+          'Cuando un proveedor define un estándar de hardware orientado a modelos de frontera, deja en claro que la frontera no es solo la calidad del modelo, sino también la forma en que se sirve, se evalúa y se opera. Eso cambia la conversación en dos niveles.',
+        ],
+      },
+      {
+        title: 'Costos, latencia y gobernanza ya no son secundarios',
+        paragraphs: [
+          'Antes se discutía si un modelo era “mejor” en benchmarks genéricos. Ahora se requiere medir rendimiento sobre tareas reales del negocio: tasa de resolución de casos, tiempo de respuesta, costo por caso, materialidad de los errores y capacidad de supervisión humana.',
+          'La diferencia entre un modelo fuerte y un sistema útil es enorme. La mejor decisión técnica ya no es la más potente, sino la que permite sostener la operación con control, previsibilidad y costo razonable.',
+        ],
+      },
+      {
+        title: 'La arquitectura IA necesita trazabilidad y revisión humana',
+        paragraphs: [
+          'Si la IA se usa en procesos con decisiones materiales, hay que definir zonas donde la automatización es útil y zonas donde la revisión humana es obligatoria. La arquitectura de IA ya no puede ser una caja negra; debe ser trazable, evaluable y operable.',
+          'La prioridad para equipos técnicos no es “adoptar la última tecnología”, sino construir una base sobre la cual la inteligencia pueda crecer sin destruir la confiabilidad del sistema.',
+        ],
+      },
+    ],
+    takeaway: 'La capacidad del modelo es indispensable, pero no suficiente. Cuando el hardware entra en la conversación de diseño, la IA deja de ser una capa experimental y pasa a ser una decisión de infraestructura, producto y riesgo.',
+  },
+  {
+    slug: 'puffin-world-modelos-multimodales-open-weight',
+    title: 'Puffin-World y la nueva oleada de modelos multimodales: menos hype, más arquitectura real',
+    description: 'Un vistazo a la nueva generación de modelos multimodales y a lo que realmente importa cuando se evalúan repositorios open y arquitectura de producto.',
+    category: 'Noticias de IA',
+    tags: ['IA', 'Arquitectura', 'Infraestructura'],
+    date: '2026-09-07',
+    readingTime: '7 min de lectura',
+    projectSlug: '',
+    contextLabel: 'Análisis de nuevos modelos y repositorios',
+    sourceUrl: 'https://huggingface.co/blog/KangLiao/puffin-world',
+    sourceLabel: 'Fuente oficial: Hugging Face Blog',
+    lead: 'La evolución del ecosistema open-model ya no se parece a una carrera de benchmarks aislados. La nueva ola está marcada por modelos multimodales más integrados, mejor capacidad de razonamiento visual y una presión real por resolver problemas de uso productivo. En ese marco, repositorios como Puffin-World son más que un experimento: son una señal de que la arquitectura y la ejecución van a definir la próxima generación de valor.',
+    architecture: {
+      caption: 'Multimodalidad como capa operativa del producto',
+      description: 'La cuestión ya no es solo qué ve el modelo, sino qué decisiones puede tomar con lo que ve, cómo validarlo y cómo operarlo en contexto real.',
+      layers: [
+        { label: 'Entradas', items: ['Texto', 'Imágenes', 'Señales visuales e interacciones'] },
+        { label: 'Representación', items: ['Contexto multimodal', 'Integración con herramientas'] },
+        { label: 'Razonamiento', items: ['Flujos de inferencia', 'Modelos adaptados a tareas'] },
+        { label: 'Operación', items: ['Validación humana', 'Monitoreo y evaluación', 'Costos y latencia'] },
+      ],
+    },
+    sections: [
+      {
+        title: 'El centro de gravitación ya no está solo en el texto',
+        paragraphs: [
+          'Cuando el mercado empezó a hablar de LLMs, el foco se puso en velocidad de respuesta, calidad del texto y capacidad de razonamiento. Hoy la conversación avanzó. El centro de gravedad ya no está solo en el texto; está en la capacidad de entender contexto multimodal, interactuar con el entorno e integrar señales visuales en un flujo completo.',
+          'El caso de Puffin-World es útil porque muestra que la innovación no está solamente en la cantidad de parámetros ni en el valor de marketing de una carta de especificaciones. Está en una pregunta más útil: ¿qué tipo de sistema se puede construir encima de este modelo?',
+        ],
+      },
+      {
+        title: 'La multimodalidad necesita orquestación y validación',
+        paragraphs: [
+          'La parte más interesante ya no es “qué ve el modelo”, sino “qué decisiones puede tomar con lo que ve”, “cómo se valida la salida” y “qué rol juega la revisión humana”. Eso es lo que transforma una capacidad técnica en un producto.',
+          'Un modelo multimodal solo es valioso cuando resulta útil en un flujo concreto. Un sistema que analiza documentos, imágenes, interfaces o secuencias de interacción tiene una ventaja enorme sobre un modelo que simplemente responde a prompts bien escritos. Pero esa ventaja solo aparece si la capa de orquestación está diseñada para el dominio real.',
+        ],
+      },
+      {
+        title: 'La nueva ola de open models exige arquitectura real',
+        paragraphs: [
+          'La nueva generación de modelos no implica necesariamente una nueva generación de software, pero sí exige una revisión profunda de la capa de integración. La diferencia entre un detalle técnico y una ventaja competitiva está en contexto, herramientas, evaluación y operación.',
+          'La innovación no depende solo del modelo, sino de la forma en que se integra a los flujos de decisión. Es ahí donde aparece la diferencia entre un “demo” y una solución operativa.',
+        ],
+      },
+    ],
+    takeaway: 'La nueva oleada multimodal no es una simple mejora estética del ecosistema. Es una señal de que el valor real ya no vive solo en la firma del modelo, sino en la capacidad del sistema para entender mundo, contexto y decisiones.',
+  },
+  {
+    slug: 'ia-no-cambia-solo-herramienta-liderazgo-operacion',
+    title: 'La IA no cambia solo una herramienta: cambia la estructura del liderazgo y la operación',
+    description: 'Análisis de por qué la IA redefine liderazgo, coordinación, métricas y responsabilidad operativa, no solo el stack técnico.',
+    category: 'Liderazgo y producto',
+    tags: ['IA', 'Liderazgo', 'Producto'],
+    date: '2026-09-07',
+    readingTime: '8 min de lectura',
+    projectSlug: '',
+    contextLabel: 'Liderazgo y transformación digital',
+    sourceUrl: 'https://hbr.org/ai',
+    sourceLabel: 'Fuente: Harvard Business Review — AI',
+    lead: 'La mayor promesa de la IA no es reemplazar trabajo humano por una herramienta más inteligente. La mayor promesa es cambiar la forma en que se decide, se organiza el trabajo y se mide la ejecución. Esa es la razón por la que la conversación de liderazgo no puede seguir reduciéndose a “qué herramienta usar”, porque el verdadero cambio está en la operación.',
+    architecture: {
+      caption: 'IA como parte del operating model, no como feature aislado',
+      description: 'Cuando se integra IA en la operación, la estructura del trabajo y la responsabilidad humana cambian junto con la tecnología.',
+      layers: [
+        { label: 'Decisión', items: ['Objetivos y prioridades', 'Definición de caso de uso'] },
+        { label: 'Sistema', items: ['IA', 'Flujos y reglas'] },
+        { label: 'Operación', items: ['Validación humana', 'Políticas y guardrails'] },
+        { label: 'Liderazgo', items: ['Ownership', 'Métricas y revisión'] },
+      ],
+    },
+    sections: [
+      {
+        title: 'La IA modifica estructura, no solo tareas',
+        paragraphs: [
+          'La historia más repetida sobre IA en el negocio suele ser simple: una empresa compra una herramienta, prueba un caso de uso y espera que “la productividad suba”. Ese relato funciona como narrativa de ventas, pero rara vez refleja la realidad de la operación.',
+          'La verdad es que la IA modifica no solo tareas, sino también responsabilidad, estructura, decisiones y posición del liderazgo. Cuando una herramienta automatiza parte del análisis o la producción, la organización necesita redefinir quién valida, quién decide, qué se automatiza y qué se mantiene humano.',
+        ],
+      },
+      {
+        title: 'El desafío real es diseñar un sistema de decisión',
+        paragraphs: [
+          'Hay dos errores clásicos: el primero es confundir IA con productividad. El segundo es tratarla como un reemplazo total de juicio humano. La realidad está en el medio. La IA puede acelerar análisis, síntesis y ejecución, pero no reemplaza la capacidad de priorizar con criterio, interpretar contexto y asumir riesgos reales.',
+          'Esto implica que el liderazgo técnico debe pensar en IA como parte de un operating model, no como un módulo aislado. Un equipo que quiere integrar IA de forma útil debe definir casos de uso con impacto, políticas de seguridad y revisión, mecanismos de evaluación y un grado claro de automatización.',
+        ],
+      },
+      {
+        title: 'El liderazgo se vuelve más crítico, no menos',
+        paragraphs: [
+          'La IA puede generar velocidad, pero también puede multiplicar errores si la organización no tiene claridad sobre dónde se usa, cómo se valida y quién tiene autoridad para intervenir. Ahí aparece el verdadero desafío del liderazgo.',
+          'La organización que gana con IA no es la que tiene la herramienta más avanzada, sino la que sabe convertirla en un sistema de decisión con criterio, métricas y responsabilidad clara.',
+        ],
+      },
+    ],
+    takeaway: 'El futuro no se define por la herramienta más avanzada, sino por la capacidad de la organización para convertir IA en un sistema de decisión con criterio. Ese es el punto en el que el liderazgo técnico deja de ser una función lateral y pasa a ser central.',
+  },
+  {
     slug: 'llama-4-scout-open-weight-usa',
     title: 'Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto',
     description: 'Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.',
     category: 'LLM open-weight',
-    tags: ['LLM', 'Open-weight', 'USA', 'Multimodal', 'Arquitectura'],
+    tags: ['IA', 'Open-weight', 'Arquitectura'],
     date: '2026-08-25',
     readingTime: '7 min de lectura',
     projectSlug: '',
@@ -105,7 +250,7 @@ const articleEntries = [
     title: 'Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala',
     description: 'Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.',
     category: 'LLM open-weight',
-    tags: ['LLM', 'Open-weight', 'China', 'Multilingüe', 'Arquitectura'],
+    tags: ['IA', 'Open-weight', 'Arquitectura'],
     date: '2026-08-25',
     readingTime: '7 min de lectura',
     projectSlug: '',
@@ -764,18 +909,29 @@ const articleEntries = [
   },
 ];
 
+const canonicalTags = {
+  IA: 'IA',
+  ARQUITECTURA: 'Arquitectura',
+  INFRAESTRUCTURA: 'Infraestructura',
+  LIDERAZGO: 'Liderazgo',
+  PRODUCTO: 'Producto',
+  OPEN_WEIGHT: 'Open-weight',
+  DATOS: 'Datos',
+  STARTUPS: 'Startups',
+};
+
 const tagsByCategory = {
-  'Noticias de IA': ['IA', 'Actualidad', 'Gobernanza'],
-  'Cloud y arquitectura': ['Cloud', 'AWS', 'Arquitectura'],
-  'Experiencias web': ['Web', 'Diseño', 'Arquitectura'],
-  'Producto y arquitectura': ['Producto', 'Arquitectura', 'Salud'],
-  'Operación y confiabilidad': ['Operación', 'Confiabilidad', 'Salud'],
-  'Pagos e infraestructura': ['Pagos', 'Infraestructura', 'Arquitectura'],
-  'Arquitectura y seguridad': ['Arquitectura', 'Seguridad', 'SaaS'],
-  'IA y producto': ['IA', 'Producto', 'Especificaciones'],
-  'IA y compliance': ['IA', 'Compliance', 'Gobernanza'],
-  'Infraestructura y producto': ['Infraestructura', 'Producto', 'MVP'],
-  'Startups y emprendimiento': ['Startups', 'Producto', 'MVP'],
+  'Noticias de IA': [canonicalTags.IA, canonicalTags.OPEN_WEIGHT],
+  'Cloud y arquitectura': [canonicalTags.ARQUITECTURA, canonicalTags.INFRAESTRUCTURA],
+  'Experiencias web': [canonicalTags.PRODUCTO, canonicalTags.ARQUITECTURA],
+  'Producto y arquitectura': [canonicalTags.PRODUCTO, canonicalTags.ARQUITECTURA],
+  'Operación y confiabilidad': [canonicalTags.INFRAESTRUCTURA, canonicalTags.LIDERAZGO],
+  'Pagos e infraestructura': [canonicalTags.INFRAESTRUCTURA, canonicalTags.PRODUCTO],
+  'Arquitectura y seguridad': [canonicalTags.ARQUITECTURA, canonicalTags.INFRAESTRUCTURA],
+  'IA y producto': [canonicalTags.IA, canonicalTags.PRODUCTO],
+  'IA y compliance': [canonicalTags.IA, canonicalTags.LIDERAZGO],
+  'Infraestructura y producto': [canonicalTags.INFRAESTRUCTURA, canonicalTags.PRODUCTO],
+  'Startups y emprendimiento': [canonicalTags.STARTUPS, canonicalTags.PRODUCTO],
 };
 
 export const articles = articleEntries.map((article) => ({
