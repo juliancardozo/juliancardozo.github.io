@@ -56,8 +56,8 @@ export const content = {
 
     hero: {
       eyebrow: 'Engineering Manager · Product builder · Montevideo, Uruguay',
-      title: 'Convierto problemas reales en software que funciona.',
-      lead: 'Soy Julián Cardozo. Hace más de 15 años que construyo software: backend en Java, plataformas de pagos en banca y fintech, y equipos de ingeniería. En el último año apliqué esa base a productos propios: diez proyectos que salieron de situaciones concretas, siete de ellos en línea.',
+      title: 'Hola, soy Julián.',
+      lead: 'Llevo más de 15 años aprendiendo a construir software: backend en Java, pagos en banca y fintech, y equipos de ingeniería. El último año lo dediqué a proyectos propios que nacieron de situaciones cotidianas; algunos ya están en línea y otros siguen en camino. Si llegaste hasta acá, gracias: me encantaría saber qué estás construyendo vos.',
       note: 'Cada proyecto muestra su estado real: en línea, MVP, prototipo o herramienta.',
       ctas: [
         { href: '#productos', label: 'Ver los productos', variant: 'primary' },
