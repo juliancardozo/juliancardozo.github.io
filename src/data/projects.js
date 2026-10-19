@@ -553,6 +553,7 @@ export const projects = [
       '99,8 % de acorde exacto ponderado por tiempo en la validación con audio sintético G–Em–C–D.',
       'Contra cuatro transcripciones humanas, la precisión de transiciones pasó de 0,44 a 0,74 entre la versión 0.1 y la 0.2.',
       'Una canción de 4 minutos se analiza en ~80 s en un MacBook Pro Intel de 2016, sin GPU.',
+      'Análisis con REA de las páginas públicas de Chordify: la transposición y el tempo se resuelven en el cliente, sobre datos que ya vienen en la página.',
     ],
     challenges: [
       'El hardware definió la arquitectura: un Mac Intel sin GPU obliga a fijar `torch==2.2.2` y Python 3.11, y a hacer el análisis offline, no en tiempo real.',
