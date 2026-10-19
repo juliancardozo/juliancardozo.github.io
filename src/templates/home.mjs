@@ -5,8 +5,9 @@ import { pillars } from '../data/pillars.js';
 import { newsletter } from '../data/newsletter.js';
 import { newsletterForm } from './newsletter-form.mjs';
 
-const featuredCard = (project, t, index) => `
-<article class="card card--featured ${index === 0 ? 'card--lead' : ''}" data-reveal>
+// `wide`: la ultima tarjeta toma el formato ancho cuando quedaria sola en su fila.
+const featuredCard = (project, t, index, wide = false) => `
+<article class="card card--featured ${index === 0 || wide ? 'card--lead' : ''}" data-reveal>
   <a class="card__cover" href="${projectHref(project)}" tabindex="-1" aria-hidden="true">${cover(project, { eager: index === 0 })}</a>
   <div class="card__body">
     <p class="card__meta">
@@ -69,89 +70,6 @@ export const home = ({ t, featured, lab }) => {
   </div>
 </section>
 
-<section class="section" id="pilares" aria-labelledby="pilares-title">
-  <div class="shell">
-    <header class="section__head" data-reveal>
-      <p class="section__eyebrow">${esc(s.pilares.eyebrow)}</p>
-      <h2 class="section__title" id="pilares-title">${esc(s.pilares.title)}</h2>
-      <p class="section__lead">${esc(s.pilares.lead)}</p>
-    </header>
-    <div class="pillar-strip">
-      ${pillars
-        .map(
-          (pillar) => `<article class="pillar-card" data-reveal>
-        <p class="pillar-card__meta">${esc(pillar.eyebrow)}</p>
-        <h3><a href="/temas/${esc(pillar.slug)}/">${esc(pillar.title)}</a></h3>
-        <p>${esc(pillar.description)}</p>
-      </article>`,
-        )
-        .join('')}
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt newsletter-home" id="newsletter" aria-labelledby="newsletter-title">
-  <div class="shell">
-    <header class="section__head" data-reveal>
-      <p class="section__eyebrow">${esc(s.newsletter.eyebrow)}</p>
-      <h2 class="section__title" id="newsletter-title">${esc(s.newsletter.title)}</h2>
-      <p class="section__lead">${esc(s.newsletter.lead)}</p>
-    </header>
-    <div class="newsletter-home__layout">
-      <article class="newsletter-panel" data-reveal>
-        <p class="newsletter-panel__label">Promesa editorial</p>
-        <h3>${esc(newsletter.fullTitle)}</h3>
-        <p>${esc(newsletter.promise)}</p>
-      </article>
-      <article class="newsletter-panel" data-reveal>
-        <p class="newsletter-panel__label">Cadencia</p>
-        <p>${esc(newsletter.cadence)}</p>
-        <p>${esc(s.newsletter.note)}</p>
-      </article>
-    </div>
-    <div data-reveal>
-      ${newsletterForm({
-        source: 'home-newsletter',
-        path: '/',
-        compact: true,
-        title: 'Sumate desde la home',
-        lead: 'Si te interesa liderazgo técnico, arquitectura, producto o IA aplicada, podés recibir la primera edición desde acá.',
-        buttonLabel: s.newsletter.ctaSecondary,
-      })}
-    </div>
-    <div class="hero__ctas" data-reveal>
-      <a class="btn btn--ghost" href="/newsletter/">${esc(s.newsletter.ctaPrimary)}</a>
-    </div>
-  </div>
-</section>
-
-<section class="section section--alt about" id="acerca" aria-labelledby="acerca-title">
-  <div class="shell">
-    <header class="section__head" data-reveal>
-      <p class="section__eyebrow">${esc(s.acerca.eyebrow)}</p>
-      <h2 class="section__title" id="acerca-title">${esc(s.acerca.title)}</h2>
-      <p class="section__lead">${esc(s.acerca.lead)}</p>
-    </header>
-    <ol class="about__path">
-      ${s.acerca.stages
-        .map(
-          (stage, index) => `<li class="about__stage" data-reveal>
-        <span class="about__index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
-        <h3>${esc(stage.title)}</h3>
-        <p>${esc(stage.body)}</p>
-        <p class="about__scope"><span>Alcance</span>${esc(stage.scope)}</p>
-      </li>`,
-        )
-        .join('')}
-    </ol>
-    <aside class="about__future" data-reveal>
-      <p class="about__future-label">Proyección profesional</p>
-      <h3>${esc(s.acerca.future.title)}</h3>
-      <p>${esc(s.acerca.future.body)}</p>
-    </aside>
-  </div>
-</section>
-
 <section class="section" id="productos" aria-labelledby="productos-title">
   <div class="shell">
     <header class="section__head" data-reveal>
@@ -160,7 +78,12 @@ export const home = ({ t, featured, lab }) => {
       <p class="section__lead">${esc(s.productos.lead)}</p>
     </header>
     <div class="cards">
-      ${featured.map((project, index) => featuredCard(project, t, index)).join('')}
+      ${featured
+        .map((project, index) => {
+          const orphan = index > 0 && index === featured.length - 1 && (featured.length - 1) % 2 === 1;
+          return featuredCard(project, t, index, orphan);
+        })
+        .join('')}
     </div>
   </div>
 </section>
@@ -219,7 +142,34 @@ export const home = ({ t, featured, lab }) => {
   </div>
 </section>
 
-<section class="section section--alt" id="recorrido" aria-labelledby="recorrido-title">
+<section class="section section--alt about" id="acerca" aria-labelledby="acerca-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">${esc(s.acerca.eyebrow)}</p>
+      <h2 class="section__title" id="acerca-title">${esc(s.acerca.title)}</h2>
+      <p class="section__lead">${esc(s.acerca.lead)}</p>
+    </header>
+    <ol class="about__path">
+      ${s.acerca.stages
+        .map(
+          (stage, index) => `<li class="about__stage" data-reveal>
+        <span class="about__index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
+        <h3>${esc(stage.title)}</h3>
+        <p>${esc(stage.body)}</p>
+        <p class="about__scope"><span>Alcance</span>${esc(stage.scope)}</p>
+      </li>`,
+        )
+        .join('')}
+    </ol>
+    <aside class="about__future" data-reveal>
+      <p class="about__future-label">Proyección profesional</p>
+      <h3>${esc(s.acerca.future.title)}</h3>
+      <p>${esc(s.acerca.future.body)}</p>
+    </aside>
+  </div>
+</section>
+
+<section class="section" id="recorrido" aria-labelledby="recorrido-title">
   <div class="shell">
     <header class="section__head" data-reveal>
       <p class="section__eyebrow">${esc(s.recorrido.eyebrow)}</p>
@@ -242,7 +192,7 @@ export const home = ({ t, featured, lab }) => {
   </div>
 </section>
 
-<section class="section" id="capacidades" aria-labelledby="capacidades-title">
+<section class="section section--alt" id="capacidades" aria-labelledby="capacidades-title">
   <div class="shell">
     <header class="section__head" data-reveal>
       <p class="section__eyebrow">${esc(s.capacidades.eyebrow)}</p>
@@ -263,7 +213,7 @@ export const home = ({ t, featured, lab }) => {
   </div>
 </section>
 
-<section class="section section--alt" id="filosofia" aria-labelledby="filosofia-title">
+<section class="section" id="filosofia" aria-labelledby="filosofia-title">
   <div class="shell">
     <header class="section__head" data-reveal>
       <p class="section__eyebrow">${esc(s.filosofia.eyebrow)}</p>
@@ -278,6 +228,62 @@ export const home = ({ t, featured, lab }) => {
       </article>`,
         )
         .join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section section--alt" id="pilares" aria-labelledby="pilares-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">${esc(s.pilares.eyebrow)}</p>
+      <h2 class="section__title" id="pilares-title">${esc(s.pilares.title)}</h2>
+      <p class="section__lead">${esc(s.pilares.lead)}</p>
+    </header>
+    <div class="pillar-strip">
+      ${pillars
+        .map(
+          (pillar) => `<article class="pillar-card" data-reveal>
+        <p class="pillar-card__meta">${esc(pillar.eyebrow)}</p>
+        <h3><a href="/temas/${esc(pillar.slug)}/">${esc(pillar.title)}</a></h3>
+        <p>${esc(pillar.description)}</p>
+      </article>`,
+        )
+        .join('')}
+    </div>
+  </div>
+</section>
+
+<section class="section newsletter-home" id="newsletter" aria-labelledby="newsletter-title">
+  <div class="shell">
+    <header class="section__head" data-reveal>
+      <p class="section__eyebrow">${esc(s.newsletter.eyebrow)}</p>
+      <h2 class="section__title" id="newsletter-title">${esc(s.newsletter.title)}</h2>
+      <p class="section__lead">${esc(s.newsletter.lead)}</p>
+    </header>
+    <div class="newsletter-home__layout">
+      <article class="newsletter-panel" data-reveal>
+        <p class="newsletter-panel__label">Promesa editorial</p>
+        <h3>${esc(newsletter.fullTitle)}</h3>
+        <p>${esc(newsletter.promise)}</p>
+      </article>
+      <article class="newsletter-panel" data-reveal>
+        <p class="newsletter-panel__label">Cadencia</p>
+        <p>${esc(newsletter.cadence)}</p>
+        <p>${esc(s.newsletter.note)}</p>
+      </article>
+    </div>
+    <div data-reveal>
+      ${newsletterForm({
+        source: 'home-newsletter',
+        path: '/',
+        compact: true,
+        title: 'Sumate desde la home',
+        lead: 'Si te interesa liderazgo técnico, arquitectura, producto o IA aplicada, podés recibir la primera edición desde acá.',
+        buttonLabel: s.newsletter.ctaSecondary,
+      })}
+    </div>
+    <div class="hero__ctas" data-reveal>
+      <a class="btn btn--ghost" href="/newsletter/">${esc(s.newsletter.ctaPrimary)}</a>
     </div>
   </div>
 </section>

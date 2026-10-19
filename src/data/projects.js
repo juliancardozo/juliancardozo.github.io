@@ -406,21 +406,172 @@ export const projects = [
     demoLabel: 'Abrir la app',
   },
 
-  // ───────────────────────────────────────────────────────────── Laboratorio
   {
     slug: 'neuro-candombe',
-    featured: false,
-    title: 'Neuro-Candombe engine',
-    tagline: 'Generación de patrones de candombe con un modelo tipo Transformer.',
-    summary:
-      'MVP que genera patrones simbólicos de chico, repique y piano con un modelo tipo Transformer, servido por FastAPI con un demo web. Incluye análisis de audio de referencia para aproximar los tres instrumentos y controles de temperatura, densidad y semilla en la generación.',
+    featured: true,
+    order: 8,
+    title: 'Neuro-Candombe',
+    tagline: 'Un Transformer que toca chico, repique y piano.',
     category: 'ia',
     categoryLabel: 'IA y música',
     status: 'prototype',
     year: '2026',
-    stack: ['Python', 'PyTorch', 'FastAPI', 'JavaScript'],
+    motif: 'pulse',
+    audience: 'Músicos, docentes e investigadores que quieren escuchar, estudiar o reutilizar patrones de candombe.',
+    role: 'Modelo, representación de datos, API, frontend y evaluación. Proyecto propio.',
+    originStory:
+      'El candombe de Montevideo tiene reglas muy precisas —el chico casi no cambia, el piano marca el barrio, el repique improvisa— y a la vez un groove que no entra en una grilla. Quería saber si un modelo podía aprender esas dos cosas juntas: la regla y el desfase.',
+    problem:
+      'Los generadores de ritmo cuantizan todo a la grilla. En candombe eso borra lo esencial: el microtiming del chico, la articulación de cada golpe y la forma de la llamada. Un modelo genérico, además, no sabe que hay cosas que no se negocian, como el patrón del chico.',
+    solution:
+      'Un Transformer bidireccional enmascarado sobre una grilla de semicorcheas para los tres tambores. Cada celda guarda intensidad, desfase de microtiming y articulación. Las reglas del toque no se aplican después: entran como celdas fijas y máscaras de clases permitidas durante la decodificación. Una API FastAPI genera, completa un tambor sobre otros fijos o rehace compases, y un frontend web reproduce la llamada y exporta WAV y MIDI.',
+    highlights: [
+      'Representación por celda: intensidad (silencio + 4 niveles), microtiming en 13 bins y articulación por tambor (mano, palo, madera, abierto, masa).',
+      'Decodificación iterativa por confianza, con las reglas del toque como restricciones duras y no como filtro posterior.',
+      'Tres toques madre —Cuareim, Ansina y Gaboto— cargados desde transcripciones publicadas, con la fuente al lado de cada patrón.',
+      'Microtiming tomado de mediciones publicadas (Jure y Rocamora, 2022) y forma de llamada con "subir la llamada".',
+      '`POST /regenerate`: rehace compases o tambores puntuales y deja fijo el resto; la semilla hace reproducible cada resultado.',
+      'Evaluación objetiva con `copy_rate` para detectar si el modelo memoriza compases del corpus, más un flujo de pruebas de escucha a ciegas.',
+      'Frontend "desfile de llamadas": tamaño de cuerda, paneo por tamborilero, programación con lookahead y exportación WAV/MIDI.',
+    ],
+    stack: ['Python', 'PyTorch', 'FastAPI', 'NumPy', 'Web Audio', 'Netlify', 'Render'],
+    capabilities: ['Diseñar', 'Construir', 'Acelerar con IA'],
+    evidence: [
+      '31 tests con pytest sobre representación, generación, entrenamiento, análisis de audio, toques y API.',
+      'Importador del dataset de candombe de la UdelaR (Zenodo 6533068: 35 interpretaciones, ~2 h anotadas por un experto).',
+      'Análisis de grabaciones propias por stems o por mezcla, con refinamiento de onsets a nivel de muestra.',
+      'Deploy separado: frontend estático en Netlify y API en Render, con fallback a un motor por reglas si no hay checkpoint.',
+    ],
+    challenges: [
+      'La primera versión no aprendía: el objetivo estaba visible en la entrada. Pasar a un Transformer enmascarado, que solo puntúa celdas ocultas, fue el cambio que lo destrabó.',
+      'El microtiming del candombe no es ruido. Hubo que representarlo como una clase propia por celda en vez de cuantizarlo y "humanizar" al final.',
+      'Separar tambores de una grabación mezclada es una heurística por bandas: los golpes fantasma suaves se pierden. Con stems por tambor el problema desaparece.',
+    ],
+    learnings: [
+      'Las reglas de dominio funcionan mejor como restricciones de decodificación que como corrección posterior: el modelo genera dentro del espacio válido.',
+      'Medir la tasa de copia evita engañarse: un modelo que suena bien puede estar repitiendo el corpus.',
+      'Citar la fuente de cada patrón hace que el sistema se pueda discutir con músicos, no solo con ingenieros.',
+    ],
+    nextSteps: [
+      'Entrenar con el dataset real y grabaciones multipista propias: el checkpoint incluido solo vio el corpus sintético.',
+      'Reemplazar los golpes sintetizados por un banco de muestras grabadas.',
+    ],
     repositoryUrl: 'https://github.com/juliancardozo/Neuro-Candombe-engine',
+    demoUrl: '',
   },
+
+  {
+    slug: 'sombrilleros',
+    featured: true,
+    order: 9,
+    title: 'Sombrilleros: Escape de Porto',
+    tagline: 'Cruzar la playa sin que te vendan una sombrilla.',
+    category: 'juegos',
+    categoryLabel: 'Juegos',
+    status: 'published',
+    year: '2026',
+    motif: 'grid',
+    image: {
+      src: '/assets/img/shots/sombrilleros.jpg',
+      alt: 'Pantalla de inicio de Sombrilleros: Escape de Porto, con la playa en 3D llena de sombrillas y vendedores, los modos individual, en pareja e historia, y los tres niveles hasta el mar.',
+    },
+    audience: 'Cualquiera que haya caminado por una playa de Porto de Galinhas. Se juega en el navegador, solo o en pareja.',
+    role: 'Diseño del juego, lógica, 3D, audio y despliegue. Proyecto propio.',
+    originStory:
+      'En Porto de Galinhas, llegar del hotel al agua es una negociación: cada pocos metros aparece alguien ofreciendo una sombrilla, un paseo o "mas tem WiFi!". La situación ya tenía mecánica de juego —distancia, línea de visión, cansancio— solo faltaba programarla.',
+    problem:
+      'Convertir una anécdota de viaje en un juego que se entienda en diez segundos y siga siendo justo: vendedores que te ven, te recuerdan y te persiguen, sin que la dificultad dependa del azar.',
+    solution:
+      'Un juego 3D en el navegador con Three.js y TypeScript. Tres niveles hasta el mar, las piscinas naturales y el embarque. Los vendedores tienen línea de visión, sospecha y memoria; el jugador tiene sprint y energía, y puede esconderse detrás de coberturas. Hay modo individual, cooperativo local en pareja y una historia de tres capítulos con los reales del paseo.',
+    highlights: [
+      'IA de vendedores con línea de visión, coberturas que bloquean la vista, sospecha y memoria configurables por dificultad.',
+      'Dos perfiles de dificultad versionados ("sin emoción" y "con emoción") con récords separados y medición de tasa de victoria observada.',
+      'Cooperativo local: cámara compartida, billetera común y una distancia máxima entre los dos jugadores.',
+      'Modo historia de tres capítulos que arrastra el dinero ganado y recuerda los nombres de la pareja.',
+      'Voces por proximidad con Web Audio: volumen por distancia, paneo estéreo según la cámara y como máximo dos voces a la vez.',
+      'Defensa verbal por doble toque ("Ya tenemos sombrilla, gracias") con cooldown y efecto distinto por dificultad.',
+      'Ranking arcade global opcional; el juego funciona igual si el servicio no responde.',
+    ],
+    stack: ['TypeScript', 'Three.js', 'Vite', 'Web Audio', 'GitHub Actions', 'GitHub Pages'],
+    capabilities: ['Diseñar', 'Construir'],
+    evidence: [
+      'Juego publicado en GitHub Pages con deploy automático por GitHub Actions.',
+      '14 tests con el runner nativo de Node sobre la lógica pura: visión, conversación, energía, dificultad, pareja e historia.',
+      'La lógica del juego vive en módulos sin DOM (`core`, `difficulty`, `couple`, `story`, `verbal`), separada del render en Three.js.',
+    ],
+    challenges: [
+      'Que perder se sienta justo: la dificultad sale de parámetros explícitos (velocidad, radio de visión, memoria) y no de eventos aleatorios.',
+      'En cooperativo, dos jugadores comparten una cámara. Hubo que limitar la distancia entre ambos y resolver qué vendedor atiende a quién.',
+      'El audio no puede romper el juego: si falta Web Audio o un clip no decodifica, quedan los globos de texto y la partida sigue.',
+    ],
+    learnings: [
+      'Separar la lógica en funciones puras permitió testear la jugabilidad sin abrir un navegador.',
+      'Versionar los perfiles de dificultad hace comparables los récords y la tasa de victoria entre cambios.',
+      'Un juego chico es un buen banco de pruebas para IA de agentes, audio espacial y estado compartido.',
+    ],
+    nextSteps: [
+      'Reemplazar las voces sintéticas provisorias por grabaciones reales.',
+      'Ajustar mezcla y ritmo con pruebas en los navegadores de los jugadores.',
+    ],
+    repositoryUrl: 'https://github.com/juliancardozo/galinhas-game',
+    demoUrl: 'https://juliancardozo.github.io/galinhas-game/',
+    demoLabel: 'Jugar',
+  },
+
+  {
+    slug: 'chordlocal',
+    featured: true,
+    order: 10,
+    title: 'ChordLocal',
+    tagline: 'Lo que cobra Chordify, en tu computadora y sin suscripción.',
+    category: 'musica',
+    categoryLabel: 'Música e IA',
+    status: 'tool',
+    year: '2026',
+    motif: 'wave',
+    audience: 'Músicos que quieren sacar una canción de oído con acordes, letra y análisis, sin pagar una suscripción.',
+    role: 'Análisis del producto de referencia, arquitectura, pipeline de audio y app local. Proyecto propio.',
+    originStory:
+      'Quería aprender a tocar cualquier canción y la herramienta que lo resolvía, Chordify, cobra por transponer, poner cejilla o exportar MIDI. Antes de pagar, hice el ejercicio inverso: listar qué hace, qué cobra y cuánto cuesta de verdad construir cada cosa.',
+    problem:
+      'Las apps de acordes cobran por funciones que, técnicamente, son transformaciones simples sobre un análisis ya hecho. Lo difícil es una sola cosa: detectar bien los acordes y el compás a partir del audio, en una máquina común y sin GPU.',
+    solution:
+      'Un pipeline en Python que corre una vez por canción: beats y compás con `beat_this`, acordes con croma sincronizado al beat, plantillas armónicas y Viterbi, y notas con `basic-pitch`. Todo queda en un `analysis.json`; transponer, cejilla, simplificar o exportar se derivan de ese archivo al instante. Después busca la transcripción en LaCuerda y la letra en LRCLIB, y se queda con la que más concuerda con el audio.',
+    highlights: [
+      'Separación entre análisis (lento, una vez) y uso (instantáneo): `analysis.json` es la única fuente de verdad.',
+      'Reconocedor de acordes propio: croma por beat, plantillas ponderadas y decodificación Viterbi en dos pasadas con prior de tonalidad.',
+      'Elección de fuente por concordancia con el audio, no por parecido del título; detecta transcripciones escritas en otro tono.',
+      'Hoja sincronizada: reproductor, acorde actual y siguiente, letra que sigue al audio, velocidad 0,5×–1,5× sin cambiar el tono.',
+      'Análisis armónico: tonalidad, ciclo en grados, cadencias, acordes fuera de escala y cejilla sugerida.',
+      'Salidas en HTML, ChordPro, MusicXML, MIDI y tablatura ASCII.',
+      'Respeta `robots.txt` (Crawl-delay de LaCuerda) y no se disfraza de navegador para sortear un 403.',
+    ],
+    stack: ['Python 3.11', 'PyTorch 2.2', 'beat_this', 'librosa', 'basic-pitch', 'yt-dlp', 'MusicXML'],
+    capabilities: ['Descubrir', 'Diseñar', 'Construir', 'Acelerar con IA'],
+    evidence: [
+      'Documento de análisis del producto de referencia con matriz de features, plan gratuito/pago y dificultad de cada uno (`docs/analisis-chordify.md`).',
+      '99,8 % de acorde exacto ponderado por tiempo en la validación con audio sintético G–Em–C–D.',
+      'Contra cuatro transcripciones humanas, la precisión de transiciones pasó de 0,44 a 0,74 entre la versión 0.1 y la 0.2.',
+      'Una canción de 4 minutos se analiza en ~80 s en un MacBook Pro Intel de 2016, sin GPU.',
+    ],
+    challenges: [
+      'El hardware definió la arquitectura: un Mac Intel sin GPU obliga a fijar `torch==2.2.2` y Python 3.11, y a hacer el análisis offline, no en tiempo real.',
+      'Una tríada con la quinta débil pierde contra la tríada una tercera arriba (E → G#m). Subir el peso de la quinta en las plantillas fue el cambio de mayor impacto.',
+      'Las transcripciones online vienen en otro tono, con otro nombre o en una versión distinta. Elegir por concordancia con el audio resolvió la mayoría de los casos.',
+    ],
+    learnings: [
+      'Seis de las siete funciones pagas del producto de referencia son transformaciones sobre un JSON. El valor está en el análisis, no en las funciones premium.',
+      'Un reconocedor clásico bien calibrado puede rendir más que un modelo grande que no se puede instalar en la máquina disponible.',
+      'Medir contra transcripciones humanas cambió las prioridades: lo que más importaba era cuándo cambia el acorde, no el nombre exacto.',
+    ],
+    nextSteps: [
+      'Loop A-B, afinador y separación de pistas con Demucs para tocar encima.',
+    ],
+    repositoryUrl: 'https://github.com/juliancardozo/chordyfree',
+    demoUrl: '',
+  },
+
+  // ───────────────────────────────────────────────────────────── Laboratorio
   {
     slug: 'chefgpt',
     featured: false,

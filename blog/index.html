@@ -52,7 +52,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </a>
     <nav class="site-nav" aria-label="Secciones del sitio">
       <ul>
-        <li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/blog/#pilares">Pilares</a></li><li><a href="/#acerca">Acerca de mí</a></li><li><a href="/#productos">Productos</a></li><li><a href="/#origen">Cómo nacen</a></li><li><a href="/#laboratorio">Laboratorio</a></li><li><a href="/#recorrido">Recorrido</a></li><li><a href="/#capacidades">Capacidades</a></li><li><a href="/#contacto">Contacto</a></li>
+        <li><a href="/#productos">Productos</a></li><li><a href="/#acerca">Sobre mí</a></li><li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
       </ul>
     </nav>
   </div>
@@ -91,10 +91,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
     <div class="filters blog-filters" role="group" aria-label="Filtrar artículos por tema" data-blog-filters>
       <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">Todo</button>
-      <button type="button" class="filters__btn" data-blog-filter="arquitectura" aria-pressed="false">Arquitectura</button><button type="button" class="filters__btn" data-blog-filter="ia" aria-pressed="false">IA</button><button type="button" class="filters__btn" data-blog-filter="infraestructura" aria-pressed="false">Infraestructura</button><button type="button" class="filters__btn" data-blog-filter="liderazgo" aria-pressed="false">Liderazgo</button><button type="button" class="filters__btn" data-blog-filter="open-weight" aria-pressed="false">Open-weight</button><button type="button" class="filters__btn" data-blog-filter="producto" aria-pressed="false">Producto</button><button type="button" class="filters__btn" data-blog-filter="startups" aria-pressed="false">Startups</button>
+      <button type="button" class="filters__btn" data-blog-filter="agentes" aria-pressed="false">Agentes</button><button type="button" class="filters__btn" data-blog-filter="arquitectura" aria-pressed="false">Arquitectura</button><button type="button" class="filters__btn" data-blog-filter="ia" aria-pressed="false">IA</button><button type="button" class="filters__btn" data-blog-filter="infraestructura" aria-pressed="false">Infraestructura</button><button type="button" class="filters__btn" data-blog-filter="ingenieria-inversa" aria-pressed="false">Ingeniería inversa</button><button type="button" class="filters__btn" data-blog-filter="liderazgo" aria-pressed="false">Liderazgo</button><button type="button" class="filters__btn" data-blog-filter="musica" aria-pressed="false">Música</button><button type="button" class="filters__btn" data-blog-filter="open-weight" aria-pressed="false">Open-weight</button><button type="button" class="filters__btn" data-blog-filter="producto" aria-pressed="false">Producto</button><button type="button" class="filters__btn" data-blog-filter="startups" aria-pressed="false">Startups</button>
     </div>
     <div class="article-grid" data-blog-grid>
       
+        <article class="article-card" data-blog-card data-tags="ia agentes ingenieria-inversa producto musica" data-reveal>
+          <p class="article-card__meta"><span>IA y producto</span><time datetime="2026-10-19">19 de octubre de 2026</time></p>
+          <h2 class="article-card__title"><a href="/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-article-card">Ingeniería inversa con agentes: de Chordify a ChordLocal con REA</a></h2>
+          <p class="article-card__description">Qué es REA (Reverse Engineer Anything), cómo partimos de él para replicar Chordify como app local y libre, qué hizo falta de verdad y qué potencial tiene la ingeniería inversa asistida por agentes.</p>
+          <ul class="article-card__tags" aria-label="Temas"><li>IA</li><li>Agentes</li><li>Ingeniería inversa</li><li>Producto</li><li>Música</li></ul>
+          <div class="article-card__footer"><span>7 min de lectura</span><a href="/blog/rea-ingenieria-inversa-chordify-chordlocal/">Leer artículo <span aria-hidden="true">→</span></a></div>
+        </article>
         <article class="article-card" data-blog-card data-tags="ia arquitectura infraestructura" data-reveal>
           <p class="article-card__meta"><span>Noticias de IA</span><time datetime="2026-09-07">7 de setiembre de 2026</time></p>
           <h2 class="article-card__title"><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-article-card">El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA</a></h2>
@@ -293,7 +300,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer class="site-footer">
   <div class="shell site-footer__inner">
     <p class="site-footer__name">Julián Cardozo · 2026</p>
-    <p class="site-footer__note">Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
     <ul class="site-footer__links">
       <li><a href="/newsletter/">Newsletter</a></li>
       <li><a href="/privacidad/">Privacidad</a></li>

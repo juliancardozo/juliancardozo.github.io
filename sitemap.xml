@@ -9,6 +9,7 @@
   <url><loc>https://juliancardozo.github.io/temas/liderazgo-tecnico/</loc><priority>0.75</priority></url>
   <url><loc>https://juliancardozo.github.io/temas/plataforma-arquitectura/</loc><priority>0.75</priority></url>
   <url><loc>https://juliancardozo.github.io/temas/producto-mvps/</loc><priority>0.75</priority></url>
+  <url><loc>https://juliancardozo.github.io/blog/rea-ingenieria-inversa-chordify-chordlocal/</loc><priority>0.7</priority></url>
   <url><loc>https://juliancardozo.github.io/blog/gpt-6-astra-openai-superinteligencia-especulaciones/</loc><priority>0.7</priority></url>
   <url><loc>https://juliancardozo.github.io/blog/hardware-modelos-redifinen-arquitectura-ia/</loc><priority>0.7</priority></url>
   <url><loc>https://juliancardozo.github.io/blog/puffin-world-modelos-multimodales-open-weight/</loc><priority>0.7</priority></url>
@@ -35,4 +36,7 @@
   <url><loc>https://juliancardozo.github.io/proyectos/webspec-ai/</loc><priority>0.8</priority></url>
   <url><loc>https://juliancardozo.github.io/proyectos/casa-medanos/</loc><priority>0.8</priority></url>
   <url><loc>https://juliancardozo.github.io/proyectos/escalaimprov/</loc><priority>0.8</priority></url>
+  <url><loc>https://juliancardozo.github.io/proyectos/neuro-candombe/</loc><priority>0.8</priority></url>
+  <url><loc>https://juliancardozo.github.io/proyectos/sombrilleros/</loc><priority>0.8</priority></url>
+  <url><loc>https://juliancardozo.github.io/proyectos/chordlocal/</loc><priority>0.8</priority></url>
 </urlset>

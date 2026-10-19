@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Neuro-Candombe — Un Transformer que toca chico, repique y piano. | Julián Cardozo</title>
+<meta name="description" content="Un Transformer que toca chico, repique y piano. Los generadores de ritmo cuantizan todo a la grilla. En candombe eso borra lo esencial: el microtiming del chico, la articulación de cada golpe y la forma de la llamada. Un modelo genérico, además, no sabe que hay cosas que no se negocian, como el patr" />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/proyectos/neuro-candombe/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Neuro-Candombe — Un Transformer que toca chico, repique y piano. | Julián Cardozo" />
+<meta property="og:description" content="Un Transformer que toca chico, repique y piano. Los generadores de ritmo cuantizan todo a la grilla. En candombe eso borra lo esencial: el microtiming del chico, la articulación de cada golpe y la forma de la llamada. Un modelo genérico, además, no sabe que hay cosas que no se negocian, como el patr" />
+<meta property="og:url" content="https://juliancardozo.github.io/proyectos/neuro-candombe/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Neuro-Candombe — Un Transformer que toca chico, repique y piano. | Julián Cardozo" />
+<meta name="twitter:description" content="Un Transformer que toca chico, repique y piano. Los generadores de ritmo cuantizan todo a la grilla. En candombe eso borra lo esencial: el microtiming del chico, la articulación de cada golpe y la forma de la llamada. Un modelo genérico, además, no sabe que hay cosas que no se negocian, como el patr" />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"Neuro-Candombe","headline":"Neuro-Candombe — Un Transformer que toca chico, repique y piano.","description":"Los generadores de ritmo cuantizan todo a la grilla. En candombe eso borra lo esencial: el microtiming del chico, la articulación de cada golpe y la forma de la llamada. Un modelo genérico, además, no sabe que hay cosas que no se negocian, como el patrón del chico.","url":"https://juliancardozo.github.io/proyectos/neuro-candombe/","inLanguage":"es","author":{"@type":"Person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Python, PyTorch, FastAPI, NumPy, Web Audio, Netlify, Render","codeRepository":"https://github.com/juliancardozo/Neuro-Candombe-engine"}</script>
+</head>
+<body class="page-case">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#productos">Productos</a></li><li><a href="/#acerca">Sobre mí</a></li><li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="case">
+  <div class="shell case__head">
+    <a class="case__back" href="/#productos"><span aria-hidden="true">←</span> Volver al inicio</a>
+    <p class="case__meta">
+      <span class="case__category">IA y música</span>
+      <span class="badge badge--proto"><span class="badge__dot" aria-hidden="true"></span>Prototipo</span>
+      <span class="case__year">2026</span>
+    </p>
+    <h1 class="case__title">Neuro-Candombe</h1>
+    <p class="case__tagline">Un Transformer que toca chico, repique y piano.</p>
+    <div class="case__actions">
+      
+      <a class="btn btn--ghost" href="https://github.com/juliancardozo/Neuro-Candombe-engine" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+
+  <div class="shell case__hero"><svg class="cover" viewBox="0 40 390 210" role="img" aria-label="Ilustración abstracta del proyecto Neuro-Candombe" focusable="false">
+    <g class="cover__lines"><path d="M40 160 H120 l24 -56 28 112 26 -78 22 42 h140" /></g>
+    <g class="cover__accent">
+      <circle cx="172" cy="216" r="8" />
+      <path d="M300 70 v40 M280 90 h40" />
+    </g>
+    <g class="cover__soft"><rect x="40" y="228" width="310" height="2" rx="1" /></g></svg></div>
+
+  <div class="shell case__layout">
+    <aside class="case__aside">
+      <dl class="case__facts">
+        <div><dt>Mi rol</dt><dd>Modelo, representación de datos, API, frontend y evaluación. Proyecto propio.</dd></div>
+        <div><dt>Para quién</dt><dd>Músicos, docentes e investigadores que quieren escuchar, estudiar o reutilizar patrones de candombe.</dd></div>
+        <div><dt>Stack</dt><dd><ul class="chips chips--sm"><li>Python</li><li>PyTorch</li><li>FastAPI</li><li>NumPy</li><li>Web Audio</li><li>Netlify</li><li>Render</li></ul></dd></div>
+        <div><dt>Capacidades aplicadas</dt><dd><ul class="chips chips--sm"><li>Diseñar</li><li>Construir</li><li>Acelerar con IA</li></ul></dd></div>
+      </dl>
+      <nav class="case__toc" aria-label="En esta página">
+        <p class="case__toc-title">En esta página</p>
+        <ul><li><a href="#problema">El problema</a></li><li><a href="#solucion">La solución</a></li><li><a href="#resuelto">Qué tiene resuelto</a></li><li><a href="#evidencia">Evidencia</a></li><li><a href="#desafios">Lo difícil</a></li><li><a href="#aprendizajes">Qué aprendí</a></li><li><a href="#proximos">Próximos pasos</a></li></ul>
+      </nav>
+    </aside>
+
+    <div class="case__content">
+      <section class="case__block case__block--origin" id="origen">
+        <h2 class="case__block-title">De dónde salió</h2>
+        <p class="case__origin">El candombe de Montevideo tiene reglas muy precisas —el chico casi no cambia, el piano marca el barrio, el repique improvisa— y a la vez un groove que no entra en una grilla. Quería saber si un modelo podía aprender esas dos cosas juntas: la regla y el desfase.</p>
+      </section>
+      <section class="case__block" id="problema"><h2 class="case__block-title">El problema</h2><p>Los generadores de ritmo cuantizan todo a la grilla. En candombe eso borra lo esencial: el microtiming del chico, la articulación de cada golpe y la forma de la llamada. Un modelo genérico, además, no sabe que hay cosas que no se negocian, como el patrón del chico.</p></section>
+      <section class="case__block" id="solucion"><h2 class="case__block-title">La solución</h2><p>Un Transformer bidireccional enmascarado sobre una grilla de semicorcheas para los tres tambores. Cada celda guarda intensidad, desfase de microtiming y articulación. Las reglas del toque no se aplican después: entran como celdas fijas y máscaras de clases permitidas durante la decodificación. Una API FastAPI genera, completa un tambor sobre otros fijos o rehace compases, y un frontend web reproduce la llamada y exporta WAV y MIDI.</p></section>
+      <section class="case__block" id="resuelto"><h2 class="case__block-title">Qué tiene resuelto</h2><ul class="prose-list prose-list--check"><li>Representación por celda: intensidad (silencio + 4 niveles), microtiming en 13 bins y articulación por tambor (mano, palo, madera, abierto, masa).</li><li>Decodificación iterativa por confianza, con las reglas del toque como restricciones duras y no como filtro posterior.</li><li>Tres toques madre —Cuareim, Ansina y Gaboto— cargados desde transcripciones publicadas, con la fuente al lado de cada patrón.</li><li>Microtiming tomado de mediciones publicadas (Jure y Rocamora, 2022) y forma de llamada con &quot;subir la llamada&quot;.</li><li><code>POST /regenerate</code>: rehace compases o tambores puntuales y deja fijo el resto; la semilla hace reproducible cada resultado.</li><li>Evaluación objetiva con <code>copy_rate</code> para detectar si el modelo memoriza compases del corpus, más un flujo de pruebas de escucha a ciegas.</li><li>Frontend &quot;desfile de llamadas&quot;: tamaño de cuerda, paneo por tamborilero, programación con lookahead y exportación WAV/MIDI.</li></ul></section>
+      <section class="case__block" id="evidencia"><h2 class="case__block-title">Evidencia</h2><ul class="prose-list prose-list--evidence"><li>31 tests con pytest sobre representación, generación, entrenamiento, análisis de audio, toques y API.</li><li>Importador del dataset de candombe de la UdelaR (Zenodo 6533068: 35 interpretaciones, ~2 h anotadas por un experto).</li><li>Análisis de grabaciones propias por stems o por mezcla, con refinamiento de onsets a nivel de muestra.</li><li>Deploy separado: frontend estático en Netlify y API en Render, con fallback a un motor por reglas si no hay checkpoint.</li></ul></section>
+      <section class="case__block" id="desafios"><h2 class="case__block-title">Lo difícil</h2><ul class="prose-list"><li>La primera versión no aprendía: el objetivo estaba visible en la entrada. Pasar a un Transformer enmascarado, que solo puntúa celdas ocultas, fue el cambio que lo destrabó.</li><li>El microtiming del candombe no es ruido. Hubo que representarlo como una clase propia por celda en vez de cuantizarlo y &quot;humanizar&quot; al final.</li><li>Separar tambores de una grabación mezclada es una heurística por bandas: los golpes fantasma suaves se pierden. Con stems por tambor el problema desaparece.</li></ul></section>
+      <section class="case__block" id="aprendizajes"><h2 class="case__block-title">Qué aprendí</h2><ul class="prose-list"><li>Las reglas de dominio funcionan mejor como restricciones de decodificación que como corrección posterior: el modelo genera dentro del espacio válido.</li><li>Medir la tasa de copia evita engañarse: un modelo que suena bien puede estar repitiendo el corpus.</li><li>Citar la fuente de cada patrón hace que el sistema se pueda discutir con músicos, no solo con ingenieros.</li></ul></section>
+      <section class="case__block" id="proximos"><h2 class="case__block-title">Próximos pasos</h2><ul class="prose-list prose-list--next"><li>Entrenar con el dataset real y grabaciones multipista propias: el checkpoint incluido solo vio el corpus sintético.</li><li>Reemplazar los golpes sintetizados por un banco de muestras grabadas.</li></ul></section>
+    </div>
+  </div>
+
+  <div class="shell case__more">
+    <h2 class="case__more-title">Otros productos</h2>
+    <ul class="case__more-list">
+      <li>
+        <a href="/proyectos/micuota/">
+          <span class="case__more-name">MiCuota</span>
+          <span class="case__more-tagline">Cobrar cuotas sin perseguir a nadie por WhatsApp.</span>
+        </a>
+      </li><li>
+        <a href="/proyectos/patio/">
+          <span class="case__more-name">Patio</span>
+          <span class="case__more-tagline">El stock de una automotora, sin la planilla compartida.</span>
+        </a>
+      </li><li>
+        <a href="/proyectos/milo-care/">
+          <span class="case__more-name">Milo Care</span>
+          <span class="case__more-tagline">La salud de tu perro dejó de vivir en capturas de pantalla.</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  
+</article>
+
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

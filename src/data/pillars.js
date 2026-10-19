@@ -57,7 +57,7 @@ export const pillars = [
     description:
       'De la observación del problema al MVP: onboarding, experiencia de uso, hipótesis, validación y diseño de soluciones sostenibles.',
     lead:
-      'Este pilar conecta discovery, producto y ejecución. Los proyectos nacen de problemas observados —cuidar a Milo, cobrar cuotas, vender una casa, entender una jam— y se convierten en decisiones de arquitectura y producto que pueden ser útiles para otros equipos.',
+      'Este pilar conecta discovery, producto y ejecución. Los proyectos nacen de problemas observados —cuidar a Milo, cobrar cuotas, vender una casa, entender una jam, aprender canciones sin suscripción— y se convierten en decisiones de arquitectura y producto que pueden ser útiles para otros equipos.',
     audiences: ['Founders y venture builders', 'Product Managers', 'Equipos que validan nuevos productos'],
     questions: [
       '¿Qué debería recibir un usuario en la primera sesión para que un producto tenga sentido?',
@@ -70,8 +70,9 @@ export const pillars = [
       'infraestructura-proporcionada-problema',
       'emprender-desde-problemas-observados',
       'web-corporativa-2026-impacto-rendimiento',
+      'rea-ingenieria-inversa-chordify-chordlocal',
     ],
-    projectSlugs: ['milo-care', 'casa-medanos', 'escalaimprov', 'webspec-ai'],
+    projectSlugs: ['milo-care', 'casa-medanos', 'escalaimprov', 'webspec-ai', 'chordlocal'],
     cta:
       'Si estás validando un producto o redefiniendo el alcance de un MVP, me interesa conocer el problema y la hipótesis detrás.',
   },

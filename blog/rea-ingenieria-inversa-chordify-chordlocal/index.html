@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ingeniería inversa con agentes: de Chordify a ChordLocal con REA | Julián Cardozo</title>
+<meta name="description" content="Qué es REA (Reverse Engineer Anything), cómo partimos de él para replicar Chordify como app local y libre, qué hizo falta de verdad y qué potencial tiene la ingeniería inversa asistida por agentes." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/rea-ingenieria-inversa-chordify-chordlocal/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Ingeniería inversa con agentes: de Chordify a ChordLocal con REA | Julián Cardozo" />
+<meta property="og:description" content="Qué es REA (Reverse Engineer Anything), cómo partimos de él para replicar Chordify como app local y libre, qué hizo falta de verdad y qué potencial tiene la ingeniería inversa asistida por agentes." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/rea-ingenieria-inversa-chordify-chordlocal/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Ingeniería inversa con agentes: de Chordify a ChordLocal con REA | Julián Cardozo" />
+<meta name="twitter:description" content="Qué es REA (Reverse Engineer Anything), cómo partimos de él para replicar Chordify como app local y libre, qué hizo falta de verdad y qué potencial tiene la ingeniería inversa asistida por agentes." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Ingeniería inversa con agentes: de Chordify a ChordLocal con REA","description":"Qué es REA (Reverse Engineer Anything), cómo partimos de él para replicar Chordify como app local y libre, qué hizo falta de verdad y qué potencial tiene la ingeniería inversa asistida por agentes.","datePublished":"2026-10-19","dateModified":"2026-10-19","inLanguage":"es","url":"https://juliancardozo.github.io/blog/rea-ingenieria-inversa-chordify-chordlocal/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"IA y producto"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#productos">Productos</a></li><li><a href="/#acerca">Sobre mí</a></li><li><a href="/blog/">Blog</a></li><li><a href="/newsletter/">Newsletter</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>IA y producto</span><time datetime="2026-10-19">19 de octubre de 2026</time><span>7 min de lectura</span></p>
+    <h1 class="article__title">Ingeniería inversa con agentes: de Chordify a ChordLocal con REA</h1>
+    <p class="article__lead">REA (Reverse Engineer Anything) es un servidor MCP que le da a un agente de código herramientas para inspeccionar aplicaciones sin su código fuente: binarios, apps JavaScript y Electron, ensamblados .NET, APKs y sitios web. El pedido inicial fue directo: &quot;analizar con REA la aplicación Chordify para tenerla local, con todos sus features, pero gratis&quot;. El resultado es ChordLocal. Este artículo cuenta qué es REA, qué parte del trabajo hizo falta de verdad y por qué la ingeniería inversa de producto tiene más potencial que la de código.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pilar</p><a href="/temas/producto-mvps/" class="js-track-pillar-hub">Productos, startups y MVPs <span aria-hidden="true">→</span></a></div>
+      <div><p>Este artículo nace del proyecto</p>
+      <a href="/proyectos/chordlocal/" class="js-track-origin-project">ChordLocal <span aria-hidden="true">→</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>Qué es REA</h2>
+          <p>REA se instala con <code>npx rea-agents setup</code> y se registra como servidor MCP en agentes como Claude Code, Codex o Cursor. El agente le pide que inspeccione un objetivo local y REA devuelve hallazgos con su evidencia: pseudocódigo y referencias en un binario, módulos e IPC en una app Electron, o estructura de página, scripts y tráfico de red en un sitio web. El análisis corre en la máquina, y cada conclusión viene con sus límites.</p><p>La promesa del proyecto se resume en una frase de su README: ves una feature que te gusta en otra app y querés entender cómo funciona para construir la tuya. Es ingeniería inversa pensada para producto, no solo para seguridad.</p>
+        </section>
+        <section>
+          <h2>El punto de partida: qué hace Chordify y qué cobra</h2>
+          <p>Chordify detecta los acordes de una canción y los muestra sincronizados con el audio. La detección es gratis; transponer, poner cejilla, cambiar el tempo, hacer loops o exportar a MIDI son funciones pagas. El primer entregable fue una matriz: cada feature, su plan, el equivalente libre y la dificultad real de construirlo.</p><p>Ahí apareció el hallazgo central: seis de las siete funciones pagas son transformaciones simples sobre el resultado del análisis. Transponer es sumar semitonos a la raíz de cada acorde, <code>(root + n) % 12</code>. La cejilla es lo mismo con el signo invertido. Lo único difícil de verdad es detectar bien los acordes y el compás a partir del audio.</p>
+        </section>
+        <section>
+          <h2>Una aclaración honesta sobre el alcance</h2>
+          <p>En esta primera iteración, REA estaba instalado pero no registrado como MCP en el agente, así que el agente no llegó a invocarlo. La matriz salió de observar el producto público y su documentación, no de inspeccionar su código. Para este caso alcanzó: no hacía falta saber cómo Chordify implementa nada, sino qué ofrece y cuánto cuesta construirlo.</p><p>También fue un límite deliberado. La base de acordes de Chordify es su producto: no se scrapea ni se copia. ChordLocal genera sus propios análisis con su propio pipeline. Replicar funcionalidad es legítimo; copiar código, datos o contenido protegido no lo es.</p>
+        </section>
+        <section>
+          <h2>De la matriz a la arquitectura</h2>
+          <p>La matriz definió la decisión de arquitectura más importante: separar el análisis, lento y una vez por canción, del uso, instantáneo. Todo el análisis se guarda en un <code>analysis.json</code> con beats, compás, acordes, tonalidad y letra. Las funciones &quot;premium&quot; leen ese archivo y no vuelven a tocar el audio.</p><p>La otra restricción fue el hardware: un MacBook Pro Intel de 2016 sin GPU. PyTorch dejó de publicar wheels para Mac Intel después de la 2.4.1, así que el entorno quedó fijado en Python 3.11 y <code>torch==2.2.2</code>. Con eso, un reconocedor clásico —croma por beat, plantillas armónicas y Viterbi— dio 99,8 % de acorde exacto en la validación sintética y analiza una canción de 4 minutos en unos 80 segundos.</p>
+        </section>
+        <section>
+          <h2>Dónde REA sí cambia el juego</h2>
+          <p>Hay preguntas que la observación externa no responde: si una función corre en el cliente o en el servidor, qué endpoints usa, qué formato tienen los datos o qué librería resuelve el audio. Ahí REA aporta evidencia concreta: los scripts que carga la página, las llamadas de red y los módulos de una app Electron. Eso convierte una hipótesis de arquitectura en un hecho verificable antes de escribir código.</p><p>El potencial va más allá de clonar apps. Sirve para auditar dependencias de una herramienta interna sin documentación, entender una integración legada antes de migrarla, evaluar un competidor con evidencia en vez de suposiciones o mantener compatibilidad con un formato cerrado. En todos los casos el valor es el mismo: pasar de &quot;creo que funciona así&quot; a &quot;esta es la evidencia&quot;.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Arquitectura de referencia</span>De un producto de referencia a una app propia
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="Se observa el producto de referencia, se lista cada feature con su plan y su dificultad, se diseña un modelo de datos propio y recién después se construye. REA aporta evidencia en el primer paso; el resto es ingeniería convencional.">
+        
+          
+          <div class="architecture__layer">
+            <p>Observar</p>
+            <ul><li>Producto público</li><li>REA: estructura, scripts, red</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Matriz de features</p>
+            <ul><li>Gratis vs. pago</li><li>Dificultad real</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Modelo propio</p>
+            <ul><li>analysis.json</li><li>Fuente única de verdad</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>App local</p>
+            <ul><li>Pipeline en CPU</li><li>Funciones derivadas al instante</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">Se observa el producto de referencia, se lista cada feature con su plan y su dificultad, se diseña un modelo de datos propio y recién después se construye. REA aporta evidencia en el primer paso; el resto es ingeniería convencional.</p>
+    </figure>
+      <p class="article__takeaway">Criterio práctico: la ingeniería inversa útil empieza por el producto, no por el código. Listar qué hace una app, qué cobra y cuánto cuesta construir cada parte ya define la arquitectura. Herramientas como REA suman evidencia donde la observación no alcanza, siempre dentro de los límites de licencias, términos de servicio y propiedad de los datos.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Tu equipo está evaluando IA aplicada? Me interesa conocer el problema que están intentando resolver.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Ingenier%C3%ADa%20inversa%20con%20agentes%3A%20de%20Chordify%20a%20ChordLocal%20con%20REA&amp;body=%C2%BFTu%20equipo%20est%C3%A1%20evaluando%20IA%20aplicada%3F%20Me%20interesa%20conocer%20el%20problema%20que%20est%C3%A1n%20intentando%20resolver.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Ingenier%C3%ADa%20inversa%20con%20agentes%3A%20de%20Chordify%20a%20ChordLocal%20con%20REA%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Frea-ingenieria-inversa-chordify-chordlocal%2F">Escribirme sobre este tema</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/ia-no-cambia-solo-herramienta-liderazgo-operacion/" class="js-track-related-article">
+        <span>Liderazgo y producto</span>
+        <strong>La IA no cambia solo una herramienta: cambia la estructura del liderazgo y la operación</strong>
+        <small>Análisis de por qué la IA redefine liderazgo, coordinación, métricas y responsabilidad operativa, no solo el stack técnico.</small>
+      </a></li><li><a href="/blog/ia-especificacion-antes-codigo/" class="js-track-related-article">
+        <span>IA y producto</span>
+        <strong>IA asistida: la especificación es el sistema de control de la ambigüedad</strong>
+        <small>Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código.</small>
+      </a></li><li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>Noticias de IA</span>
+        <strong>El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA</strong>
+        <small>Análisis de la nueva discusión sobre hardware para modelos de frontera y por qué la infraestructura se volvió parte central de la estrategia de IA.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

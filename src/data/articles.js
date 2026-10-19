@@ -4,6 +4,68 @@
  */
 const articleEntries = [
   {
+    slug: 'rea-ingenieria-inversa-chordify-chordlocal',
+    title: 'Ingeniería inversa con agentes: de Chordify a ChordLocal con REA',
+    description: 'Qué es REA (Reverse Engineer Anything), cómo partimos de él para replicar Chordify como app local y libre, qué hizo falta de verdad y qué potencial tiene la ingeniería inversa asistida por agentes.',
+    category: 'IA y producto',
+    tags: ['IA', 'Agentes', 'Ingeniería inversa', 'Producto', 'Música'],
+    date: '2026-10-19',
+    readingTime: '7 min de lectura',
+    projectSlug: 'chordlocal',
+    projectName: 'ChordLocal',
+    sourceUrl: 'https://github.com/morluto/rea',
+    sourceLabel: 'Repositorio oficial de REA: morluto/rea',
+    lead: 'REA (Reverse Engineer Anything) es un servidor MCP que le da a un agente de código herramientas para inspeccionar aplicaciones sin su código fuente: binarios, apps JavaScript y Electron, ensamblados .NET, APKs y sitios web. El pedido inicial fue directo: "analizar con REA la aplicación Chordify para tenerla local, con todos sus features, pero gratis". El resultado es ChordLocal. Este artículo cuenta qué es REA, qué parte del trabajo hizo falta de verdad y por qué la ingeniería inversa de producto tiene más potencial que la de código.',
+    architecture: {
+      caption: 'De un producto de referencia a una app propia',
+      description: 'Se observa el producto de referencia, se lista cada feature con su plan y su dificultad, se diseña un modelo de datos propio y recién después se construye. REA aporta evidencia en el primer paso; el resto es ingeniería convencional.',
+      layers: [
+        { label: 'Observar', items: ['Producto público', 'REA: estructura, scripts, red'] },
+        { label: 'Matriz de features', items: ['Gratis vs. pago', 'Dificultad real'] },
+        { label: 'Modelo propio', items: ['analysis.json', 'Fuente única de verdad'] },
+        { label: 'App local', items: ['Pipeline en CPU', 'Funciones derivadas al instante'] },
+      ],
+    },
+    sections: [
+      {
+        title: 'Qué es REA',
+        paragraphs: [
+          'REA se instala con `npx rea-agents setup` y se registra como servidor MCP en agentes como Claude Code, Codex o Cursor. El agente le pide que inspeccione un objetivo local y REA devuelve hallazgos con su evidencia: pseudocódigo y referencias en un binario, módulos e IPC en una app Electron, o estructura de página, scripts y tráfico de red en un sitio web. El análisis corre en la máquina, y cada conclusión viene con sus límites.',
+          'La promesa del proyecto se resume en una frase de su README: ves una feature que te gusta en otra app y querés entender cómo funciona para construir la tuya. Es ingeniería inversa pensada para producto, no solo para seguridad.',
+        ],
+      },
+      {
+        title: 'El punto de partida: qué hace Chordify y qué cobra',
+        paragraphs: [
+          'Chordify detecta los acordes de una canción y los muestra sincronizados con el audio. La detección es gratis; transponer, poner cejilla, cambiar el tempo, hacer loops o exportar a MIDI son funciones pagas. El primer entregable fue una matriz: cada feature, su plan, el equivalente libre y la dificultad real de construirlo.',
+          'Ahí apareció el hallazgo central: seis de las siete funciones pagas son transformaciones simples sobre el resultado del análisis. Transponer es sumar semitonos a la raíz de cada acorde, `(root + n) % 12`. La cejilla es lo mismo con el signo invertido. Lo único difícil de verdad es detectar bien los acordes y el compás a partir del audio.',
+        ],
+      },
+      {
+        title: 'Una aclaración honesta sobre el alcance',
+        paragraphs: [
+          'En esta primera iteración, REA estaba instalado pero no registrado como MCP en el agente, así que el agente no llegó a invocarlo. La matriz salió de observar el producto público y su documentación, no de inspeccionar su código. Para este caso alcanzó: no hacía falta saber cómo Chordify implementa nada, sino qué ofrece y cuánto cuesta construirlo.',
+          'También fue un límite deliberado. La base de acordes de Chordify es su producto: no se scrapea ni se copia. ChordLocal genera sus propios análisis con su propio pipeline. Replicar funcionalidad es legítimo; copiar código, datos o contenido protegido no lo es.',
+        ],
+      },
+      {
+        title: 'De la matriz a la arquitectura',
+        paragraphs: [
+          'La matriz definió la decisión de arquitectura más importante: separar el análisis, lento y una vez por canción, del uso, instantáneo. Todo el análisis se guarda en un `analysis.json` con beats, compás, acordes, tonalidad y letra. Las funciones "premium" leen ese archivo y no vuelven a tocar el audio.',
+          'La otra restricción fue el hardware: un MacBook Pro Intel de 2016 sin GPU. PyTorch dejó de publicar wheels para Mac Intel después de la 2.4.1, así que el entorno quedó fijado en Python 3.11 y `torch==2.2.2`. Con eso, un reconocedor clásico —croma por beat, plantillas armónicas y Viterbi— dio 99,8 % de acorde exacto en la validación sintética y analiza una canción de 4 minutos en unos 80 segundos.',
+        ],
+      },
+      {
+        title: 'Dónde REA sí cambia el juego',
+        paragraphs: [
+          'Hay preguntas que la observación externa no responde: si una función corre en el cliente o en el servidor, qué endpoints usa, qué formato tienen los datos o qué librería resuelve el audio. Ahí REA aporta evidencia concreta: los scripts que carga la página, las llamadas de red y los módulos de una app Electron. Eso convierte una hipótesis de arquitectura en un hecho verificable antes de escribir código.',
+          'El potencial va más allá de clonar apps. Sirve para auditar dependencias de una herramienta interna sin documentación, entender una integración legada antes de migrarla, evaluar un competidor con evidencia en vez de suposiciones o mantener compatibilidad con un formato cerrado. En todos los casos el valor es el mismo: pasar de "creo que funciona así" a "esta es la evidencia".',
+        ],
+      },
+    ],
+    takeaway: 'Criterio práctico: la ingeniería inversa útil empieza por el producto, no por el código. Listar qué hace una app, qué cobra y cuánto cuesta construir cada parte ya define la arquitectura. Herramientas como REA suman evidencia donde la observación no alcanza, siempre dentro de los límites de licencias, términos de servicio y propiedad de los datos.',
+  },
+  {
     slug: 'gpt-6-astra-openai-superinteligencia-especulaciones',
     title: 'OpenAI lanza GPT-6 Astra: capacidad de frontera, presión competitiva y debate sobre superinteligencia',
     description: 'Análisis técnico y estratégico del lanzamiento de GPT-6 Astra: capacidades declaradas, arquitectura de producto y qué sí (y qué no) significa hablar de superinteligencia.',

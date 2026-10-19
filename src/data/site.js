@@ -24,7 +24,7 @@ export const content = {
     meta: {
       title: 'Julián Cardozo — Engineering Manager y product builder',
       description:
-        'Engineering Manager y desarrollador con más de 15 años de experiencia en software, banca, fintech y plataformas. Convierto problemas reales en productos digitales: pagos, automotoras, salud animal, compliance e IA.',
+        'Engineering Manager y desarrollador con más de 15 años en software, banca, fintech y plataformas. Convierto problemas reales en productos: pagos, automotoras, salud animal, compliance, música, juegos e IA.',
       keywords: [
         'Engineering Manager',
         'Technical Leadership',
@@ -44,59 +44,56 @@ export const content = {
       ],
     },
 
+    // Menú corto: una entrada por intención (ver trabajo, conocerme, leer, contactar).
+    // El resto de las secciones del home se recorre con scroll. `cta` la destaca como botón.
     nav: [
+      { href: '#productos', label: 'Productos' },
+      { href: '#acerca', label: 'Sobre mí' },
       { href: '/blog/', label: 'Blog' },
       { href: '/newsletter/', label: 'Newsletter' },
-      { href: '/blog/#pilares', label: 'Pilares' },
-      { href: '#acerca', label: 'Acerca de mí' },
-      { href: '#productos', label: 'Productos' },
-      { href: '#origen', label: 'Cómo nacen' },
-      { href: '#laboratorio', label: 'Laboratorio' },
-      { href: '#recorrido', label: 'Recorrido' },
-      { href: '#capacidades', label: 'Capacidades' },
-      { href: '#contacto', label: 'Contacto' },
+      { href: '#contacto', label: 'Contacto', cta: true },
     ],
 
     hero: {
       eyebrow: 'Engineering Manager · Product builder · Montevideo, Uruguay',
-      title: 'Convierto problemas reales en productos digitales.',
-      lead: 'Soy Julián Cardozo. Hace más de 15 años que construyo software: sistemas empresariales en Java, plataformas de pagos en banca y fintech, y equipos de ingeniería. En el último año usé esa base para pasar de resolver problemas ajenos a construir producto propio: siete productos que nacieron de situaciones que viví de cerca, seis de ellos hoy en línea.',
-      note: 'Cada tarjeta indica en qué estado real está el proyecto: en línea, MVP funcional, prototipo o exploración. Nada más que eso.',
+      title: 'Convierto problemas reales en software que funciona.',
+      lead: 'Soy Julián Cardozo. Hace más de 15 años que construyo software: backend en Java, plataformas de pagos en banca y fintech, y equipos de ingeniería. En el último año apliqué esa base a productos propios: diez proyectos que salieron de situaciones concretas, siete de ellos en línea.',
+      note: 'Cada proyecto muestra su estado real: en línea, MVP, prototipo o herramienta.',
       ctas: [
         { href: '#productos', label: 'Ver los productos', variant: 'primary' },
-        { href: '#recorrido', label: 'Conocer mi recorrido', variant: 'ghost' },
+        { href: '#acerca', label: 'Sobre mí', variant: 'ghost' },
       ],
       facts: [
         { value: '15+', label: 'años construyendo software' },
-        { value: '7', label: 'productos propios en el último año' },
-        { value: '6', label: 'con producto o sitio en línea hoy' },
-        { value: '48', label: 'repositorios públicos' },
+        { value: '10', label: 'productos propios en el último año' },
+        { value: '7', label: 'en línea hoy' },
+        { value: '50', label: 'repositorios públicos' },
       ],
     },
 
     sections: {
       productos: {
         eyebrow: 'Productos',
-        title: 'Siete productos, siete problemas que conocía de cerca',
-        lead: 'No son ejercicios técnicos. Cada uno arrancó con una situación concreta —una mudanza, un perro, un auto, una ley nueva, una jam— y terminó en código que se puede leer. Entrá al caso de estudio para ver el problema, las decisiones y el estado real.',
+        title: 'Diez productos, diez problemas que conocía de cerca',
+        lead: 'Cada uno empezó con una situación concreta —una mudanza, un perro, un auto, una ley, una jam, un viaje— y terminó en código público. En cada caso de estudio: el problema, las decisiones técnicas y el estado real.',
       },
       pilares: {
         eyebrow: 'Pilares',
-        title: 'Cinco áreas de experiencia, organizadas en tres rutas de lectura',
-        lead: 'No son categorías arbitrarias. Son la forma más útil de conectar artículos, proyectos y conversaciones reales sobre liderazgo técnico, arquitectura y producto.',
+        title: 'Tres rutas de lectura',
+        lead: 'Artículos y proyectos agrupados por tema: liderazgo técnico, arquitectura y producto.',
       },
       newsletter: {
         eyebrow: 'Newsletter',
-        title: 'Una newsletter para pensar mejor cómo construimos',
-        lead: 'Notas desde el frente conecta liderazgo técnico, arquitectura, producto, IA aplicada y aprendizajes de proyectos propios en un formato más personal y conversable que el blog.',
+        title: 'Notas desde el frente',
+        lead: 'Liderazgo técnico, arquitectura, producto e IA aplicada, con lo que aprendo en proyectos propios. Más personal que el blog.',
         ctaPrimary: 'Ver archivo de la newsletter',
         ctaSecondary: 'Quiero recibir la primera edición',
-        note: 'La suscripción se procesa con un endpoint seguro fuera de GitHub Pages para no exponer credenciales. El alta queda registrada con consentimiento e interés principal.',
+        note: 'La suscripción pasa por un endpoint propio fuera de GitHub Pages, para no exponer credenciales. Se registra el consentimiento y el tema de interés.',
       },
       acerca: {
-        eyebrow: 'Acerca de mí',
-        title: 'De construir sistemas a habilitar organizaciones de ingeniería',
-        lead: 'Mi carrera evolucionó desde el desarrollo backend hacia una responsabilidad más amplia: crear las condiciones para que equipos, productos y plataformas entreguen valor de forma sostenible. No lo entiendo como una sucesión de títulos, sino como una ampliación progresiva del sistema bajo mi responsabilidad.',
+        eyebrow: 'Sobre mí',
+        title: 'De construir sistemas a habilitar equipos de ingeniería',
+        lead: 'Empecé escribiendo backend. Hoy mi trabajo es que equipos, productos y plataformas entreguen valor de forma sostenible. Cada etapa amplió el sistema bajo mi responsabilidad.',
         stages: [
           {
             title: 'Desarrollador',
@@ -116,33 +113,33 @@ export const content = {
         ],
         future: {
           title: 'Próximo alcance: liderazgo ejecutivo',
-          body: 'La dirección de mi desarrollo profesional está en roles donde tecnología, producto y negocio se alinean de forma explícita. CTO implica conectar arquitectura, seguridad y plataforma con la estrategia. VP Engineering o Head of Engineering, escalar talento, delivery y salud de la organización. Head of Product, integrar discovery, priorización y viabilidad técnica. Son trayectorias objetivo, no cargos actuales.',
+          body: 'Busco roles donde tecnología, producto y negocio se alinean. CTO: conectar arquitectura, seguridad y plataforma con la estrategia. VP o Head of Engineering: escalar talento, delivery y salud del equipo. Head of Product: unir discovery, priorización y viabilidad técnica. Son objetivos, no cargos actuales.',
         },
       },
       origen: {
         eyebrow: 'Método',
         title: 'Cómo nace un producto',
-        lead: 'Todos siguieron el mismo recorrido. Lo que cambia es el dominio; el patrón se repite y es lo que mejor describe cómo trabajo.',
+        lead: 'Todos siguen el mismo proceso. Cambia el dominio, no el método.',
         steps: [
           {
             step: 'Experiencia',
-            body: 'Vivo el problema en primera persona o lo veo de cerca en alguien. No parto de una idea de negocio abstracta.',
+            body: 'Vivo el problema o lo veo de cerca. No parto de una idea de negocio abstracta.',
           },
           {
-            step: 'Problema observado',
-            body: 'Separo la molestia puntual del problema estructural. Casi siempre hay información dispersa, un proceso manual o una norma difícil de traducir a software.',
+            step: 'Problema',
+            body: 'Separo la molestia puntual del problema estructural: información dispersa, un proceso manual o una norma difícil de llevar a software.',
           },
           {
-            step: 'Idea y validación',
-            body: 'Escribo la especificación antes que el código: alcance, dominio, usuarios y qué significa "funciona". Es donde más ahorro tiempo.',
+            step: 'Especificación',
+            body: 'Escribo la spec antes que el código: alcance, dominio, usuarios y qué significa "funciona". Ahí se ahorra más tiempo.',
           },
           {
             step: 'Producto',
-            body: 'Construyo el MVP end-to-end: modelo de datos, API, frontend, despliegue. Sin frameworks de más ni infraestructura que el problema no pida.',
+            body: 'MVP end-to-end: modelo de datos, API, frontend y deploy. Sin frameworks ni infraestructura que el problema no pida.',
           },
           {
-            step: 'Nueva capacidad',
-            body: 'Cada producto deja algo reutilizable: un motor de cobros, un patrón multi-tenant, una skill de compliance. Ese es el activo que queda.',
+            step: 'Capacidad',
+            body: 'Cada producto deja algo reutilizable: un motor de cobros, un patrón multi-tenant, un pipeline de audio.',
           },
         ],
         examples: [
@@ -151,19 +148,22 @@ export const content = {
           { from: 'Vender mi auto', to: 'Patio', slug: 'patio' },
           { from: 'La ley 18.331', to: 'compliance-uy', slug: 'compliance-uy' },
           { from: 'Querer tocar en una jam', to: 'EscalaImprov', slug: 'escalaimprov' },
+          { from: 'Un viaje a Porto de Galinhas', to: 'Sombrilleros', slug: 'sombrilleros' },
+          { from: 'No pagar Chordify', to: 'ChordLocal', slug: 'chordlocal' },
+          { from: 'El candombe de Montevideo', to: 'Neuro-Candombe', slug: 'neuro-candombe' },
         ],
       },
       laboratorio: {
         eyebrow: 'Laboratorio',
         title: 'Experimentos, herramientas y fundamentos',
-        lead: 'Proyectos secundarios, pruebas de concepto, trabajo para clientes y los trabajos académicos donde se formó la base. Filtrá por tipo para ver de qué está hecho el recorrido.',
+        lead: 'Pruebas de concepto, trabajos para clientes y la base académica. Filtrá por tipo.',
         allLabel: 'Todo',
         emptyLabel: 'No hay proyectos en esta categoría.',
       },
       recorrido: {
         eyebrow: 'Recorrido',
         title: 'Cada etapa sumó una capacidad',
-        lead: 'No es un currículum cronológico. Es la lista de lo que cada etapa me dejó y que sigo usando hoy.',
+        lead: 'No es un CV cronológico: es lo que cada etapa me dejó y sigo usando.',
         stages: [
           {
             period: 'Fundamentos',
@@ -212,7 +212,7 @@ export const content = {
       capacidades: {
         eyebrow: 'Capacidades',
         title: 'Lo que puedo hacer, ordenado por etapa',
-        lead: 'No es una nube de logos. Es el sistema con el que trabajo, de la primera conversación al día en que hay que operarlo.',
+        lead: 'Cómo trabajo, de la primera conversación a la operación en producción.',
         groups: [
           {
             title: 'Descubrir',
@@ -279,7 +279,7 @@ export const content = {
       contacto: {
         eyebrow: 'Contacto',
         title: 'Conversemos',
-        lead: 'Si estás construyendo un producto, modernizando una plataforma, armando un equipo de ingeniería o explorando cómo aplicar inteligencia artificial a un problema concreto, escribime. Respondo todos los mensajes.',
+        lead: '¿Estás construyendo un producto, modernizando una plataforma, armando un equipo o aplicando IA a un problema concreto? Escribime. Respondo todos los mensajes.',
         items: [
           'Liderazgo técnico y gestión de equipos de ingeniería',
           'Plataformas de pagos, integraciones y arquitectura backend',
@@ -317,7 +317,7 @@ export const content = {
       onThisPage: 'En esta página',
       moreProjects: 'Otros productos',
       noLinks: 'Repositorio privado',
-      footerNote: 'Sitio construido sin frameworks ni dependencias: HTML, CSS y un generador estático de ~200 líneas.',
+      footerNote: 'Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.',
     },
   },
 };

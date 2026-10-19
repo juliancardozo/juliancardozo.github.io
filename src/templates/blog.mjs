@@ -1,4 +1,4 @@
-import { esc, projectHref } from './components.mjs';
+import { esc, inlineCode, projectHref } from './components.mjs';
 import { site } from '../data/site.js';
 import { pillars } from '../data/pillars.js';
 import { newsletter } from '../data/newsletter.js';
@@ -135,7 +135,7 @@ export const articlePage = ({ article, relatedProject, relatedArticles = [], pil
       ${article.sections.map((section) => `
         <section>
           <h2>${esc(section.title)}</h2>
-          ${section.paragraphs.map((paragraph) => `<p>${esc(paragraph)}</p>`).join('')}
+          ${section.paragraphs.map((paragraph) => `<p>${inlineCode(paragraph)}</p>`).join('')}
         </section>`).join('')}
       ${architectureDiagram(article.architecture)}
       <p class="article__takeaway">${esc(article.takeaway)}</p>

@@ -76,7 +76,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         ${t.nav
           .map((item) => {
             const href = item.href.startsWith('/') ? item.href : path === '/' ? item.href : `/${item.href}`;
-            return `<li><a href="${esc(href)}">${esc(item.label)}</a></li>`;
+            return `<li><a href="${esc(href)}"${item.cta ? ' class="site-nav__cta"' : ''}>${esc(item.label)}</a></li>`;
           })
           .join('')}
       </ul>

@@ -194,6 +194,20 @@ code {
   border-bottom-color: var(--accent);
 }
 
+/* La acción principal del menú se lee como botón, no como un enlace más. */
+.site-nav .site-nav__cta {
+  color: var(--ink);
+  padding: 0.4rem 0.9rem;
+  border: 1.5px solid var(--accent);
+  border-radius: 999px;
+}
+.site-nav .site-nav__cta:hover,
+.site-nav .site-nav__cta[aria-current="true"] {
+  background: var(--accent);
+  border-bottom-color: var(--accent);
+  color: var(--paper);
+}
+
 @media (max-width: 860px) {
   .site-header__name { display: none; }
   .site-nav {
