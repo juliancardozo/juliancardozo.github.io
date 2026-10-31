@@ -208,6 +208,22 @@ code {
   color: var(--paper);
 }
 
+/* Selector de idioma: fuera del nav para que siga visible cuando el menú scrollea en mobile. */
+.site-lang {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: var(--muted);
+  padding: 0.3rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.site-lang:hover { color: var(--ink); border-color: var(--accent); }
+.site-header__inner:has(.site-lang) .site-nav { margin-inline-start: auto; }
+
 @media (max-width: 860px) {
   .site-header__name { display: none; }
   .site-nav {
@@ -218,6 +234,9 @@ code {
     padding-inline-end: var(--gutter);
   }
   .site-nav::-webkit-scrollbar { display: none; }
+  /* Con selector de idioma a la derecha, el menú ya no sangra hasta el borde. */
+  .site-header__inner:has(.site-lang) { gap: 0.75rem; }
+  .site-header__inner:has(.site-lang) .site-nav { margin-inline-end: 0; padding-inline-end: 0; }
 }
 
 /* ── Botones y enlaces ────────────────────────────────────────────────────── */
@@ -741,6 +760,27 @@ code {
   color: var(--muted);
   margin-bottom: 0.2rem;
 }
+
+.path__products { margin-top: 0.8rem; }
+.path__products span {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.4rem;
+}
+.path__products ul { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0; padding: 0; }
+.path__products a {
+  display: inline-block;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.2rem 0.7rem;
+}
+.path__products a:hover { color: var(--accent); border-color: currentColor; }
 
 /* ── Capacidades ──────────────────────────────────────────────────────────── */
 

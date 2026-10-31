@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Puffin-World and the new wave of multimodal models: less hype, more real architecture | Julián Cardozo</title>
+<meta name="description" content="A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/puffin-world-modelos-multimodales-open-weight/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/puffin-world-modelos-multimodales-open-weight/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/puffin-world-modelos-multimodales-open-weight/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/puffin-world-modelos-multimodales-open-weight/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Puffin-World and the new wave of multimodal models: less hype, more real architecture | Julián Cardozo" />
+<meta property="og:description" content="A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/puffin-world-modelos-multimodales-open-weight/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Puffin-World and the new wave of multimodal models: less hype, more real architecture | Julián Cardozo" />
+<meta name="twitter:description" content="A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Puffin-World and the new wave of multimodal models: less hype, more real architecture","description":"A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture.","datePublished":"2026-09-07","dateModified":"2026-09-07","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/puffin-world-modelos-multimodales-open-weight/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"AI news"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/puffin-world-modelos-multimodales-open-weight/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><span>AI news</span><time datetime="2026-09-07">September 7, 2026</time><span>7 min read</span></p>
+    <h1 class="article__title">Puffin-World and the new wave of multimodal models: less hype, more real architecture</h1>
+    <p class="article__lead">The evolution of the open-model ecosystem no longer looks like a race of isolated benchmarks. The new wave is defined by more integrated multimodal models, better visual reasoning and real pressure to solve productive use cases. In that context, repositories like Puffin-World are more than an experiment: they are a sign that architecture and execution will define the next generation of value.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      
+      <div><p>Context</p>
+      <span>Analysis of new models and repositories</span>
+      <a href="https://huggingface.co/blog/KangLiao/puffin-world" target="_blank" rel="noopener noreferrer">Official source: Hugging Face Blog <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>The center of gravity is no longer just text</h2>
+          <p>When the market started talking about LLMs, the focus was on response speed, text quality and reasoning ability. Today the conversation has moved on. The center of gravity is no longer just text; it is the ability to understand multimodal context, interact with the environment and integrate visual signals into a complete flow.</p><p>Puffin-World is a useful case because it shows that innovation is not only in parameter count or in the marketing value of a spec sheet. It is in a more useful question: what kind of system can you build on top of this model?</p>
+        </section>
+        <section>
+          <h2>Multimodality needs orchestration and validation</h2>
+          <p>The most interesting part is no longer &quot;what the model sees&quot;, but &quot;what decisions it can make with what it sees&quot;, &quot;how the output is validated&quot; and &quot;what role human review plays&quot;. That is what turns a technical capability into a product.</p><p>A multimodal model is only valuable when it is useful in a concrete flow. A system that analyzes documents, images, interfaces or interaction sequences has a huge advantage over a model that simply responds to well-written prompts. But that advantage only appears if the orchestration layer is designed for the real domain.</p>
+        </section>
+        <section>
+          <h2>The new wave of open models demands real architecture</h2>
+          <p>The new generation of models does not necessarily mean a new generation of software, but it does demand a deep review of the integration layer. The difference between a technical detail and a competitive advantage lies in context, tools, evaluation and operations.</p><p>Innovation does not depend only on the model, but on how it is integrated into decision flows. That is where the difference between a &quot;demo&quot; and an operational solution appears.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Reference architecture</span>Multimodality as an operational layer of the product
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="The question is no longer just what the model sees, but what decisions it can make with what it sees, how to validate them and how to operate them in a real context.">
+        
+          
+          <div class="architecture__layer">
+            <p>Inputs</p>
+            <ul><li>Text</li><li>Images</li><li>Visual signals and interactions</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Representation</p>
+            <ul><li>Multimodal context</li><li>Tool integration</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Reasoning</p>
+            <ul><li>Inference flows</li><li>Task-adapted models</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Operations</p>
+            <ul><li>Human validation</li><li>Monitoring and evaluation</li><li>Cost and latency</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">The question is no longer just what the model sees, but what decisions it can make with what it sees, how to validate them and how to operate them in a real context.</p>
+    </figure>
+      <p class="article__takeaway">The new multimodal wave is not just a cosmetic upgrade to the ecosystem. It is a sign that real value no longer lives only in the model's signature, but in the system's ability to understand the world, context and decisions.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Is your team evaluating applied AI? I'd like to hear about the problem you're trying to solve.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Puffin-World%20and%20the%20new%20wave%20of%20multimodal%20models%3A%20less%20hype%2C%20more%20real%20architecture&amp;body=Is%20your%20team%20evaluating%20applied%20AI%3F%20I'd%20like%20to%20hear%20about%20the%20problem%20you're%20trying%20to%20solve.%0A%0AI%20came%20from%20the%20article%3A%20Puffin-World%20and%20the%20new%20wave%20of%20multimodal%20models%3A%20less%20hype%2C%20more%20real%20architecture%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fpuffin-world-modelos-multimodales-open-weight%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
+        <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
+      </a></li><li><a href="/en/blog/gpt-6-astra-openai-superinteligencia-especulaciones/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>OpenAI launches GPT-6 Astra: frontier capability, competitive pressure and the superintelligence debate</strong>
+        <small>A technical and strategic analysis of the GPT-6 Astra launch: stated capabilities, product architecture and what talking about superintelligence does (and does not) mean.</small>
+      </a></li><li><a href="/en/blog/llama-4-scout-open-weight-usa/" class="js-track-related-article">
+        <span>Open-weight LLMs</span>
+        <strong>Llama 4 Scout: what Meta's multimodal open-weight model brings to product teams</strong>
+        <small>An analysis of Llama 4 Scout: multimodal MoE architecture, a 10-million-token context, a specific commercial license and real deployment requirements.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

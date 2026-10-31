@@ -1,26 +1,19 @@
-import { esc, inlineCode, projectHref } from './components.mjs';
+import { esc, inlineCode, href, projectHref } from './components.mjs';
 import { site } from '../data/site.js';
-import { pillars } from '../data/pillars.js';
-import { newsletter } from '../data/newsletter.js';
 import { newsletterForm } from './newsletter-form.mjs';
 
-const dateFormatter = new Intl.DateTimeFormat('es-UY', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: 'UTC',
-});
-
-const formattedDate = (date) => dateFormatter.format(new Date(`${date}T00:00:00Z`));
+const formattedDate = (t, date) =>
+  new Intl.DateTimeFormat(t.dateLocale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+    .format(new Date(`${date}T00:00:00Z`));
 const tagKey = (tag) =>
-  tag.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  tag.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-const architectureDiagram = (architecture) => {
+const architectureDiagram = (architecture, t) => {
   if (!architecture?.layers?.length) return '';
   return `
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
       <figcaption id="architecture-caption">
-        <span>Arquitectura de referencia</span>${esc(architecture.caption)}
+        <span>${esc(t.article.architectureLabel)}</span>${esc(architecture.caption)}
       </figcaption>
       <div class="architecture__flow" role="img" aria-label="${esc(architecture.description)}">
         ${architecture.layers.map((layer, index) => `
@@ -34,101 +27,98 @@ const architectureDiagram = (architecture) => {
     </figure>`;
 };
 
-const conversationCta = (article) => {
-  const byTag = {
-    Pagos: '¿Trabajás en fintech, pagos o suscripciones? Me interesa comparar decisiones de producto y arquitectura.',
-    IA: '¿Tu equipo está evaluando IA aplicada? Me interesa conocer el problema que están intentando resolver.',
-    Arquitectura: '¿Estás diseñando una arquitectura parecida? Podemos contrastar decisiones y trade-offs.',
-    Producto: '¿Estás validando un producto? Me interesa conversar sobre la hipótesis y el camino técnico.',
-    Cloud: '¿Tu equipo está ordenando una decisión de cloud u operación? Podemos intercambiar experiencias.',
-    Liderazgo: '¿Estás liderando un equipo de ingeniería? Me interesa conversar sobre los desafíos que están atravesando.',
-  };
-  const prompt = article.tags.map((tag) => byTag[tag]).find(Boolean)
-    || '¿Estás trabajando en un desafío parecido? Me interesa conocer el contexto y comparar experiencias.';
-  const subject = encodeURIComponent(`Conversación sobre: ${article.title}`);
-  const body = encodeURIComponent(`${prompt}\n\nLlegué desde el artículo: ${article.title}\n${site.baseUrl}/blog/${article.slug}/`);
+const conversationCta = (article, t) => {
+  const c = t.article.conversation;
+  const prompt = article.tags.map((tag) => c.byTag[tag]).find(Boolean) || c.fallback;
+  const subject = encodeURIComponent(`${c.subjectPrefix}${article.title}`);
+  const body = encodeURIComponent(`${prompt}\n\n${c.cameFrom}${article.title}\n${site.baseUrl}${href(t, 'blog', article.slug)}`);
   return `<aside class="article__conversation">
-      <p class="article__conversation-label">Continuemos la conversación</p>
+      <p class="article__conversation-label">${esc(c.label)}</p>
       <h2>${esc(prompt)}</h2>
-      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
-      <a class="btn btn--primary js-track-conversation" href="mailto:${esc(site.links.email)}?subject=${subject}&amp;body=${body}">Escribirme sobre este tema</a>
+      <p>${esc(c.body)}</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:${esc(site.links.email)}?subject=${subject}&amp;body=${body}">${esc(c.button)}</a>
     </aside>`;
 };
 
-export const blogIndex = ({ articles }) => {
-  const sortedArticles = [...articles].sort((a, b) => b.date.localeCompare(a.date));
-  const tags = [...new Set(sortedArticles.flatMap((article) => article.tags))].sort((a, b) => a.localeCompare(b, 'es'));
+export const blogIndex = ({ t, articles, pillars, newsletter }) => {
+  const b = t.blog;
+  const sortedArticles = [...articles].sort((a, z) => z.date.localeCompare(a.date));
+  const tags = [...new Set(sortedArticles.flatMap((article) => article.tags))].sort((a, z) => a.localeCompare(z, t.lang));
   return `
 <section class="blog-index">
   <div class="shell">
     <header class="blog-index__head">
-      <p class="section__eyebrow">Blog</p>
-      <h1 class="blog-index__title">Tecnología que sale de construir producto</h1>
-      <p class="section__lead">Notas sobre IA, arquitectura, infraestructura y emprendimiento a partir de decisiones tomadas en proyectos propios.</p>
+      <p class="section__eyebrow">${esc(b.eyebrow)}</p>
+      <h1 class="blog-index__title">${esc(b.title)}</h1>
+      <p class="section__lead">${esc(b.lead)}</p>
       <div class="hero__ctas">
-        <a class="btn btn--ghost" href="/newsletter/">Ver la newsletter</a>
-        <a class="btn btn--ghost js-track-newsletter-interest" href="/newsletter/#suscribirme">Suscribirme</a>
+        <a class="btn btn--ghost" href="${href(t, 'newsletter')}">${esc(b.newsletterCta)}</a>
+        <a class="btn btn--ghost js-track-newsletter-interest" href="${href(t, 'newsletter')}#suscribirme">${esc(b.subscribeCta)}</a>
       </div>
     </header>
     <section class="blog-pillars" id="pilares" aria-labelledby="blog-pillars-title">
-      <p class="section__eyebrow">Pilares</p>
-      <h2 id="blog-pillars-title">Tres puertas de entrada para entender el recorrido</h2>
+      <p class="section__eyebrow">${esc(b.pillarsEyebrow)}</p>
+      <h2 id="blog-pillars-title">${esc(b.pillarsTitle)}</h2>
       <div class="pillar-strip">
         ${pillars.map((pillar) => `<article class="pillar-card">
           <p class="pillar-card__meta">${esc(pillar.eyebrow)}</p>
-          <h3><a href="/temas/${esc(pillar.slug)}/" class="js-track-pillar-hub">${esc(pillar.title)}</a></h3>
+          <h3><a href="${href(t, 'topic', pillar.slug)}" class="js-track-pillar-hub">${esc(pillar.title)}</a></h3>
           <p>${esc(pillar.description)}</p>
         </article>`).join('')}
       </div>
     </section>
-    <div class="filters blog-filters" role="group" aria-label="Filtrar artículos por tema" data-blog-filters>
-      <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">Todo</button>
+    <div class="filters blog-filters" role="group" aria-label="${esc(b.filterLabel)}" data-blog-filters>
+      <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">${esc(b.allLabel)}</button>
       ${tags.map((tag) => `<button type="button" class="filters__btn" data-blog-filter="${esc(tagKey(tag))}" aria-pressed="false">${esc(tag)}</button>`).join('')}
     </div>
     <div class="article-grid" data-blog-grid>
       ${sortedArticles.map((article) => `
         <article class="article-card" data-blog-card data-tags="${esc(article.tags.map(tagKey).join(' '))}" data-reveal>
-          <p class="article-card__meta"><span>${esc(article.category)}</span><time datetime="${esc(article.date)}">${esc(formattedDate(article.date))}</time></p>
-          <h2 class="article-card__title"><a href="/blog/${esc(article.slug)}/" class="js-track-article-card">${esc(article.title)}</a></h2>
+          <p class="article-card__meta"><span>${esc(article.category)}</span><time datetime="${esc(article.date)}">${esc(formattedDate(t, article.date))}</time></p>
+          <h2 class="article-card__title"><a href="${href(t, 'blog', article.slug)}" class="js-track-article-card">${esc(article.title)}</a></h2>
           <p class="article-card__description">${esc(article.description)}</p>
-          <ul class="article-card__tags" aria-label="Temas">${article.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
-          <div class="article-card__footer"><span>${esc(article.readingTime)}</span><a href="/blog/${esc(article.slug)}/">Leer artículo <span aria-hidden="true">→</span></a></div>
+          <ul class="article-card__tags" aria-label="${esc(b.tagsLabel)}">${article.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
+          <div class="article-card__footer"><span>${esc(article.readingTime)}</span><a href="${href(t, 'blog', article.slug)}">${esc(b.readArticle)} <span aria-hidden="true">→</span></a></div>
         </article>`).join('')}
     </div>
-    <p class="blog-empty" data-blog-empty hidden>No hay artículos con esta combinación de tags.</p>
-    <div class="blog-more"><button type="button" class="btn btn--ghost" data-blog-load-more>Cargar más artículos</button></div>
+    <p class="blog-empty" data-blog-empty hidden>${esc(b.emptyLabel)}</p>
+    <div class="blog-more"><button type="button" class="btn btn--ghost" data-blog-load-more>${esc(b.loadMore)}</button></div>
     <div class="blog-newsletter">
       ${newsletterForm({
+        t,
+        newsletter,
         source: 'blog-index',
-        path: '/blog/',
+        path: href(t, 'blog'),
         compact: true,
-        title: '¿Querés recibir la primera edición?',
-        lead: 'Si el blog te resulta útil, la newsletter sirve para profundizar ideas y abrir conversaciones con menos ruido que una red social.',
-        buttonLabel: 'Suscribirme',
+        title: b.formTitle,
+        lead: b.formLead,
+        buttonLabel: b.subscribeCta,
       })}
     </div>
   </div>
 </section>`;
 };
 
-export const articlePage = ({ article, relatedProject, relatedArticles = [], pillar = null }) => `
+export const articlePage = ({ t, article, relatedProject, relatedArticles = [], pillar = null }) => {
+  const a = t.article;
+  return `
 <article class="article">
   <header class="shell article__head">
-    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
-    <p class="article__meta"><span>${esc(article.category)}</span><time datetime="${esc(article.date)}">${esc(formattedDate(article.date))}</time><span>${esc(article.readingTime)}</span></p>
+    <a class="case__back" href="${href(t, 'blog')}"><span aria-hidden="true">←</span> ${esc(a.back)}</a>
+    <p class="article__meta"><span>${esc(article.category)}</span><time datetime="${esc(article.date)}">${esc(formattedDate(t, article.date))}</time><span>${esc(article.readingTime)}</span></p>
     <h1 class="article__title">${esc(article.title)}</h1>
     <p class="article__lead">${esc(article.lead)}</p>
   </header>
   <div class="shell article__layout">
     <aside class="article__aside">
-      ${pillar ? `<div><p>Pilar</p><a href="/temas/${esc(pillar.slug)}/" class="js-track-pillar-hub">${esc(pillar.title)} <span aria-hidden="true">→</span></a></div>` : ''}
+      ${pillar ? `<div><p>${esc(a.pillarLabel)}</p><a href="${href(t, 'topic', pillar.slug)}" class="js-track-pillar-hub">${esc(pillar.title)} <span aria-hidden="true">→</span></a></div>` : ''}
       ${
         relatedProject
-          ? `<div><p>Este artículo nace del proyecto</p>
-      <a href="${projectHref(relatedProject)}" class="js-track-origin-project">${esc(article.projectName)} <span aria-hidden="true">→</span></a></div>`
-          : `<div><p>Contexto</p>
-      <span>${esc(article.contextLabel || 'Perfil profesional')}</span>
-      ${article.sourceUrl ? `<a href="${esc(article.sourceUrl)}" target="_blank" rel="noopener noreferrer">${esc(article.sourceLabel || 'Ver repositorio')} <span aria-hidden="true">↗</span></a>` : ''}</div>`
+          ? `<div><p>${esc(a.bornFrom)}</p>
+      <a href="${projectHref(relatedProject, t)}" class="js-track-origin-project">${esc(article.projectName)} <span aria-hidden="true">→</span></a></div>`
+          : `<div><p>${esc(a.contextLabel)}</p>
+      <span>${esc(article.contextLabel || a.defaultContext)}</span>
+      ${article.sourceUrl ? `<a href="${esc(article.sourceUrl)}" target="_blank" rel="noopener noreferrer">${esc(article.sourceLabel || a.viewRepo)} <span aria-hidden="true">↗</span></a>` : ''}</div>`
       }
     </aside>
     <div class="article__content">
@@ -137,18 +127,18 @@ export const articlePage = ({ article, relatedProject, relatedArticles = [], pil
           <h2>${esc(section.title)}</h2>
           ${section.paragraphs.map((paragraph) => `<p>${inlineCode(paragraph)}</p>`).join('')}
         </section>`).join('')}
-      ${architectureDiagram(article.architecture)}
+      ${architectureDiagram(article.architecture, t)}
       <p class="article__takeaway">${esc(article.takeaway)}</p>
-      ${conversationCta(article)}
+      ${conversationCta(article, t)}
     </div>
   </div>
   ${
     relatedArticles.length
       ? `<section class="shell article__related" aria-labelledby="related-articles-title">
-    <p class="section__eyebrow">Seguir leyendo</p>
-    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <p class="section__eyebrow">${esc(a.relatedEyebrow)}</p>
+    <h2 id="related-articles-title">${esc(a.relatedTitle)}</h2>
     <ul>
-      ${relatedArticles.map((related) => `<li><a href="/blog/${esc(related.slug)}/" class="js-track-related-article">
+      ${relatedArticles.map((related) => `<li><a href="${href(t, 'blog', related.slug)}" class="js-track-related-article">
         <span>${esc(related.category)}</span>
         <strong>${esc(related.title)}</strong>
         <small>${esc(related.description)}</small>
@@ -158,3 +148,4 @@ export const articlePage = ({ article, relatedProject, relatedArticles = [], pil
       : ''
   }
 </article>`;
+};

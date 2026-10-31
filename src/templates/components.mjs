@@ -17,8 +17,18 @@ export const inlineLinks = (value = '') =>
 export const inlineCode = (value = '') =>
   inlineLinks(value).replace(/`([^`]+)`/g, '<code>$1</code>');
 
-export const statusBadge = (status, locale = 'es') => {
-  const meta = statusLabels[locale]?.[status];
+/**
+ * URL interna de un tipo de pagina en el idioma de `t`.
+ *   href(t)                      -> '/' o '/en/'
+ *   href(t, 'project', 'patio')  -> '/proyectos/patio/' o '/en/projects/patio/'
+ */
+export const href = (t, kind = 'home', slug = '') => {
+  const base = kind === 'home' ? `${t.prefix}/` : `${t.prefix}/${t.routes[kind]}/`;
+  return slug ? `${base}${slug}/` : base;
+};
+
+export const statusBadge = (status, t) => {
+  const meta = statusLabels[t.lang]?.[status];
   if (!meta) return '';
   return `<span class="badge badge--${meta.tone}"><span class="badge__dot" aria-hidden="true"></span>${esc(meta.label)}</span>`;
 };
@@ -112,7 +122,7 @@ const motifs = {
     </g>`,
 };
 
-export const cover = (project, { eager = false } = {}) => {
+export const cover = (project, t, { eager = false } = {}) => {
   if (project.image?.src) {
     // La primera imagen de cada pagina se carga con prioridad (es la LCP); el resto, diferida.
     const loading = eager
@@ -121,7 +131,7 @@ export const cover = (project, { eager = false } = {}) => {
     return `<img class="cover cover--photo" src="${esc(project.image.src)}" alt="${esc(project.image.alt || '')}" ${loading} decoding="async" width="1600" height="1000" />`;
   }
   const motif = motifs[project.motif] || motifs.grid;
-  return `<svg class="cover" viewBox="0 40 390 210" role="img" aria-label="Ilustración abstracta del proyecto ${esc(project.title)}" focusable="false">${motif}</svg>`;
+  return `<svg class="cover" viewBox="0 40 390 210" role="img" aria-label="${esc(t.ui.coverLabel)} ${esc(project.title)}" focusable="false">${motif}</svg>`;
 };
 
-export const projectHref = (project) => `/proyectos/${project.slug}/`;
+export const projectHref = (project, t) => href(t, 'project', project.slug);

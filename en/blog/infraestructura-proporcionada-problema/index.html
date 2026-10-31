@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Proportional architecture: don't build an e-commerce store to solve a house move | Julián Cardozo</title>
+<meta name="description" content="How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/infraestructura-proporcionada-problema/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/infraestructura-proporcionada-problema/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/infraestructura-proporcionada-problema/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/infraestructura-proporcionada-problema/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Proportional architecture: don't build an e-commerce store to solve a house move | Julián Cardozo" />
+<meta property="og:description" content="How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/infraestructura-proporcionada-problema/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Proportional architecture: don't build an e-commerce store to solve a house move | Julián Cardozo" />
+<meta name="twitter:description" content="How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Proportional architecture: don't build an e-commerce store to solve a house move","description":"How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP.","datePublished":"2026-08-12","dateModified":"2026-08-12","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/infraestructura-proporcionada-problema/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Infrastructure and product"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/infraestructura-proporcionada-problema/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><span>Infrastructure and product</span><time datetime="2026-08-12">August 12, 2026</time><span>4 min read</span></p>
+    <h1 class="article__title">Proportional architecture: don't build an e-commerce store to solve a house move</h1>
+    <p class="article__lead">Casa Médanos solved a need that was bounded in time: publishing, sharing and keeping up to date an inventory of furniture and appliances before a move. The architecture criterion was operational: eliminate manual work and maintenance cost, not anticipate the capabilities of an e-commerce platform the case didn't need.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/producto-mvps/" class="js-track-pillar-hub">Products, startups and MVPs <span aria-hidden="true">→</span></a></div>
+      <div><p>This article grew out of the project</p>
+      <a href="/en/projects/casa-medanos/" class="js-track-origin-project">Casa Médanos <span aria-hidden="true">→</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>The problem's lifespan defines the solution</h2>
+          <p>The technical temptation was familiar: accounts, payments, cart, backend, inventory. But the problem had a concrete date. With every week that went by, publishing the catalog mattered more than designing a platform capable of surviving ten years.</p><p>That constraint shaped the decision. Casa Médanos became a fast, shareable catalog: photos, visible prices, filters by room, search and a clear status for what was sold. A single link replaced an absurd number of repeated messages.</p>
+        </section>
+        <section>
+          <h2>Static architecture with product value</h2>
+          <p>Choosing a static site on GitHub Pages wasn't cutting features for sport. It took servers to monitor, databases to back up and costs that didn't help sell a couch out of the picture. For someone arriving from social media, a page that loads fast also does more than a sophisticated architecture.</p><p>Complexity stayed where the real work was: updating availability, finding an item and showing that something had already sold without making it disappear. The technology followed the flow, not the other way around.</p>
+        </section>
+        <section>
+          <h2>Focused automation and operating cost</h2>
+          <p>The repeated questions justified a targeted automation. An n8n flow, versioned alongside the code, helps answer them without inventing a messaging app or turning a temporary sale into a permanent operation.</p><p>Since then I've used a simple test: if a piece of infrastructure doesn't reduce a repetitive task, a real risk or a current cost, it doesn't belong in the MVP yet. It can come later. Today it's just a distraction.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Reference architecture</span>A static solution with focused automation
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="Visitors browse a catalog published on GitHub Pages. A panel updates availability and an n8n workflow helps with repetitive questions without introducing a transactional backend.">
+        
+          
+          <div class="architecture__layer">
+            <p>Acquisition</p>
+            <ul><li>Social media</li><li>Shareable link</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Web experience</p>
+            <ul><li>Catalog and search</li><li>Filters and prices</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Publishing</p>
+            <ul><li>Static site</li><li>GitHub Pages</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Operations</p>
+            <ul><li>Availability</li><li>n8n automation</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">Visitors browse a catalog published on GitHub Pages. A panel updates availability and an n8n workflow helps with repetitive questions without introducing a transactional backend.</p>
+    </figure>
+      <p class="article__takeaway">Architecture principle: the solution should match the lifespan, risk and volume of the current problem. Every extra capability also adds operating cost.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Validating a product? I'd like to talk about the hypothesis and the technical path.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Proportional%20architecture%3A%20don't%20build%20an%20e-commerce%20store%20to%20solve%20a%20house%20move&amp;body=Validating%20a%20product%3F%20I'd%20like%20to%20talk%20about%20the%20hypothesis%20and%20the%20technical%20path.%0A%0AI%20came%20from%20the%20article%3A%20Proportional%20architecture%3A%20don't%20build%20an%20e-commerce%20store%20to%20solve%20a%20house%20move%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Finfraestructura-proporcionada-problema%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li><a href="/en/blog/webhooks-pagos-maquinas-de-estado/" class="js-track-related-article">
+        <span>Payments and infrastructure</span>
+        <strong>Payment architecture: why a charge isn't an HTTP call</strong>
+        <small>Integration patterns, idempotency and traceability for modeling payments as auditable business processes.</small>
+      </a></li><li><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-related-article">
+        <span>AI and product</span>
+        <strong>Reverse engineering with agents: from Chordify to ChordLocal with REA</strong>
+        <small>We ran REA (Reverse Engineer Anything) against Chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of ChordLocal, a local and free alternative.</small>
+      </a></li><li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
+        <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

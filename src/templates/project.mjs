@@ -1,4 +1,4 @@
-import { esc, inlineCode, statusBadge, cover, projectHref, externalLink } from './components.mjs';
+import { esc, inlineCode, statusBadge, cover, href, projectHref, externalLink } from './components.mjs';
 
 const list = (items = [], className = 'prose-list') =>
   items.length ? `<ul class="${className}">${items.map((item) => `<li>${inlineCode(item)}</li>`).join('')}</ul>` : '';
@@ -22,10 +22,10 @@ export const projectPage = ({ t, project, others, articles = [] }) => {
   return `
 <article class="case">
   <div class="shell case__head">
-    <a class="case__back" href="/#productos"><span aria-hidden="true">←</span> ${esc(u.backHome)}</a>
+    <a class="case__back" href="${href(t)}#productos"><span aria-hidden="true">←</span> ${esc(u.backHome)}</a>
     <p class="case__meta">
       <span class="case__category">${esc(project.categoryLabel)}</span>
-      ${statusBadge(project.status)}
+      ${statusBadge(project.status, t)}
       <span class="case__year">${esc(project.year)}</span>
     </p>
     <h1 class="case__title">${esc(project.title)}</h1>
@@ -36,7 +36,7 @@ export const projectPage = ({ t, project, others, articles = [] }) => {
     </div>
   </div>
 
-  <div class="shell case__hero">${cover(project, { eager: true })}</div>
+  <div class="shell case__hero">${cover(project, t, { eager: true })}</div>
 
   <div class="shell case__layout">
     <aside class="case__aside">
@@ -73,7 +73,7 @@ export const projectPage = ({ t, project, others, articles = [] }) => {
       ${others
         .map(
           (other) => `<li>
-        <a href="${projectHref(other)}">
+        <a href="${projectHref(other, t)}">
           <span class="case__more-name">${esc(other.title)}</span>
           <span class="case__more-tagline">${esc(other.tagline)}</span>
         </a>
@@ -85,11 +85,11 @@ export const projectPage = ({ t, project, others, articles = [] }) => {
   ${
     articles.length
       ? `<section class="shell case__insights" aria-labelledby="case-insights-title">
-    <p class="section__eyebrow">Aprendizajes aplicados</p>
-    <h2 class="case__more-title" id="case-insights-title">Lecturas que nacen de este proyecto</h2>
+    <p class="section__eyebrow">${esc(u.insightsEyebrow)}</p>
+    <h2 class="case__more-title" id="case-insights-title">${esc(u.insightsTitle)}</h2>
     <ul class="case__more-list">
       ${articles.map((article) => `<li>
-        <a href="/blog/${esc(article.slug)}/" class="js-track-project-insight">
+        <a href="${href(t, 'blog', article.slug)}" class="js-track-project-insight">
           <span class="case__more-name">${esc(article.title)}</span>
           <span class="case__more-tagline">${esc(article.description)}</span>
         </a>

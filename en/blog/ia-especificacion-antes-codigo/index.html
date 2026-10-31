@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI-assisted work: the specification is the control system for ambiguity | Julián Cardozo</title>
+<meta name="description" content="How a sequence of product artifacts turns an idea into operational context for teams and coding agents." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/ia-especificacion-antes-codigo/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/ia-especificacion-antes-codigo/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/ia-especificacion-antes-codigo/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/ia-especificacion-antes-codigo/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="AI-assisted work: the specification is the control system for ambiguity | Julián Cardozo" />
+<meta property="og:description" content="How a sequence of product artifacts turns an idea into operational context for teams and coding agents." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/ia-especificacion-antes-codigo/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI-assisted work: the specification is the control system for ambiguity | Julián Cardozo" />
+<meta name="twitter:description" content="How a sequence of product artifacts turns an idea into operational context for teams and coding agents." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"AI-assisted work: the specification is the control system for ambiguity","description":"How a sequence of product artifacts turns an idea into operational context for teams and coding agents.","datePublished":"2026-08-18","dateModified":"2026-08-18","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/ia-especificacion-antes-codigo/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"AI and product"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/ia-especificacion-antes-codigo/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><span>AI and product</span><time datetime="2026-08-18">August 18, 2026</time><span>6 min read</span></p>
+    <h1 class="article__title">AI-assisted work: the specification is the control system for ambiguity</h1>
+    <p class="article__lead">Agents reduce implementation time, but they don't resolve incomplete product decisions. In fact, they turn an ambiguous instruction into more wrong code, in less time. WebSpec AI formalizes the context before building: it defines scope, users, constraints and backlog as a traceable chain of artifacts.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/liderazgo-tecnico/" class="js-track-pillar-hub">Technical leadership and teams <span aria-hidden="true">→</span></a></div>
+      <div><p>This article grew out of the project</p>
+      <a href="/en/projects/webspec-ai/" class="js-track-origin-project">WebSpec AI <span aria-hidden="true">→</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>Ambiguity as product debt</h2>
+          <p>Working on my own products and with clients, I've seen again and again that delays almost never start when someone opens the editor. They start earlier: in an idea that still doesn't define who it serves, what's out of scope or how we'll know it worked.</p><p>Before agents, that ambiguity turned into meetings, interpretations and slow corrections. Now it can turn into screens, APIs and tests generated in minutes. Speed doesn't remove the cost of a missing decision; it just makes the waste arrive sooner.</p>
+        </section>
+        <section>
+          <h2>Chained specifications as operational context</h2>
+          <p>WebSpec AI was born to organize that earlier moment. Instead of jumping from a vague sentence to code, it guides you through brief, PRD, RFC, UX/UI, backlog and specifications. Each document builds on the decisions of the previous one and makes visible the ones still missing.</p><p>The value isn't in producing a tidy PDF. It's in asking the right question at the right time: who the user is, what problem we're trying to solve, which constraint is non-negotiable, which metric would justify continuing. A clear answer to any of them saves more than a brilliant prompt.</p>
+        </section>
+        <section>
+          <h2>Traceability to manage change</h2>
+          <p>A specification isn't a promise that nothing will change. It's the record of why a decision was made, so that change has context when it inevitably comes. If the PRD moves, the backlog and the specs that depend on it need to find out.</p><p>That traceability is especially important with AI. It lets an agent build on the current version of the product, and it lets the team discuss a decision before turning it into hundreds of lines that are hard to unlearn.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Reference architecture</span>Context chain for AI-assisted development
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="The initial idea is turned into linked product artifacts. Teams and agents consume the up-to-date specification instead of working from an isolated instruction.">
+        
+          
+          <div class="architecture__layer">
+            <p>Discovery</p>
+            <ul><li>Idea</li><li>Brief and users</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Product</p>
+            <ul><li>PRD</li><li>Metrics and scope</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Technical design</p>
+            <ul><li>RFC</li><li>UX/UI and backlog</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Execution</p>
+            <ul><li>Versioned specs</li><li>Team and coding agents</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">The initial idea is turned into linked product artifacts. Teams and agents consume the up-to-date specification instead of working from an isolated instruction.</p>
+    </figure>
+      <p class="article__takeaway">Delivery principle: AI amplifies the quality of the available context. A traceable specification reduces rework, improves decisions and avoids automating ambiguity.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Is your team evaluating applied AI? I'd like to hear about the problem you're trying to solve.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20AI-assisted%20work%3A%20the%20specification%20is%20the%20control%20system%20for%20ambiguity&amp;body=Is%20your%20team%20evaluating%20applied%20AI%3F%20I'd%20like%20to%20hear%20about%20the%20problem%20you're%20trying%20to%20solve.%0A%0AI%20came%20from%20the%20article%3A%20AI-assisted%20work%3A%20the%20specification%20is%20the%20control%20system%20for%20ambiguity%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fia-especificacion-antes-codigo%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-related-article">
+        <span>AI and product</span>
+        <strong>Reverse engineering with agents: from Chordify to ChordLocal with REA</strong>
+        <small>We ran REA (Reverse Engineer Anything) against Chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of ChordLocal, a local and free alternative.</small>
+      </a></li><li><a href="/en/blog/ia-no-cambia-solo-herramienta-liderazgo-operacion/" class="js-track-related-article">
+        <span>Leadership and product</span>
+        <strong>AI doesn't just change a tool: it changes the structure of leadership and operations</strong>
+        <small>An analysis of why AI redefines leadership, coordination, metrics and operational responsibility, not just the technical stack.</small>
+      </a></li><li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
+        <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

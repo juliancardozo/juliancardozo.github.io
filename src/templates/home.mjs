@@ -1,26 +1,23 @@
-import { esc, inlineCode, statusBadge, cover, projectHref, externalLink, originExcerpt } from './components.mjs';
-import { labFilters } from '../data/projects.js';
+import { esc, inlineCode, statusBadge, cover, href, projectHref, externalLink, originExcerpt } from './components.mjs';
 import { site } from '../data/site.js';
-import { pillars } from '../data/pillars.js';
-import { newsletter } from '../data/newsletter.js';
 import { newsletterForm } from './newsletter-form.mjs';
 
 // `wide`: la ultima tarjeta toma el formato ancho cuando quedaria sola en su fila.
 const featuredCard = (project, t, index, wide = false) => `
 <article class="card card--featured ${index === 0 || wide ? 'card--lead' : ''}" data-reveal>
-  <a class="card__cover" href="${projectHref(project)}" tabindex="-1" aria-hidden="true">${cover(project, { eager: index === 0 })}</a>
+  <a class="card__cover" href="${projectHref(project, t)}" tabindex="-1" aria-hidden="true">${cover(project, t, { eager: index === 0 })}</a>
   <div class="card__body">
     <p class="card__meta">
       <span class="card__category">${esc(project.categoryLabel)}</span>
-      ${statusBadge(project.status)}
+      ${statusBadge(project.status, t)}
       <span class="card__year">${esc(project.year)}</span>
     </p>
-    <h3 class="card__title"><a href="${projectHref(project)}">${esc(project.title)}</a></h3>
+    <h3 class="card__title"><a href="${projectHref(project, t)}">${esc(project.title)}</a></h3>
     <p class="card__tagline">${esc(project.tagline)}</p>
-    <p class="card__origin"><span class="card__origin-label">Origen</span>${esc(originExcerpt(project.originStory))}</p>
+    <p class="card__origin"><span class="card__origin-label">${esc(t.ui.originLabel)}</span>${esc(originExcerpt(project.originStory))}</p>
     <ul class="chips">${project.stack.slice(0, 5).map((s) => `<li>${esc(s)}</li>`).join('')}</ul>
     <div class="card__actions">
-      <a class="link link--strong" href="${projectHref(project)}">${esc(t.ui.viewCase)}<span class="link__arrow" aria-hidden="true">→</span></a>
+      <a class="link link--strong" href="${projectHref(project, t)}">${esc(t.ui.viewCase)}<span class="link__arrow" aria-hidden="true">→</span></a>
       ${project.demoUrl ? externalLink(project.demoUrl, project.demoLabel || t.ui.viewDemo) : ''}
       ${project.repositoryUrl ? externalLink(project.repositoryUrl, t.ui.viewRepo) : ''}
     </div>
@@ -31,7 +28,7 @@ const labCard = (project, t) => `
 <article class="lab-card" data-category="${esc(project.category)}" data-reveal>
   <p class="lab-card__meta">
     <span class="lab-card__category">${esc(project.categoryLabel)}</span>
-    ${statusBadge(project.status)}
+    ${statusBadge(project.status, t)}
     <span class="lab-card__year">${esc(project.year)}</span>
   </p>
   <h3 class="lab-card__title">${esc(project.title)}</h3>
@@ -45,7 +42,7 @@ const labCard = (project, t) => `
   }
 </article>`;
 
-export const home = ({ t, featured, lab }) => {
+export const home = ({ t, featured, lab, labFilters, pillars, newsletter }) => {
   const s = t.sections;
 
   return `
@@ -106,13 +103,13 @@ export const home = ({ t, featured, lab }) => {
         )
         .join('')}
     </ol>
-    <ul class="origins" aria-label="Ejemplos de problemas convertidos en productos">
+    <ul class="origins" aria-label="${esc(s.origen.examplesLabel)}">
       ${s.origen.examples
         .map(
           (ex) => `<li class="origins__item">
         <span class="origins__from">${esc(ex.from)}</span>
         <span class="origins__arrow" aria-hidden="true">→</span>
-        <a class="origins__to" href="/proyectos/${esc(ex.slug)}/">${esc(ex.to)}</a>
+        <a class="origins__to" href="${href(t, 'project', ex.slug)}">${esc(ex.to)}</a>
       </li>`,
         )
         .join('')}
@@ -127,8 +124,8 @@ export const home = ({ t, featured, lab }) => {
       <h2 class="section__title" id="laboratorio-title">${esc(s.laboratorio.title)}</h2>
       <p class="section__lead">${esc(s.laboratorio.lead)}</p>
     </header>
-    <div class="filters" role="group" aria-label="Filtrar proyectos del laboratorio" data-filters>
-      ${labFilters.es
+    <div class="filters" role="group" aria-label="${esc(s.laboratorio.filterLabel)}" data-filters>
+      ${labFilters
         .map(
           (filter, i) =>
             `<button type="button" class="filters__btn" data-filter="${esc(filter.key)}" aria-pressed="${i === 0 ? 'true' : 'false'}">${esc(filter.label)}</button>`,
@@ -156,13 +153,13 @@ export const home = ({ t, featured, lab }) => {
         <span class="about__index" aria-hidden="true">${String(index + 1).padStart(2, '0')}</span>
         <h3>${esc(stage.title)}</h3>
         <p>${esc(stage.body)}</p>
-        <p class="about__scope"><span>Alcance</span>${esc(stage.scope)}</p>
+        <p class="about__scope"><span>${esc(s.acerca.scopeLabel)}</span>${esc(stage.scope)}</p>
       </li>`,
         )
         .join('')}
     </ol>
     <aside class="about__future" data-reveal>
-      <p class="about__future-label">Proyección profesional</p>
+      <p class="about__future-label">${esc(s.acerca.future.label)}</p>
       <h3>${esc(s.acerca.future.title)}</h3>
       <p>${esc(s.acerca.future.body)}</p>
     </aside>
@@ -184,7 +181,14 @@ export const home = ({ t, featured, lab }) => {
         <p class="path__period">${esc(stage.period)}</p>
         <h3 class="path__title">${esc(stage.title)}</h3>
         <p class="path__body">${esc(stage.body)}</p>
-        <p class="path__gained"><span>Capacidad que sumó</span>${esc(stage.gained)}</p>
+        <p class="path__gained"><span>${esc(s.recorrido.gainedLabel)}</span>${esc(stage.gained)}</p>
+        ${
+          stage.showProducts
+            ? `<div class="path__products"><span>${esc(stage.showProducts)}</span><ul>${featured
+                .map((project) => `<li><a href="${projectHref(project, t)}">${esc(project.title)}</a></li>`)
+                .join('')}</ul></div>`
+            : ''
+        }
       </li>`,
         )
         .join('')}
@@ -244,7 +248,7 @@ export const home = ({ t, featured, lab }) => {
         .map(
           (pillar) => `<article class="pillar-card" data-reveal>
         <p class="pillar-card__meta">${esc(pillar.eyebrow)}</p>
-        <h3><a href="/temas/${esc(pillar.slug)}/">${esc(pillar.title)}</a></h3>
+        <h3><a href="${href(t, 'topic', pillar.slug)}">${esc(pillar.title)}</a></h3>
         <p>${esc(pillar.description)}</p>
       </article>`,
         )
@@ -262,28 +266,30 @@ export const home = ({ t, featured, lab }) => {
     </header>
     <div class="newsletter-home__layout">
       <article class="newsletter-panel" data-reveal>
-        <p class="newsletter-panel__label">Promesa editorial</p>
+        <p class="newsletter-panel__label">${esc(s.newsletter.promiseLabel)}</p>
         <h3>${esc(newsletter.fullTitle)}</h3>
         <p>${esc(newsletter.promise)}</p>
       </article>
       <article class="newsletter-panel" data-reveal>
-        <p class="newsletter-panel__label">Cadencia</p>
+        <p class="newsletter-panel__label">${esc(s.newsletter.cadenceLabel)}</p>
         <p>${esc(newsletter.cadence)}</p>
         <p>${esc(s.newsletter.note)}</p>
       </article>
     </div>
     <div data-reveal>
       ${newsletterForm({
+        t,
+        newsletter,
         source: 'home-newsletter',
-        path: '/',
+        path: href(t),
         compact: true,
-        title: 'Sumate desde la home',
-        lead: 'Si te interesa liderazgo técnico, arquitectura, producto o IA aplicada, podés recibir la primera edición desde acá.',
+        title: s.newsletter.formTitle,
+        lead: s.newsletter.formLead,
         buttonLabel: s.newsletter.ctaSecondary,
       })}
     </div>
     <div class="hero__ctas" data-reveal>
-      <a class="btn btn--ghost" href="/newsletter/">${esc(s.newsletter.ctaPrimary)}</a>
+      <a class="btn btn--ghost" href="${href(t, 'newsletter')}">${esc(s.newsletter.ctaPrimary)}</a>
     </div>
   </div>
 </section>
@@ -309,8 +315,8 @@ export const home = ({ t, featured, lab }) => {
           ? `<a class="btn btn--ghost" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${esc(s.contacto.linkedinLabel)}</a>`
           : ''
       }
-      <a class="btn btn--ghost" href="/newsletter/">${esc(s.contacto.newsletterLabel)}</a>
-      <a class="btn btn--ghost" href="/privacidad/">${esc(s.contacto.privacyLabel)}</a>
+      <a class="btn btn--ghost" href="${href(t, 'newsletter')}">${esc(s.contacto.newsletterLabel)}</a>
+      <a class="btn btn--ghost" href="${href(t, 'privacy')}">${esc(s.contacto.privacyLabel)}</a>
       <a class="btn btn--ghost" href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">${esc(s.contacto.githubLabel)}</a>
     </div>
   </div>

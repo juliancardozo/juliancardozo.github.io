@@ -24,7 +24,9 @@ Requiere Node 18+ (el audit necesita Node 22+ por el WebSocket nativo, y Google 
 
 ```
 src/data/projects.js      Fuente única de verdad de los proyectos ← se edita esto
-src/data/site.js          Identidad, contacto y todo el copy de las secciones
+src/data/site.js          Identidad, contacto y todo el copy de las secciones (español)
+src/data/en/              Traducción al inglés: copy de interfaz y textos de proyectos, artículos, pilares y newsletter
+src/data/i18n.js          Mezcla el contenido en español con cada traducción
 src/templates/            layout, home, caso de estudio y componentes compartidos
 src/assets/               CSS, JS e imágenes (se copian a /assets en el build)
 build.mjs                 Generador
@@ -32,6 +34,7 @@ tools/                    serve, check, audit y plantilla de la imagen Open Grap
 
 index.html                ← generado
 proyectos/<slug>/         ← generado
+en/                       ← generado (versión en inglés: /en/projects/, /en/blog/, /en/topics/…)
 404.html sitemap.xml robots.txt assets/   ← generados
 ```
 
@@ -39,7 +42,8 @@ Los archivos generados se commitean porque son los que GitHub Pages publica.
 
 ## Agregar un proyecto
 
-Un objeto nuevo en `src/data/projects.js` y `npm run build`. Nada más.
+Un objeto nuevo en `src/data/projects.js`, sus textos en inglés en `src/data/en/projects.js`
+y `npm run build`. Si falta la traducción, el build avisa y publica el texto en español.
 
 - `featured: true` → tarjeta destacada en el home **y** página propia en `/proyectos/<slug>/`.
 - `featured: false` → tarjeta compacta y filtrable en el Laboratorio.
@@ -52,9 +56,16 @@ sitio publicado o en la documentación del proyecto. Para eso está el campo `ev
 
 ## Multi-idioma
 
-El copy vive bajo `content[locale]` en `src/data/site.js`. Para agregar inglés: duplicar el
-bloque `es` como `en`, traducir, y sumar `{ code: 'en', prefix: '/en' }` a `locales` en
-`build.mjs`. Las plantillas no cambian.
+El sitio se publica en español (raíz) e inglés (`/en/`). Cada página enlaza su equivalente con
+`hreflang`, el header muestra un selector ES/EN y el sitemap lista ambas versiones.
+
+- Copy de interfaz y home: `content.es` en `src/data/site.js` y `src/data/en/site.js`, con la
+  misma forma. Las rutas de cada idioma se declaran ahí (`prefix` + `routes`).
+- Contenido largo: el español es la fuente (estructura, slugs, URLs, fechas). En `src/data/en/`
+  van solo los textos traducidos, indexados por slug; `src/data/i18n.js` los mezcla sobre la base.
+- Enlaces internos dentro del contenido (`[MiCuota](/proyectos/micuota/)`) se escriben con la ruta
+  del idioma correspondiente (`/en/projects/micuota/`).
+- La newsletter se envía en español; en inglés se traduce la página y el archivo público.
 
 ## Imagen Open Graph
 

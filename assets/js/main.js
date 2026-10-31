@@ -109,6 +109,25 @@
 
   /* ── 3. Suscripción a la newsletter ────────────────────────────────────── */
   var newsletterForms = document.querySelectorAll('[data-newsletter-form]');
+  var isEnglish = document.documentElement.lang === 'en';
+  var formCopy = isEnglish
+    ? { sending: 'Sending...', error: 'I could not process the subscription.' }
+    : { sending: 'Enviando...', error: 'No pude procesar la suscripción.' };
+  // El Worker responde en español; en la versión en inglés se traducen sus mensajes conocidos.
+  var workerMessages = {
+    'Ingresá un email válido.': 'Please enter a valid email.',
+    'Elegí un interés principal.': 'Please choose a main interest.',
+    'Necesito tu consentimiento para suscribirte.': 'I need your consent to subscribe you.',
+    'No pude procesar la suscripción.': 'I could not process the subscription.',
+    'Listo. Ya te sumé a la newsletter y vas a recibir la primera edición cuando se publique.':
+      "Done. You're on the list and will get the first issue when it's published.",
+    'Tu email ya estaba en la lista. Actualicé tus preferencias para próximas ediciones.':
+      'Your email was already on the list. I updated your preferences for upcoming issues.'
+  };
+  var localize = function (message) {
+    if (!isEnglish) return message;
+    return workerMessages[message] || formCopy.error;
+  };
   if (newsletterForms.length && 'fetch' in window) {
     window.dataLayer = window.dataLayer || [];
     Array.prototype.forEach.call(newsletterForms, function (form) {
@@ -129,11 +148,12 @@
           company: formData.get('company') || '',
           source: formData.get('source') || '',
           page_path: window.location.pathname,
-          form_kind: formData.get('form_kind') || ''
+          form_kind: formData.get('form_kind') || '',
+          lang: document.documentElement.lang || 'es'
         };
 
         submit.disabled = true;
-        submit.textContent = 'Enviando...';
+        submit.textContent = formCopy.sending;
         if (status) {
           status.textContent = '';
           status.dataset.state = 'idle';
@@ -162,11 +182,11 @@
           })
           .then(function (result) {
             if (!result.ok || !result.body.ok) {
-              throw new Error(result.body.message || 'No pude procesar la suscripción.');
+              throw new Error(localize(result.body.message || formCopy.error));
             }
             form.reset();
             if (status) {
-              status.textContent = result.body.message;
+              status.textContent = localize(result.body.message);
               status.dataset.state = 'success';
             }
             window.dataLayer.push({

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Patio — A car dealership's inventory, without the shared spreadsheet. | Julián Cardozo</title>
+<meta name="description" content="A car dealership's inventory, without the shared spreadsheet. A mid-sized dealership manages stock, reconditioning costs, documents with expiry dates, trade-ins, reservations and sales opportunities. It almost always does so with shared spreadsheets and WhatsApp groups. The cost doesn't show up in o" />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/projects/patio/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/proyectos/patio/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/projects/patio/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/proyectos/patio/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Patio — A car dealership's inventory, without the shared spreadsheet. | Julián Cardozo" />
+<meta property="og:description" content="A car dealership's inventory, without the shared spreadsheet. A mid-sized dealership manages stock, reconditioning costs, documents with expiry dates, trade-ins, reservations and sales opportunities. It almost always does so with shared spreadsheets and WhatsApp groups. The cost doesn't show up in o" />
+<meta property="og:url" content="https://juliancardozo.github.io/en/projects/patio/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Patio — A car dealership's inventory, without the shared spreadsheet. | Julián Cardozo" />
+<meta name="twitter:description" content="A car dealership's inventory, without the shared spreadsheet. A mid-sized dealership manages stock, reconditioning costs, documents with expiry dates, trade-ins, reservations and sales opportunities. It almost always does so with shared spreadsheets and WhatsApp groups. The cost doesn't show up in o" />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"Patio","headline":"Patio — A car dealership's inventory, without the shared spreadsheet.","description":"A mid-sized dealership manages stock, reconditioning costs, documents with expiry dates, trade-ins, reservations and sales opportunities. It almost always does so with shared spreadsheets and WhatsApp groups. The cost doesn't show up in one place: it shows up in the car that has been sitting for ninety days, the margin nobody calculated and the unit that was sold twice.","url":"https://juliancardozo.github.io/en/projects/patio/","inLanguage":"en","author":{"@type":"Person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"NestJS, TypeScript, PostgreSQL + RLS, Redis, Next.js (App Router), Docker, pnpm monorepo","codeRepository":"https://github.com/juliancardozo/AutoStock-mvp"}</script>
+</head>
+<body class="page-case">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/proyectos/patio/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="case">
+  <div class="shell case__head">
+    <a class="case__back" href="/en/#productos"><span aria-hidden="true">←</span> Back to home</a>
+    <p class="case__meta">
+      <span class="case__category">Mobility and platforms</span>
+      <span class="badge badge--build"><span class="badge__dot" aria-hidden="true"></span>Working MVP</span>
+      <span class="case__year">2026</span>
+    </p>
+    <h1 class="case__title">Patio</h1>
+    <p class="case__tagline">A car dealership's inventory, without the shared spreadsheet.</p>
+    <div class="case__actions">
+      <a class="btn btn--primary" href="https://patio-uy.netlify.app/" target="_blank" rel="noopener noreferrer">Product website<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="btn btn--ghost" href="https://github.com/juliancardozo/AutoStock-mvp" target="_blank" rel="noopener noreferrer">Repository<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+
+  <div class="shell case__hero"><img class="cover cover--photo" src="/assets/img/shots/patio.jpg" alt="Patio website: headline &quot;Know which cars you have, what they cost you and which one you need to sell first&quot; next to a sample dashboard with stock, reserved, sold and margin." loading="eager" fetchpriority="high" decoding="async" width="1600" height="1000" /></div>
+
+  <div class="shell case__layout">
+    <aside class="case__aside">
+      <dl class="case__facts">
+        <div><dt>My role</dt><dd>Product, specifications, multi-tenant architecture and backend development. Personal project.</dd></div>
+        <div><dt>Who it is for</dt><dd>Car dealerships and used-car lots in Uruguay and Argentina, with one or several branches.</dd></div>
+        <div><dt>Stack</dt><dd><ul class="chips chips--sm"><li>NestJS</li><li>TypeScript</li><li>PostgreSQL + RLS</li><li>Redis</li><li>Next.js (App Router)</li><li>Docker</li><li>pnpm monorepo</li></ul></dd></div>
+        <div><dt>Capabilities applied</dt><dd><ul class="chips chips--sm"><li>Discover</li><li>Design</li><li>Build</li></ul></dd></div>
+      </dl>
+      <nav class="case__toc" aria-label="On this page">
+        <p class="case__toc-title">On this page</p>
+        <ul><li><a href="#problema">The problem</a></li><li><a href="#solucion">The solution</a></li><li><a href="#resuelto">What's solved</a></li><li><a href="#evidencia">Evidence</a></li><li><a href="#desafios">The hard parts</a></li><li><a href="#aprendizajes">What I learned</a></li><li><a href="#proximos">Next steps</a></li></ul>
+      </nav>
+    </aside>
+
+    <div class="case__content">
+      <section class="case__block case__block--origin" id="origen">
+        <h2 class="case__block-title">Where it came from</h2>
+        <p class="case__origin">I set out to sell my car and ended up touring dealerships. I saw the process from the inside: paper records, photos on someone's phone, prices in dollars and pesos that didn't add up, and a vehicle that could be reserved and listed at the same time. The problem wasn't the sale: it was that nobody knew for sure what was on the lot.</p>
+      </section>
+      <section class="case__block" id="problema"><h2 class="case__block-title">The problem</h2><p>A mid-sized dealership manages stock, reconditioning costs, documents with expiry dates, trade-ins, reservations and sales opportunities. It almost always does so with shared spreadsheets and WhatsApp groups. The cost doesn't show up in one place: it shows up in the car that has been sitting for ninety days, the margin nobody calculated and the unit that was sold twice.</p></section>
+      <section class="case__block" id="solucion"><h2 class="case__block-title">The solution</h2><p>A multi-tenant DMS built with spec-driven development: the specifications are the source of truth and the code implements them. It covers the full cycle —vehicle intake, photos and documents, costs and margin, CRM, reservation, trade-in, sale and delivery— with per-organization isolation at the database level and an immutable audit trail of every movement.</p></section>
+      <section class="case__block" id="resuelto"><h2 class="case__block-title">What's solved</h2><ul class="prose-list prose-list--check"><li>Multi-tenancy with Row Level Security in PostgreSQL: isolation lives in the database, not only in application code.</li><li>Dual currency USD/UYU with versioned exchange rates, the way the Uruguayan market actually operates.</li><li>RBAC by role and by branch.</li><li>Vehicle state machine with history and explicit transitions.</li><li>Per-unit costs and real, not estimated, margin calculation.</li><li>Opportunity CRM with activities and WhatsApp link generation.</li><li>Reservation with locking, trade-in, sale, delivery and cancellation.</li><li>Dashboard with a stale-vehicles report, CSV import/export and an audit viewer.</li></ul></section>
+      <section class="case__block" id="evidencia"><h2 class="case__block-title">Evidence</h2><ul class="prose-list prose-list--evidence"><li>Ten functional verticals (F01–F10) implemented and documented endpoint by endpoint.</li><li>50 passing e2e tests, including a no-double-sale case under concurrency.</li><li>Production migrations verified by running the API without <code>synchronize</code>, with the full schema and RLS applied.</li><li>Five prior specification phases —research, product, UX and prototype, architecture and plan— versioned in <code>specs/</code> before the first line of production code.</li></ul></section>
+      <section class="case__block" id="desafios"><h2 class="case__block-title">The hard parts</h2><ul class="prose-list"><li>A double sale under concurrency is the bug you can't afford: two salespeople reserving the same unit at the same time. It was solved with explicit locking and covered by a concurrent e2e test.</li><li>Row Level Security gives much stronger isolation than filtering by <code>tenant_id</code> in every query, but it forces you to rethink migrations, connections and database roles.</li><li>Dual currency isn't formatting: it runs through cost, margin, reporting and listed price, and each can be pinned to a different currency.</li></ul></section>
+      <section class="case__block" id="aprendizajes"><h2 class="case__block-title">What I learned</h2><ul class="prose-list"><li>Writing five specification phases before coding looked slow and turned out to be exactly the opposite: the entire backend came out without structural refactors.</li><li>With AI assisting development, the specification becomes the real bottleneck. The more precise it is, the more useful the assistance.</li><li>A test that reproduces a race condition is worth more than twenty happy-path tests.</li></ul></section>
+      <section class="case__block" id="proximos"><h2 class="case__block-title">Next steps</h2><ul class="prose-list prose-list--next"><li>Next.js frontend wired to the full API.</li><li>Integrations with listing portals and the WhatsApp Cloud API.</li><li>RLS hardening with a restricted role and <code>SET app.tenant_id</code> per connection.</li></ul></section>
+    </div>
+  </div>
+
+  <div class="shell case__more">
+    <h2 class="case__more-title">Other products</h2>
+    <ul class="case__more-list">
+      <li>
+        <a href="/en/projects/micuota/">
+          <span class="case__more-name">MiCuota</span>
+          <span class="case__more-tagline">Collecting recurring payments without chasing anyone on WhatsApp.</span>
+        </a>
+      </li><li>
+        <a href="/en/projects/milo-care/">
+          <span class="case__more-name">Milo Care</span>
+          <span class="case__more-tagline">Your dog's health no longer lives in screenshots.</span>
+        </a>
+      </li><li>
+        <a href="/en/projects/compliance-uy/">
+          <span class="case__more-name">compliance-uy</span>
+          <span class="case__more-tagline">Data protection law, turned into an audit of your repository.</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <section class="shell case__insights" aria-labelledby="case-insights-title">
+    <p class="section__eyebrow">Applied learnings</p>
+    <h2 class="case__more-title" id="case-insights-title">Reading that grew out of this project</h2>
+    <ul class="case__more-list">
+      <li>
+        <a href="/en/blog/multi-tenancy-rls-frontera-datos/" class="js-track-project-insight">
+          <span class="case__more-name">Secure multi-tenancy: data isolation can't depend on a WHERE clause</span>
+          <span class="case__more-tagline">How to combine identity, RBAC and Row Level Security to protect each organization's data by design.</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</article>
+
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

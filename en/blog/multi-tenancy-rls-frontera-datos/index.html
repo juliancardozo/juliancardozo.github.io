@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Secure multi-tenancy: data isolation can't depend on a WHERE clause | Julián Cardozo</title>
+<meta name="description" content="How to combine identity, RBAC and Row Level Security to protect each organization's data by design." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/multi-tenancy-rls-frontera-datos/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/multi-tenancy-rls-frontera-datos/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Secure multi-tenancy: data isolation can't depend on a WHERE clause | Julián Cardozo" />
+<meta property="og:description" content="How to combine identity, RBAC and Row Level Security to protect each organization's data by design." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Secure multi-tenancy: data isolation can't depend on a WHERE clause | Julián Cardozo" />
+<meta name="twitter:description" content="How to combine identity, RBAC and Row Level Security to protect each organization's data by design." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Secure multi-tenancy: data isolation can't depend on a WHERE clause","description":"How to combine identity, RBAC and Row Level Security to protect each organization's data by design.","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Architecture and security"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/multi-tenancy-rls-frontera-datos/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><span>Architecture and security</span><time datetime="2026-08-21">August 21, 2026</time><span>5 min read</span></p>
+    <h1 class="article__title">Secure multi-tenancy: data isolation can't depend on a WHERE clause</h1>
+    <p class="article__lead">Patio manages vehicles, margins, documents, reservations and opportunities for multiple dealerships. In that context, a missing filter isn't an interface defect: it's an isolation incident. The architecture combines authenticated context, RBAC and RLS policies in PostgreSQL so that a wrong query can't cross an organization's boundary.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/plataforma-arquitectura/" class="js-track-pillar-hub">Platform engineering and architecture <span aria-hidden="true">→</span></a></div>
+      <div><p>This article grew out of the project</p>
+      <a href="/en/projects/patio/" class="js-track-origin-project">Patio <span aria-hidden="true">→</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>The risk of delegating isolation to the application</h2>
+          <p>A dealership stores data that matters: the real cost of a unit, its documents, a customer's reservation and the margin on a sale. In a product shared by several organizations, that data must always be kept apart, even when the team adds a report, an admin query or a new relationship.</p><p>Trusting that separation to every endpoint remembering to add organization_id seems reasonable until it isn't. It doesn't take bad intent; a query written in a hurry is enough. The defect isn't human: it's architectural, because it lets an oversight have consequences that are far too big.</p>
+        </section>
+        <section>
+          <h2>Row Level Security as a data control</h2>
+          <p>That's why Patio uses PostgreSQL Row Level Security. The database policies express which rows an organization can read or modify, while the application keeps responsibility for authenticating people and managing their roles. One layer doesn't replace the other: they work together.</p><p>RBAC answers what someone can do within their dealership. RLS answers a prior question: whether that row even belongs to their dealership. It is defense in depth applied to an everyday risk.</p>
+        </section>
+        <section>
+          <h2>Organization context and least privilege</h2>
+          <p>The important decision isn't just turning on a policy; it's keeping the tenant from traveling as an optional parameter throughout the application. The context is derived from the authenticated identity and set for the transaction before touching the data. That way, a query that forgot the filter still hits a barrier.</p><p>Support exceptions exist, but they must be explicit, audited and minimal. An invisible exception isn't flexibility: it's a door nobody is watching.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Reference architecture</span>Defense in depth for multi-tenancy
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="The authenticated identity resolves the organization and the role. The application applies business permissions and the database restricts the available rows through Row Level Security.">
+        
+          
+          <div class="architecture__layer">
+            <p>Identity</p>
+            <ul><li>Authenticated user</li><li>Organization and role</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Application</p>
+            <ul><li>RBAC by role</li><li>Permissions by branch</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Transaction</p>
+            <ul><li>Tenant context</li><li>Least-privilege access</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>PostgreSQL</p>
+            <ul><li>Row Level Security</li><li>Rows isolated per organization</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">The authenticated identity resolves the organization and the role. The application applies business permissions and the database restricts the available rows through Row Level Security.</p>
+    </figure>
+      <p class="article__takeaway">Architecture principle: multi-tenant isolation must be verifiable at every layer and, above all, stay active when the application code makes a mistake.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Designing a similar architecture? We can compare decisions and trade-offs.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Secure%20multi-tenancy%3A%20data%20isolation%20can't%20depend%20on%20a%20WHERE%20clause&amp;body=Designing%20a%20similar%20architecture%3F%20We%20can%20compare%20decisions%20and%20trade-offs.%0A%0AI%20came%20from%20the%20article%3A%20Secure%20multi-tenancy%3A%20data%20isolation%20can't%20depend%20on%20a%20WHERE%20clause%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fmulti-tenancy-rls-frontera-datos%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
+        <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
+      </a></li><li><a href="/en/blog/puffin-world-modelos-multimodales-open-weight/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Puffin-World and the new wave of multimodal models: less hype, more real architecture</strong>
+        <small>A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture.</small>
+      </a></li><li><a href="/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-related-article">
+        <span>Cloud and architecture</span>
+        <strong>What I'm learning while studying for AWS Cloud Practitioner</strong>
+        <small>Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

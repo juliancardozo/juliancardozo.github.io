@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Notes from the front line: tech leadership in LATAM | Julián Cardozo</title>
+<meta name="description" content="A personal newsletter about technical leadership, architecture decisions, product, applied AI and real lessons from building in Latin America. Issues are sent in Spanish; the archive is translated here." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/newsletter/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/newsletter/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/newsletter/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/newsletter/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Notes from the front line: tech leadership in LATAM | Julián Cardozo" />
+<meta property="og:description" content="A personal newsletter about technical leadership, architecture decisions, product, applied AI and real lessons from building in Latin America. Issues are sent in Spanish; the archive is translated here." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/newsletter/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Notes from the front line: tech leadership in LATAM | Julián Cardozo" />
+<meta name="twitter:description" content="A personal newsletter about technical leadership, architecture decisions, product, applied AI and real lessons from building in Latin America. Issues are sent in Spanish; the archive is translated here." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Notes from the front line: tech leadership in LATAM","description":"A personal newsletter about technical leadership, architecture decisions, product, applied AI and real lessons from building in Latin America. Issues are sent in Spanish; the archive is translated here.","url":"https://juliancardozo.github.io/en/newsletter/","inLanguage":"en","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"hasPart":[{"@type":"BlogPosting","headline":"The hard part of a webhook isn't receiving it","url":"https://juliancardozo.github.io/en/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/"},{"@type":"BlogPosting","headline":"Specifying before building is leadership too","url":"https://juliancardozo.github.io/en/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/"}]}</script>
+</head>
+<body class="page-newsletter">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/newsletter/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<section class="newsletter-hub">
+  <div class="shell">
+    <header class="newsletter-hub__head">
+      <p class="section__eyebrow">Newsletter</p>
+      <h1 class="newsletter-hub__title">Notes from the front line: tech leadership in LATAM</h1>
+      <p class="section__lead">A personal newsletter about technical leadership, architecture decisions, product, applied AI and real lessons from building in Latin America. Issues are sent in Spanish; the archive is translated here.</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary js-track-newsletter-interest" href="#suscribirme">Send me the first issue</a>
+        <a class="btn btn--ghost" href="#archivo">Browse the public archive</a>
+      </div>
+      <p class="newsletter-hub__note">Every issue has a practical idea, a real experience and a concrete question to think more clearly about how we build technology, products, teams and businesses.</p>
+    </header>
+
+    <div id="suscribirme">
+      
+  <section class="newsletter-signup " aria-labelledby="newsletter-signup-title-newsletter-hub">
+    <div class="newsletter-signup__copy">
+      <p class="newsletter-panel__label">Subscription</p>
+      <h2 id="newsletter-signup-title-newsletter-hub">Get the first issue</h2>
+      <p>Leave your email, pick your main interest and I'll add you to the list for upcoming issues. Issues are written in Spanish.</p>
+    </div>
+    <form
+      class="newsletter-form"
+      data-newsletter-form
+      action="https://email-worker.julian-cardozo-viggiano.workers.dev/subscribe"
+      method="post"
+      novalidate
+    >
+      <input type="hidden" name="source" value="newsletter-hub" />
+      <input type="hidden" name="page_path" value="/en/newsletter/" />
+      <input type="hidden" name="form_kind" value="full" />
+
+      <div class="newsletter-form__field">
+        <label for="newsletter-name-newsletter-hub">Name</label>
+        <input id="newsletter-name-newsletter-hub" name="name" type="text" autocomplete="given-name" />
+      </div>
+
+      <div class="newsletter-form__field">
+        <label for="newsletter-email-newsletter-hub">Email</label>
+        <input id="newsletter-email-newsletter-hub" name="email" type="email" inputmode="email" autocomplete="email" required />
+      </div>
+
+      <div class="newsletter-form__field">
+        <label for="newsletter-interest-newsletter-hub">Main interest</label>
+        <select id="newsletter-interest-newsletter-hub" name="interest" required>
+          <option value="">Choose an option</option>
+          <option value="liderazgo">Technical leadership</option>
+          <option value="arquitectura">Architecture and platform</option>
+          <option value="ia">Applied AI</option>
+          <option value="producto">Product and MVPs</option>
+          <option value="pagos">Fintech and payments</option>
+        </select>
+      </div>
+
+      <div class="newsletter-form__field newsletter-form__field--hidden" aria-hidden="true">
+        <label for="newsletter-company-newsletter-hub">Company</label>
+        <input id="newsletter-company-newsletter-hub" name="company" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <label class="newsletter-form__consent">
+        <input type="checkbox" name="consent" value="yes" required />
+        <span>I agree to receive the newsletter and related updates. Read the <a href="/en/privacy/">privacy policy</a>.</span>
+      </label>
+
+      <div class="newsletter-form__actions">
+        <button type="submit" class="btn btn--primary">Send me the first issue</button>
+        <p class="newsletter-form__meta">No spam. You can unsubscribe at any time.</p>
+      </div>
+      <p class="newsletter-form__status" data-newsletter-status aria-live="polite"></p>
+    </form>
+  </section>
+    </div>
+
+    <div class="newsletter-hub__grid">
+      <article class="newsletter-panel" data-reveal>
+        <p class="newsletter-panel__label">Cadence</p>
+        <h2>A sustainable pace</h2>
+        <p>One main issue every two weeks, with short notes whenever a lesson is worth sharing quickly.</p>
+      </article>
+      <article class="newsletter-panel" data-reveal>
+        <p class="newsletter-panel__label">Who it is for</p>
+        <ul class="prose-list"><li>Engineering Managers and Tech Leads</li><li>CTOs and technology leaders</li><li>Founders and product builders</li><li>Platform, cloud, fintech and applied AI teams</li></ul>
+      </article>
+      <article class="newsletter-panel" data-reveal>
+        <p class="newsletter-panel__label">Operational status</p>
+        <p>The public page, the archive and the editorial sequence are already defined. Real subscriptions are connected to a secure Worker with consent, and the first welcome flow is ready to activate when sending starts.</p>
+      </article>
+    </div>
+
+    <section class="newsletter-pillars" aria-labelledby="newsletter-pillars-title">
+      <p class="section__eyebrow">Editorial pillars</p>
+      <h2 id="newsletter-pillars-title">Six topics, one voice</h2>
+      <div class="pillar-strip">
+        <article class="pillar-card" data-reveal>
+          <p class="pillar-card__meta">Technical and human leadership</p>
+          <p>Autonomy, growing Tech Leads, difficult conversations, engineering metrics and sustainable teams.</p>
+        </article><article class="pillar-card" data-reveal>
+          <p class="pillar-card__meta">Engineering and platforms</p>
+          <p>Architecture, APIs, platform engineering, observability, security and decisions with real operational impact.</p>
+        </article><article class="pillar-card" data-reveal>
+          <p class="pillar-card__meta">Applied AI</p>
+          <p>Spec-driven development, agents, MCP, automation and the practical limits of AI in software teams.</p>
+        </article><article class="pillar-card" data-reveal>
+          <p class="pillar-card__meta">Products and ventures</p>
+          <p>Discovery, MVPs, hypotheses, pricing, learning in public and how to decide what is worth building.</p>
+        </article><article class="pillar-card" data-reveal>
+          <p class="pillar-card__meta">Fintech, payments and business</p>
+          <p>Subscriptions, webhooks, financial APIs, security, compliance and the trade-offs of the regional ecosystem.</p>
+        </article><article class="pillar-card" data-reveal>
+          <p class="pillar-card__meta">Technology and life</p>
+          <p>Music, pets, creativity and personal experiences that turn into useful lessons for building better.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="newsletter-archive" id="archivo" aria-labelledby="newsletter-archive-title">
+      <div class="section__head" data-reveal>
+        <p class="section__eyebrow">Public archive</p>
+        <h2 class="section__title" id="newsletter-archive-title">Available issues</h2>
+        <p class="section__lead">Each issue connects a real experience, a practical idea and a bridge to the rest of the ecosystem: blog, projects and conversations.</p>
+      </div>
+      <div class="newsletter-archive__list">
+        <article class="newsletter-card" data-reveal>
+            <p class="newsletter-card__meta"><span>Issue 002</span><time datetime="2026-08-25">August 25, 2026</time></p>
+            <h3><a href="/en/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" class="js-track-newsletter-issue">Specifying before building is leadership too</a></h3>
+            <p>When an idea is still blurry, racing straight into code tends to look like progress. Often it's just an expensive way of postponing the conversation that was missing.</p>
+            <ul class="article-card__tags" aria-label="Segments"><li>Leadership</li><li>AI</li><li>Product</li><li>WebspecAI</li></ul>
+            <div class="newsletter-card__links">
+              <a href="/en/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" class="link link--strong js-track-newsletter-issue">Read issue <span class="link__arrow" aria-hidden="true">→</span></a>
+              <a href="/en/blog/ia-especificacion-antes-codigo/">Related article</a>
+              <a href="/en/projects/webspec-ai/">Related project</a>
+            </div>
+          </article><article class="newsletter-card" data-reveal>
+            <p class="newsletter-card__meta"><span>Issue 001</span><time datetime="2026-08-11">August 11, 2026</time></p>
+            <h3><a href="/en/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/" class="js-track-newsletter-issue">The hard part of a webhook isn't receiving it</a></h3>
+            <p>A webhook isn't a friendly notification: it's an operational edge where a payment system either stays consistent or starts losing trust.</p>
+            <ul class="article-card__tags" aria-label="Segments"><li>Fintech</li><li>Payments</li><li>Architecture</li></ul>
+            <div class="newsletter-card__links">
+              <a href="/en/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/" class="link link--strong js-track-newsletter-issue">Read issue <span class="link__arrow" aria-hidden="true">→</span></a>
+              <a href="/en/blog/webhooks-pagos-maquinas-de-estado/">Related article</a>
+              <a href="/en/projects/micuota/">Related project</a>
+            </div>
+          </article>
+      </div>
+    </section>
+
+    <section class="newsletter-sequence" aria-labelledby="newsletter-sequence-title">
+      <div class="section__head" data-reveal>
+        <p class="section__eyebrow">Welcome sequence</p>
+        <h2 class="section__title" id="newsletter-sequence-title">Five emails to turn a subscription into a relationship</h2>
+      </div>
+      <ol class="newsletter-sequence__list">
+        <li class="newsletter-sequence__item" data-reveal>
+          <p class="newsletter-panel__label">Email 1</p>
+          <h3>Welcome</h3>
+          <p>A short introduction, what kind of ideas they will receive, the expected cadence and a question to tag their initial interest: leadership, architecture, AI, product or payments.</p>
+          <p><strong>Goal:</strong> Explain the editorial promise and ask for a simple reply about the subscriber's main interest.</p>
+          <p><strong>CTA:</strong> Reply with the topic that matters most to them today.</p>
+        </li><li class="newsletter-sequence__item" data-reveal>
+          <p class="newsletter-panel__label">Email 2</p>
+          <h3>Story and purpose</h3>
+          <p>How banking, fintech, leadership, my own products and applied AI come together in a single professional practice: translating real problems into sustainable decisions.</p>
+          <p><strong>Goal:</strong> Connect background, judgment and curiosity without sounding like a corporate bio.</p>
+          <p><strong>CTA:</strong> Reply with the hardest problem their team still can't explain well.</p>
+        </li><li class="newsletter-sequence__item" data-reveal>
+          <p class="newsletter-panel__label">Email 3</p>
+          <h3>Best content</h3>
+          <p>A selection of articles and cases by topic: leadership, platform, applied AI, product or payments. Each link explains why it is worth opening.</p>
+          <p><strong>Goal:</strong> Offer three ways in based on the reader's stated interest.</p>
+          <p><strong>CTA:</strong> Choose a topic to explore in upcoming issues.</p>
+        </li><li class="newsletter-sequence__item" data-reveal>
+          <p class="newsletter-panel__label">Email 4</p>
+          <h3>Projects as evidence</h3>
+          <p>A short presentation of Milo Care, MiCuota.online, WebspecAI and Pambú Tech, with a question about which of the reader's hypotheses or products deserves a conversation.</p>
+          <p><strong>Goal:</strong> Show real projects as a source of learning, not as advertising.</p>
+          <p><strong>CTA:</strong> Share feedback or ask for context about one of the projects.</p>
+        </li><li class="newsletter-sequence__item" data-reveal>
+          <p class="newsletter-panel__label">Email 5</p>
+          <h3>Conversation</h3>
+          <p>An explicit invitation to reply if their interest is leadership, architecture, product, collaboration, press, events, investment or a professional opportunity.</p>
+          <p><strong>Goal:</strong> Open a direct relationship and classify the kind of conversation that could come out of it.</p>
+          <p><strong>CTA:</strong> Reply with the kind of conversation they want to start.</p>
+        </li>
+      </ol>
+    </section>
+  </div>
+</section>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

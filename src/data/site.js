@@ -1,10 +1,13 @@
 /**
  * Configuracion e identidad del sitio.
  *
- * Estructura preparada para multi-idioma: todo el copy vive bajo `content[locale]`.
- * Para agregar ingles: duplicar el bloque `es` como `en`, traducir, y sumar
- * el locale a `locales` en build.mjs. Las plantillas no necesitan cambios.
+ * Multi-idioma: todo el copy de interfaz vive bajo `content[locale]`, con las rutas
+ * de cada idioma (`prefix` + `routes`). El contenido largo (proyectos, artículos,
+ * pilares, newsletter) se escribe en español en su archivo y se traduce en
+ * `src/data/<locale>/`, ver src/data/i18n.js.
  */
+
+import { en, statusLabelsEn } from './en/site.js';
 
 export const site = {
   baseUrl: 'https://juliancardozo.github.io',
@@ -21,6 +24,10 @@ export const site = {
 export const content = {
   es: {
     lang: 'es',
+    prefix: '',
+    routes: { blog: 'blog', project: 'proyectos', topic: 'temas', newsletter: 'newsletter', privacy: 'privacidad' },
+    dateLocale: 'es-UY',
+    ogLocale: 'es_UY',
     meta: {
       title: 'Julián Cardozo — Engineering Manager y product builder',
       description:
@@ -89,10 +96,15 @@ export const content = {
         ctaPrimary: 'Ver archivo de la newsletter',
         ctaSecondary: 'Quiero recibir la primera edición',
         note: 'La suscripción pasa por un endpoint propio fuera de GitHub Pages, para no exponer credenciales. Se registra el consentimiento y el tema de interés.',
+        promiseLabel: 'Promesa editorial',
+        cadenceLabel: 'Cadencia',
+        formTitle: 'Sumate desde la home',
+        formLead: 'Si te interesa liderazgo técnico, arquitectura, producto o IA aplicada, podés recibir la primera edición desde acá.',
       },
       acerca: {
         eyebrow: 'Sobre mí',
         title: 'De construir sistemas a habilitar equipos de ingeniería',
+        scopeLabel: 'Alcance',
         lead: 'Empecé escribiendo backend. Hoy mi trabajo es que equipos, productos y plataformas entreguen valor de forma sostenible. Cada etapa amplió el sistema bajo mi responsabilidad.',
         stages: [
           {
@@ -112,6 +124,7 @@ export const content = {
           },
         ],
         future: {
+          label: 'Proyección profesional',
           title: 'Próximo alcance: liderazgo ejecutivo',
           body: 'Busco roles donde tecnología, producto y negocio se alinean. CTO: conectar arquitectura, seguridad y plataforma con la estrategia. VP o Head of Engineering: escalar talento, delivery y salud del equipo. Head of Product: unir discovery, priorización y viabilidad técnica. Son objetivos, no cargos actuales.',
         },
@@ -152,6 +165,7 @@ export const content = {
           { from: 'No pagar Chordify', to: 'ChordLocal', slug: 'chordlocal' },
           { from: 'El candombe de Montevideo', to: 'Neuro-Candombe', slug: 'neuro-candombe' },
         ],
+        examplesLabel: 'Ejemplos de problemas convertidos en productos',
       },
       laboratorio: {
         eyebrow: 'Laboratorio',
@@ -159,11 +173,13 @@ export const content = {
         lead: 'Pruebas de concepto, trabajos para clientes y la base académica. Filtrá por tipo.',
         allLabel: 'Todo',
         emptyLabel: 'No hay proyectos en esta categoría.',
+        filterLabel: 'Filtrar proyectos del laboratorio',
       },
       recorrido: {
         eyebrow: 'Recorrido',
         title: 'Cada etapa sumó una capacidad',
         lead: 'No es un CV cronológico: es lo que cada etapa me dejó y sigo usando.',
+        gainedLabel: 'Capacidad que sumó',
         stages: [
           {
             period: 'Fundamentos',
@@ -206,6 +222,8 @@ export const content = {
             title: 'Productos propios e inteligencia artificial',
             body: 'Spec-driven development, desarrollo asistido por IA, agentes y MCP aplicados al ciclo completo. La IA no reemplaza el criterio: comprime el tiempo entre entender un problema y tener algo funcionando.',
             gained: 'Ir de la necesidad al producto desplegado sin depender de un equipo entero.',
+            // Lista los productos destacados que salieron de esta etapa.
+            showProducts: 'Lo que salió de acá',
           },
         ],
       },
@@ -318,8 +336,185 @@ export const content = {
       moreProjects: 'Otros productos',
       noLinks: 'Repositorio privado',
       footerNote: 'Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.',
+      originLabel: 'Origen',
+      coverLabel: 'Ilustración abstracta del proyecto',
+      insightsEyebrow: 'Aprendizajes aplicados',
+      insightsTitle: 'Lecturas que nacen de este proyecto',
+      navLabel: 'Secciones del sitio',
+      privacy: 'Privacidad',
+      switchLanguage: { en: 'Read this page in English' },
+    },
+
+    pages: {
+      blogTitle: 'Blog de tecnología y producto',
+      blogDescription: 'Artículos sobre inteligencia artificial, arquitectura, infraestructura y emprendimiento a partir de proyectos propios.',
+      blogName: 'Blog de',
+      privacyTitle: 'Privacidad de la newsletter',
+      privacyDescription: 'Política de privacidad y consentimiento para la newsletter personal de Julián Cardozo.',
+    },
+
+    blog: {
+      eyebrow: 'Blog',
+      title: 'Tecnología que sale de construir producto',
+      lead: 'Notas sobre IA, arquitectura, infraestructura y emprendimiento a partir de decisiones tomadas en proyectos propios.',
+      newsletterCta: 'Ver la newsletter',
+      subscribeCta: 'Suscribirme',
+      pillarsEyebrow: 'Pilares',
+      pillarsTitle: 'Tres puertas de entrada para entender el recorrido',
+      filterLabel: 'Filtrar artículos por tema',
+      allLabel: 'Todo',
+      tagsLabel: 'Temas',
+      readArticle: 'Leer artículo',
+      emptyLabel: 'No hay artículos con esta combinación de tags.',
+      loadMore: 'Cargar más artículos',
+      formTitle: '¿Querés recibir la primera edición?',
+      formLead: 'Si el blog te resulta útil, la newsletter sirve para profundizar ideas y abrir conversaciones con menos ruido que una red social.',
+    },
+
+    article: {
+      back: 'Volver al blog',
+      pillarLabel: 'Pilar',
+      bornFrom: 'Este artículo nace del proyecto',
+      contextLabel: 'Contexto',
+      defaultContext: 'Perfil profesional',
+      viewRepo: 'Ver repositorio',
+      architectureLabel: 'Arquitectura de referencia',
+      relatedEyebrow: 'Seguir leyendo',
+      relatedTitle: 'Artículos relacionados',
+      conversation: {
+        label: 'Continuemos la conversación',
+        body: 'Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.',
+        button: 'Escribirme sobre este tema',
+        subjectPrefix: 'Conversación sobre: ',
+        cameFrom: 'Llegué desde el artículo: ',
+        fallback: '¿Estás trabajando en un desafío parecido? Me interesa conocer el contexto y comparar experiencias.',
+        byTag: {
+          Pagos: '¿Trabajás en fintech, pagos o suscripciones? Me interesa comparar decisiones de producto y arquitectura.',
+          IA: '¿Tu equipo está evaluando IA aplicada? Me interesa conocer el problema que están intentando resolver.',
+          Arquitectura: '¿Estás diseñando una arquitectura parecida? Podemos contrastar decisiones y trade-offs.',
+          Producto: '¿Estás validando un producto? Me interesa conversar sobre la hipótesis y el camino técnico.',
+          Cloud: '¿Tu equipo está ordenando una decisión de cloud u operación? Podemos intercambiar experiencias.',
+          Liderazgo: '¿Estás liderando un equipo de ingeniería? Me interesa conversar sobre los desafíos que están atravesando.',
+        },
+      },
+    },
+
+    pillarPage: {
+      back: 'Volver a los pilares',
+      audienceLabel: 'Para quién',
+      conversationLabel: 'Conversación',
+      writeMe: 'Escribirme sobre este tema',
+      questionsTitle: 'Preguntas que organiza este pilar',
+      articlesTitle: 'Artículos para entrar en tema',
+      projectsTitle: 'Proyectos que sirven como evidencia',
+      viewCase: 'Ver caso',
+      subjectPrefix: 'Conversación sobre ',
+      cameFrom: 'Llegué desde el pilar: ',
+    },
+
+    newsletterPage: {
+      eyebrow: 'Newsletter',
+      archiveCta: 'Ver archivo público',
+      formTitle: 'Recibí la primera edición',
+      formLead: 'Dejá tu email, elegí tu interés principal y te sumo a la lista para las próximas ediciones.',
+      cadenceLabel: 'Cadencia',
+      cadenceTitle: 'Un ritmo sostenible',
+      audienceLabel: 'Para quién',
+      statusLabel: 'Estado operativo',
+      pillarsEyebrow: 'Pilares editoriales',
+      pillarsTitle: 'Seis temas, una sola voz',
+      archiveEyebrow: 'Archivo público',
+      archiveTitle: 'Ediciones disponibles',
+      archiveLead: 'Cada edición conecta una experiencia real, una idea práctica y un puente hacia el resto del ecosistema: blog, proyectos y conversaciones.',
+      segmentsLabel: 'Segmentos',
+      readIssue: 'Leer edición',
+      relatedArticle: 'Artículo relacionado',
+      relatedProject: 'Proyecto relacionado',
+      sequenceEyebrow: 'Secuencia de bienvenida',
+      sequenceTitle: 'Cinco emails para convertir suscripción en relación',
+      goalLabel: 'Objetivo:',
+      back: 'Volver a la newsletter',
+      primaryAudience: 'Audiencia principal',
+      objective: 'Objetivo',
+      toolLabel: 'Herramienta práctica',
+      ecosystemLabel: 'Conexión con el ecosistema',
+      psLabel: 'PD:',
+    },
+
+    form: {
+      label: 'Suscripción',
+      defaultTitle: 'Recibí la primera edición',
+      defaultLead: 'Sumate para recibir la próxima edición y futuras notas sobre liderazgo, arquitectura, producto e IA aplicada.',
+      defaultButton: 'Quiero recibir la newsletter',
+      name: 'Nombre',
+      email: 'Email',
+      interest: 'Interés principal',
+      choose: 'Elegí una opción',
+      interests: [
+        ['liderazgo', 'Liderazgo técnico'],
+        ['arquitectura', 'Arquitectura y plataforma'],
+        ['ia', 'IA aplicada'],
+        ['producto', 'Producto y MVPs'],
+        ['pagos', 'Fintech y pagos'],
+      ],
+      company: 'Empresa',
+      consentBefore: 'Acepto recibir la newsletter y actualizaciones relacionadas. Leé la ',
+      consentLink: 'política de privacidad',
+      meta: 'Sin spam. Podés pedir la baja en cualquier momento.',
+    },
+
+    notFound: {
+      title: 'Página no encontrada',
+      description: 'La página que buscás no existe.',
+      heading: 'Esta página no existe',
+      lead: 'Puede que el enlace esté roto o que la página se haya movido.',
+      productsCta: 'Ver los productos',
+    },
+
+    privacy: {
+      eyebrow: 'Privacidad',
+      title: 'Política de privacidad de la newsletter',
+      lead:
+        'Uso los datos de suscripción solo para enviar la newsletter y actualizaciones relacionadas con el contenido, los proyectos y las conversaciones profesionales que publico en este sitio.',
+      sections: [
+        {
+          title: 'Qué datos se guardan',
+          paragraphs: [
+            'Cuando te suscribís, se registra tu email y el interés principal que marcaste en el formulario. Si completás tu nombre, también se guarda para personalizar futuras comunicaciones.',
+            'Además se registran metadatos mínimos de contexto: página desde la que te suscribiste, tipo de formulario y momento del consentimiento.',
+          ],
+        },
+        {
+          title: 'Para qué se usan',
+          paragraphs: [
+            'Los datos se usan para enviarte la newsletter, entender qué temas despiertan más interés y ordenar futuras conversaciones o segmentaciones editoriales.',
+            'No vendo ni cedo tu información a terceros. El procesamiento de la suscripción se apoya en Resend como proveedor de infraestructura de email.',
+          ],
+        },
+        {
+          title: 'Consentimiento y baja',
+          paragraphs: [
+            'La suscripción requiere consentimiento explícito en el formulario. Si más adelante no querés seguir recibiendo comunicaciones, vas a poder darte de baja desde el propio email o escribiéndome directamente.',
+            'Hasta que el flujo automático de baja quede publicado en producción, también podés pedir la eliminación o actualización de tus datos respondiendo a cualquier mensaje o escribiendo a mi email profesional.',
+          ],
+        },
+        {
+          title: 'Seguridad y contacto',
+          paragraphs: [
+            'La API key de Resend no se expone en esta web. La suscripción se procesa a través de un endpoint seguro fuera de GitHub Pages.',
+            'Si necesitás consultar, corregir o eliminar tus datos, podés escribirme desde la sección de contacto del sitio.',
+          ],
+          items: [
+            'Proveedor de infraestructura de email: Resend',
+            'Sitio: juliancardozo.github.io',
+            'Responsable: Julián Cardozo',
+          ],
+        },
+      ],
     },
   },
+
+  en,
 };
 
 /** Etiquetas de estado. Deliberadamente honestas: nada se presenta como más maduro de lo que es. */
@@ -334,4 +529,5 @@ export const statusLabels = {
     academic: { label: 'Trabajo académico', tone: 'muted' },
     archived: { label: 'Histórico', tone: 'muted' },
   },
+  en: statusLabelsEn,
 };

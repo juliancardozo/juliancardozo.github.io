@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What I'm learning while studying for AWS Cloud Practitioner | Julián Cardozo</title>
+<meta name="description" content="Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/aws-cloud-practitioner-conceptos-fundamentales/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/aws-cloud-practitioner-conceptos-fundamentales/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="What I'm learning while studying for AWS Cloud Practitioner | Julián Cardozo" />
+<meta property="og:description" content="Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="What I'm learning while studying for AWS Cloud Practitioner | Julián Cardozo" />
+<meta name="twitter:description" content="Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"What I'm learning while studying for AWS Cloud Practitioner","description":"Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/aws-cloud-practitioner-conceptos-fundamentales/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Cloud and architecture"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/aws-cloud-practitioner-conceptos-fundamentales/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><span>Cloud and architecture</span><time datetime="2026-08-25">August 25, 2026</time><span>7 min read</span></p>
+    <h1 class="article__title">What I'm learning while studying for AWS Cloud Practitioner</h1>
+    <p class="article__lead">Studying for AWS Cloud Practitioner is putting order into concepts that show up in every product I build: where the provider's responsibility ends, how to design so things fail less, why cost is an architecture decision and what it means to run a system without managing the hardware. More than memorizing services, the value is in adopting a model for making better technical and business decisions.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/liderazgo-tecnico/" class="js-track-pillar-hub">Technical leadership and teams <span aria-hidden="true">→</span></a></div>
+      <div><p>Context</p>
+      <span>Ongoing professional learning</span>
+      </div>
+    </aside>
+    <div class="article__content">
+      
+        <section>
+          <h2>The cloud doesn't eliminate responsibilities: it redistributes them</h2>
+          <p>The concept that organizes everything else is the shared responsibility model. AWS takes care of security of the cloud: data centers, hardware, network and base services. The customer remains responsible for security in the cloud: identity, permissions, data, configuration, applications and correct use of the services.</p><p>The boundary shifts depending on the service chosen. With a virtual machine, the team manages more layers than with a managed service. For a business owner, this means that buying cloud doesn't automatically transfer the risk; it changes which controls have to be designed, operated and audited.</p>
+        </section>
+        <section>
+          <h2>Elasticity is a product capability</h2>
+          <p>Elasticity lets you adjust resources as demand changes. It isn't just about withstanding a traffic spike: it lets you avoid paying for idle capacity while a product is still validating its market, and respond when a campaign, an integration or an event increases usage.</p><p>The distinction between scalability and elasticity helps make more precise decisions. Scaling is increasing capacity; being elastic is adapting it. The architecture has to separate components, avoid state that is hard to move and use metrics that indicate when the system needs to react.</p>
+        </section>
+        <section>
+          <h2>High availability means thinking about expected failures</h2>
+          <p>An AWS region is made up of isolated availability zones. That design lets you build systems that don't depend on a single physical point of failure. The lesson isn't that every product has to be global from day one; it's that every availability requirement has a cost and an associated architecture.</p><p>For an MVP, a simple solution can be the right one. For a payments flow, health or critical data, the conversation has to include recovery, backups, observability and availability targets. The cloud offers the building blocks to solve it; it doesn't decide for the team what level of risk is acceptable.</p>
+        </section>
+        <section>
+          <h2>IAM and least privilege are part of the design</h2>
+          <p>Identity and Access Management turns access into explicit policies: who can do what to which resource and under what conditions. The principle of least privilege reduces the impact of an exposed credential, a configuration error or an accidental action.</p><p>In practice, this connects with decisions I already apply in multi-tenant products and payment platforms: never trust implicit permissions, separate responsibilities and leave a trail. A root account, static credentials in code or broad permissions are security debt, even if the system is still small.</p>
+        </section>
+        <section>
+          <h2>FinOps starts in the architecture</h2>
+          <p>Pay-as-you-go is an advantage when you understand what drives consumption and what can be turned off, reserved, automated or measured. Cloud cost is not just an infrastructure bill: it reflects decisions about compute, storage, data transfer, retention, availability and observability.</p><p>That is why cost has to enter the design early. Tagging resources, setting budgets and alerts, choosing managed services when they reduce operational work and reviewing unused resources are practices that let engineering and business talk using the same data.</p>
+        </section>
+      
+    <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
+      <figcaption id="architecture-caption">
+        <span>Reference architecture</span>The shared responsibility model in the cloud
+      </figcaption>
+      <div class="architecture__flow" role="img" aria-label="AWS runs the physical infrastructure and the base services. The customer team defines identity, access, configuration, data, applications and operational controls depending on the service used.">
+        
+          
+          <div class="architecture__layer">
+            <p>Business</p>
+            <ul><li>Requirements and risk</li><li>Cost and compliance</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Application</p>
+            <ul><li>Code and data</li><li>Configuration and secrets</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>Shared controls</p>
+            <ul><li>Identity and access</li><li>Monitoring and response</li></ul>
+          </div>
+          <span class="architecture__arrow" aria-hidden="true">→</span>
+          <div class="architecture__layer">
+            <p>AWS</p>
+            <ul><li>Regions and hardware</li><li>Network and managed services</li></ul>
+          </div>
+      </div>
+      <p class="architecture__description" id="architecture-title">AWS runs the physical infrastructure and the base services. The customer team defines identity, access, configuration, data, applications and operational controls depending on the service used.</p>
+    </figure>
+      <p class="article__takeaway">Cloud principle: on-demand infrastructure speeds up delivery, but the value shows up when security, availability and cost are designed as explicit product responsibilities.</p>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Designing a similar architecture? We can compare decisions and trade-offs.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20What%20I'm%20learning%20while%20studying%20for%20AWS%20Cloud%20Practitioner&amp;body=Designing%20a%20similar%20architecture%3F%20We%20can%20compare%20decisions%20and%20trade-offs.%0A%0AI%20came%20from%20the%20article%3A%20What%20I'm%20learning%20while%20studying%20for%20AWS%20Cloud%20Practitioner%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Faws-cloud-practitioner-conceptos-fundamentales%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
+        <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
+      </a></li><li><a href="/en/blog/puffin-world-modelos-multimodales-open-weight/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Puffin-World and the new wave of multimodal models: less hype, more real architecture</strong>
+        <small>A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture.</small>
+      </a></li><li><a href="/en/blog/multi-tenancy-rls-frontera-datos/" class="js-track-related-article">
+        <span>Architecture and security</span>
+        <strong>Secure multi-tenancy: data isolation can't depend on a WHERE clause</strong>
+        <small>How to combine identity, RBAC and Row Level Security to protect each organization's data by design.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

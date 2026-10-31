@@ -1,4 +1,4 @@
-import { esc } from './components.mjs';
+import { esc, href } from './components.mjs';
 import { site } from '../data/site.js';
 
 /**
@@ -14,8 +14,12 @@ export const layout = ({
   jsonLd = null,
   robots = 'index, follow',
   ogType = 'website',
+  // Ruta equivalente de esta pagina en cada idioma: { es: '/blog/', en: '/en/blog/' }.
+  alternates = null,
 }) => {
   const canonical = `${site.baseUrl}${path}`;
+  const homePath = href(t);
+  const otherLocales = alternates ? Object.entries(alternates).filter(([code]) => code !== t.lang) : [];
   const ogImage = `${site.baseUrl}/assets/img/og-cover.png`;
   const year = 2026;
 
@@ -31,11 +35,21 @@ export const layout = ({
 <meta name="robots" content="${esc(robots)}" />
 <meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
 <link rel="canonical" href="${esc(canonical)}" />
+${
+  alternates
+    ? [
+        ...Object.entries(alternates).map(
+          ([code, altPath]) => `<link rel="alternate" hreflang="${esc(code)}" href="${esc(`${site.baseUrl}${altPath}`)}" />`,
+        ),
+        `<link rel="alternate" hreflang="x-default" href="${esc(`${site.baseUrl}${alternates[site.defaultLocale]}`)}" />`,
+      ].join('\n')
+    : ''
+}
 <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
 <meta property="og:type" content="${esc(ogType)}" />
 <meta property="og:site_name" content="${esc(site.author)}" />
-<meta property="og:locale" content="es_UY" />
+<meta property="og:locale" content="${esc(t.ogLocale)}" />
 <meta property="og:title" content="${esc(title)}" />
 <meta property="og:description" content="${esc(description)}" />
 <meta property="og:url" content="${esc(canonical)}" />
@@ -67,20 +81,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="skip-link" href="#main">${esc(t.ui.skipToContent)}</a>
 <header class="site-header">
   <div class="shell site-header__inner">
-    <a class="site-header__brand" href="/">
+    <a class="site-header__brand" href="${esc(homePath)}">
       <span class="site-header__mark" aria-hidden="true">JC</span>
       <span class="site-header__name">${esc(site.author)}</span>
     </a>
-    <nav class="site-nav" aria-label="Secciones del sitio">
+    <nav class="site-nav" aria-label="${esc(t.ui.navLabel)}">
       <ul>
         ${t.nav
           .map((item) => {
-            const href = item.href.startsWith('/') ? item.href : path === '/' ? item.href : `/${item.href}`;
-            return `<li><a href="${esc(href)}"${item.cta ? ' class="site-nav__cta"' : ''}>${esc(item.label)}</a></li>`;
+            const target = item.href.startsWith('/') ? item.href : path === homePath ? item.href : `${homePath}${item.href}`;
+            return `<li><a href="${esc(target)}"${item.cta ? ' class="site-nav__cta"' : ''}>${esc(item.label)}</a></li>`;
           })
           .join('')}
       </ul>
     </nav>
+    ${otherLocales
+      .map(
+        ([code, altPath]) =>
+          `<a class="site-lang" href="${esc(altPath)}" hreflang="${esc(code)}" lang="${esc(code)}" aria-label="${esc(t.ui.switchLanguage[code])}">${esc(code.toUpperCase())}</a>`,
+      )
+      .join('')}
   </div>
 </header>
 <main id="main">
@@ -91,8 +111,8 @@ ${content}
     <p class="site-footer__name">${esc(site.author)} · ${year}</p>
     <p class="site-footer__note">${esc(t.ui.footerNote)}</p>
     <ul class="site-footer__links">
-      <li><a href="/newsletter/">Newsletter</a></li>
-      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="${esc(href(t, 'newsletter'))}">Newsletter</a></li>
+      <li><a href="${esc(href(t, 'privacy'))}">${esc(t.ui.privacy)}</a></li>
       <li><a href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">GitHub</a></li>
       ${site.links.linkedin ? `<li><a href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>` : ''}
       ${site.links.email ? `<li><a href="mailto:${esc(site.links.email)}">Email</a></li>` : ''}

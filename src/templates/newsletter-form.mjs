@@ -1,17 +1,20 @@
-import { esc } from './components.mjs';
-import { newsletter } from '../data/newsletter.js';
+import { esc, href } from './components.mjs';
 
 export const newsletterForm = ({
+  t,
+  newsletter,
   source = 'newsletter-hub',
-  path = '/newsletter/',
-  title = 'Recibí la primera edición',
-  lead = 'Sumate para recibir la próxima edición y futuras notas sobre liderazgo, arquitectura, producto e IA aplicada.',
+  path = href(t, 'newsletter'),
+  title = t.form.defaultTitle,
+  lead = t.form.defaultLead,
   compact = false,
-  buttonLabel = 'Quiero recibir la newsletter',
-}) => `
+  buttonLabel = t.form.defaultButton,
+}) => {
+  const f = t.form;
+  return `
   <section class="newsletter-signup ${compact ? 'newsletter-signup--compact' : ''}" aria-labelledby="newsletter-signup-title-${esc(source)}">
     <div class="newsletter-signup__copy">
-      <p class="newsletter-panel__label">Suscripción</p>
+      <p class="newsletter-panel__label">${esc(f.label)}</p>
       <h2 id="newsletter-signup-title-${esc(source)}">${esc(title)}</h2>
       <p>${esc(lead)}</p>
     </div>
@@ -27,41 +30,38 @@ export const newsletterForm = ({
       <input type="hidden" name="form_kind" value="${compact ? 'compact' : 'full'}" />
 
       ${compact ? '' : `<div class="newsletter-form__field">
-        <label for="newsletter-name-${esc(source)}">Nombre</label>
+        <label for="newsletter-name-${esc(source)}">${esc(f.name)}</label>
         <input id="newsletter-name-${esc(source)}" name="name" type="text" autocomplete="given-name" />
       </div>`}
 
       <div class="newsletter-form__field">
-        <label for="newsletter-email-${esc(source)}">Email</label>
+        <label for="newsletter-email-${esc(source)}">${esc(f.email)}</label>
         <input id="newsletter-email-${esc(source)}" name="email" type="email" inputmode="email" autocomplete="email" required />
       </div>
 
       <div class="newsletter-form__field">
-        <label for="newsletter-interest-${esc(source)}">Interés principal</label>
+        <label for="newsletter-interest-${esc(source)}">${esc(f.interest)}</label>
         <select id="newsletter-interest-${esc(source)}" name="interest" required>
-          <option value="">Elegí una opción</option>
-          <option value="liderazgo">Liderazgo técnico</option>
-          <option value="arquitectura">Arquitectura y plataforma</option>
-          <option value="ia">IA aplicada</option>
-          <option value="producto">Producto y MVPs</option>
-          <option value="pagos">Fintech y pagos</option>
+          <option value="">${esc(f.choose)}</option>
+          ${f.interests.map(([value, label]) => `<option value="${esc(value)}">${esc(label)}</option>`).join('\n          ')}
         </select>
       </div>
 
       <div class="newsletter-form__field newsletter-form__field--hidden" aria-hidden="true">
-        <label for="newsletter-company-${esc(source)}">Empresa</label>
+        <label for="newsletter-company-${esc(source)}">${esc(f.company)}</label>
         <input id="newsletter-company-${esc(source)}" name="company" type="text" tabindex="-1" autocomplete="off" />
       </div>
 
       <label class="newsletter-form__consent">
         <input type="checkbox" name="consent" value="yes" required />
-        <span>Acepto recibir la newsletter y actualizaciones relacionadas. Leé la <a href="/privacidad/">política de privacidad</a>.</span>
+        <span>${esc(f.consentBefore)}<a href="${href(t, 'privacy')}">${esc(f.consentLink)}</a>.</span>
       </label>
 
       <div class="newsletter-form__actions">
         <button type="submit" class="btn btn--primary">${esc(buttonLabel)}</button>
-        <p class="newsletter-form__meta">Sin spam. Podés pedir la baja en cualquier momento.</p>
+        <p class="newsletter-form__meta">${esc(f.meta)}</p>
       </div>
       <p class="newsletter-form__status" data-newsletter-status aria-live="polite"></p>
     </form>
   </section>`;
+};

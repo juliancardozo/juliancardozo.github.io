@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Specifying before building is leadership too | Notes from the front line: tech leadership in LATAM</title>
+<meta name="description" content="An issue on technical leadership, specification and applied AI: why writing better before building reduces rework and improves product and engineering decisions." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Specifying before building is leadership too | Notes from the front line: tech leadership in LATAM" />
+<meta property="og:description" content="An issue on technical leadership, specification and applied AI: why writing better before building reduces rework and improves product and engineering decisions." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Specifying before building is leadership too | Notes from the front line: tech leadership in LATAM" />
+<meta name="twitter:description" content="An issue on technical leadership, specification and applied AI: why writing better before building reduces rework and improves product and engineering decisions." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Specifying before building is leadership too","description":"When an idea is still blurry, racing straight into code tends to look like progress. Often it's just an expensive way of postponing the conversation that was missing.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"en","url":"https://juliancardozo.github.io/en/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Notes from the front line: tech leadership in LATAM","url":"https://juliancardozo.github.io/en/newsletter/"}}</script>
+</head>
+<body class="page-newsletter-issue">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="newsletter-issue">
+  <header class="shell newsletter-issue__head">
+    <a class="case__back" href="/en/newsletter/"><span aria-hidden="true">←</span> Back to the newsletter</a>
+    <p class="newsletter-issue__meta"><span>Issue 002</span><time datetime="2026-08-25">August 25, 2026</time><span>Note from the front line</span></p>
+    <h1 class="newsletter-issue__title">Specifying before building is leadership too</h1>
+    <p class="newsletter-issue__lead">Specifying well doesn't slow a team down: it keeps early speed from being paid for later in incompatible interpretations, rework and technical decisions without context.</p>
+  </header>
+
+  <div class="shell newsletter-issue__layout">
+    <aside class="newsletter-issue__aside">
+      <div>
+        <p>Primary audience</p>
+        <span>Engineering Managers, Tech Leads and Product Leaders</span>
+      </div>
+      <div>
+        <p>Objective</p>
+        <span>Authority and conversation</span>
+      </div>
+      <div><p>Related project</p><a href="/en/projects/webspec-ai/">WebspecAI <span aria-hidden="true">→</span></a></div>
+      <div><p>Related article</p><a href="/en/blog/ia-especificacion-antes-codigo/">AI adds more value in the specification than in the code <span aria-hidden="true">→</span></a></div>
+    </aside>
+
+    <div class="newsletter-issue__content">
+      <p>One of the most expensive phrases in a product and engineering team is: &quot;we get it, let's start&quot;.</p><p>Not because it's always wrong, but because it often shows up right before each person fills in the gaps with their own mental model. Product imagines one experience, design another, backend a third, and the real conversation only happens once the code exists and changing it costs reputation, time and focus.</p>
+      <section>
+        <h2>Why this is leadership too</h2>
+        <p>Specifying isn't a paperwork step. It's a leadership intervention: organizing context, exposing assumptions, making trade-offs visible and giving the team a shared basis for deciding.</p><p>When that basis doesn't exist, the problem isn't only technical. It becomes political too. Nobody wants to stop an initiative that &quot;has already started&quot;, even if everyone suspects it's being built on different interpretations.</p>
+      </section><section>
+        <h2>Where AI does help</h2>
+        <p>I find AI more useful before the code than during the code when the idea is still unstable. It helps structure PRDs, RFCs, user stories and uncomfortable questions that a busy team tends to push off until later.</p><p>That doesn't replace judgment. Quite the opposite: it forces you to review more carefully what each document is saying, what was assumed and what isn't yet worth automating. WebspecAI was born from exactly that need: compressing the time between a fuzzy hypothesis and a specification that lets you work with less noise.</p>
+      </section><section>
+        <h2>What changes in practice</h2>
+        <p>A team doesn't need endless specifications. It needs enough clarity to understand the problem, the scope, the constraints and the signal that would say &quot;this worked&quot;.</p><p>When that clarity shows up early, the code gains real speed: fewer reactive discussions, less sideways rework and fewer architecture decisions made to prop up product ambiguity.</p>
+      </section>
+
+      <section class="newsletter-issue__tool">
+        <p class="newsletter-panel__label">Practical tool</p>
+        <h2>Five questions before writing the first line</h2>
+        <ul class="prose-list"><li>What concrete problem are we solving, and for whom?</li><li>Which parts of the experience are still hypotheses and which are already constraints?</li><li>Which technical decision would be conditioned by a product definition that is still ambiguous?</li><li>How will we know this worked without arguing about it after launch?</li><li>Which uncomfortable question should we answer today so we do not pay for it mid-sprint?</li></ul>
+      </section>
+
+      <section class="newsletter-issue__cta">
+        <p class="newsletter-panel__label">Connection to the ecosystem</p>
+        <p>When an idea is still blurry, racing straight into code tends to look like progress. Often it's just an expensive way of postponing the conversation that was missing.</p>
+        <div class="newsletter-card__links">
+          <a href="/en/blog/ia-especificacion-antes-codigo/">Read the in-depth article on specification and AI</a>
+          <a href="/en/projects/webspec-ai/">See how WebspecAI came about</a>
+        </div>
+        <a class="btn btn--primary js-track-newsletter-interest" href="/en/newsletter/#suscribirme">Reply to this issue</a>
+      </section>
+
+      <p class="article__takeaway">Which product or architecture conversation is your team avoiding today, and how much rework could it save by having it this week?</p>
+      <p>Julián
+Engineering Manager, product builder and founder of Pambú Tech
+juliancardozo.github.io · LinkedIn</p>
+      <p><strong>P.S.:</strong> If you're shaping a new initiative, I can share the minimal outline I use to turn a blurry idea into a workable specification.</p>
+    </div>
+  </div>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

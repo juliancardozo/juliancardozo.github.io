@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WebSpec AI — From a vague idea to a specification a team can execute. | Julián Cardozo</title>
+<meta name="description" content="From a vague idea to a specification a team can execute. Between &quot;I have an app idea&quot; and &quot;this can be built&quot; there is work almost nobody does: brief, PRD, RFC, UX definition and backlog. Without it, the project starts anyway, but decisions get made one at a time, late and without context." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/projects/webspec-ai/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/proyectos/webspec-ai/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/projects/webspec-ai/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/proyectos/webspec-ai/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="WebSpec AI — From a vague idea to a specification a team can execute. | Julián Cardozo" />
+<meta property="og:description" content="From a vague idea to a specification a team can execute. Between &quot;I have an app idea&quot; and &quot;this can be built&quot; there is work almost nobody does: brief, PRD, RFC, UX definition and backlog. Without it, the project starts anyway, but decisions get made one at a time, late and without context." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/projects/webspec-ai/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="WebSpec AI — From a vague idea to a specification a team can execute. | Julián Cardozo" />
+<meta name="twitter:description" content="From a vague idea to a specification a team can execute. Between &quot;I have an app idea&quot; and &quot;this can be built&quot; there is work almost nobody does: brief, PRD, RFC, UX definition and backlog. Without it, the project starts anyway, but decisions get made one at a time, late and without context." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"WebSpec AI","headline":"WebSpec AI — From a vague idea to a specification a team can execute.","description":"Between \"I have an app idea\" and \"this can be built\" there is work almost nobody does: brief, PRD, RFC, UX definition and backlog. Without it, the project starts anyway, but decisions get made one at a time, late and without context.","url":"https://juliancardozo.github.io/en/projects/webspec-ai/","inLanguage":"en","author":{"@type":"Person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Next.js 16, React 19, TypeScript, Tailwind CSS, OpenAI API, Netlify","codeRepository":"https://github.com/juliancardozo/webgpt"}</script>
+</head>
+<body class="page-case">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#productos">Products</a></li><li><a href="/en/#acerca">About</a></li><li><a href="/en/blog/">Blog</a></li><li><a href="/en/newsletter/">Newsletter</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/proyectos/webspec-ai/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="case">
+  <div class="shell case__head">
+    <a class="case__back" href="/en/#productos"><span aria-hidden="true">←</span> Back to home</a>
+    <p class="case__meta">
+      <span class="case__category">Artificial intelligence</span>
+      <span class="badge badge--live"><span class="badge__dot" aria-hidden="true"></span>Live</span>
+      <span class="case__year">2026</span>
+    </p>
+    <h1 class="case__title">WebSpec AI</h1>
+    <p class="case__tagline">From a vague idea to a specification a team can execute.</p>
+    <div class="case__actions">
+      <a class="btn btn--primary" href="https://webspecai.netlify.app/" target="_blank" rel="noopener noreferrer">Try WebSpec AI<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="btn btn--ghost" href="https://github.com/juliancardozo/webgpt" target="_blank" rel="noopener noreferrer">Repository<span class="link__arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+
+  <div class="shell case__hero"><img class="cover cover--photo" src="/assets/img/shots/webspec-ai.jpg" alt="Project creation screen in WebSpec AI: a form with the project name and idea, and flow templates (Full Spec, Landing Page, MVP SaaS, Desktop App, API Backend)." loading="eager" fetchpriority="high" decoding="async" width="1600" height="1000" /></div>
+
+  <div class="shell case__layout">
+    <aside class="case__aside">
+      <dl class="case__facts">
+        <div><dt>My role</dt><dd>Product, flow design, development and model integration. Personal project.</dd></div>
+        <div><dt>Who it is for</dt><dd>Founders, product managers and teams who need to turn an idea into documents before hiring or building.</dd></div>
+        <div><dt>Stack</dt><dd><ul class="chips chips--sm"><li>Next.js 16</li><li>React 19</li><li>TypeScript</li><li>Tailwind CSS</li><li>OpenAI API</li><li>Netlify</li></ul></dd></div>
+        <div><dt>Capabilities applied</dt><dd><ul class="chips chips--sm"><li>Discover</li><li>Design</li><li>Accelerate with AI</li></ul></dd></div>
+      </dl>
+      <nav class="case__toc" aria-label="On this page">
+        <p class="case__toc-title">On this page</p>
+        <ul><li><a href="#problema">The problem</a></li><li><a href="#solucion">The solution</a></li><li><a href="#resuelto">What's solved</a></li><li><a href="#evidencia">Evidence</a></li><li><a href="#desafios">The hard parts</a></li><li><a href="#aprendizajes">What I learned</a></li><li><a href="#proximos">Next steps</a></li></ul>
+      </nav>
+    </aside>
+
+    <div class="case__content">
+      <section class="case__block case__block--origin" id="origen">
+        <h2 class="case__block-title">Where it came from</h2>
+        <p class="case__origin">Working with AI on my own products confirmed something I already knew from client projects: the bottleneck was never writing code. It's ambiguity. An agent that gets a vague instruction produces a lot of wrong code, faster than ever.</p>
+      </section>
+      <section class="case__block" id="problema"><h2 class="case__block-title">The problem</h2><p>Between &quot;I have an app idea&quot; and &quot;this can be built&quot; there is work almost nobody does: brief, PRD, RFC, UX definition and backlog. Without it, the project starts anyway, but decisions get made one at a time, late and without context.</p></section>
+      <section class="case__block" id="solucion"><h2 class="case__block-title">The solution</h2><p>A conversational application that guides the user through that sequence of documents, in order, building each artifact on top of the previous one until it reaches an exportable specification. Instead of jumping straight to code, it produces the product package that makes the code the easy part.</p></section>
+      <section class="case__block" id="resuelto"><h2 class="case__block-title">What's solved</h2><ul class="prose-list prose-list--check"><li>Guided flow: brief, PRD, RFC, UX/UI, backlog, specs and final export.</li><li>Each document builds on the previous ones instead of being generated in isolation.</li><li>Conversational interface: the user answers questions, they don't fill in forms.</li><li>Public website presenting the product.</li></ul></section>
+      <section class="case__block" id="evidencia"><h2 class="case__block-title">Evidence</h2><ul class="prose-list prose-list--evidence"><li>Product website published and accessible.</li><li>Application deployable to Netlify with configuration included.</li><li>No secrets in the repository: the API key is set through an environment variable.</li></ul></section>
+      <section class="case__block" id="desafios"><h2 class="case__block-title">The hard parts</h2><ul class="prose-list"><li>A flow that's too rigid feels like a form, and one that's too loose never reaches a specification. Finding that middle ground was nearly all of the product work.</li><li>The documents have to be consistent with each other: if the PRD changes, the backlog that came out earlier is now lying.</li></ul></section>
+      <section class="case__block" id="aprendizajes"><h2 class="case__block-title">What I learned</h2><ul class="prose-list"><li>It's the same method I apply to my own products —specify before building— turned into a tool.</li><li>Output quality depends far more on the design of the question flow than on the model behind it.</li></ul></section>
+      <section class="case__block" id="proximos"><h2 class="case__block-title">Next steps</h2><ul class="prose-list prose-list--next"><li>Direct export to formats that coding agents can consume.</li></ul></section>
+    </div>
+  </div>
+
+  <div class="shell case__more">
+    <h2 class="case__more-title">Other products</h2>
+    <ul class="case__more-list">
+      <li>
+        <a href="/en/projects/micuota/">
+          <span class="case__more-name">MiCuota</span>
+          <span class="case__more-tagline">Collecting recurring payments without chasing anyone on WhatsApp.</span>
+        </a>
+      </li><li>
+        <a href="/en/projects/patio/">
+          <span class="case__more-name">Patio</span>
+          <span class="case__more-tagline">A car dealership's inventory, without the shared spreadsheet.</span>
+        </a>
+      </li><li>
+        <a href="/en/projects/milo-care/">
+          <span class="case__more-name">Milo Care</span>
+          <span class="case__more-tagline">Your dog's health no longer lives in screenshots.</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <section class="shell case__insights" aria-labelledby="case-insights-title">
+    <p class="section__eyebrow">Applied learnings</p>
+    <h2 class="case__more-title" id="case-insights-title">Reading that grew out of this project</h2>
+    <ul class="case__more-list">
+      <li>
+        <a href="/en/blog/ia-especificacion-antes-codigo/" class="js-track-project-insight">
+          <span class="case__more-name">AI-assisted work: the specification is the control system for ambiguity</span>
+          <span class="case__more-tagline">How a sequence of product artifacts turns an idea into operational context for teams and coding agents.</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+</article>
+
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>
