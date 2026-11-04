@@ -69,6 +69,16 @@ export const home = ({ t, featured, pillars }) => {
   </div>
 </section>
 
+<section class="section section--alt ai-cta" id="ia" aria-labelledby="ia-title">
+  <div class="shell" data-reveal>
+    <p class="section__eyebrow">${esc(s.ia.eyebrow)}</p>
+    <h2 class="section__title" id="ia-title">${esc(s.ia.title)}</h2>
+    <p class="section__lead">${esc(s.ia.body)}</p>
+    <ul class="chips">${s.ia.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
+    <div class="hero__ctas"><a class="btn btn--primary" href="#acelerar-con-ia">${esc(s.ia.cta)}<span aria-hidden="true">↓</span></a></div>
+  </div>
+</section>
+
 <section class="section" id="fortalezas" aria-labelledby="fortalezas-title">
   <div class="shell">
     <header class="section__head" data-reveal>
@@ -98,7 +108,8 @@ export const home = ({ t, featured, pillars }) => {
       <p class="section__lead">${esc(s.recorrido.lead)}</p>
     </header>
     <ol class="path">
-      ${s.recorrido.stages
+      ${[...s.recorrido.stages]
+        .reverse()
         .map(
           (stage) => `<li class="path__item" data-reveal>
         <div class="path__marker" aria-hidden="true"></div>
@@ -182,7 +193,7 @@ export const home = ({ t, featured, pillars }) => {
     <div class="skills">
       ${s.capacidades.groups
         .map(
-          (group) => `<article class="skills__group" data-reveal>
+          (group) => `<article class="skills__group"${group.id ? ` id="${esc(group.id)}"` : ''} data-reveal>
         <h3 class="skills__title">${esc(group.title)}</h3>
         <p class="skills__body">${esc(group.body)}</p>
         <ul class="skills__list">${group.items.map((item) => `<li>${esc(item)}</li>`).join('')}</ul>

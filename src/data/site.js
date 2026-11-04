@@ -80,6 +80,13 @@ export const content = {
     },
 
     sections: {
+      ia: {
+        eyebrow: 'IA en ingeniería',
+        title: 'Cómo estoy adoptando la IA',
+        body: 'Trabajo con spec-driven development y programación agéntica en Cursor, Kiro y Claude Code, y me formé con cursos de prompt engineering. Veo la mayor oportunidad en el cambio de mindset: los equipos de ingeniería pasan de escribir cada línea a especificar, orquestar y verificar, y eso también cambia cómo pensamos la arquitectura y la programación en la nube.',
+        tags: ['Spec-driven development', 'Programación agéntica', 'Prompt engineering', 'Cursor', 'Kiro', 'Claude Code'],
+        cta: 'Ver cómo acelero con IA',
+      },
       fortalezas: {
         eyebrow: 'Fortalezas',
         title: 'Lo que aporto a un equipo de ingeniería',
@@ -144,9 +151,9 @@ export const content = {
       },
       productos: {
         eyebrow: 'Proyectos',
-        title: 'Sigo construyendo: código que podés revisar',
+        title: 'Algunos de mis productos digitales',
         lead: 'Además de liderar, construyo productos propios de punta a punta. Cada caso de estudio muestra el problema, las decisiones técnicas y el estado real.',
-        highlight: ['micuota', 'patio', 'compliance-uy', 'webspec-ai'],
+        highlight: ['micuota', 'patio', 'milo-care', 'webspec-ai'],
         moreLabel: 'Más casos de estudio',
         github: {
           title: 'Todo mi código público está en GitHub',
@@ -282,18 +289,18 @@ export const content = {
             gained: 'Vender, diseñar y comunicar una solución, no solo construirla.',
           },
           {
-            period: 'Hoy',
-            title: 'Engineering Manager',
-            body: 'Lidero equipos multidisciplinarios: arquitectura, plataforma, prioridades y la conversación con negocio. Menos código propio y más decisiones que habilitan el código de otros.',
-            gained: 'Estrategia técnica, mentoring y traducción entre ingeniería y negocio.',
-          },
-          {
             period: 'En paralelo',
             title: 'Productos propios e inteligencia artificial',
             body: 'Spec-driven development, desarrollo asistido por IA, agentes y MCP aplicados al ciclo completo. La IA no reemplaza el criterio: comprime el tiempo entre entender un problema y tener algo funcionando.',
             gained: 'Ir de la necesidad al producto desplegado sin depender de un equipo entero.',
             // Lista los productos destacados que salieron de esta etapa.
             showProducts: 'Lo que salió de acá',
+          },
+          {
+            period: 'Hoy',
+            title: 'Engineering Manager',
+            body: 'Lidero equipos multidisciplinarios: arquitectura, plataforma, prioridades y la conversación con negocio. Menos código propio y más decisiones que habilitan el código de otros.',
+            gained: 'Estrategia técnica, mentoring y traducción entre ingeniería y negocio.',
           },
         ],
       },
@@ -328,6 +335,7 @@ export const content = {
             items: ['Docker / Kubernetes', 'CI/CD', 'AWS y cloud', 'Observabilidad', 'DevSecOps', 'Infrastructure as Code'],
           },
           {
+            id: 'acelerar-con-ia',
             title: 'Acelerar con IA',
             body: 'Usar IA en el ciclo completo, con criterio y verificación.',
             items: ['Spec-driven development', 'AI-assisted development', 'Agentes y MCP', 'Prototipado rápido', 'Automatización del ciclo'],

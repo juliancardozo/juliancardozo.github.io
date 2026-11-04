@@ -60,6 +60,13 @@ export const en = {
   },
 
   sections: {
+    ia: {
+      eyebrow: 'AI in engineering',
+      title: "How I'm adopting AI",
+      body: "I work with spec-driven development and agentic programming in Cursor, Kiro and Claude Code, and I've trained through prompt engineering courses. I see the biggest opportunity in the mindset shift: engineering teams move from writing every line to specifying, orchestrating and verifying, and that also changes how we think about architecture and cloud programming.",
+      tags: ['Spec-driven development', 'Agentic programming', 'Prompt engineering', 'Cursor', 'Kiro', 'Claude Code'],
+      cta: 'See how I accelerate with AI',
+    },
     fortalezas: {
       eyebrow: 'Strengths',
       title: 'What I bring to an engineering team',
@@ -124,9 +131,9 @@ export const en = {
     },
     productos: {
       eyebrow: 'Projects',
-      title: 'I keep building: code you can review',
+      title: 'Some of my digital products',
       lead: 'Alongside leading, I build my own products end to end. Every case study shows the problem, the technical decisions and the real status.',
-      highlight: ['micuota', 'patio', 'compliance-uy', 'webspec-ai'],
+      highlight: ['micuota', 'patio', 'milo-care', 'webspec-ai'],
       moreLabel: 'More case studies',
       github: {
         title: 'All my public code is on GitHub',
@@ -262,17 +269,17 @@ export const en = {
           gained: 'Selling, designing and communicating a solution, not just building it.',
         },
         {
-          period: 'Today',
-          title: 'Engineering Manager',
-          body: 'I lead cross-functional teams: architecture, platform, priorities and the conversation with the business. Less of my own code and more decisions that enable other people’s code.',
-          gained: 'Technical strategy, mentoring and translating between engineering and business.',
-        },
-        {
           period: 'Alongside',
           title: 'My own products and artificial intelligence',
           body: "Spec-driven development, AI-assisted development, agents and MCP applied to the whole cycle. AI doesn't replace judgment: it compresses the time between understanding a problem and having something working.",
           gained: 'Going from need to deployed product without depending on a whole team.',
           showProducts: 'What came out of it',
+        },
+        {
+          period: 'Today',
+          title: 'Engineering Manager',
+          body: 'I lead cross-functional teams: architecture, platform, priorities and the conversation with the business. Less of my own code and more decisions that enable other people’s code.',
+          gained: 'Technical strategy, mentoring and translating between engineering and business.',
         },
       ],
     },
@@ -307,6 +314,7 @@ export const en = {
           items: ['Docker / Kubernetes', 'CI/CD', 'AWS and cloud', 'Observability', 'DevSecOps', 'Infrastructure as Code'],
         },
         {
+          id: 'acelerar-con-ia',
           title: 'Accelerate with AI',
           body: 'Use AI across the whole cycle, with judgment and verification.',
           items: ['Spec-driven development', 'AI-assisted development', 'Agents and MCP', 'Rapid prototyping', 'Lifecycle automation'],
