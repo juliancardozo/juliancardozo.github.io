@@ -61,9 +61,12 @@ export const en = {
 
   sections: {
     ia: {
-      eyebrow: 'Agentic engineering',
-      title: 'An agent without a spec or verification just creates debt faster',
-      body: "I use Cursor, Kiro and Claude Code with the same loop: a spec with acceptance criteria, a plan, scoped tasks for the agent, tests and human review before merge. The outcome depends less on the prompt than on context engineering and the harness: what context the agent gets, which tools it can use and what stops it when it goes wrong. I'm still learning this. My bet for teams: less time writing every line, more time designing specs, context and evals.",
+      eyebrow: 'Engineering with AI agents',
+      title: 'What I delegate to an agent and what the team decides',
+      body: [
+        'Before asking Cursor, Kiro or Claude Code for code, I define what has to change, what behavior has to be preserved and how we are going to verify it. Then I give it a scoped task and the context to solve it: the repository rules, the architecture decisions and a close example. Tests verify the expected behavior. In review, the team decides whether we take the change and can maintain it.',
+        'As a technical leader, what interests me most is what we do with the time we get back from writing code. We can use it to settle questions with product before implementing, test the cases that would cost us most to break and discuss design decisions that will outlast the change. I keep adjusting how much to delegate and what controls each task needs according to its risk.',
+      ],
       tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'Human-in-the-loop', 'Evals', 'Cursor', 'Kiro', 'Claude Code'],
       cta: 'See how I accelerate with AI',
     },

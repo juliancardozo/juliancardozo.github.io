@@ -73,7 +73,7 @@ export const home = ({ t, featured, pillars }) => {
   <div class="shell" data-reveal>
     <p class="section__eyebrow">${esc(s.ia.eyebrow)}</p>
     <h2 class="section__title" id="ia-title">${esc(s.ia.title)}</h2>
-    <p class="section__lead">${esc(s.ia.body)}</p>
+    ${s.ia.body.map((paragraph) => `<p class="section__lead">${esc(paragraph)}</p>`).join('\n    ')}
     <ul class="chips">${s.ia.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
     <div class="hero__ctas"><a class="btn btn--primary" href="#acelerar-con-ia">${esc(s.ia.cta)}<span aria-hidden="true">↓</span></a></div>
   </div>

@@ -81,9 +81,12 @@ export const content = {
 
     sections: {
       ia: {
-        eyebrow: 'Ingeniería agéntica',
-        title: 'Un agente sin spec ni verificación solo genera deuda más rápido',
-        body: 'Uso Cursor, Kiro y Claude Code con el mismo loop: spec con criterios de aceptación, plan, tareas acotadas para el agente, tests y revisión humana antes del merge. El resultado depende menos del prompt que del context engineering y del harness: qué contexto recibe el agente, qué tools puede usar y qué lo frena cuando se equivoca. Todavía lo estoy aprendiendo. Mi apuesta para los equipos: menos tiempo escribiendo cada línea, más tiempo diseñando specs, contexto y evals.',
+        eyebrow: 'Ingeniería con agentes de IA',
+        title: 'Qué le delego a un agente y qué decide el equipo',
+        body: [
+          'Antes de pedirle código a Cursor, Kiro o Claude Code, defino qué tiene que cambiar, qué comportamiento hay que preservar y cómo vamos a comprobarlo. Después le doy una tarea acotada y el contexto para resolverla: las reglas del repositorio, las decisiones de arquitectura y un ejemplo cercano. Las pruebas comprueban el comportamiento esperado. En la revisión, el equipo decide si incorporamos el cambio y podemos mantenerlo.',
+          'Como líder técnico, lo que más me interesa es qué hacemos con el tiempo que recuperamos al escribir código. Podemos usarlo para resolver dudas con producto antes de implementar, probar los casos que más nos costaría romper y discutir decisiones de diseño que van a durar más que el cambio. Sigo ajustando cuánto delegar y qué controles necesita cada tarea según su riesgo.',
+        ],
         tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'Human-in-the-loop', 'Evals', 'Cursor', 'Kiro', 'Claude Code'],
         cta: 'Ver cómo acelero con IA',
       },
