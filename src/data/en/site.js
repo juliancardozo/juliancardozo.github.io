@@ -42,7 +42,7 @@ export const en = {
   ],
 
   hero: {
-    eyebrow: 'Julián Cardozo · Engineering Manager · Montevideo, Uruguay',
+    eyebrow: 'Julián Cardozo · Engineering Manager',
     title: 'I lead engineering teams.',
     lead: "15+ years in software: I started in Java backends, grew through banking and fintech working on payments, and today I lead cross-functional teams across architecture, platform and delivery. My code is still public, so you can review it before we talk.",
     note: 'Open to my next opportunity as an Engineering Manager.',

@@ -62,7 +62,7 @@ export const content = {
     ],
 
     hero: {
-      eyebrow: 'Julián Cardozo · Engineering Manager · Montevideo, Uruguay',
+      eyebrow: 'Julián Cardozo · Engineering Manager',
       title: 'Lidero equipos de ingeniería.',
       lead: 'Más de 15 años en software: empecé en backend Java, crecí en banca y fintech trabajando con pagos, y hoy lidero equipos multidisciplinarios en arquitectura, plataforma y delivery. Mi código sigue siendo público, así que podés revisarlo antes de que hablemos.',
       note: 'Abierto a mi próxima oportunidad como Engineering Manager.',
