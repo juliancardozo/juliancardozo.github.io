@@ -10,9 +10,9 @@ export const en = {
   dateLocale: 'en-US',
   ogLocale: 'en_US',
   meta: {
-    title: 'Julián Cardozo — Engineering Manager and product builder',
+    title: 'Julián Cardozo — Engineering Manager',
     description:
-      'Engineering Manager and developer with 15+ years in software, banking, fintech and platforms. I turn real problems into products: payments, car dealerships, pet health, compliance, music, games and AI.',
+      'Engineering Manager with 15+ years in software, banking, fintech and platforms. I lead cross-functional teams: see my career path, strengths and GitHub.',
     keywords: [
       'Engineering Manager',
       'Technical Leadership',
@@ -33,39 +33,110 @@ export const en = {
   },
 
   nav: [
-    { href: '#productos', label: 'Products' },
-    { href: '#acerca', label: 'About' },
+    { href: '#fortalezas', label: 'Strengths' },
+    { href: '#recorrido', label: 'Career' },
+    { href: '#productos', label: 'Projects' },
     { href: '/en/blog/', label: 'Blog' },
-    { href: '/en/newsletter/', label: 'Newsletter' },
+    { kind: 'github', label: 'GitHub' },
     { href: '#contacto', label: 'Contact', cta: true },
   ],
 
   hero: {
-    eyebrow: 'Engineering Manager · Product builder · Montevideo, Uruguay',
-    title: "Hi, I'm Julián.",
-    lead: "I've spent more than 15 years learning how to build software: Java backends, payments in banking and fintech, and engineering teams. This past year I've focused on my own projects, each born from an everyday situation; some are already live and others are still on their way. If you made it this far, thank you: I'd love to hear what you're building.",
-    note: 'Every project shows its real status: live, MVP, prototype or tool.',
+    eyebrow: 'Julián Cardozo · Engineering Manager · Montevideo, Uruguay',
+    title: 'I lead engineering teams.',
+    lead: "15+ years in software: I started in Java backends, grew through banking and fintech working on payments, and today I lead cross-functional teams across architecture, platform and delivery. My code is still public, so you can review it before we talk.",
+    note: 'Open to my next opportunity as an Engineering Manager.',
     ctas: [
-      { href: '#productos', label: 'See the products', variant: 'primary' },
-      { href: '#acerca', label: 'About me', variant: 'ghost' },
+      { href: '#contacto', label: "Let's talk", variant: 'primary' },
+      { kind: 'github', label: 'See my GitHub', variant: 'ghost' },
+      { kind: 'linkedin', label: 'LinkedIn', variant: 'ghost' },
     ],
     facts: [
-      { value: '15+', label: 'years building software' },
-      { value: '10', label: 'products of my own in the last year' },
+      { value: '15+', label: 'years in software, from developer to Engineering Manager' },
+      { value: '10', label: 'products of my own with a case study' },
       { value: '7', label: 'live today' },
-      { value: '50', label: 'public repositories' },
+      { value: '50', label: 'public repositories on GitHub', kind: 'github' },
     ],
   },
 
   sections: {
+    fortalezas: {
+      eyebrow: 'Strengths',
+      title: 'What I bring to an engineering team',
+      lead: 'Six strengths, each with a place where you can check it.',
+      items: [
+        {
+          title: 'Team leadership',
+          body: 'Cross-functional teams, priorities, mentoring and the conversation with the business. I want teams that deliver steadily without relying on heroes.',
+          evidence: [{ kind: 'topic', slug: 'liderazgo-tecnico', label: 'How I think about technical leadership' }],
+        },
+        {
+          title: 'Architecture and platform',
+          body: 'Technical decisions that can be explained and operated: multi-tenancy, integrations, cloud and developer experience.',
+          evidence: [{ kind: 'blog', slug: 'multi-tenancy-rls-frontera-datos', label: 'Multi-tenancy and the data boundary' }],
+        },
+        {
+          title: 'Payments and regulated systems',
+          body: "Banking, payments and fintech: reconciliation, auditing, security and regulation, where an error is a transaction that never happened.",
+          evidence: [
+            { kind: 'blog', slug: 'webhooks-pagos-maquinas-de-estado', label: 'Payment webhooks as state machines' },
+            { kind: 'project', slug: 'compliance-uy', label: 'compliance-uy' },
+          ],
+        },
+        {
+          title: 'Product and business',
+          body: 'I start from the problem, not the stack. I translate trade-offs between engineering and the business, and I can take an idea from zero to production.',
+          evidence: [{ kind: 'project', slug: 'patio', label: 'The Patio case' }],
+        },
+        {
+          title: 'AI applied to delivery',
+          body: 'Spec-driven development, agents and AI-assisted development across the whole cycle, with judgment and verification.',
+          evidence: [{ kind: 'blog', slug: 'ia-especificacion-antes-codigo', label: 'Specifying before generating code' }],
+        },
+        {
+          title: 'Close to the code',
+          body: 'I lead without losing technical judgment. I keep building in Java, TypeScript and Python, all of it in the open.',
+          evidence: [{ kind: 'github', label: 'github.com/juliancardozo' }],
+        },
+      ],
+    },
+    liderazgo: {
+      eyebrow: 'How I lead',
+      title: 'Four principles I bring to every team',
+      items: [
+        {
+          title: 'Context over micromanagement',
+          body: "A team decides well when it understands the problem and its constraints. My job is to create that context, not to make every decision.",
+        },
+        {
+          title: "Teams that don't depend on heroes",
+          body: "If something only works when one person is around, it isn't solved yet. I aim for shared knowledge and sustainable delivery.",
+        },
+        {
+          title: 'Architecture follows the business',
+          body: "Multi-tenancy, dual currency or an event ledger are business decisions written in code, and they're expensive if they arrive late.",
+        },
+        {
+          title: 'AI amplifies judgment; it does not replace it',
+          body: 'It speeds up researching, specifying and building. Deciding what gets built, reviewing what it produces and owning the result stays with people.',
+        },
+      ],
+    },
     productos: {
-      eyebrow: 'Products',
-      title: 'Ten products, ten problems I knew up close',
-      lead: 'Each one started with a concrete situation —a move, a dog, a car, a law, a jam session, a trip— and ended up as public code. Every case study covers the problem, the technical decisions and the real status.',
+      eyebrow: 'Projects',
+      title: 'I keep building: code you can review',
+      lead: 'Alongside leading, I build my own products end to end. Every case study shows the problem, the technical decisions and the real status.',
+      highlight: ['micuota', 'patio', 'compliance-uy', 'webspec-ai'],
+      moreLabel: 'More case studies',
+      github: {
+        title: 'All my public code is on GitHub',
+        body: '50 public repositories, mainly in Java, TypeScript and Python.',
+        cta: 'See GitHub profile',
+      },
     },
     pilares: {
       eyebrow: 'Pillars',
-      title: 'Three reading paths',
+      title: 'How I think, in writing',
       lead: 'Articles and projects grouped by theme: technical leadership, architecture and product.',
     },
     newsletter: {
@@ -103,9 +174,9 @@ export const en = {
         },
       ],
       future: {
-        label: 'Where I am heading',
-        title: 'Next scope: executive leadership',
-        body: "I'm looking for roles where technology, product and business align. CTO: connecting architecture, security and platform with strategy. VP or Head of Engineering: scaling talent, delivery and team health. Head of Product: bringing together discovery, prioritization and technical feasibility. These are goals, not current titles.",
+        label: 'Next step',
+        title: 'Looking for my next role as an Engineering Manager',
+        body: "I'm interested in teams where technology, product and business are aligned, especially in fintech, payments, platforms and SaaS. In the medium term I want to widen my scope towards Head of Engineering.",
       },
     },
     origen: {
@@ -155,9 +226,9 @@ export const en = {
       filterLabel: 'Filter lab projects',
     },
     recorrido: {
-      eyebrow: 'Path',
-      title: 'Each stage added a capability',
-      lead: "This isn't a chronological résumé: it's what each stage left me with and I still use.",
+      eyebrow: 'Career',
+      title: 'From building systems to leading engineering teams',
+      lead: 'Each stage widened the system I was responsible for and left me with a capability I still use.',
       gainedLabel: 'Capability gained',
       stages: [
         {
@@ -185,19 +256,19 @@ export const en = {
           gained: "Designing for integration: every real system lives alongside others you don't control.",
         },
         {
-          period: 'Leadership',
-          title: 'Engineering Manager',
-          body: 'Cross-functional teams, architecture, platform, priorities and the conversation with the business. Less of my own code and more decisions that enable other people’s code.',
-          gained: 'Technical strategy, mentoring and translating between engineering and business.',
-        },
-        {
           period: 'Agency and clients',
           title: 'Product, design and communication',
           body: 'I founded and worked in a development and digital marketing agency: websites, e-commerce, branding and complete deliveries for real clients, with a budget and a deadline.',
           gained: 'Selling, designing and communicating a solution, not just building it.',
         },
         {
-          period: 'Last year',
+          period: 'Today',
+          title: 'Engineering Manager',
+          body: 'I lead cross-functional teams: architecture, platform, priorities and the conversation with the business. Less of my own code and more decisions that enable other people’s code.',
+          gained: 'Technical strategy, mentoring and translating between engineering and business.',
+        },
+        {
+          period: 'Alongside',
           title: 'My own products and artificial intelligence',
           body: "Spec-driven development, AI-assisted development, agents and MCP applied to the whole cycle. AI doesn't replace judgment: it compresses the time between understanding a problem and having something working.",
           gained: 'Going from need to deployed product without depending on a whole team.',
@@ -207,9 +278,14 @@ export const en = {
     },
     capacidades: {
       eyebrow: 'Capabilities',
-      title: 'What I can do, by stage',
-      lead: 'How I work, from the first conversation to running in production.',
+      title: 'Skills and stack',
+      lead: 'From managing the team to running in production.',
       groups: [
+        {
+          title: 'Lead',
+          body: "Teams that deliver without depending on a single person.",
+          items: ['Technical strategy', 'Team management', 'Prioritization', 'Mentoring', 'Engineering culture', 'Partnering with the business'],
+        },
         {
           title: 'Discover',
           body: 'Find the real problem before writing code.',
@@ -223,17 +299,12 @@ export const en = {
         {
           title: 'Build',
           body: 'End-to-end product, from data schema to deploy.',
-          items: ['Java / Spring Boot', 'Node.js / NestJS', 'React / Next.js / Angular', 'High-impact corporate websites', 'PostgreSQL / MongoDB', 'Integrations and payments'],
+          items: ['Java / Spring Boot', 'Node.js / NestJS', 'React / Next.js / Angular', 'PostgreSQL / MongoDB', 'Integrations and payments'],
         },
         {
           title: 'Operate',
           body: "Keep it running when you're no longer watching it.",
           items: ['Docker / Kubernetes', 'CI/CD', 'AWS and cloud', 'Observability', 'DevSecOps', 'Infrastructure as Code'],
-        },
-        {
-          title: 'Lead',
-          body: "Teams that deliver without depending on a single person.",
-          items: ['Technical strategy', 'Team management', 'Prioritization', 'Mentoring', 'Engineering culture', 'Partnering with the business'],
         },
         {
           title: 'Accelerate with AI',
@@ -274,14 +345,15 @@ export const en = {
     },
     contacto: {
       eyebrow: 'Contact',
-      title: "Let's talk",
-      lead: "Are you building a product, modernizing a platform, putting a team together or applying AI to a concrete problem? Write to me. I answer every message.",
+      title: "Let's talk about your team",
+      lead: "Looking for an Engineering Manager or putting an engineering team together? Write to me. I answer every message.",
       items: [
-        'Technical leadership and engineering team management',
-        'Payment platforms, integrations and backend architecture',
-        'Building MVPs and products from zero to production',
+        'Engineering leadership and team management',
+        'Fintech, payments and regulated systems',
+        'Platforms, integrations and backend architecture',
         'Adopting AI in the development lifecycle',
       ],
+      emailSubject: 'Engineering Manager opportunity',
       githubLabel: 'GitHub',
       linkedinLabel: 'LinkedIn',
       emailLabel: 'Email me',

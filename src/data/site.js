@@ -29,9 +29,9 @@ export const content = {
     dateLocale: 'es-UY',
     ogLocale: 'es_UY',
     meta: {
-      title: 'Julián Cardozo — Engineering Manager y product builder',
+      title: 'Julián Cardozo — Engineering Manager',
       description:
-        'Engineering Manager y desarrollador con más de 15 años en software, banca, fintech y plataformas. Convierto problemas reales en productos: pagos, automotoras, salud animal, compliance, música, juegos e IA.',
+        'Engineering Manager con más de 15 años en software, banca, fintech y plataformas. Lidero equipos multidisciplinarios: mirá mi trayectoria, mis fortalezas y mi GitHub.',
       keywords: [
         'Engineering Manager',
         'Technical Leadership',
@@ -51,42 +51,112 @@ export const content = {
       ],
     },
 
-    // Menú corto: una entrada por intención (ver trabajo, conocerme, leer, contactar).
-    // El resto de las secciones del home se recorre con scroll. `cta` la destaca como botón.
+    // Menú corto, pensado para quien evalúa el perfil. `kind: 'github'` se resuelve en el layout.
     nav: [
-      { href: '#productos', label: 'Productos' },
-      { href: '#acerca', label: 'Sobre mí' },
+      { href: '#fortalezas', label: 'Fortalezas' },
+      { href: '#recorrido', label: 'Trayectoria' },
+      { href: '#productos', label: 'Proyectos' },
       { href: '/blog/', label: 'Blog' },
-      { href: '/newsletter/', label: 'Newsletter' },
+      { kind: 'github', label: 'GitHub' },
       { href: '#contacto', label: 'Contacto', cta: true },
     ],
 
     hero: {
-      eyebrow: 'Engineering Manager · Product builder · Montevideo, Uruguay',
-      title: 'Hola, soy Julián.',
-      lead: 'Llevo más de 15 años aprendiendo a construir software: backend en Java, pagos en banca y fintech, y equipos de ingeniería. El último año lo dediqué a proyectos propios que nacieron de situaciones cotidianas; algunos ya están en línea y otros siguen en camino. Si llegaste hasta acá, gracias: me encantaría saber qué estás construyendo vos.',
-      note: 'Cada proyecto muestra su estado real: en línea, MVP, prototipo o herramienta.',
+      eyebrow: 'Julián Cardozo · Engineering Manager · Montevideo, Uruguay',
+      title: 'Lidero equipos de ingeniería.',
+      lead: 'Más de 15 años en software: empecé en backend Java, crecí en banca y fintech trabajando con pagos, y hoy lidero equipos multidisciplinarios en arquitectura, plataforma y delivery. Mi código sigue siendo público, así que podés revisarlo antes de que hablemos.',
+      note: 'Abierto a mi próxima oportunidad como Engineering Manager.',
       ctas: [
-        { href: '#productos', label: 'Ver los productos', variant: 'primary' },
-        { href: '#acerca', label: 'Sobre mí', variant: 'ghost' },
+        { href: '#contacto', label: 'Conversemos', variant: 'primary' },
+        { kind: 'github', label: 'Ver mi GitHub', variant: 'ghost' },
+        { kind: 'linkedin', label: 'LinkedIn', variant: 'ghost' },
       ],
       facts: [
-        { value: '15+', label: 'años construyendo software' },
-        { value: '10', label: 'productos propios en el último año' },
+        { value: '15+', label: 'años en software, de developer a Engineering Manager' },
+        { value: '10', label: 'productos propios con caso de estudio' },
         { value: '7', label: 'en línea hoy' },
-        { value: '50', label: 'repositorios públicos' },
+        { value: '50', label: 'repositorios públicos en GitHub', kind: 'github' },
       ],
     },
 
     sections: {
+      fortalezas: {
+        eyebrow: 'Fortalezas',
+        title: 'Lo que aporto a un equipo de ingeniería',
+        lead: 'Seis fortalezas, cada una con un lugar donde podés comprobarla.',
+        items: [
+          {
+            title: 'Liderazgo de equipos',
+            body: 'Equipos multidisciplinarios, prioridades, mentoring y conversación con negocio. Busco que el equipo entregue de forma sostenida, sin depender de héroes.',
+            evidence: [{ kind: 'topic', slug: 'liderazgo-tecnico', label: 'Cómo pienso el liderazgo técnico' }],
+          },
+          {
+            title: 'Arquitectura y plataforma',
+            body: 'Decisiones técnicas que se pueden explicar y operar: multi-tenancy, integraciones, cloud y experiencia de desarrollo.',
+            evidence: [{ kind: 'blog', slug: 'multi-tenancy-rls-frontera-datos', label: 'Multi-tenancy y frontera de datos' }],
+          },
+          {
+            title: 'Pagos y sistemas regulados',
+            body: 'Banca, medios de pago y fintech: conciliación, auditoría, seguridad y normativa, donde un error es una transacción que no ocurrió.',
+            evidence: [
+              { kind: 'blog', slug: 'webhooks-pagos-maquinas-de-estado', label: 'Webhooks de pago como máquinas de estado' },
+              { kind: 'project', slug: 'compliance-uy', label: 'compliance-uy' },
+            ],
+          },
+          {
+            title: 'Producto y negocio',
+            body: 'Empiezo por el problema y no por el stack. Traduzco trade-offs entre ingeniería y negocio, y sé llevar una idea de cero a producción.',
+            evidence: [{ kind: 'project', slug: 'patio', label: 'Caso Patio' }],
+          },
+          {
+            title: 'IA aplicada al delivery',
+            body: 'Spec-driven development, agentes y desarrollo asistido por IA en el ciclo completo, con criterio y verificación.',
+            evidence: [{ kind: 'blog', slug: 'ia-especificacion-antes-codigo', label: 'Especificar antes de generar código' }],
+          },
+          {
+            title: 'Cerca del código',
+            body: 'Lidero sin perder criterio técnico. Sigo construyendo en Java, TypeScript y Python, y todo está a la vista.',
+            evidence: [{ kind: 'github', label: 'github.com/juliancardozo' }],
+          },
+        ],
+      },
+      liderazgo: {
+        eyebrow: 'Cómo lidero',
+        title: 'Cuatro principios que llevo a cada equipo',
+        items: [
+          {
+            title: 'Contexto antes que microgestión',
+            body: 'Un equipo decide bien cuando entiende el problema y sus restricciones. Mi trabajo es crear ese contexto, no tomar cada decisión.',
+          },
+          {
+            title: 'Equipos que no dependen de héroes',
+            body: 'Si algo funciona solo cuando una persona está presente, todavía no está resuelto. Busco conocimiento compartido y delivery sostenible.',
+          },
+          {
+            title: 'La arquitectura acompaña al negocio',
+            body: 'Multi-tenancy, doble moneda o un ledger de eventos son decisiones de negocio que se escriben en código y se pagan caro si llegan tarde.',
+          },
+          {
+            title: 'La IA amplifica, no sustituye el criterio',
+            body: 'Acelera investigar, especificar y construir. Decidir qué se construye, revisar lo que produce y hacerse cargo del resultado sigue siendo de las personas.',
+          },
+        ],
+      },
       productos: {
-        eyebrow: 'Productos',
-        title: 'Diez productos, diez problemas que conocía de cerca',
-        lead: 'Cada uno empezó con una situación concreta —una mudanza, un perro, un auto, una ley, una jam, un viaje— y terminó en código público. En cada caso de estudio: el problema, las decisiones técnicas y el estado real.',
+        eyebrow: 'Proyectos',
+        title: 'Sigo construyendo: código que podés revisar',
+        lead: 'Además de liderar, construyo productos propios de punta a punta. Cada caso de estudio muestra el problema, las decisiones técnicas y el estado real.',
+        highlight: ['micuota', 'patio', 'compliance-uy', 'webspec-ai'],
+        moreLabel: 'Más casos de estudio',
+        github: {
+          title: 'Todo mi código público está en GitHub',
+          body: '50 repositorios públicos, principalmente en Java, TypeScript y Python.',
+          cta: 'Ver perfil en GitHub',
+        },
       },
       pilares: {
         eyebrow: 'Pilares',
-        title: 'Tres rutas de lectura',
+        title: 'Cómo pienso, por escrito',
         lead: 'Artículos y proyectos agrupados por tema: liderazgo técnico, arquitectura y producto.',
       },
       newsletter: {
@@ -124,9 +194,9 @@ export const content = {
           },
         ],
         future: {
-          label: 'Proyección profesional',
-          title: 'Próximo alcance: liderazgo ejecutivo',
-          body: 'Busco roles donde tecnología, producto y negocio se alinean. CTO: conectar arquitectura, seguridad y plataforma con la estrategia. VP o Head of Engineering: escalar talento, delivery y salud del equipo. Head of Product: unir discovery, priorización y viabilidad técnica. Son objetivos, no cargos actuales.',
+          label: 'Próximo paso',
+          title: 'Busco mi próximo rol como Engineering Manager',
+          body: 'Me interesan equipos donde tecnología, producto y negocio estén alineados, en especial en fintech, pagos, plataformas y SaaS. A mediano plazo quiero ampliar el alcance hacia Head of Engineering.',
         },
       },
       origen: {
@@ -176,9 +246,9 @@ export const content = {
         filterLabel: 'Filtrar proyectos del laboratorio',
       },
       recorrido: {
-        eyebrow: 'Recorrido',
-        title: 'Cada etapa sumó una capacidad',
-        lead: 'No es un CV cronológico: es lo que cada etapa me dejó y sigo usando.',
+        eyebrow: 'Trayectoria',
+        title: 'De construir sistemas a liderar equipos de ingeniería',
+        lead: 'Cada etapa amplió el sistema bajo mi responsabilidad y me dejó una capacidad que sigo usando.',
         gainedLabel: 'Capacidad que sumó',
         stages: [
           {
@@ -206,19 +276,19 @@ export const content = {
             gained: 'Diseñar para la integración: todo sistema real convive con otros que no controlás.',
           },
           {
-            period: 'Liderazgo',
-            title: 'Engineering Manager',
-            body: 'Equipos multidisciplinarios, arquitectura, plataforma, prioridades y la conversación con negocio. Menos código propio y más decisiones que habilitan el código de otros.',
-            gained: 'Estrategia técnica, mentoring y traducción entre ingeniería y negocio.',
-          },
-          {
             period: 'Agencia y clientes',
             title: 'Producto, diseño y comunicación',
             body: 'Fundé y participé en una agencia de desarrollo y marketing digital: sitios, e-commerce, branding y entregas completas para clientes reales, con presupuesto y fecha.',
             gained: 'Vender, diseñar y comunicar una solución, no solo construirla.',
           },
           {
-            period: 'Último año',
+            period: 'Hoy',
+            title: 'Engineering Manager',
+            body: 'Lidero equipos multidisciplinarios: arquitectura, plataforma, prioridades y la conversación con negocio. Menos código propio y más decisiones que habilitan el código de otros.',
+            gained: 'Estrategia técnica, mentoring y traducción entre ingeniería y negocio.',
+          },
+          {
+            period: 'En paralelo',
             title: 'Productos propios e inteligencia artificial',
             body: 'Spec-driven development, desarrollo asistido por IA, agentes y MCP aplicados al ciclo completo. La IA no reemplaza el criterio: comprime el tiempo entre entender un problema y tener algo funcionando.',
             gained: 'Ir de la necesidad al producto desplegado sin depender de un equipo entero.',
@@ -229,9 +299,14 @@ export const content = {
       },
       capacidades: {
         eyebrow: 'Capacidades',
-        title: 'Lo que puedo hacer, ordenado por etapa',
-        lead: 'Cómo trabajo, de la primera conversación a la operación en producción.',
+        title: 'Habilidades y stack',
+        lead: 'De la gestión del equipo a la operación en producción.',
         groups: [
+          {
+            title: 'Liderar',
+            body: 'Equipos que entregan sin depender de una sola persona.',
+            items: ['Estrategia técnica', 'Gestión de equipos', 'Priorización', 'Mentoring', 'Cultura de ingeniería', 'Interlocución con negocio'],
+          },
           {
             title: 'Descubrir',
             body: 'Encontrar el problema real antes de escribir código.',
@@ -245,17 +320,12 @@ export const content = {
           {
             title: 'Construir',
             body: 'Producto end-to-end, del esquema de datos al deploy.',
-            items: ['Java / Spring Boot', 'Node.js / NestJS', 'React / Next.js / Angular', 'Webs corporativas de alto impacto', 'PostgreSQL / MongoDB', 'Integraciones y pagos'],
+            items: ['Java / Spring Boot', 'Node.js / NestJS', 'React / Next.js / Angular', 'PostgreSQL / MongoDB', 'Integraciones y pagos'],
           },
           {
             title: 'Operar',
             body: 'Que siga funcionando cuando ya no lo estás mirando.',
             items: ['Docker / Kubernetes', 'CI/CD', 'AWS y cloud', 'Observabilidad', 'DevSecOps', 'Infrastructure as Code'],
-          },
-          {
-            title: 'Liderar',
-            body: 'Equipos que entregan sin depender de una sola persona.',
-            items: ['Estrategia técnica', 'Gestión de equipos', 'Priorización', 'Mentoring', 'Cultura de ingeniería', 'Interlocución con negocio'],
           },
           {
             title: 'Acelerar con IA',
@@ -296,14 +366,15 @@ export const content = {
       },
       contacto: {
         eyebrow: 'Contacto',
-        title: 'Conversemos',
-        lead: '¿Estás construyendo un producto, modernizando una plataforma, armando un equipo o aplicando IA a un problema concreto? Escribime. Respondo todos los mensajes.',
+        title: 'Conversemos sobre tu equipo',
+        lead: '¿Estás buscando un Engineering Manager o armando un equipo de ingeniería? Escribime. Respondo todos los mensajes.',
         items: [
-          'Liderazgo técnico y gestión de equipos de ingeniería',
-          'Plataformas de pagos, integraciones y arquitectura backend',
-          'Construcción de MVPs y productos de cero a producción',
+          'Liderazgo y gestión de equipos de ingeniería',
+          'Fintech, pagos y sistemas regulados',
+          'Plataformas, integraciones y arquitectura backend',
           'Adopción de IA en el ciclo de desarrollo',
         ],
+        emailSubject: 'Oportunidad de Engineering Manager',
         githubLabel: 'GitHub',
         linkedinLabel: 'LinkedIn',
         emailLabel: 'Escribime',

@@ -1,4 +1,4 @@
-import { esc, href } from './components.mjs';
+import { esc, href, githubIcon } from './components.mjs';
 import { site } from '../data/site.js';
 
 /**
@@ -89,6 +89,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <ul>
         ${t.nav
           .map((item) => {
+            if (item.kind === 'github') {
+              return `<li><a class="site-nav__github" href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">${githubIcon}${esc(item.label)}</a></li>`;
+            }
             const target = item.href.startsWith('/') ? item.href : path === homePath ? item.href : `${homePath}${item.href}`;
             return `<li><a href="${esc(target)}"${item.cta ? ' class="site-nav__cta"' : ''}>${esc(item.label)}</a></li>`;
           })
