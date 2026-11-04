@@ -61,10 +61,10 @@ export const en = {
 
   sections: {
     ia: {
-      eyebrow: 'AI in engineering',
-      title: "How I'm adopting AI",
-      body: "I work with spec-driven development and agentic programming in Cursor, Kiro and Claude Code, and I've trained through prompt engineering courses. I see the biggest opportunity in the mindset shift: engineering teams move from writing every line to specifying, orchestrating and verifying, and that also changes how we think about architecture and cloud programming.",
-      tags: ['Spec-driven development', 'Agentic programming', 'Prompt engineering', 'Cursor', 'Kiro', 'Claude Code'],
+      eyebrow: 'Agentic engineering',
+      title: 'An agent without a spec or verification just creates debt faster',
+      body: "I use Cursor, Kiro and Claude Code with the same loop: a spec with acceptance criteria, a plan, scoped tasks for the agent, tests and human review before merge. The outcome depends less on the prompt than on context engineering and the harness: what context the agent gets, which tools it can use and what stops it when it goes wrong. I'm still learning this. My bet for teams: less time writing every line, more time designing specs, context and evals.",
+      tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'Human-in-the-loop', 'Evals', 'Cursor', 'Kiro', 'Claude Code'],
       cta: 'See how I accelerate with AI',
     },
     fortalezas: {

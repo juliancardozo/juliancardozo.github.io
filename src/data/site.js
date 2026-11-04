@@ -81,10 +81,10 @@ export const content = {
 
     sections: {
       ia: {
-        eyebrow: 'IA en ingeniería',
-        title: 'Cómo estoy adoptando la IA',
-        body: 'Trabajo con spec-driven development y programación agéntica en Cursor, Kiro y Claude Code, y me formé con cursos de prompt engineering. Veo la mayor oportunidad en el cambio de mindset: los equipos de ingeniería pasan de escribir cada línea a especificar, orquestar y verificar, y eso también cambia cómo pensamos la arquitectura y la programación en la nube.',
-        tags: ['Spec-driven development', 'Programación agéntica', 'Prompt engineering', 'Cursor', 'Kiro', 'Claude Code'],
+        eyebrow: 'Ingeniería agéntica',
+        title: 'Un agente sin spec ni verificación solo genera deuda más rápido',
+        body: 'Uso Cursor, Kiro y Claude Code con el mismo loop: spec con criterios de aceptación, plan, tareas acotadas para el agente, tests y revisión humana antes del merge. El resultado depende menos del prompt que del context engineering y del harness: qué contexto recibe el agente, qué tools puede usar y qué lo frena cuando se equivoca. Todavía lo estoy aprendiendo. Mi apuesta para los equipos: menos tiempo escribiendo cada línea, más tiempo diseñando specs, contexto y evals.',
+        tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'Human-in-the-loop', 'Evals', 'Cursor', 'Kiro', 'Claude Code'],
         cta: 'Ver cómo acelero con IA',
       },
       fortalezas: {
