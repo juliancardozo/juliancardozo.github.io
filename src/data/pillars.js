@@ -1,5 +1,31 @@
 export const pillars = [
   {
+    slug: 'ingenieria-con-ia',
+    title: 'Ingeniería con IA y agentes',
+    eyebrow: 'Pilar',
+    description:
+      'Cómo incorporar agentes de IA al ciclo de desarrollo: especificación, contexto, arnés de control y revisión humana.',
+    lead:
+      'Programar con agentes no es pedirle código a un chat: es diseñar el sistema en el que trabajan. Este pilar reúne lo que aprendí incorporando Cursor, Kiro y Claude Code al trabajo real: especificaciones que controlan la ambigüedad, contexto versionado en el repositorio, controles automáticos que validan cada resultado y un equipo que decide qué entra. Cuanto más riesgo tiene una tarea, más control lleva.',
+    audiences: ['CTOs y Engineering Managers', 'Tech Leads que adoptan agentes de IA', 'Equipos de plataforma y developer experience'],
+    questions: [
+      '¿Qué tiene que estar escrito antes de delegarle una tarea a un agente?',
+      '¿Qué contexto del repositorio necesita un agente para trabajar con el criterio del equipo?',
+      '¿Qué controles necesita cada tarea según su riesgo, y en qué decisiones no se delega?',
+    ],
+    articleSlugs: [
+      'ia-especificacion-antes-codigo',
+      'spec-kit-1-especificaciones-agentes-adopcion',
+      'kiro-acp-interoperabilidad-agentes-ide',
+      'agentes-ia-salidas-verificables',
+      'ia-no-cambia-solo-herramienta-liderazgo-operacion',
+      'rea-ingenieria-inversa-chordify-chordlocal',
+    ],
+    projectSlugs: ['webspec-ai', 'compliance-uy', 'chordlocal'],
+    cta:
+      'Si tu equipo está incorporando agentes de IA al desarrollo, podemos diseñar juntos qué delegar, con qué contexto y con qué controles.',
+  },
+  {
     slug: 'liderazgo-tecnico',
     title: 'Liderazgo técnico y equipos',
     eyebrow: 'Pilar',

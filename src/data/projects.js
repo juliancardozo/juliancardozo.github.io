@@ -69,7 +69,8 @@ export const projects = [
       'La misma base habilita capas de split de pagos y payouts a terceros.',
     ],
     repositoryUrl: 'https://github.com/juliancardozo/micuota-online-2026-MVP',
-    demoUrl: 'https://micuota.netlify.app/',
+    demoUrl: 'https://micuota.online/',
+    redirectUrl: 'https://micuota.online/',
     demoLabel: 'Ver MiCuota.online',
   },
 

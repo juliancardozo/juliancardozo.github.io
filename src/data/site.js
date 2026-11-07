@@ -81,14 +81,23 @@ export const content = {
 
     sections: {
       ia: {
-        eyebrow: 'Ingeniería con agentes de IA',
-        title: 'Qué le delego a un agente y qué decide el equipo',
+        eyebrow: 'Programación con agentes de IA',
+        title: 'Un marco para que los agentes de IA aceleren al equipo',
         body: [
-          'Antes de pedirle código a Cursor, Kiro o Claude Code, defino qué tiene que cambiar, qué comportamiento hay que preservar y cómo vamos a comprobarlo. Después le doy una tarea acotada y el contexto para resolverla: las reglas del repositorio, las decisiones de arquitectura y un ejemplo cercano. Las pruebas comprueban el comportamiento esperado. En la revisión, el equipo decide si incorporamos el cambio y podemos mantenerlo.',
-          'Como líder técnico, lo que más me interesa es qué hacemos con el tiempo que recuperamos al escribir código. Podemos usarlo para resolver dudas con producto antes de implementar, probar los casos que más nos costaría romper y discutir decisiones de diseño que van a durar más que el cambio. Sigo ajustando cuánto delegar y qué controles necesita cada tarea según su riesgo.',
+          'Programar con agentes no es pedirle código a un chat. Es diseñar el sistema en el que trabajan. Para incorporarlos al ciclo de desarrollo uso cuatro capas:',
         ],
-        tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'Human-in-the-loop', 'Evals', 'Cursor', 'Kiro', 'Claude Code'],
-        cta: 'Ver cómo acelero con IA',
+        layers: [
+          { title: 'Specification', body: 'Con spec-driven development, cada cambio parte de qué tiene que hacer, qué no se puede romper y cómo lo vamos a comprobar.' },
+          { title: 'Context', body: 'Las reglas del repositorio, las decisiones de arquitectura y ejemplos cercanos quedan versionados en archivos como `AGENTS.md`, para que cualquier agente trabaje con el mismo criterio que el equipo.' },
+          { title: 'Harness', body: 'Tareas acotadas, herramientas conectadas por MCP y controles automáticos (tests, linters, evals) que validan cada resultado.' },
+          { title: 'Human review', body: 'El equipo decide qué se incorpora y qué podemos mantener. Cuanto más riesgo tiene una tarea, más control lleva.' },
+        ],
+        closing: 'El tiempo que se recupera se reinvierte en lo que un agente no resuelve: entender el problema con producto, probar los casos críticos y tomar decisiones de diseño que duran años.',
+        tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'MCP', 'Evals', 'Human-in-the-loop', 'Claude Code', 'Cursor', 'Kiro'],
+        pillarCta: 'Mirá los pilares de la incorporación de IA',
+        pillarSlug: 'ingenieria-con-ia',
+        blogCta: 'Leé los artículos sobre IA en el blog',
+        blogTag: 'ia',
       },
       fortalezas: {
         eyebrow: 'Fortalezas',
@@ -167,7 +176,7 @@ export const content = {
       pilares: {
         eyebrow: 'Pilares',
         title: 'Cómo pienso, por escrito',
-        lead: 'Artículos y proyectos agrupados por tema: liderazgo técnico, arquitectura y producto.',
+        lead: 'Artículos y proyectos agrupados por tema: ingeniería con IA, liderazgo técnico, arquitectura y producto.',
       },
       newsletter: {
         eyebrow: 'Newsletter',

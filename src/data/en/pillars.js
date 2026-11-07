@@ -1,6 +1,22 @@
 /** Pilares en inglés: solo textos, indexados por slug. Ver src/data/pillars.js. */
 
 export const pillars = {
+  'ingenieria-con-ia': {
+    title: 'Engineering with AI and agents',
+    eyebrow: 'Pillar',
+    description:
+      'How to bring AI agents into the development cycle: specification, context, a control harness and human review.',
+    lead:
+      "Programming with agents isn't asking a chat for code: it's designing the system they work in. This pillar gathers what I learned bringing Cursor, Kiro and Claude Code into real work: specifications that control ambiguity, context versioned in the repository, automated checks that validate every result and a team that decides what gets merged. The riskier the task, the more control it gets.",
+    audiences: ['CTOs and Engineering Managers', 'Tech Leads adopting AI agents', 'Platform and developer experience teams'],
+    questions: [
+      'What has to be written down before delegating a task to an agent?',
+      'What repository context does an agent need to work with the team’s judgment?',
+      'What controls does each task need according to its risk, and which decisions are never delegated?',
+    ],
+    cta:
+      'If your team is bringing AI agents into development, we can design together what to delegate, with what context and with what controls.',
+  },
   'liderazgo-tecnico': {
     title: 'Technical leadership and teams',
     eyebrow: 'Pillar',

@@ -85,6 +85,21 @@
     blogCards.forEach(function (card, index) {
       card.hidden = index >= visibleLimit;
     });
+
+    // Filtro inicial desde la URL (?tag=ia), para enlazar directo a una temática.
+    var initialTag = null;
+    try { initialTag = new URLSearchParams(window.location.search).get('tag'); } catch (e) {}
+    if (initialTag) {
+      var initialButton = blogButtons.filter(function (button) {
+        return button.getAttribute('data-blog-filter') === initialTag;
+      })[0];
+      if (initialButton) {
+        activeBlogTag = initialTag;
+        blogButtons.forEach(function (other) {
+          other.setAttribute('aria-pressed', String(other === initialButton));
+        });
+      }
+    }
     updateBlog();
 
     blogFilterBar.addEventListener('click', function (event) {

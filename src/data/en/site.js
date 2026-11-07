@@ -61,14 +61,23 @@ export const en = {
 
   sections: {
     ia: {
-      eyebrow: 'Engineering with AI agents',
-      title: 'What I delegate to an agent and what the team decides',
+      eyebrow: 'Programming with AI agents',
+      title: 'A framework so AI agents speed up the team',
       body: [
-        'Before asking Cursor, Kiro or Claude Code for code, I define what has to change, what behavior has to be preserved and how we are going to verify it. Then I give it a scoped task and the context to solve it: the repository rules, the architecture decisions and a close example. Tests verify the expected behavior. In review, the team decides whether we take the change and can maintain it.',
-        'As a technical leader, what interests me most is what we do with the time we get back from writing code. We can use it to settle questions with product before implementing, test the cases that would cost us most to break and discuss design decisions that will outlast the change. I keep adjusting how much to delegate and what controls each task needs according to its risk.',
+        "Programming with agents isn't asking a chat for code. It's designing the system they work in. To bring them into the development cycle I use four layers:",
       ],
-      tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'Human-in-the-loop', 'Evals', 'Cursor', 'Kiro', 'Claude Code'],
-      cta: 'See how I accelerate with AI',
+      layers: [
+        { title: 'Specification', body: "With spec-driven development, every change starts from what it has to do, what can't break and how we are going to verify it." },
+        { title: 'Context', body: 'Repository rules, architecture decisions and close examples are versioned in files like `AGENTS.md`, so any agent works with the same judgment as the team.' },
+        { title: 'Harness', body: 'Scoped tasks, tools connected through MCP and automated checks (tests, linters, evals) that validate every result.' },
+        { title: 'Human review', body: 'The team decides what gets merged and what we can maintain. The riskier the task, the more control it gets.' },
+      ],
+      closing: "The time we get back is reinvested in what an agent can't solve: understanding the problem with product, testing the critical cases and making design decisions that last for years.",
+      tags: ['Spec-driven development', 'Context engineering', 'Agent harness', 'MCP', 'Evals', 'Human-in-the-loop', 'Claude Code', 'Cursor', 'Kiro'],
+      pillarCta: 'See the pillars of AI adoption',
+      pillarSlug: 'ingenieria-con-ia',
+      blogCta: 'Read the AI articles on the blog',
+      blogTag: 'ia',
     },
     fortalezas: {
       eyebrow: 'Strengths',
@@ -147,7 +156,7 @@ export const en = {
     pilares: {
       eyebrow: 'Pillars',
       title: 'How I think, in writing',
-      lead: 'Articles and projects grouped by theme: technical leadership, architecture and product.',
+      lead: 'Articles and projects grouped by theme: engineering with AI, technical leadership, architecture and product.',
     },
     newsletter: {
       eyebrow: 'Newsletter',

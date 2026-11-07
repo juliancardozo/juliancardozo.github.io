@@ -80,12 +80,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section class="section section--alt ai-cta" id="ia" aria-labelledby="ia-title">
   <div class="shell" data-reveal>
-    <p class="section__eyebrow">Ingeniería con agentes de IA</p>
-    <h2 class="section__title" id="ia-title">Qué le delego a un agente y qué decide el equipo</h2>
-    <p class="section__lead">Antes de pedirle código a Cursor, Kiro o Claude Code, defino qué tiene que cambiar, qué comportamiento hay que preservar y cómo vamos a comprobarlo. Después le doy una tarea acotada y el contexto para resolverla: las reglas del repositorio, las decisiones de arquitectura y un ejemplo cercano. Las pruebas comprueban el comportamiento esperado. En la revisión, el equipo decide si incorporamos el cambio y podemos mantenerlo.</p>
-    <p class="section__lead">Como líder técnico, lo que más me interesa es qué hacemos con el tiempo que recuperamos al escribir código. Podemos usarlo para resolver dudas con producto antes de implementar, probar los casos que más nos costaría romper y discutir decisiones de diseño que van a durar más que el cambio. Sigo ajustando cuánto delegar y qué controles necesita cada tarea según su riesgo.</p>
-    <ul class="chips"><li>Spec-driven development</li><li>Context engineering</li><li>Agent harness</li><li>Human-in-the-loop</li><li>Evals</li><li>Cursor</li><li>Kiro</li><li>Claude Code</li></ul>
-    <div class="hero__ctas"><a class="btn btn--primary" href="#acelerar-con-ia">Ver cómo acelero con IA<span aria-hidden="true">↓</span></a></div>
+    <p class="section__eyebrow">Programación con agentes de IA</p>
+    <h2 class="section__title" id="ia-title">Un marco para que los agentes de IA aceleren al equipo</h2>
+    <p class="section__lead">Programar con agentes no es pedirle código a un chat. Es diseñar el sistema en el que trabajan. Para incorporarlos al ciclo de desarrollo uso cuatro capas:</p>
+    <ol class="ai-layers"><li><h3 class="ai-layers__title">Specification</h3><p>Con spec-driven development, cada cambio parte de qué tiene que hacer, qué no se puede romper y cómo lo vamos a comprobar.</p></li><li><h3 class="ai-layers__title">Context</h3><p>Las reglas del repositorio, las decisiones de arquitectura y ejemplos cercanos quedan versionados en archivos como <code>AGENTS.md</code>, para que cualquier agente trabaje con el mismo criterio que el equipo.</p></li><li><h3 class="ai-layers__title">Harness</h3><p>Tareas acotadas, herramientas conectadas por MCP y controles automáticos (tests, linters, evals) que validan cada resultado.</p></li><li><h3 class="ai-layers__title">Human review</h3><p>El equipo decide qué se incorpora y qué podemos mantener. Cuanto más riesgo tiene una tarea, más control lleva.</p></li></ol>
+    <p class="section__lead ai-cta__closing">El tiempo que se recupera se reinvierte en lo que un agente no resuelve: entender el problema con producto, probar los casos críticos y tomar decisiones de diseño que duran años.</p>
+    <ul class="chips"><li>Spec-driven development</li><li>Context engineering</li><li>Agent harness</li><li>MCP</li><li>Evals</li><li>Human-in-the-loop</li><li>Claude Code</li><li>Cursor</li><li>Kiro</li></ul>
+    <div class="hero__ctas">
+      <a class="btn btn--primary" href="/temas/ingenieria-con-ia/">Mirá los pilares de la incorporación de IA</a>
+      <a class="btn btn--ghost" href="/blog/?tag=ia#articulos">Leé los artículos sobre IA en el blog</a></div>
   </div>
 </section>
 
@@ -240,7 +243,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <ul class="chips"><li>Java 25</li><li>Spring Boot 3.5</li><li>Spring Data JPA</li><li>Flyway</li><li>PostgreSQL</li></ul>
     <div class="card__actions">
       <a class="link link--strong" href="/proyectos/micuota/">Ver caso de estudio<span class="link__arrow" aria-hidden="true">→</span></a>
-      <a class="link" href="https://micuota.netlify.app/" target="_blank" rel="noopener noreferrer">Ver MiCuota.online<span class="link__arrow" aria-hidden="true">↗</span></a>
+      <a class="link" href="https://micuota.online/" target="_blank" rel="noopener noreferrer">Ver MiCuota.online<span class="link__arrow" aria-hidden="true">↗</span></a>
       <a class="link" href="https://github.com/juliancardozo/micuota-online-2026-MVP" target="_blank" rel="noopener noreferrer">Repositorio<span class="link__arrow" aria-hidden="true">↗</span></a>
     </div>
   </div>
@@ -352,10 +355,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <header class="section__head" data-reveal>
       <p class="section__eyebrow">Pilares</p>
       <h2 class="section__title" id="pilares-title">Cómo pienso, por escrito</h2>
-      <p class="section__lead">Artículos y proyectos agrupados por tema: liderazgo técnico, arquitectura y producto.</p>
+      <p class="section__lead">Artículos y proyectos agrupados por tema: ingeniería con IA, liderazgo técnico, arquitectura y producto.</p>
     </header>
     <div class="pillar-strip">
       <article class="pillar-card" data-reveal>
+        <p class="pillar-card__meta">Pilar</p>
+        <h3><a href="/temas/ingenieria-con-ia/">Ingeniería con IA y agentes</a></h3>
+        <p>Cómo incorporar agentes de IA al ciclo de desarrollo: especificación, contexto, arnés de control y revisión humana.</p>
+      </article><article class="pillar-card" data-reveal>
         <p class="pillar-card__meta">Pilar</p>
         <h3><a href="/temas/liderazgo-tecnico/">Liderazgo técnico y equipos</a></h3>
         <p>Cómo pienso liderazgo técnico, autonomía, delivery sostenible y la relación entre ingeniería, producto y negocio.</p>

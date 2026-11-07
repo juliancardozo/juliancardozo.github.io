@@ -67,7 +67,7 @@ export const blogIndex = ({ t, articles, pillars, newsletter }) => {
         </article>`).join('')}
       </div>
     </section>
-    <div class="filters blog-filters" role="group" aria-label="${esc(b.filterLabel)}" data-blog-filters>
+    <div class="filters blog-filters" id="articulos" role="group" aria-label="${esc(b.filterLabel)}" data-blog-filters>
       <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">${esc(b.allLabel)}</button>
       ${tags.map((tag) => `<button type="button" class="filters__btn" data-blog-filter="${esc(tagKey(tag))}" aria-pressed="false">${esc(tag)}</button>`).join('')}
     </div>

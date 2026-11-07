@@ -1,4 +1,4 @@
-import { esc, statusBadge, cover, href, projectHref, externalLink, originExcerpt, githubIcon } from './components.mjs';
+import { esc, inlineCode, statusBadge, cover, href, projectHref, externalLink, originExcerpt, githubIcon } from './components.mjs';
 import { site } from '../data/site.js';
 
 const external = 'target="_blank" rel="noopener noreferrer"';
@@ -74,8 +74,14 @@ export const home = ({ t, featured, pillars }) => {
     <p class="section__eyebrow">${esc(s.ia.eyebrow)}</p>
     <h2 class="section__title" id="ia-title">${esc(s.ia.title)}</h2>
     ${s.ia.body.map((paragraph) => `<p class="section__lead">${esc(paragraph)}</p>`).join('\n    ')}
+    ${s.ia.layers ? `<ol class="ai-layers">${s.ia.layers
+      .map((layer) => `<li><h3 class="ai-layers__title">${esc(layer.title)}</h3><p>${inlineCode(layer.body)}</p></li>`)
+      .join('')}</ol>` : ''}
+    ${s.ia.closing ? `<p class="section__lead ai-cta__closing">${esc(s.ia.closing)}</p>` : ''}
     <ul class="chips">${s.ia.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
-    <div class="hero__ctas"><a class="btn btn--primary" href="#acelerar-con-ia">${esc(s.ia.cta)}<span aria-hidden="true">↓</span></a></div>
+    <div class="hero__ctas">${s.ia.cta ? `<a class="btn btn--primary" href="#contacto">${esc(s.ia.cta)}<span aria-hidden="true">→</span></a>` : ''}
+      ${s.ia.pillarCta ? `<a class="btn ${s.ia.cta ? 'btn--ghost' : 'btn--primary'}" href="${href(t, 'topic', s.ia.pillarSlug)}">${esc(s.ia.pillarCta)}</a>` : ''}
+      ${s.ia.blogCta ? `<a class="btn btn--ghost" href="${href(t, 'blog')}?tag=${encodeURIComponent(s.ia.blogTag)}#articulos">${esc(s.ia.blogCta)}</a>` : ''}</div>
   </div>
 </section>
 

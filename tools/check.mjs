@@ -42,6 +42,8 @@ let externalLinks = 0;
 for (const file of files) {
   const rel = path.relative(root, file);
   const html = await readFile(file, 'utf8');
+  // Paginas de redireccion a un sitio externo: no son contenido, no aplican las reglas de SEO.
+  if (/<meta http-equiv="refresh"/.test(html)) continue;
 
   const h1 = html.match(/<h1[\s>]/g) || [];
   if (h1.length !== 1) note(rel, `tiene ${h1.length} elementos <h1> (debe haber exactamente 1)`);
@@ -64,7 +66,8 @@ for (const file of files) {
     }
 
     internalLinks++;
-    const [pathPart, hash] = href.split('#');
+    const [withQuery, hash] = href.split('#');
+    const pathPart = withQuery.split('?')[0];
     let target = path.join(root, pathPart);
     if (pathPart.endsWith('/')) target = path.join(target, 'index.html');
     if (!(await exists(target))) note(rel, `enlace interno roto: ${href}`);

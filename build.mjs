@@ -289,6 +289,25 @@ const build = async () => {
 
     // Casos de estudio
     for (const project of featured) {
+      // Proyectos con sitio propio: la ruta del caso de estudio redirige ahi y sale del sitemap.
+      if (project.redirectUrl) {
+        const pagePath = href(t, 'project', project.slug);
+        const target = project.redirectUrl;
+        written.push(await write(fileFor(pagePath), `<!DOCTYPE html>
+<html lang="${t.lang}">
+<head>
+<meta charset="utf-8" />
+<title>${project.title}</title>
+<meta name="robots" content="noindex, follow" />
+<link rel="canonical" href="${target}" />
+<meta http-equiv="refresh" content="0; url=${target}" />
+<script>location.replace(${JSON.stringify(target)});</script>
+</head>
+<body><p><a href="${target}">${target}</a></p></body>
+</html>
+`));
+        continue;
+      }
       const others = featured.filter((p) => p.slug !== project.slug).slice(0, 3);
       await page('project', project.slug, {
         title: `${project.title} — ${project.tagline} | ${site.author}`,
