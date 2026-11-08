@@ -35,6 +35,7 @@ Archivo a importar: `gtm-conversion-events.json`.
 | `newsletter_interest_click` | Click en CTA de interés por la newsletter |
 | `newsletter_issue_click` | Click hacia una edición pública de la newsletter |
 | `cv_download` | Click en un botón "Descargar CV" (cualquier enlace a `/assets/cv/`) |
+| `notes_download` | Descarga de material de estudio (cualquier enlace a `/assets/notes/`, p. ej. las Field Notes de AWS) |
 
 Además, el formulario de newsletter empuja estos eventos a `dataLayer` desde el frontend:
 

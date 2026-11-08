@@ -78,17 +78,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>The risk of delegating isolation to the application</h2>
           <p>A dealership stores data that matters: the real cost of a unit, its documents, a customer's reservation and the margin on a sale. In a product shared by several organizations, that data must always be kept apart, even when the team adds a report, an admin query or a new relationship.</p><p>Trusting that separation to every endpoint remembering to add organization_id seems reasonable until it isn't. It doesn't take bad intent; a query written in a hurry is enough. The defect isn't human: it's architectural, because it lets an oversight have consequences that are far too big.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Row Level Security as a data control</h2>
           <p>That's why Patio uses PostgreSQL Row Level Security. The database policies express which rows an organization can read or modify, while the application keeps responsibility for authenticating people and managing their roles. One layer doesn't replace the other: they work together.</p><p>RBAC answers what someone can do within their dealership. RLS answers a prior question: whether that row even belongs to their dealership. It is defense in depth applied to an everyday risk.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Organization context and least privilege</h2>
           <p>The important decision isn't just turning on a policy; it's keeping the tenant from traveling as an optional parameter throughout the application. The context is derived from the authenticated identity and set for the transaction before touching the data. That way, a query that forgot the filter still hits a barrier.</p><p>Support exceptions exist, but they must be explicit, audited and minimal. An invisible exception isn't flexibility: it's a door nobody is watching.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -121,6 +137,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">The authenticated identity resolves the organization and the role. The application applies business permissions and the database restricts the available rows through Row Level Security.</p>
     </figure>
       <p class="article__takeaway">Architecture principle: multi-tenant isolation must be verifiable at every layer and, above all, stay active when the application code makes a mistake.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Let's keep the conversation going</p>
       <h2>Designing a similar architecture? We can compare decisions and trade-offs.</h2>
@@ -133,7 +150,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Keep reading</p>
     <h2 id="related-articles-title">Related articles</h2>
     <ul>
-      <li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+      <li><a href="/en/blog/aws-cloud-practitioner-field-notes/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</strong>
+        <small>Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</small>
+      </a></li><li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
         <span>AI news</span>
         <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
         <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
@@ -141,10 +162,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>AI news</span>
         <strong>Puffin-World and the new wave of multimodal models: less hype, more real architecture</strong>
         <small>A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture.</small>
-      </a></li><li><a href="/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-related-article">
-        <span>Cloud and architecture</span>
-        <strong>What I'm learning while studying for AWS Cloud Practitioner</strong>
-        <small>Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost.</small>
       </a></li>
     </ul>
   </section>

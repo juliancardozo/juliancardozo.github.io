@@ -66,6 +66,7 @@ export const pillars = [
     articleSlugs: [
       'webhooks-pagos-maquinas-de-estado',
       'multi-tenancy-rls-frontera-datos',
+      'aws-cloud-practitioner-field-notes',
       'aws-cloud-practitioner-conceptos-fundamentales',
       'agentes-ia-salidas-verificables',
       'claude-watermarking-gobernanza-contenido-ia',

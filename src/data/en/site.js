@@ -452,6 +452,9 @@ export const en = {
     defaultContext: 'Professional profile',
     viewRepo: 'View repository',
     architectureLabel: 'Reference architecture',
+    checkLabel: 'Check yourself',
+    followLinkedin: 'Follow me on LinkedIn',
+    aboutAuthor: 'Who wrote this',
     relatedEyebrow: 'Keep reading',
     relatedTitle: 'Related articles',
     conversation: {

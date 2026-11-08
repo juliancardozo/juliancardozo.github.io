@@ -281,7 +281,7 @@ const build = async () => {
         title: `${article.title} | ${site.author}`,
         description: article.description,
         bodyClass: 'page-article',
-        content: articlePage({ t, article, relatedProject, relatedArticles, pillar: articlePillar }),
+        content: articlePage({ t, article, relatedProject, relatedArticles, pillar: articlePillar, articles }),
         jsonLd: articleJsonLd(article, t, `${site.baseUrl}${href(t, 'blog', article.slug)}`),
         ogType: 'article',
       }, '0.7');

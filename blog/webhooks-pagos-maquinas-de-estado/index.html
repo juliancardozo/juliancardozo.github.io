@@ -78,17 +78,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>El cobro es un proceso asíncrono</h2>
           <p>Para quien cobra una cuota, el flujo parece lineal: comparte un link, la persona paga y el dinero aparece. Del lado del sistema, en cambio, el proveedor puede avisar unos segundos después, volver a avisar si no recibió respuesta o mandar una notificación con menos datos de los que uno esperaba. Es una realidad conocida en pagos, pero se vuelve muy concreta cuando el negocio depende de saber con certeza quién pagó y quién no.</p><p>En MiCuota decidí tratar cada cobro como una máquina de estados. La operación nace, se envía, recibe novedades y cambia de estado con un origen y una fecha. El proveedor participa de esa historia, pero no la escribe por completo. La aplicación necesita su propia versión confiable de los hechos.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Idempotencia como control de negocio</h2>
           <p>El problema de un webhook repetido no es elegante ni académico. Puede ser una suscripción duplicada, una persona cobrada dos veces o un vendedor que pierde confianza en la herramienta. Por eso, procesar una notificación dos veces debe producir exactamente el mismo resultado que procesarla una sola.</p><p>Eso exige identificar la notificación, validar si la transición tiene sentido y volver a consultar al proveedor cuando el aviso llega incompleto. El external reference cumple una función humilde pero crucial: permite volver desde una señal parcial a la operación exacta que la originó.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Ledger de eventos para soporte y conciliación</h2>
           <p>Los logs son indispensables para entender qué hizo un servicio. Pero cuando alguien pregunta por qué un pago no impactó, necesita una respuesta de negocio, no una excursión por cinco paneles de observabilidad. Por eso guardé en un ledger la creación del cobro, el envío del link, cada webhook y cada transición.</p><p>La diferencia se siente en el primer incidente. En vez de reconstruir una versión probable de lo ocurrido, se puede leer la timeline de la operación. Y esa misma historia, que hoy sirve para soporte, mañana permite conciliación, recupero y reportes de mora.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -121,6 +137,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">El prestador inicia un cobro en MiCuota. La plataforma registra la operación y delega la ejecución a un proveedor. Los webhooks actualizan el ledger mediante transiciones validadas e idempotentes.</p>
     </figure>
       <p class="article__takeaway">Principio operativo: un pago confiable exige transiciones válidas, procesamiento idempotente y una trazabilidad que permita explicar cada estado sin depender de logs dispersos.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Continuemos la conversación</p>
       <h2>¿Estás validando un producto? Me interesa conversar sobre la hipótesis y el camino técnico.</h2>
@@ -137,14 +154,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>Infraestructura y producto</span>
         <strong>Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza</strong>
         <small>Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP.</small>
+      </a></li><li><a href="/blog/aws-cloud-practitioner-field-notes/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</strong>
+        <small>Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</small>
       </a></li><li><a href="/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-related-article">
         <span>IA y producto</span>
         <strong>Ingeniería inversa con agentes: de Chordify a ChordLocal con REA</strong>
         <small>Corrimos REA (Reverse Engineer Anything) contra las páginas públicas de Chordify: qué stack usa, dónde viven sus funciones pagas y qué confirma eso sobre la arquitectura de ChordLocal, una alternativa local y libre.</small>
-      </a></li><li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
-        <span>Noticias de IA</span>
-        <strong>El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA</strong>
-        <small>Análisis de la nueva discusión sobre hardware para modelos de frontera y por qué la infraestructura se volvió parte central de la estrategia de IA.</small>
       </a></li>
     </ul>
   </section>

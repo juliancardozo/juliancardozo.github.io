@@ -99,7 +99,34 @@ export const blogIndex = ({ t, articles, pillars, newsletter }) => {
 </section>`;
 };
 
-export const articlePage = ({ t, article, relatedProject, relatedArticles = [], pillar = null }) => {
+/** Ficha de estudio: filas etiqueta / valor (explicación, ejemplo, comparación, error frecuente). */
+const fieldRows = (fields = []) =>
+  fields.length
+    ? `<dl class="notes-fields">${fields
+        .map((field) => `<div class="notes-fields__row${field.tone ? ` notes-fields__row--${esc(field.tone)}` : ''}"><dt>${esc(field.label)}</dt><dd>${inlineCode(field.text)}</dd></div>`)
+        .join('')}</dl>`
+    : '';
+
+/** Bloque de descarga del material del artículo, con salida hacia el perfil. */
+const downloadBox = (download, t, articles = []) => {
+  if (!download) return '';
+  const a = t.article;
+  const companion = download.companion ? articles.find((item) => item.slug === download.companion) : null;
+  return `<aside class="notes-download" aria-labelledby="notes-download-title${download.idSuffix || ''}">
+      <p class="article__conversation-label">${esc(download.meta)}</p>
+      <h2 id="notes-download-title${download.idSuffix || ''}">${esc(download.title)}</h2>
+      <p>${esc(download.body)}</p>
+      <div class="hero__ctas">
+        <a class="btn btn--primary js-track-notes-download" href="${esc(download.href)}" download="${esc(download.filename)}" type="application/pdf">${esc(download.label)}<span aria-hidden="true">↓</span></a>
+        ${site.links.linkedin ? `<a class="btn btn--ghost" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${esc(a.followLinkedin)}</a>` : ''}
+        <a class="btn btn--ghost" href="${href(t)}">${esc(a.aboutAuthor)}</a>
+      </div>
+      ${companion ? `<p class="notes-download__companion"><a href="${href(t, 'blog', companion.slug)}" class="js-track-related-article">${esc(download.companionLabel || companion.title)} <span aria-hidden="true">→</span></a></p>` : ''}
+      ${download.disclaimer ? `<p class="notes-download__disclaimer">${esc(download.disclaimer)}</p>` : ''}
+    </aside>`;
+};
+
+export const articlePage = ({ t, article, relatedProject, relatedArticles = [], pillar = null, articles = [] }) => {
   const a = t.article;
   return `
 <article class="article">
@@ -122,13 +149,20 @@ export const articlePage = ({ t, article, relatedProject, relatedArticles = [], 
       }
     </aside>
     <div class="article__content">
+      ${downloadBox(article.download, t, articles)}
       ${article.sections.map((section) => `
-        <section>
+        <section${section.kicker ? ' class="notes-concept"' : ''}>
+          ${section.kicker ? `<p class="notes-concept__kicker">${esc(section.kicker)}</p>` : ''}
           <h2>${esc(section.title)}</h2>
-          ${section.paragraphs.map((paragraph) => `<p>${inlineCode(paragraph)}</p>`).join('')}
+          ${(section.paragraphs || []).map((paragraph) => `<p>${inlineCode(paragraph)}</p>`).join('')}
+          ${fieldRows(section.fields)}
+          ${architectureDiagram(section.architecture, t)}
+          ${fieldRows(section.fieldsAfter)}
+          ${section.check ? `<p class="notes-concept__check"><span>${esc(a.checkLabel)}</span>${esc(section.check)}</p>` : ''}
         </section>`).join('')}
       ${architectureDiagram(article.architecture, t)}
       <p class="article__takeaway">${esc(article.takeaway)}</p>
+      ${article.download ? downloadBox({ ...article.download, companion: null, disclaimer: null, idSuffix: '-end' }, t) : ''}
       ${conversationCta(article, t)}
     </div>
   </div>

@@ -550,6 +550,55 @@
           "key": "waitForTagsTimeout",
           "value": "2000"
         }
+      },
+      {
+        "triggerId": "14",
+        "name": "Click — Study notes download",
+        "type": "LINK_CLICK",
+        "filter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click URL}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "/assets/notes/"
+              }
+            ]
+          }
+        ],
+        "autoEventFilter": [
+          {
+            "type": "CONTAINS",
+            "parameter": [
+              {
+                "type": "TEMPLATE",
+                "key": "arg0",
+                "value": "{{Click URL}}"
+              },
+              {
+                "type": "TEMPLATE",
+                "key": "arg1",
+                "value": "/assets/notes/"
+              }
+            ]
+          }
+        ],
+        "waitForTags": {
+          "type": "TEMPLATE",
+          "key": "waitForTags",
+          "value": "true"
+        },
+        "waitForTagsTimeout": {
+          "type": "TEMPLATE",
+          "key": "waitForTagsTimeout",
+          "value": "2000"
+        }
       }
     ],
     "tag": [
@@ -826,6 +875,26 @@
         ],
         "firingTriggerId": [
           "13"
+        ]
+      },
+      {
+        "tagId": "15",
+        "name": "GA4 event — notes_download",
+        "type": "gaawe",
+        "parameter": [
+          {
+            "type": "TEMPLATE",
+            "key": "eventName",
+            "value": "notes_download"
+          },
+          {
+            "type": "TEMPLATE",
+            "key": "measurementIdOverride",
+            "value": "{{GA4 Measurement ID}}"
+          }
+        ],
+        "firingTriggerId": [
+          "14"
         ]
       }
     ],

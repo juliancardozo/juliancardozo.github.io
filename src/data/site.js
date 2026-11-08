@@ -474,6 +474,9 @@ export const content = {
       defaultContext: 'Perfil profesional',
       viewRepo: 'Ver repositorio',
       architectureLabel: 'Arquitectura de referencia',
+      checkLabel: 'Para comprobar',
+      followLinkedin: 'Seguime en LinkedIn',
+      aboutAuthor: 'Quién escribe esto',
       relatedEyebrow: 'Seguir leyendo',
       relatedTitle: 'Artículos relacionados',
       conversation: {

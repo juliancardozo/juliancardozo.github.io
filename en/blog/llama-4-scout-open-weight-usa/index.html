@@ -79,17 +79,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>The distinctive capability: multimodality and long context</h2>
           <p>Meta positions Scout as a model with early fusion of text and images: visual information is not added as a later layer, but takes part in the representation from the model's processing onward. For products that work with documents, interfaces, images or visual evidence, this architecture enables flows that a text-only model cannot handle by itself.</p><p>The context window of up to 10 million tokens is another relevant capability, although it should be treated as an engineering constraint and not a marketing argument. Available context does not automatically mean precise retrieval: the team has to measure quality, latency, cost and behavior with the kind of corpus it will actually use.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>MoE reduces active compute; it does not eliminate operating cost</h2>
           <p>Scout uses a Mixture-of-Experts with 16 experts: it activates 17B parameters per step, but carries 109B total weights. The pattern lets you increase capacity without running every parameter for every token, an inference advantage over a dense model of equivalent size.</p><p>However, the weights still need memory. The model card and practical operation force you to evaluate quantization, distribution across several GPUs, required throughput and latency limits. Choosing an open-weight model means taking on responsibility for that platform, not just downloading a checkpoint.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Open-weight is not the same as open source</h2>
           <p>Scout's weights can be downloaded publicly after accepting the Llama 4 Community License, but that license is not Apache 2.0 or an OSI license. It includes usage conditions for organizations with more than 700 million monthly active users.</p><p>For a startup or a company, license review should be part of the adoption design alongside security, evaluation and privacy. The model can be technically suitable and still not be compatible with the distribution, the product or the projected scale.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -122,6 +138,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Text and images are integrated early in the model's representation. Transformer blocks route each token to selected experts before producing multilingual text or code.</p>
     </figure>
       <p class="article__takeaway">Adoption rule: Llama 4 Scout is a powerful open-weight option for multimodal and long-context cases, as long as the team validates quality in its domain, plans infrastructure and reviews the obligations of its community license.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Let's keep the conversation going</p>
       <h2>Is your team evaluating applied AI? I'd like to hear about the problem you're trying to solve.</h2>

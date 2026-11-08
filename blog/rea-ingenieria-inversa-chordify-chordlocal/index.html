@@ -78,29 +78,60 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>Qué es REA</h2>
           <p>REA se instala con <code>npx rea-agents setup</code> y se registra como servidor MCP en agentes como Claude Code, Codex o Cursor; también se usa como CLI con el comando <code>rea</code>. Para sitios web se conecta por Chrome DevTools Protocol a un navegador local y devuelve evidencia: estructura de la página, scripts cargados, recursos, endpoints detectados en el código y forma de los datos, sin guardar valores, cookies ni cuerpos de respuesta.</p><p>Cada resultado trae un identificador de evidencia, su nivel de confianza y sus límites. Esa es la diferencia con &quot;mirar el DevTools un rato&quot;: las conclusiones quedan respaldadas y se pueden volver a verificar.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Primera iteración: la hipótesis</h2>
           <p>El pedido inicial fue &quot;analizar con REA la aplicación Chordify para tenerla local, con todos sus features, pero gratis&quot;. En esa primera sesión REA estaba instalado pero no conectado al agente, así que el punto de partida fue una matriz armada con la información pública: cada función, su plan, el equivalente libre y la dificultad real de construirla.</p><p>La hipótesis que salió de ahí: casi todas las funciones pagas son transformaciones simples sobre el resultado del análisis. Transponer es sumar semitonos a la raíz de cada acorde, <code>(root + n) % 12</code>. Lo único difícil de verdad es detectar bien los acordes y el compás a partir del audio. ChordLocal se construyó sobre esa idea.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Segunda iteración: REA contra Chordify</h2>
           <p>Para validar la hipótesis corrimos REA 6.5.0 contra dos páginas públicas: la home y la página de una canción. Chrome se abrió con un perfil limpio, sin sesión ni cuenta, y con el puerto de depuración solo en loopback. Usamos <code>inspect-web-page</code> para la estructura, los recursos y el almacenamiento, <code>analyze-web-bundle</code> para el análisis estático de los scripts y <code>export-web-scripts</code> para revisar el contexto exacto de cada hallazgo.</p><p>Hubo un tropiezo útil. En modo headless, Chordify mostró el desafío de Cloudflare (&quot;Un momento…&quot;) y REA lo reportó tal cual: la página observada era el desafío, no la app. No se intentó evadirlo. Con un Chrome visible normal, la verificación pasó sola. Tampoco se descargaron los source maps, aunque los bundles los declaran públicamente, ni se extrajeron datos de canciones.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Qué encontró</h2>
           <p>Stack: React empaquetado con webpack, en ocho scripts que suman 1,9 MB en la página de una canción. Los datos de la canción vienen dentro del HTML y no por una llamada aparte. Los diagramas de acordes salen de una API que devuelve SVG por instrumento y por acorde, con nombres como <code>D:maj</code> o <code>B:min</code>: la notación de Harte, el estándar de la investigación en reconocimiento de acordes.</p><p>La transposición es un entero en el estado del cliente. Cada movimiento suma o resta semitonos, el reset lo vuelve a 0 y el objeto de la canción se construye con ese valor antes de dibujar los acordes en el navegador. El cambio de tempo ajusta la velocidad de reproducción del player. Cuando cambian la cejilla o la transposición, un evento hace que el player vuelva a dibujar el acorde actual. El bundle también trae tablas para escribir cada acorde con sostenidos o bemoles según la tonalidad mayor o menor.</p><p>El mismo código lista las funciones que el producto ofrece como pagas: cejilla, transposición, loop, tempo, volumen, cuenta regresiva, setlists, subir audio, MIDI, impresión y letras con IA. Ninguna de las que se pudieron rastrear necesita volver al servidor para recalcular el análisis.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Qué confirma para ChordLocal</h2>
           <p>La hipótesis se sostiene con evidencia: las funciones pagas operan en el cliente sobre datos que ya están en la página. La diferencia entre el plan gratis y el pago no es de cómputo, es de producto. El valor de Chordify está en su catálogo de análisis y en la experiencia, no en la dificultad de transponer.</p><p>ChordLocal ya tiene esa misma forma: un <code>analysis.json</code> como fuente única de verdad y funciones derivadas al instante. El análisis también deja dos ideas concretas para adoptar. La primera es exportar los acordes en notación de Harte, para poder compararlos con datasets de investigación. La segunda ya está hecha: escribir cada acorde según la tonalidad (Eb y no D# en Eb mayor), algo que ChordLocal resolvió en su versión 0.2.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Límites y potencial</h2>
           <p>Entender cómo funciona un producto no habilita a copiarlo. La base de acordes de Chordify es su producto: ChordLocal no la usa, no la scrapea y genera sus propios análisis. El código observado sirvió para validar decisiones, no para reutilizarlo. Tampoco se publican detalles sobre cómo se controla el acceso a las funciones pagas: no aportan nada a la arquitectura y solo servirían para evadirlo.</p><p>Con esos límites, el potencial es grande. El mismo método sirve para auditar una herramienta interna sin documentación, entender una integración legada antes de migrarla, evaluar a un competidor con evidencia en lugar de suposiciones o mantener compatibilidad con un formato cerrado. Lo que cambia con un agente y REA es la velocidad: pasar de &quot;creo que funciona así&quot; a &quot;esta es la evidencia&quot; toma minutos.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -133,6 +164,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Primero se listan las funciones del producto y su plan. Después REA observa las páginas públicas en un navegador real y devuelve evidencia: scripts, recursos, endpoints y estado del cliente. Con eso se valida el modelo de datos propio antes de construir.</p>
     </figure>
       <p class="article__takeaway">Criterio práctico: la ingeniería inversa útil empieza con una hipótesis de producto y termina con evidencia. Primero se lista qué hace una app y qué cobra; después una herramienta como REA confirma dónde vive cada función. Todo dentro de los límites de licencias, términos de servicio y propiedad de los datos.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Continuemos la conversación</p>
       <h2>¿Tu equipo está evaluando IA aplicada? Me interesa conocer el problema que están intentando resolver.</h2>

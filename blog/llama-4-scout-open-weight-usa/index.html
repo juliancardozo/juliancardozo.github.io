@@ -79,17 +79,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>La capacidad distintiva: multimodalidad y contexto largo</h2>
           <p>Meta posiciona a Scout como un modelo con fusión temprana de texto e imágenes: la información visual no se agrega como una capa posterior, sino que participa de la representación desde el procesamiento del modelo. Para productos que trabajan con documentos, interfaces, imágenes o evidencia visual, esta arquitectura habilita flujos que un modelo solo textual no resuelve por sí mismo.</p><p>La ventana de contexto de hasta 10 millones de tokens es otra capacidad relevante, aunque debe tratarse como una restricción de ingeniería y no como un argumento de marketing. Contexto disponible no equivale automáticamente a recuperación precisa: el equipo debe medir calidad, latencia, costo y comportamiento con el tipo de corpus que realmente usará.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>MoE reduce cómputo activo, no elimina el costo de operación</h2>
           <p>Scout usa Mixture-of-Experts con 16 expertos: activa 17B parámetros por paso, pero distribuye 109B de pesos totales. El patrón permite aumentar capacidad sin ejecutar todos los parámetros para cada token, una ventaja para inferencia frente a un modelo denso de tamaño equivalente.</p><p>Sin embargo, los pesos siguen necesitando memoria. La ficha del modelo y la operación práctica obligan a evaluar cuantización, distribución en varias GPU, throughput requerido y límites de latencia. Elegir un modelo open-weight significa asumir la responsabilidad de esa plataforma, no solo descargar un checkpoint.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Open-weight no es sinónimo de open source</h2>
           <p>Los pesos de Scout se descargan públicamente después de aceptar la Llama 4 Community License, pero esa licencia no es Apache 2.0 ni una licencia OSI. Incluye condiciones de uso para organizaciones que superen los 700 millones de usuarios activos mensuales.</p><p>Para una startup o una empresa, la revisión de licencia debe formar parte del diseño de adopción junto con seguridad, evaluación y privacidad. El modelo puede ser técnicamente adecuado y aun así no ser compatible con la distribución, el producto o la escala proyectada.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -122,6 +138,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Texto e imágenes se integran temprano en la representación del modelo. Los bloques transformer enrutan cada token hacia expertos seleccionados antes de producir texto o código multilingüe.</p>
     </figure>
       <p class="article__takeaway">Criterio de adopción: Llama 4 Scout es una alternativa open-weight potente para casos multimodales y de contexto largo, siempre que el equipo valide calidad en su dominio, planifique infraestructura y revise las obligaciones de su licencia comunitaria.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Continuemos la conversación</p>
       <h2>¿Tu equipo está evaluando IA aplicada? Me interesa conocer el problema que están intentando resolver.</h2>

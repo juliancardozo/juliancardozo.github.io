@@ -79,25 +79,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>The cloud doesn't eliminate responsibilities: it redistributes them</h2>
           <p>The concept that organizes everything else is the shared responsibility model. AWS takes care of security of the cloud: data centers, hardware, network and base services. The customer remains responsible for security in the cloud: identity, permissions, data, configuration, applications and correct use of the services.</p><p>The boundary shifts depending on the service chosen. With a virtual machine, the team manages more layers than with a managed service. For a business owner, this means that buying cloud doesn't automatically transfer the risk; it changes which controls have to be designed, operated and audited.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Elasticity is a product capability</h2>
           <p>Elasticity lets you adjust resources as demand changes. It isn't just about withstanding a traffic spike: it lets you avoid paying for idle capacity while a product is still validating its market, and respond when a campaign, an integration or an event increases usage.</p><p>The distinction between scalability and elasticity helps make more precise decisions. Scaling is increasing capacity; being elastic is adapting it. The architecture has to separate components, avoid state that is hard to move and use metrics that indicate when the system needs to react.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>High availability means thinking about expected failures</h2>
           <p>An AWS region is made up of isolated availability zones. That design lets you build systems that don't depend on a single physical point of failure. The lesson isn't that every product has to be global from day one; it's that every availability requirement has a cost and an associated architecture.</p><p>For an MVP, a simple solution can be the right one. For a payments flow, health or critical data, the conversation has to include recovery, backups, observability and availability targets. The cloud offers the building blocks to solve it; it doesn't decide for the team what level of risk is acceptable.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>IAM and least privilege are part of the design</h2>
           <p>Identity and Access Management turns access into explicit policies: who can do what to which resource and under what conditions. The principle of least privilege reduces the impact of an exposed credential, a configuration error or an accidental action.</p><p>In practice, this connects with decisions I already apply in multi-tenant products and payment platforms: never trust implicit permissions, separate responsibilities and leave a trail. A root account, static credentials in code or broad permissions are security debt, even if the system is still small.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>FinOps starts in the architecture</h2>
           <p>Pay-as-you-go is an advantage when you understand what drives consumption and what can be turned off, reserved, automated or measured. Cloud cost is not just an infrastructure bill: it reflects decisions about compute, storage, data transfer, retention, availability and observability.</p><p>That is why cost has to enter the design early. Tagging resources, setting budgets and alerts, choosing managed services when they reduce operational work and reviewing unused resources are practices that let engineering and business talk using the same data.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -130,6 +156,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">AWS runs the physical infrastructure and the base services. The customer team defines identity, access, configuration, data, applications and operational controls depending on the service used.</p>
     </figure>
       <p class="article__takeaway">Cloud principle: on-demand infrastructure speeds up delivery, but the value shows up when security, availability and cost are designed as explicit product responsibilities.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Let's keep the conversation going</p>
       <h2>Designing a similar architecture? We can compare decisions and trade-offs.</h2>
@@ -142,7 +169,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Keep reading</p>
     <h2 id="related-articles-title">Related articles</h2>
     <ul>
-      <li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+      <li><a href="/en/blog/aws-cloud-practitioner-field-notes/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</strong>
+        <small>Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</small>
+      </a></li><li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
         <span>AI news</span>
         <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
         <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
@@ -150,10 +181,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>AI news</span>
         <strong>Puffin-World and the new wave of multimodal models: less hype, more real architecture</strong>
         <small>A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture.</small>
-      </a></li><li><a href="/en/blog/multi-tenancy-rls-frontera-datos/" class="js-track-related-article">
-        <span>Architecture and security</span>
-        <strong>Secure multi-tenancy: data isolation can't depend on a WHERE clause</strong>
-        <small>How to combine identity, RBAC and Row Level Security to protect each organization's data by design.</small>
       </a></li>
     </ul>
   </section>

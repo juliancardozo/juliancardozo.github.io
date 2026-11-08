@@ -79,17 +79,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>De integraciones uno a uno a un contrato común</h2>
           <p>Antes de un protocolo compartido, cada combinación de agente y editor requiere una integración específica. ACP propone estandarizar la comunicación entre clientes —editores o herramientas— y agentes de código. Kiro compara esa función con el impacto que Language Server Protocol tuvo sobre las capacidades de lenguajes en los IDEs.</p><p>La consecuencia para una organización es menor dependencia de una interfaz única. Un equipo puede mantener su entorno especializado para bases de datos, ciencia de datos o desarrollo móvil y acceder al agente a través del mismo contrato, en vez de sacrificar contexto de trabajo para adoptar una herramienta de IA.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>El caso de uso importante es el contexto especializado</h2>
           <p>El anuncio ilustra la integración con DataGrip: la herramienta aporta visualización de esquemas, planes de ejecución, autocompletado y gestión de conexiones; el agente puede asistir con consultas, migraciones, datos de prueba o explicación de condiciones complejas. Ninguna capa reemplaza a la otra.</p><p>Este patrón es aplicable a otros dominios. La herramienta especializada conserva el modelo, la telemetría o los controles propios del área. El agente aporta razonamiento y automatización sobre ese contexto. El valor no está en poner chat en todas partes, sino en reducir la distancia entre intención, contexto y acción verificable.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Interoperabilidad exige controles de ejecución</h2>
           <p>Un agente que puede ejecutar comandos desde una herramienta conectada a datos reales amplía la superficie de riesgo. El protocolo no elimina la necesidad de identidad, autorización, secreto seguro, entornos aislados y revisión de acciones con impacto.</p><p>Para adoptar esta capacidad de forma profesional, conviene definir qué entornos puede tocar el agente, qué acciones requieren aprobación, cómo se registra la actividad y quién es responsable de revisar un cambio. La interoperabilidad acelera el flujo; la gobernanza evita que acelere el error.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -122,6 +138,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Un IDE o herramienta compatible implementa ACP y se comunica con Kiro CLI. El agente recibe contexto de la herramienta, propone o ejecuta acciones autorizadas y devuelve resultados al entorno especializado.</p>
     </figure>
       <p class="article__takeaway">Impacto operativo: ACP permite ubicar agentes donde está el contexto de trabajo. El siguiente desafío para los equipos es combinar esa flexibilidad con permisos, trazabilidad y controles de ejecución proporcionados al riesgo.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Continuemos la conversación</p>
       <h2>¿Tu equipo está evaluando IA aplicada? Me interesa conocer el problema que están intentando resolver.</h2>

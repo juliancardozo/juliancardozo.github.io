@@ -977,6 +977,112 @@ const articleEntries = [
     ],
     takeaway: 'Principio de producto: una experiencia propia no reemplaza la validación, pero produce mejores hipótesis iniciales y ayuda a separar funcionalidades de trabajos reales del usuario.',
   },
+  {
+    slug: 'aws-cloud-practitioner-field-notes',
+    title: 'AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar',
+    description: 'Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.',
+    category: 'Cloud y arquitectura',
+    tags: ['Cloud', 'Arquitectura', 'Infraestructura'],
+    date: '2026-11-08',
+    readingTime: '9 min de lectura',
+    projectSlug: '',
+    contextLabel: 'Notas de preparación · AWS Certified Cloud Practitioner (CLF-C02)',
+    sourceUrl: 'https://aws.amazon.com/certification/certified-cloud-practitioner/',
+    sourceLabel: 'Guía oficial del examen CLF-C02',
+    lead: 'Estas son mis notas de preparación para AWS Certified Cloud Practitioner. No reemplazan la documentación de AWS: la resumen con la intención de entender cuándo y por qué usar cada cosa, no solo cómo se llama. Cada concepto se explica, se ejemplifica, se compara con lo que suele confundirse y se cierra con el error más frecuente y una pregunta para comprobar si realmente quedó claro.',
+    download: {
+      href: '/assets/notes/AWS-Cloud-Practitioner-Field-Notes.pdf',
+      filename: 'AWS-Cloud-Practitioner-Field-Notes.pdf',
+      label: 'Descargar las notas en PDF',
+      meta: 'PDF · 3 páginas · 6 conceptos',
+      title: 'Llevate las Field Notes',
+      body: 'El mismo material en una hoja imprimible, para repasar antes del examen o compartir con tu equipo. Learning is better when shared.',
+      disclaimer: 'No es material oficial de AWS. Es un resumen de estudio propio, contrastado con la documentación pública de AWS, y no reproduce preguntas de examen reales.',
+      companion: 'aws-cloud-practitioner-conceptos-fundamentales',
+      companionLabel: 'Leé también qué me está dejando estudiar AWS como Engineering Manager',
+    },
+    sections: [
+      {
+        kicker: 'Concepto 01',
+        title: 'Infraestructura global: Regiones, Availability Zones y Edge Locations',
+        fields: [
+          { label: 'Explicación simple', text: 'Una Región es un área geográfica con varios centros de datos independientes. Cada Availability Zone (AZ) es uno o más centros de datos con energía, refrigeración y red propias, aislados de fallas en otras AZs pero unidos por redes de baja latencia. Una Edge Location es un punto de presencia más chico y más cercano al usuario final, usado para entregar contenido o resolver DNS — no para alojar tu infraestructura.' },
+          { label: 'Ejemplo práctico', text: 'Distribuís instancias EC2 entre `us-east-1a` y `us-east-1b` para que un corte eléctrico en una AZ no tire abajo la aplicación. Amazon CloudFront, en cambio, usa Edge Locations en todo el mundo para servir contenido estático cerca del usuario, sin mover tu infraestructura de lugar.' },
+          { label: 'Comparación útil', text: 'Región: dónde viven tus recursos. AZ: cómo los repartís para tolerar fallas. Edge Location: cómo acercás contenido al usuario, sin relocalizar nada.' },
+          { label: 'Error frecuente', tone: 'warn', text: 'Confundir una Edge Location con "una AZ más chica". Resuelven problemas distintos: resiliencia (AZ) contra latencia de entrega de contenido (Edge Location).' },
+        ],
+        check: '¿Qué diferencia hay entre desplegar en varias AZs y usar una Edge Location vía CloudFront?',
+      },
+      {
+        kicker: 'Concepto 02',
+        title: 'Networking: VPC, subred pública/privada, Internet Gateway y NAT Gateway',
+        fields: [
+          { label: 'Explicación simple', text: 'Una VPC es una red privada y aislada dentro de AWS. Dentro de ella, una subred pública tiene una ruta directa a un Internet Gateway (IGW). Una subred privada no tiene esa ruta. Si un recurso privado necesita salir a internet, lo hace a través de un NAT Gateway, que vive en una subred pública.' },
+        ],
+        architecture: {
+          caption: 'VPC 10.0.0.0/16: salida a internet desde una subred privada',
+          description: 'Pública: ruta directa a un Internet Gateway. Privada: sale a internet vía el NAT Gateway que vive en la subred pública — nunca al revés.',
+          layers: [
+            { label: 'Subred privada · 10.0.2.0/24', items: ['EC2 / RDS (datos)', 'Ruta 0.0.0.0/0 → NAT Gateway'] },
+            { label: 'Subred pública · 10.0.1.0/24', items: ['EC2 (web) y NAT Gateway', 'Ruta 0.0.0.0/0 → Internet Gateway'] },
+            { label: 'Internet Gateway', items: ['Puerta de la VPC', 'Entrada y salida para IPs públicas'] },
+            { label: 'Internet', items: ['Usuarios', 'Parches y APIs externas'] },
+          ],
+        },
+        fieldsAfter: [
+          { label: 'Ejemplo práctico', text: 'El servidor web que recibe tráfico de usuarios va en la subred pública. La base de datos que ese servidor consulta va en la subred privada, sin IP pública, protegida de accesos directos desde internet.' },
+          { label: 'Comparación útil', text: 'El Internet Gateway habilita tráfico entrante y saliente para recursos con IP pública. El NAT Gateway solo habilita tráfico saliente iniciado desde adentro — nunca conexiones iniciadas desde internet hacia la subred privada.' },
+          { label: 'Error frecuente', tone: 'warn', text: 'Creer que el NAT Gateway "agrega seguridad". Su función es habilitar salida a internet sin exponer la subred privada a tráfico entrante; el control de acceso corre por cuenta de los Security Groups y las Network ACLs.' },
+        ],
+        check: '¿Por qué una base de datos en una subred privada puede descargar un parche de seguridad, pero nadie desde internet puede conectarse directamente a ella?',
+      },
+      {
+        kicker: 'Concepto 03',
+        title: 'Modelo de responsabilidad compartida',
+        fields: [
+          { label: 'Explicación simple', text: 'AWS es responsable de la seguridad de la nube: infraestructura física, hardware, virtualización y red global. El cliente es responsable de la seguridad en la nube: cómo configura sus recursos, cómo gestiona identidades y permisos (IAM), cómo cifra sus datos y, cuando aplica, cómo mantiene el sistema operativo.' },
+          { label: 'Ejemplo práctico', text: 'AWS garantiza que el hardware del datacenter esté físicamente protegido. El cliente es quien decide si un bucket de S3 es público o privado, y quién tiene permiso para leerlo.' },
+          { label: 'Comparación útil', text: 'En servicios administrados (Lambda, RDS) AWS asume más responsabilidad operativa — por ejemplo, los parches del motor de base de datos. En EC2, el cliente administra el sistema operativo, así que su porción de responsabilidad es mayor.' },
+          { label: 'Error frecuente', tone: 'warn', text: 'Asumir que "está en AWS" significa que todo riesgo de seguridad es de AWS. Una mala configuración de permisos siempre es responsabilidad del cliente.' },
+        ],
+        check: 'Si un bucket de S3 queda expuesto públicamente por una configuración incorrecta, ¿de quién es la responsabilidad según el modelo?',
+      },
+      {
+        kicker: 'Concepto 04',
+        title: 'EC2, Lambda y contenedores: cómo elegir',
+        fields: [
+          { label: 'Explicación simple', text: 'EC2 son servidores virtuales que el cliente administra (sistema operativo, parches, escalado). AWS Lambda ejecuta código sin administrar servidores, cobra por invocación y duración, y escala automáticamente. Los contenedores (Amazon ECS o EKS) empaquetan una aplicación con sus dependencias; corren sobre EC2 (el cliente administra los servidores) o sobre Fargate (AWS administra la infraestructura de cómputo).' },
+          { label: 'Ejemplo práctico', text: 'Procesar una imagen apenas se sube a S3: buen caso para Lambda. Varios microservicios corriendo todo el tiempo: suele encajar mejor en contenedores. Una aplicación con requerimientos específicos de sistema operativo: puede necesitar EC2.' },
+          { label: 'Comparación útil', text: 'Control total del servidor → EC2. Cero administración, eventos puntuales → Lambda. Empaquetado consistente de la app, con o sin administrar el servidor → contenedores, con EC2 o con Fargate.' },
+          { label: 'Error frecuente', tone: 'warn', text: 'Asumir que Lambda siempre es más barato. Para cargas constantes y predecibles, EC2 o contenedores pueden salir más económicos que pagar por cada invocación.' },
+        ],
+        check: '¿Qué elegirías para un proceso que corre de forma continua las 24 horas, y por qué probablemente no sea Lambda?',
+      },
+      {
+        kicker: 'Concepto 05',
+        title: 'S3, EBS, EFS y las principales bases de datos',
+        fields: [
+          { label: 'Explicación simple', text: 'Amazon S3 es almacenamiento de objetos accesible por red, sin estructura de sistema de archivos. Amazon EBS es un volumen de bloques que se adjunta a una sola instancia EC2 a la vez, como un disco virtual. Amazon EFS es un sistema de archivos compartido que varias instancias EC2 pueden montar al mismo tiempo. Para datos estructurados: RDS ofrece bases relacionales administradas, y DynamoDB una base NoSQL totalmente administrada y de alta escala.' },
+          { label: 'Ejemplo práctico', text: 'Fotos de perfil de usuarios → S3. El disco del sistema operativo de una instancia → EBS. Una carpeta que varias instancias web leen y escriben a la vez → EFS. El catálogo de un e-commerce con relaciones entre tablas → RDS. Datos de sesión con lecturas y escrituras masivas y baja latencia → DynamoDB.' },
+          { label: 'Comparación útil', text: '¿Un solo servidor necesita un disco? EBS. ¿Varios servidores necesitan compartir archivos? EFS. ¿Es un archivo que se accede por URL o API, no un disco? S3.' },
+          { label: 'Error frecuente', tone: 'warn', text: 'Intentar montar un mismo volumen EBS en varias instancias EC2 a la vez. EBS está pensado para una sola instancia; para compartir archivos entre varias, la herramienta correcta es EFS.' },
+        ],
+        check: '¿Por qué EBS no es la opción correcta si tres instancias EC2 necesitan leer y escribir sobre los mismos archivos al mismo tiempo?',
+      },
+      {
+        kicker: 'Concepto 06',
+        title: 'Costos, observabilidad y seguridad',
+        fields: [
+          { label: 'Explicación simple', text: 'AWS Cost Explorer visualiza y analiza el gasto histórico. AWS Budgets define límites y alertas antes de que el gasto se salga de control. Amazon CloudWatch centraliza métricas, logs y alarmas para observar el comportamiento de los recursos. AWS IAM controla quién puede hacer qué, mediante usuarios, grupos, roles y políticas, siguiendo el principio de menor privilegio.' },
+          { label: 'Ejemplo práctico', text: 'Una alarma en Budgets avisa si el gasto mensual supera un monto definido. CloudWatch indica si una instancia EC2 tiene uso de CPU anormalmente alto. Un rol de IAM específico le da a una aplicación acceso solo al bucket de S3 que necesita, nada más.' },
+          { label: 'Comparación útil', text: 'Cost Explorer mira hacia atrás (qué gasté y por qué). Budgets mira hacia adelante (qué no quiero superar). CloudWatch observa el comportamiento técnico. IAM decide quién puede actuar sobre qué recurso.' },
+          { label: 'Error frecuente', tone: 'warn', text: 'Usar las credenciales de la cuenta raíz (root) para el trabajo diario, en vez de crear usuarios o roles de IAM con permisos acotados a lo que realmente necesitan.' },
+        ],
+        check: '¿Qué herramienta usarías para que te avisen antes de gastar de más, y cuál para entender por qué una instancia está lenta?',
+      },
+    ],
+    takeaway: 'Learning is better when shared: si estas notas te sirven para el CLF-C02, descargá el PDF, compartilo con quien esté estudiando y contame qué concepto te costó más.',
+  },
 ];
 
 const canonicalTags = {

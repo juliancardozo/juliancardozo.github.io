@@ -79,17 +79,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>Global capability with a license that is simple to evaluate</h2>
           <p>The Qwen3 family publishes dense and MoE models under Apache 2.0. For organizations evaluating open-weight models, this license reduces friction in commercial use, modification and redistribution compared with community licenses that carry specific conditions.</p><p>The stated support for 119 languages and dialects is especially relevant for regional or multilingual products. Even so, a list of languages doesn't replace evaluation: Rioplatense Spanish, domain vocabulary, safety and tool quality need to be measured with your own test set before bringing the model into a business flow.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>The economics of MoE at 235B-parameter scale</h2>
           <p>The architecture has 235B total parameters, but activates 22B through a router that selects eight of 128 experts per token. That sparsity aims to concentrate compute in a portion of the model and improve the ratio between capacity and inference cost.</p><p>This should not be read as the model running like a 22B one. The checkpoint, the serving system, the KV cache and long context still define a significant infrastructure footprint. Full-precision operation requires enterprise-grade resources; quantization and servers like vLLM or SGLang are platform decisions that need to be validated against real load.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Extended context needs a retrieval policy</h2>
           <p>Qwen states 262,144 tokens of native context and extension to roughly one million through YaRN. That reach opens up use cases like repository analysis, extensive documentation and long conversations, but it also amplifies the problems of information selection and cost per request.</p><p>The product architecture has to decide which documents go in, how they are retrieved, when they are summarized and what evidence accompanies the answer. Giving a model more context doesn't fix an incomplete source, an ambiguous policy or a missing evaluation.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -122,6 +138,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Multilingual text goes through 94 transformer blocks with Grouped Query Attention. The MoE router selects eight of 128 experts per token to produce a direct instruction response.</p>
     </figure>
       <p class="article__takeaway">Adoption rule: Qwen3-235B-A22B combines MoE capability, multilingual reach and Apache 2.0; its practical value depends on measuring local quality and designing the infrastructure, retrieval and governance needed to run it at scale.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Let's keep the conversation going</p>
       <h2>Is your team evaluating applied AI? I'd like to hear about the problem you're trying to solve.</h2>

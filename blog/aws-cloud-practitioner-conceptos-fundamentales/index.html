@@ -79,25 +79,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>Cloud no elimina responsabilidades: las redistribuye</h2>
           <p>El concepto que más ordena el resto es el modelo de responsabilidad compartida. AWS se ocupa de la seguridad de la infraestructura cloud: centros de datos, hardware, red y servicios base. El cliente sigue siendo responsable de la seguridad en la cloud: identidad, permisos, datos, configuración, aplicaciones y uso correcto de los servicios.</p><p>La frontera cambia según el servicio elegido. Al usar una máquina virtual, el equipo administra más capas que al usar un servicio administrado. Para un responsable de negocio, esto significa que contratar cloud no transfiere automáticamente el riesgo; cambia qué controles se deben diseñar, operar y auditar.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Elasticidad es una capacidad de producto</h2>
           <p>La elasticidad permite ajustar recursos frente a cambios de demanda. No se trata solo de soportar un pico de tráfico: permite evitar pagar capacidad ociosa cuando un producto todavía está validando su mercado y responder cuando una campaña, una integración o un evento aumenta el uso.</p><p>La distinción entre escalabilidad y elasticidad ayuda a tomar decisiones más precisas. Escalar es aumentar capacidad; ser elástico es adaptarla. La arquitectura debe separar componentes, evitar estados difíciles de mover y usar métricas que indiquen cuándo el sistema necesita reaccionar.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Alta disponibilidad requiere pensar en fallas esperables</h2>
           <p>Una región de AWS se compone de zonas de disponibilidad aisladas. Ese diseño permite construir sistemas que no dependan de un único punto físico de falla. El aprendizaje no es que todos los productos deban ser globales desde el primer día; es que cada requisito de disponibilidad tiene un costo y una arquitectura asociada.</p><p>Para un MVP, una solución simple puede ser correcta. Para un flujo de pagos, salud o datos críticos, la conversación debe incluir recuperación, respaldos, observabilidad y objetivos de disponibilidad. La cloud ofrece bloques para resolverlo; no decide por el equipo cuál es el nivel de riesgo aceptable.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>IAM y mínimo privilegio son parte del diseño</h2>
           <p>Identity and Access Management convierte accesos en políticas explícitas: quién puede hacer qué sobre qué recurso y en qué condiciones. El principio de mínimo privilegio reduce el impacto de una credencial expuesta, un error de configuración o una acción involuntaria.</p><p>En la práctica, esto conecta con decisiones que ya aplico en productos multi-tenant y plataformas de pago: no confiar en permisos implícitos, separar responsabilidades y dejar trazabilidad. Una cuenta root, credenciales estáticas en código o permisos amplios son deudas de seguridad, aunque el sistema todavía sea pequeño.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>FinOps empieza en la arquitectura</h2>
           <p>El modelo de pago por uso es una ventaja cuando se entiende qué genera consumo y qué se puede apagar, reservar, automatizar o medir. El costo cloud no es solo una factura de infraestructura: refleja decisiones sobre cómputo, almacenamiento, transferencia, retención, disponibilidad y observabilidad.</p><p>Por eso, el costo debe entrar temprano en el diseño. Etiquetar recursos, establecer presupuestos y alertas, elegir servicios administrados cuando reducen operación y revisar recursos sin uso son prácticas que permiten que ingeniería y negocio hablen con los mismos datos.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -130,6 +156,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">AWS opera la infraestructura física y los servicios base. El equipo cliente define identidad, acceso, configuración, datos, aplicaciones y controles operativos según el servicio utilizado.</p>
     </figure>
       <p class="article__takeaway">Principio de cloud: la infraestructura bajo demanda acelera la entrega, pero el valor aparece cuando seguridad, disponibilidad y costo se diseñan como responsabilidades explícitas del producto.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Continuemos la conversación</p>
       <h2>¿Estás diseñando una arquitectura parecida? Podemos contrastar decisiones y trade-offs.</h2>
@@ -142,7 +169,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+      <li><a href="/blog/aws-cloud-practitioner-field-notes/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</strong>
+        <small>Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</small>
+      </a></li><li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
         <span>Noticias de IA</span>
         <strong>El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA</strong>
         <small>Análisis de la nueva discusión sobre hardware para modelos de frontera y por qué la infraestructura se volvió parte central de la estrategia de IA.</small>
@@ -150,10 +181,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>Noticias de IA</span>
         <strong>Puffin-World y la nueva oleada de modelos multimodales: menos hype, más arquitectura real</strong>
         <small>Un vistazo a la nueva generación de modelos multimodales y a lo que realmente importa cuando se evalúan repositorios open y arquitectura de producto.</small>
-      </a></li><li><a href="/blog/multi-tenancy-rls-frontera-datos/" class="js-track-related-article">
-        <span>Arquitectura y seguridad</span>
-        <strong>Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE</strong>
-        <small>Cómo combinar identidad, RBAC y Row Level Security para proteger los datos de cada organización por diseño.</small>
       </a></li>
     </ul>
   </section>

@@ -78,17 +78,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </aside>
     <div class="article__content">
       
+      
         <section>
+          
           <h2>El riesgo de delegar aislamiento en la aplicación</h2>
           <p>Una automotora guarda datos que importan: el costo real de una unidad, sus documentos, la reserva de un cliente y el margen de una venta. En un producto compartido por varias organizaciones, esos datos deben estar separados siempre, incluso cuando el equipo suma un reporte, una consulta administrativa o una relación nueva.</p><p>Confiar esa separación a que cada endpoint recuerde agregar organization_id parece razonable hasta que deja de serlo. No hace falta una mala intención; alcanza con una consulta escrita a las apuradas. El defecto no es humano: es arquitectónico, porque permite que un olvido tenga consecuencias demasiado grandes.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Row Level Security como control de datos</h2>
           <p>Por eso Patio usa Row Level Security de PostgreSQL. Las políticas de la base expresan qué filas puede leer o modificar una organización, mientras la aplicación conserva la responsabilidad de autenticar personas y administrar sus roles. Una capa no reemplaza a la otra: se acompañan.</p><p>El RBAC responde qué puede hacer alguien dentro de su automotora. RLS responde una pregunta anterior: si esa fila siquiera pertenece a su automotora. Es defensa en profundidad aplicada a un riesgo cotidiano.</p>
+          
+          
+          
+          
         </section>
         <section>
+          
           <h2>Contexto de organización y mínimo privilegio</h2>
           <p>La decisión importante no es solo activar una política; es evitar que el tenant viaje como un parámetro opcional por toda la aplicación. El contexto se deriva de la identidad autenticada y se establece para la transacción antes de tocar los datos. Así, una consulta que olvidó el filtro sigue encontrando una barrera.</p><p>Las excepciones de soporte existen, pero deben ser explícitas, auditadas y mínimas. Una excepción invisible no es flexibilidad: es una puerta que nadie está mirando.</p>
+          
+          
+          
+          
         </section>
       
     <figure class="architecture" aria-labelledby="architecture-title architecture-caption">
@@ -121,6 +137,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">La identidad autenticada resuelve la organización y el rol. La aplicación aplica permisos de negocio y la base de datos restringe las filas disponibles mediante Row Level Security.</p>
     </figure>
       <p class="article__takeaway">Principio de arquitectura: el aislamiento multi-tenant debe ser verificable en cada capa y, especialmente, seguir activo cuando el código de aplicación comete un error.</p>
+      
       <aside class="article__conversation">
       <p class="article__conversation-label">Continuemos la conversación</p>
       <h2>¿Estás diseñando una arquitectura parecida? Podemos contrastar decisiones y trade-offs.</h2>
@@ -133,7 +150,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+      <li><a href="/blog/aws-cloud-practitioner-field-notes/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</strong>
+        <small>Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</small>
+      </a></li><li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
         <span>Noticias de IA</span>
         <strong>El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA</strong>
         <small>Análisis de la nueva discusión sobre hardware para modelos de frontera y por qué la infraestructura se volvió parte central de la estrategia de IA.</small>
@@ -141,10 +162,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>Noticias de IA</span>
         <strong>Puffin-World y la nueva oleada de modelos multimodales: menos hype, más arquitectura real</strong>
         <small>Un vistazo a la nueva generación de modelos multimodales y a lo que realmente importa cuando se evalúan repositorios open y arquitectura de producto.</small>
-      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-related-article">
-        <span>Cloud y arquitectura</span>
-        <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
-        <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
       </a></li>
     </ul>
   </section>
