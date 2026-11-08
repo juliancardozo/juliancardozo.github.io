@@ -34,6 +34,7 @@ Archivo a importar: `gtm-conversion-events.json`.
 | `pillar_hub_click` | Click hacia una página pilar temática |
 | `newsletter_interest_click` | Click en CTA de interés por la newsletter |
 | `newsletter_issue_click` | Click hacia una edición pública de la newsletter |
+| `cv_download` | Click en un botón "Descargar CV" (cualquier enlace a `/assets/cv/`) |
 
 Además, el formulario de newsletter empuja estos eventos a `dataLayer` desde el frontend:
 
@@ -46,7 +47,7 @@ Además, el formulario de newsletter empuja estos eventos a `dataLayer` desde el
 1. Usar **Preview** en GTM sobre el sitio publicado.
 2. Confirmar que cada click dispara únicamente el evento esperado.
 3. Comprobar los eventos en **GA4 DebugView**.
-4. Marcar como conversiones en GA4 solamente los eventos que representen una oportunidad comercial real; normalmente `contact_email_click` y, según la estrategia, `contact_linkedin_click`.
+4. Marcar como conversiones en GA4 solamente los eventos que representen una oportunidad comercial real; normalmente `contact_email_click`, `cv_download` y, según la estrategia, `contact_linkedin_click`.
 5. Revisar consentimiento, política de privacidad y configuración regional antes de publicar etiquetas de analítica.
 
 No agregues el snippet `gtag.js` directamente al sitio: el contenedor GTM ya se carga globalmente y esta plantilla configura GA4 desde GTM. Usar ambos mecanismos puede duplicar el evento automático `page_view`.

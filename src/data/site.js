@@ -18,6 +18,7 @@ export const site = {
     github: 'https://github.com/juliancardozo',
     linkedin: 'https://www.linkedin.com/in/juliancardozoviggiano/',
     email: 'julian.cardozo.viggiano@gmail.com',
+    cv: '/assets/cv/CV_Julian_Cardozo_Engineering_Manager.pdf',
   },
 };
 
@@ -68,6 +69,7 @@ export const content = {
       note: 'Abierto a mi próxima oportunidad como Engineering Manager.',
       ctas: [
         { href: '#contacto', label: 'Conversemos', variant: 'primary' },
+        { kind: 'cv', label: 'Descargar CV', variant: 'ghost' },
         { kind: 'github', label: 'Ver mi GitHub', variant: 'ghost' },
         { kind: 'linkedin', label: 'LinkedIn', variant: 'ghost' },
       ],
@@ -216,6 +218,7 @@ export const content = {
           label: 'Próximo paso',
           title: 'Busco mi próximo rol como Engineering Manager',
           body: 'Me interesan equipos donde tecnología, producto y negocio estén alineados, en especial en fintech, pagos, plataformas y SaaS. A mediano plazo quiero ampliar el alcance hacia Head of Engineering.',
+          cta: 'Descargar CV (PDF)',
         },
       },
       origen: {
@@ -398,6 +401,7 @@ export const content = {
         githubLabel: 'GitHub',
         linkedinLabel: 'LinkedIn',
         emailLabel: 'Escribime',
+        cvLabel: 'Descargar CV',
         newsletterLabel: 'Newsletter',
         privacyLabel: 'Privacidad',
       },

@@ -893,11 +893,12 @@ code {
 
 .principles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: clamp(1.5rem, 3vw, 2.5rem);
+  /* Siempre 2 × 2, también en celular. */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 4vw, 3.5rem);
   counter-reset: principle;
 }
-.principles__item { counter-increment: principle; }
+.principles__item { counter-increment: principle; min-width: 0; overflow-wrap: break-word; }
 .principles__title {
   font-size: 1.1rem;
   margin-bottom: 0.6rem;
@@ -914,6 +915,10 @@ code {
   margin-bottom: 0.5rem;
 }
 .principles__body { color: var(--muted); font-size: 0.95rem; }
+@media (max-width: 520px) {
+  .principles__title { font-size: 1rem; }
+  .principles__body { font-size: 0.88rem; }
+}
 
 /* ── Contacto ─────────────────────────────────────────────────────────────── */
 
@@ -959,6 +964,7 @@ code {
 .about__future-label { margin-bottom: 0.65rem; }
 .about__future h3 { font-size: clamp(1.2rem, 2.5vw, 1.5rem); margin-bottom: 0.75rem; }
 .about__future p { color: var(--ink-soft); max-width: 82ch; }
+.about__future-cta { margin-top: 1.25rem; }
 
 @media (max-width: 760px) {
   .about__path { grid-template-columns: 1fr; }

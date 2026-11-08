@@ -25,8 +25,15 @@ const featuredCard = (project, t, index, wide = false) => `
   </div>
 </article>`;
 
-/** Botón del hero: ancla interna o perfil externo (`kind: 'github' | 'linkedin'`). */
+/** Descarga del CV: mismo archivo y nombre sugerido en todos los botones. */
+const cvButton = (label, variant = 'ghost', extraClass = '') =>
+  site.links.cv
+    ? `<a class="btn btn--${esc(variant)}${extraClass ? ` ${extraClass}` : ''}" href="${esc(site.links.cv)}" download="CV_Julian_Cardozo_Engineering_Manager.pdf" type="application/pdf">${esc(label)}<span aria-hidden="true">↓</span></a>`
+    : '';
+
+/** Botón del hero: ancla interna, descarga del CV o perfil externo (`kind: 'cv' | 'github' | 'linkedin'`). */
 const heroCta = (cta) => {
+  if (cta.kind === 'cv') return cvButton(cta.label, cta.variant);
   const url = cta.kind ? site.links[cta.kind] : cta.href;
   if (!url) return '';
   const icon = cta.kind === 'github' ? githubIcon : '';
@@ -131,6 +138,7 @@ export const home = ({ t, featured, pillars }) => {
       <p class="about__future-label">${esc(s.acerca.future.label)}</p>
       <h3>${esc(s.acerca.future.title)}</h3>
       <p>${esc(s.acerca.future.body)}</p>
+      ${s.acerca.future.cta ? cvButton(s.acerca.future.cta, 'primary', 'about__future-cta') : ''}
     </aside>
   </div>
 </section>
@@ -247,6 +255,7 @@ export const home = ({ t, featured, pillars }) => {
           ? `<a class="btn btn--primary" href="mailto:${esc(site.links.email)}?subject=${encodeURIComponent(s.contacto.emailSubject)}">${esc(s.contacto.emailLabel)}</a>`
           : ''
       }
+      ${s.contacto.cvLabel ? cvButton(s.contacto.cvLabel) : ''}
       <a class="btn btn--ghost" href="${esc(site.links.github)}" ${external}>${githubIcon}${esc(s.contacto.githubLabel)}</a>
       ${
         site.links.linkedin

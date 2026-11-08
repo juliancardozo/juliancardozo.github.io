@@ -48,6 +48,7 @@ export const en = {
     note: 'Open to my next opportunity as an Engineering Manager.',
     ctas: [
       { href: '#contacto', label: "Let's talk", variant: 'primary' },
+      { kind: 'cv', label: 'Download CV (Spanish)', variant: 'ghost' },
       { kind: 'github', label: 'See my GitHub', variant: 'ghost' },
       { kind: 'linkedin', label: 'LinkedIn', variant: 'ghost' },
     ],
@@ -196,6 +197,7 @@ export const en = {
         label: 'Next step',
         title: 'Looking for my next role as an Engineering Manager',
         body: "I'm interested in teams where technology, product and business are aligned, especially in fintech, payments, platforms and SaaS. In the medium term I want to widen my scope towards Head of Engineering.",
+        cta: 'Download CV (PDF, Spanish)',
       },
     },
     origen: {
@@ -377,6 +379,7 @@ export const en = {
       githubLabel: 'GitHub',
       linkedinLabel: 'LinkedIn',
       emailLabel: 'Email me',
+      cvLabel: 'Download CV (Spanish)',
       newsletterLabel: 'Newsletter',
       privacyLabel: 'Privacy',
     },
