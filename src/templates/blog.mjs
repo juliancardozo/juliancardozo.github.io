@@ -122,6 +122,7 @@ const downloadBox = (download, t, articles = []) => {
         <a class="btn btn--ghost" href="${href(t)}">${esc(a.aboutAuthor)}</a>
       </div>
       ${companion ? `<p class="notes-download__companion"><a href="${href(t, 'blog', companion.slug)}" class="js-track-related-article">${esc(download.companionLabel || companion.title)} <span aria-hidden="true">→</span></a></p>` : ''}
+      ${download.credentialLabel && site.links.awsCert ? `<p class="notes-download__companion"><a href="${esc(site.links.awsCert)}" type="application/pdf" target="_blank" rel="noopener noreferrer" class="js-track-cert">${esc(download.credentialLabel)} <span aria-hidden="true">↗</span></a></p>` : ''}
       ${download.disclaimer ? `<p class="notes-download__disclaimer">${esc(download.disclaimer)}</p>` : ''}
     </aside>`;
 };
@@ -162,7 +163,7 @@ export const articlePage = ({ t, article, relatedProject, relatedArticles = [], 
         </section>`).join('')}
       ${architectureDiagram(article.architecture, t)}
       <p class="article__takeaway">${esc(article.takeaway)}</p>
-      ${article.download ? downloadBox({ ...article.download, companion: null, disclaimer: null, idSuffix: '-end' }, t) : ''}
+      ${article.download ? downloadBox({ ...article.download, companion: null, disclaimer: null, credentialLabel: null, idSuffix: '-end' }, t) : ''}
       ${conversationCta(article, t)}
     </div>
   </div>

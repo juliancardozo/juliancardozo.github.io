@@ -256,6 +256,7 @@ export const home = ({ t, featured, pillars }) => {
           : ''
       }
       ${s.contacto.cvLabel ? cvButton(s.contacto.cvLabel) : ''}
+      ${site.links.awsCert && s.contacto.awsCertLabel ? `<a class="btn btn--ghost js-track-cert" href="${esc(site.links.awsCert)}" type="application/pdf" ${external}>${esc(s.contacto.awsCertLabel)}</a>` : ''}
       <a class="btn btn--ghost" href="${esc(site.links.github)}" ${external}>${githubIcon}${esc(s.contacto.githubLabel)}</a>
       ${
         site.links.linkedin

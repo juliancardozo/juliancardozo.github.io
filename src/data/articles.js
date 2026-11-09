@@ -1000,6 +1000,7 @@ const articleEntries = [
       disclaimer: 'No es material oficial de AWS. Es un resumen de estudio propio, contrastado con la documentación pública de AWS, y no reproduce preguntas de examen reales.',
       companion: 'aws-cloud-practitioner-conceptos-fundamentales',
       companionLabel: 'Leé también qué me está dejando estudiar AWS como Engineering Manager',
+      credentialLabel: 'Ya aprobé el examen: ver mi certificado AWS Certified Cloud Practitioner',
     },
     sections: [
       {

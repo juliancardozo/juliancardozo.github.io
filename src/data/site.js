@@ -19,6 +19,8 @@ export const site = {
     linkedin: 'https://www.linkedin.com/in/juliancardozoviggiano/',
     email: 'julian.cardozo.viggiano@gmail.com',
     cv: '/assets/cv/CV_Julian_Cardozo_Engineering_Manager.pdf',
+    // Certificado emitido el 2026-11-09, vence el 2029-11-09. Validación: aws.amazon.com/verification
+    awsCert: '/assets/certs/AWS-Certified-Cloud-Practitioner.pdf',
   },
 };
 
@@ -402,6 +404,7 @@ export const content = {
         linkedinLabel: 'LinkedIn',
         emailLabel: 'Escribime',
         cvLabel: 'Descargar CV',
+        awsCertLabel: 'Certificación AWS Cloud Practitioner',
         newsletterLabel: 'Newsletter',
         privacyLabel: 'Privacidad',
       },

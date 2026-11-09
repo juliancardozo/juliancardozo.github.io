@@ -380,6 +380,7 @@ export const en = {
       linkedinLabel: 'LinkedIn',
       emailLabel: 'Email me',
       cvLabel: 'Download CV (Spanish)',
+      awsCertLabel: 'AWS Cloud Practitioner certification',
       newsletterLabel: 'Newsletter',
       privacyLabel: 'Privacy',
     },
