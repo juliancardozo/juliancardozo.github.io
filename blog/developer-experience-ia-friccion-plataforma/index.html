@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Developer Experience con IA: más velocidad no es menos fricción | Julián Cardozo</title>
+<meta name="description" content="El 87% de los developers entrega más rápido con IA, pero solo el 28% siente menos fricción. Qué dice el dato y qué puede hacer Platform Engineering." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/developer-experience-ia-friccion-plataforma/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/developer-experience-ia-friccion-plataforma/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/developer-experience-ia-friccion-plataforma/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/developer-experience-ia-friccion-plataforma/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Developer Experience con IA: más velocidad no es menos fricción | Julián Cardozo" />
+<meta property="og:description" content="El 87% de los developers entrega más rápido con IA, pero solo el 28% siente menos fricción. Qué dice el dato y qué puede hacer Platform Engineering." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/developer-experience-ia-friccion-plataforma/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Developer Experience con IA: más velocidad no es menos fricción | Julián Cardozo" />
+<meta name="twitter:description" content="El 87% de los developers entrega más rápido con IA, pero solo el 28% siente menos fricción. Qué dice el dato y qué puede hacer Platform Engineering." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering","description":"El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.","datePublished":"2026-11-10","dateModified":"2026-11-10","inLanguage":"es","url":"https://juliancardozo.github.io/blog/developer-experience-ia-friccion-plataforma/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Liderazgo y plataforma"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#fortalezas">Fortalezas</a></li><li><a href="/#recorrido">Trayectoria</a></li><li><a href="/#productos">Proyectos</a></li><li><a href="/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/en/blog/developer-experience-ia-friccion-plataforma/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><span>Liderazgo y plataforma</span><time datetime="2026-11-10">10 de noviembre de 2026</time><span>11 min de lectura</span></p>
+    <h1 class="article__title">Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</h1>
+    <p class="article__lead">El State of Developer Experience 2026 de Atlassian dejó un dato que vale la pena mirar despacio: el 87% de los desarrolladores dice que la IA le permite entregar trabajo más rápido, pero solo el 28% percibe una reducción notable de la fricción en su día a día. Escribimos código más rápido. Eso no significa que estemos desarrollando mejor software. Para quienes lideramos equipos de ingeniería, esa brecha es el problema interesante: la IA aceleró la parte del trabajo que casi nunca era el cuello de botella.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pilar</p><a href="/temas/liderazgo-tecnico/" class="js-track-pillar-hub">Liderazgo técnico y equipos <span aria-hidden="true">→</span></a></div>
+      <div><p>Contexto</p>
+      <span>Análisis · State of Developer Experience 2026 (Atlassian) y novedades de noviembre de 2026</span>
+      <a href="https://www.atlassian.com/blog/development/developer-experience-report-2026" target="_blank" rel="noopener noreferrer">Atlassian: State of Developer Experience 2026 <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+        <section>
+          
+          <h2>Qué dice el reporte, y qué no</h2>
+          <p>El reporte se publicó el 20 de octubre de 2026 y se basa en una encuesta a 1.155 desarrolladores y 405 líderes de ingeniería, según la cobertura de InfoQ. Los números que más se repiten:</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>87%</strong> dice que la IA lo ayuda a entregar más rápido; <strong>28%</strong> reporta notablemente menos fricción que antes de la IA. Atlassian lo resume así: el <strong>72%</strong> vive la misma fricción o más.</li><li>La proporción que dice ahorrar <strong>10 horas o más por semana</strong> con IA cayó del <strong>68%</strong> en 2025 a alrededor de un cuarto en 2026 (Atlassian publica 25%; InfoQ, 26%).</li><li><strong>65%</strong> pasa tiempo corrigiendo lo que produce la IA y <strong>49%</strong> dedica cuatro horas o más por semana a gestionar herramientas de IA.</li><li>Las mayores fuentes de fricción no son de código: <strong>encontrar información (51%)</strong>, <strong>reuniones (50%)</strong>, <strong>cambio de contexto entre herramientas (45%)</strong> y <strong>deuda técnica (44%)</strong>.</li><li>Solo <strong>17%</strong> de los desarrolladores y <strong>23%</strong> de los líderes dice que su organización tiene una estrategia de IA clara e implementada. Entre quienes sí la tienen, el <strong>41%</strong> reporta menos fricción, contra el <strong>22%</strong> donde la estrategia es inconsistente.</li></ul><p class="article__note"><span>Con qué cuidado leerlo</span>Es investigación de un proveedor, con datos autodeclarados y una muestra que cambió respecto de 2025: InfoQ lo señala explícitamente. Sirve como señal de dirección, no como benchmark para comparar tu equipo.</p><p>Aun con esa cautela, el patrón es consistente: la IA comprime el tiempo de escribir código, y la fricción se mueve hacia lo que rodea al código. Encontrar quién sabe algo, esperar una aprobación, entender una política de seguridad, revisar una salida generada. Ninguna de esas cosas se resuelve con un modelo más rápido.</p>
+          
+        </section>
+        <section>
+          
+          <h2>La fricción cambió de lugar</h2>
+          <p>Un desarrollador no debería necesitar tres reuniones, dos tickets y conocer a la persona indicada para desplegar un servicio. Tampoco debería reconstruir un pipeline desde cero, configurar la observabilidad a mano o descubrir las políticas de seguridad recién cuando intenta llegar a producción.</p><p>Cuando la escritura de código se acelera, esas esperas pesan más, no menos. Si antes un cambio tardaba dos días en escribirse y uno en aprobarse, la espera era un tercio del ciclo. Si ahora se escribe en dos horas, la misma aprobación es casi todo el ciclo. Es la teoría de restricciones aplicada a la ingeniería: optimizar fuera del cuello de botella no mejora el sistema.</p><p>El Technology Radar Vol. 35 de Thoughtworks, publicado en noviembre de 2026, lo dice desde otro ángulo: pone en &quot;Caution&quot; usar el throughput de código como medida de productividad, y advierte que, con más agentes trabajando en paralelo, la capacidad de revisión se vuelve el cuello de botella y la supervisión puede degradarse en &quot;human-in-the-loop theater&quot;.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Mejorar DevEx no es sumar herramientas: es eliminar fricción</h2>
+          <p>Ahí es donde Platform Engineering genera impacto. Una Internal Developer Platform (IDP) bien diseñada transforma dependencias entre personas en capacidades reutilizables, seguras y disponibles por autoservicio. Los Golden Paths hacen que el camino recomendado sea también el más sencillo. DevSecOps integra los controles desde el diseño, en lugar de descubrirlos en la última milla. Y la observabilidad permite que los equipos sigan siendo autónomos después del despliegue.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>De la fricción reportada a la capacidad de plataforma (propuesta, no receta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="De la fricción reportada a la capacidad de plataforma (propuesta, no receta)"><table>
+              <thead><tr><th scope="col">Fricción</th><th scope="col">Cómo se ve en el día a día</th><th scope="col">Capacidad de plataforma</th><th scope="col">Señal de que mejora</th></tr></thead>
+              <tbody><tr><th scope="row">Encontrar información</th><td>&quot;¿Quién es dueño de este servicio?&quot;, documentación desactualizada</td><td>Catálogo de servicios con dueños, docs junto al código, scorecards</td><td>Menos preguntas repetidas en canales; tiempo de onboarding</td></tr><tr><th scope="row">Esperas y aprobaciones</th><td>Tickets para crear un ambiente, una base o un permiso</td><td>Autoservicio con políticas como código y aprobación solo donde hay riesgo</td><td>Lead time de solicitudes internas</td></tr><tr><th scope="row">Cambio de contexto</th><td>Cinco consolas para desplegar y diagnosticar</td><td>Golden Paths con pipeline, observabilidad y alertas incluidas</td><td>Tiempo hasta el primer deploy de un servicio nuevo</td></tr><tr><th scope="row">Seguridad tardía</th><td>Hallazgos en la revisión final, retrabajo</td><td>Controles DevSecOps en el template y en el pipeline</td><td>Hallazgos encontrados antes del merge vs. después</td></tr><tr><th scope="row">Corregir salida de IA</th><td>Revisiones largas de cambios generados sin contexto</td><td>Contexto del repositorio y reglas del equipo disponibles para agentes; checks automáticos</td><td>Tasa de cambios generados que pasan revisión sin retrabajo</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>La plataforma es un producto, no un proyecto de infraestructura</h2>
+          <p>Lo más importante no es la herramienta, es el modelo de gestión. Una plataforma tratada como proyecto se entrega y se mantiene. Una plataforma tratada como producto tiene usuarios, discovery, un roadmap priorizado por valor y métricas de resultado.</p><p>Eso implica escuchar a los desarrolladores, entender dónde pierden tiempo, priorizar lo que genera valor y medir resultados: no solo cuántos servicios se desplegaron, sino cuánto mejoró el onboarding, cuánto disminuyó el tiempo de espera y cuánta autonomía ganaron los equipos.</p><p>El reporte deja una pista sobre qué no medir. Según el análisis de Network Perspective sobre los datos de Atlassian, el 60% de los desarrolladores dice que el uso de IA se trata como señal de productividad, y el 81% de los líderes reconoce que medir el uso puede crear incentivos equivocados. Medir cuánto se usa una herramienta es medir actividad, no resultado.</p>
+          
+          
+          
+          <h3>Métricas que conectan plataforma y negocio</h3><ul class="article__list"><li><strong>Onboarding</strong>: tiempo hasta el primer deploy o hasta el décimo pull request de una persona nueva. Atlassian publicó, a partir de datos de su plataforma DX, que la mediana hasta el décimo PR bajó a 30 días en el segundo trimestre de 2026.</li><li><strong>Tiempo de espera</strong>: cuánto tarda una solicitud interna (ambiente, permiso, base) desde que se pide hasta que está disponible.</li><li><strong>Autoservicio</strong>: proporción de esas solicitudes que se resuelven sin intervención humana.</li><li><strong>Entrega</strong>: las métricas DORA (frecuencia de despliegue, lead time, tasa de fallas, tiempo de recuperación) como contexto, no como objetivo individual.</li><li><strong>Percepción</strong>: una encuesta breve y periódica sobre fricción. Si la plataforma es un producto, sus usuarios tienen que poder decir si les sirve.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>El segundo usuario de la plataforma: los agentes</h2>
+          <p>La IA agrega una dimensión nueva: las plataformas ahora también tienen que ofrecer contexto, políticas y mecanismos de control a agentes que participan en el ciclo de desarrollo. Las novedades de noviembre de 2026 muestran que la industria se está moviendo en esa dirección.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Red Hat Developer Hub 2.1</strong> (anunciado en KubeCon NA, cubierto por SD Times el 10 de noviembre): expone contexto y acciones de la organización por MCP, por ejemplo disparar un Golden Path o revisar un problema de despliegue en Kubernetes, y suma un catálogo de modelos, agentes y servidores MCP. El argumento del anuncio: un agente sin contexto organizacional duplica servicios existentes y elige tecnologías no aprobadas.</li><li><strong>&quot;Platform Engineering after the AI Hype: Why IDPs Must Become Intent-Driven&quot;</strong> (Daniel Bryant, KubeCon NA, 10 de noviembre): sostiene que &quot;agregar MCP&quot; no alcanza. Identifica tres modos de falla (demasiada superficie expuesta, agentes &quot;confidently wrong&quot; y nadie dueño del día 2) y propone APIs basadas en intención para consumidores humanos y agentes. Una de sus preguntas para equipos de plataforma: ¿podría un agente usar tu plataforma sin conocimiento institucional?</li><li><strong>Platform Engineering Day</strong> (9 de noviembre, co-located de KubeCon NA en Salt Lake City): incluyó entre sus ejes los patrones emergentes para integrar IA en los flujos de plataforma.</li><li><strong>Technology Radar Vol. 35</strong> (Thoughtworks, noviembre): &quot;harness engineering at scale&quot; como tema central. El entorno que rodea a un agente (contexto, memoria, feedback, guardrails) madura como disciplina y necesita dueño.</li></ul><p>Un artículo de DevOpsCon de octubre resume bien el riesgo: los Golden Paths diseñados para personas pueden volverse &quot;golden cages&quot; si se aplican sin cambios a agentes. Un agente no navega un portal; necesita acceso programático a capacidades, contexto confiable y controles que no dependan de que &quot;se porte bien&quot;: identidad no humana, permisos acotados, observabilidad y controles deterministas (CI, políticas, aprobaciones) entre una salida probabilística y una acción con consecuencias.</p><p>La buena noticia es que una plataforma pensada como producto ya tiene la mayoría de esas piezas: catálogo, políticas como código, templates y observabilidad. Lo que cambia es que pasa a tener dos tipos de usuario con necesidades distintas, y los dos merecen el mismo rigor.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Por dónde empezar</h2>
+          
+          
+          
+          
+          <ol class="article__list"><li><strong>Medir la fricción antes de comprar herramientas.</strong> Una encuesta corta y entrevistas a personas nuevas en el equipo muestran dónde se pierde el tiempo con más precisión que cualquier dashboard de uso de IA.</li><li><strong>Elegir un solo Golden Path de alto tráfico</strong>, típicamente &quot;crear un servicio y llevarlo a producción&quot;, y hacerlo completo: pipeline, observabilidad, seguridad y documentación incluidas.</li><li><strong>Hacer que el camino sea legible para agentes</strong>: el mismo template, el catálogo y las reglas del equipo accesibles de forma programática, con permisos acotados.</li><li><strong>Medir resultado, no actividad</strong>: tiempo de onboarding, tiempo de espera y proporción de autoservicio, revisados con los equipos que usan la plataforma.</li><li><strong>Escribir la estrategia de IA.</strong> El dato del reporte que más me interesa es la diferencia entre 41% y 22%: la claridad organizacional también es una capacidad de plataforma.</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Talento en el negocio, no en los obstáculos</h2>
+          <p>Para mí, una buena Developer Experience se resume en una idea: que los equipos puedan concentrar su talento en resolver problemas de negocio, en lugar de invertirlo en superar obstáculos internos. La IA hace más visible esa diferencia, porque acelera todo lo que ya estaba bien resuelto y deja expuesto todo lo que no.</p><p>Y una pregunta abierta: ¿dónde encuentran hoy la mayor fricción en sus equipos: onboarding, CI/CD, infraestructura, documentación o procesos?</p>
+          
+          
+          
+          <h3>Novedades de noviembre de 2026</h3><ul class="article__list"><li><a href="https://sdtimes.com/open-source/red-hat-advances-red-hat-developer-hub-as-an-agent-ready-enterprise-developer-portal/" target="_blank" rel="noopener noreferrer">Red Hat Advances Red Hat Developer Hub as an Agent-Ready Enterprise Developer Portal</a> — David Rubinstein, SD Times, 10 de noviembre de 2026.</li><li><a href="https://speakerdeck.com/danielbryantuk/kubecon-na-platform-engineering-after-the-ai-hype-why-idps-must-become-intent-driven-final-v1" target="_blank" rel="noopener noreferrer">Platform Engineering after the AI Hype: Why IDPs Must Become Intent-Driven</a> — Daniel Bryant, KubeCon + CloudNativeCon NA, 10 de noviembre de 2026 (slides).</li><li><a href="https://events.linuxfoundation.org/kubecon-cloudnativecon-north-america/co-located-events/platform-engineering-day/" target="_blank" rel="noopener noreferrer">Platform Engineering Day North America</a> — Linux Foundation / CNCF, 9 de noviembre de 2026, Salt Lake City.</li><li><a href="https://www.thoughtworks.com/radar" target="_blank" rel="noopener noreferrer">Technology Radar Vol. 35</a> — Thoughtworks, noviembre de 2026.</li></ul><h3>Referencias</h3><ul class="article__list"><li><a href="https://www.atlassian.com/blog/development/developer-experience-report-2026" target="_blank" rel="noopener noreferrer">AI is making developers faster. It’s also exposing what’s broken in software delivery</a> — Andrew Boyagi, Atlassian, 20 de octubre de 2026.</li><li><a href="https://www.infoq.com/news/2026/10/atlassian-devex-2026/" target="_blank" rel="noopener noreferrer">Developers Reporting Double-Digit Weekly Time Savings from AI Fell from 68% to 26%</a> — Steef-Jan Wiggers, InfoQ, 27 de octubre de 2026.</li><li><a href="https://www.networkperspective.io/post/ai-developer-productivity-atlassian-2026-devex-report" target="_blank" rel="noopener noreferrer">What Atlassian’s 2026 DevEx Report Confirms (and Misses) About AI and Developer Productivity</a> — Anita Zbieg, Network Perspective, 22 de octubre de 2026.</li><li><a href="https://devopscon.io/blog/internal-developer-platforms-ai-agents/" target="_blank" rel="noopener noreferrer">What Happens to an Internal Developer Platform When AI Agents Start Using It?</a> — Natalia Torres Behar, DevOpsCon, 22 de octubre de 2026.</li><li><a href="https://www.datadoghq.com/blog/golden-paths-for-ai-agents/" target="_blank" rel="noopener noreferrer">Golden Paths for AI agents: What changes when platform users aren’t human?</a> — Candace Shamieh, Shlomo Benyaminov y James Eastham, Datadog, 25 de agosto de 2026.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">Criterio práctico: si la IA acelera la escritura de código pero la fricción no baja, el cuello de botella está en otro lado. Medí dónde se pierde el tiempo, construí la plataforma como producto para personas y agentes, y evaluá resultados, no uso de herramientas.</p>
+      
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás liderando un equipo de ingeniería? Me interesa conversar sobre los desafíos que están atravesando.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Escribimos%20c%C3%B3digo%20m%C3%A1s%20r%C3%A1pido.%20%C2%BFDesarrollamos%20mejor%20software%3F%20DevEx%2C%20IA%20y%20Platform%20Engineering&amp;body=%C2%BFEst%C3%A1s%20liderando%20un%20equipo%20de%20ingenier%C3%ADa%3F%20Me%20interesa%20conversar%20sobre%20los%20desaf%C3%ADos%20que%20est%C3%A1n%20atravesando.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Escribimos%20c%C3%B3digo%20m%C3%A1s%20r%C3%A1pido.%20%C2%BFDesarrollamos%20mejor%20software%3F%20DevEx%2C%20IA%20y%20Platform%20Engineering%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fdeveloper-experience-ia-friccion-plataforma%2F">Escribirme sobre este tema</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>Noticias de IA</span>
+        <strong>El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA</strong>
+        <small>Análisis de la nueva discusión sobre hardware para modelos de frontera y por qué la infraestructura se volvió parte central de la estrategia de IA.</small>
+      </a></li><li><a href="/blog/puffin-world-modelos-multimodales-open-weight/" class="js-track-related-article">
+        <span>Noticias de IA</span>
+        <strong>Puffin-World y la nueva oleada de modelos multimodales: menos hype, más arquitectura real</strong>
+        <small>Un vistazo a la nueva generación de modelos multimodales y a lo que realmente importa cuando se evalúan repositorios open y arquitectura de producto.</small>
+      </a></li><li><a href="/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</strong>
+        <small>Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</small>
+      </a></li>
+    </ul>
+  </section>
+</article>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

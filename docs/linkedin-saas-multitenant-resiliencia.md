@@ -51,7 +51,7 @@ Notas de verificación:
 
 Un SaaS multitenant puede tener infraestructura replicada y aun así no recuperarse: alcanza con que el Identity Provider, un secreto o una dependencia de otro equipo quede fuera del plan. Este artículo trata aislamiento, Infrastructure as Code y recuperación ante desastres como un único problema de diseño. Compara los modelos pool, silo y bridge con casos documentados por AWS en 2026, propone separar la IaC en capas global, regional y de tenant con policy as code y detección de drift, y distingue alta disponibilidad, replicación y backup. Incluye una arquitectura de referencia cloud-agnostic con servicios posibles en AWS y OCI, los indicadores que conectan técnica y negocio, y una conclusión central: un RTO solo vale si un ejercicio lo confirmó.
 
-## 10. Publicación de LinkedIn (≈ 185 palabras)
+## 10. Publicación de LinkedIn (≈ 200 palabras)
 
 > Son las 03:17. Una región cloud deja de responder.
 >

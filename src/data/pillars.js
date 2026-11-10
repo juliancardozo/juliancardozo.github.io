@@ -40,6 +40,7 @@ export const pillars = [
       '¿Cómo conectar producto, delivery y criterio técnico sin microgestión?',
     ],
     articleSlugs: [
+      'developer-experience-ia-friccion-plataforma',
       'ia-especificacion-antes-codigo',
       'kiro-acp-interoperabilidad-agentes-ide',
       'aws-cloud-practitioner-conceptos-fundamentales',
@@ -64,6 +65,7 @@ export const pillars = [
       '¿Qué responsabilidades siguen siendo del equipo aunque la infraestructura esté en cloud?',
     ],
     articleSlugs: [
+      'developer-experience-ia-friccion-plataforma',
       'saas-multitenant-iac-resiliencia',
       'webhooks-pagos-maquinas-de-estado',
       'multi-tenancy-rls-frontera-datos',
