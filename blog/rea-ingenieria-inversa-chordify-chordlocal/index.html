@@ -87,11 +87,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
           
           
+          
         </section>
         <section>
           
           <h2>Primera iteración: la hipótesis</h2>
           <p>El pedido inicial fue &quot;analizar con REA la aplicación Chordify para tenerla local, con todos sus features, pero gratis&quot;. En esa primera sesión REA estaba instalado pero no conectado al agente, así que el punto de partida fue una matriz armada con la información pública: cada función, su plan, el equivalente libre y la dificultad real de construirla.</p><p>La hipótesis que salió de ahí: casi todas las funciones pagas son transformaciones simples sobre el resultado del análisis. Transponer es sumar semitonos a la raíz de cada acorde, <code>(root + n) % 12</code>. Lo único difícil de verdad es detectar bien los acordes y el compás a partir del audio. ChordLocal se construyó sobre esa idea.</p>
+          
           
           
           
@@ -105,11 +107,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
           
           
+          
         </section>
         <section>
           
           <h2>Qué encontró</h2>
           <p>Stack: React empaquetado con webpack, en ocho scripts que suman 1,9 MB en la página de una canción. Los datos de la canción vienen dentro del HTML y no por una llamada aparte. Los diagramas de acordes salen de una API que devuelve SVG por instrumento y por acorde, con nombres como <code>D:maj</code> o <code>B:min</code>: la notación de Harte, el estándar de la investigación en reconocimiento de acordes.</p><p>La transposición es un entero en el estado del cliente. Cada movimiento suma o resta semitonos, el reset lo vuelve a 0 y el objeto de la canción se construye con ese valor antes de dibujar los acordes en el navegador. El cambio de tempo ajusta la velocidad de reproducción del player. Cuando cambian la cejilla o la transposición, un evento hace que el player vuelva a dibujar el acorde actual. El bundle también trae tablas para escribir cada acorde con sostenidos o bemoles según la tonalidad mayor o menor.</p><p>El mismo código lista las funciones que el producto ofrece como pagas: cejilla, transposición, loop, tempo, volumen, cuenta regresiva, setlists, subir audio, MIDI, impresión y letras con IA. Ninguna de las que se pudieron rastrear necesita volver al servidor para recalcular el análisis.</p>
+          
           
           
           
@@ -123,11 +127,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
           
           
+          
         </section>
         <section>
           
           <h2>Límites y potencial</h2>
           <p>Entender cómo funciona un producto no habilita a copiarlo. La base de acordes de Chordify es su producto: ChordLocal no la usa, no la scrapea y genera sus propios análisis. El código observado sirvió para validar decisiones, no para reutilizarlo. Tampoco se publican detalles sobre cómo se controla el acceso a las funciones pagas: no aportan nada a la arquitectura y solo servirían para evadirlo.</p><p>Con esos límites, el potencial es grande. El mismo método sirve para auditar una herramienta interna sin documentación, entender una integración legada antes de migrarla, evaluar a un competidor con evidencia en lugar de suposiciones o mantener compatibilidad con un formato cerrado. Lo que cambia con un agente y REA es la velocidad: pasar de &quot;creo que funciona así&quot; a &quot;esta es la evidencia&quot; toma minutos.</p>
+          
           
           
           

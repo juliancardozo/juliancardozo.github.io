@@ -127,6 +127,59 @@ const downloadBox = (download, t, articles = []) => {
     </aside>`;
 };
 
+
+/**
+ * Bloques de contenido largo, en orden: subtítulos, listas, tablas, código y diagramas Mermaid.
+ *   { type: 'h3' | 'p' | 'ul' | 'ol' | 'table' | 'code' | 'mermaid' | 'note', ... }
+ */
+const contentBlocks = (blocks = []) =>
+  blocks
+    .map((block) => {
+      switch (block.type) {
+        case 'h3':
+          return `<h3>${esc(block.text)}</h3>`;
+        case 'p':
+          return `<p>${inlineCode(block.text)}</p>`;
+        case 'note':
+          return `<p class="article__note">${block.label ? `<span>${esc(block.label)}</span>` : ''}${inlineCode(block.text)}</p>`;
+        case 'ul':
+        case 'ol':
+          return `<${block.type} class="article__list">${block.items.map((item) => `<li>${inlineCode(item)}</li>`).join('')}</${block.type}>`;
+        case 'table':
+          return `<figure class="article__table">
+            ${block.caption ? `<figcaption>${esc(block.caption)}</figcaption>` : ''}
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="${esc(block.caption || 'Tabla')}"><table>
+              <thead><tr>${block.head.map((cell) => `<th scope="col">${inlineCode(cell)}</th>`).join('')}</tr></thead>
+              <tbody>${block.rows.map((row) => `<tr>${row.map((cell, index) => (index ? `<td>${inlineCode(cell)}</td>` : `<th scope="row">${inlineCode(cell)}</th>`)).join('')}</tr>`).join('')}</tbody>
+            </table></div>
+          </figure>`;
+        case 'code':
+          return `<figure class="article__code">
+            ${block.caption ? `<figcaption>${esc(block.caption)}</figcaption>` : ''}
+            <pre tabindex="0"><code${block.lang ? ` class="language-${esc(block.lang)}"` : ''}>${esc(block.text)}</code></pre>
+          </figure>`;
+        case 'mermaid':
+          return `<figure class="article__mermaid">
+            ${block.caption ? `<figcaption>${esc(block.caption)}</figcaption>` : ''}
+            <pre class="mermaid" aria-label="${esc(block.description || block.caption || '')}">${esc(block.text)}</pre>
+            ${block.description ? `<p class="architecture__description">${esc(block.description)}</p>` : ''}
+          </figure>`;
+        default:
+          return '';
+      }
+    })
+    .join('');
+
+/** Mermaid se carga solo en artículos que tienen diagramas, con el tema según el modo de color. */
+const mermaidScript = (article) =>
+  article.sections.some((section) => (section.blocks || []).some((block) => block.type === 'mermaid'))
+    ? `<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>`
+    : '';
+
 export const articlePage = ({ t, article, relatedProject, relatedArticles = [], pillar = null, articles = [] }) => {
   const a = t.article;
   return `
@@ -159,6 +212,7 @@ export const articlePage = ({ t, article, relatedProject, relatedArticles = [], 
           ${fieldRows(section.fields)}
           ${architectureDiagram(section.architecture, t)}
           ${fieldRows(section.fieldsAfter)}
+          ${contentBlocks(section.blocks)}
           ${section.check ? `<p class="notes-concept__check"><span>${esc(a.checkLabel)}</span>${esc(section.check)}</p>` : ''}
         </section>`).join('')}
       ${architectureDiagram(article.architecture, t)}
@@ -182,5 +236,5 @@ export const articlePage = ({ t, article, relatedProject, relatedArticles = [], 
   </section>`
       : ''
   }
-</article>`;
+</article>${mermaidScript(article)}`;
 };

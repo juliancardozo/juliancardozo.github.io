@@ -87,11 +87,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
           
           
+          
         </section>
         <section>
           
           <h2>First iteration: the hypothesis</h2>
           <p>The initial request was &quot;analyze the Chordify app with REA so we can have it locally, with all its features, but free&quot;. In that first session REA was installed but not connected to the agent, so the starting point was a matrix built from public information: each feature, its plan, the free equivalent and the real difficulty of building it.</p><p>The hypothesis that came out of it: almost all paid features are simple transformations over the analysis result. Transposing is adding semitones to the root of each chord, <code>(root + n) % 12</code>. The only truly hard thing is detecting chords and meter correctly from the audio. ChordLocal was built on that idea.</p>
+          
           
           
           
@@ -105,11 +107,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
           
           
+          
         </section>
         <section>
           
           <h2>What it found</h2>
           <p>Stack: React bundled with webpack, in eight scripts totaling 1.9 MB on a song page. The song data comes inside the HTML, not through a separate call. The chord diagrams come from an API that returns SVG per instrument and per chord, with names like <code>D:maj</code> or <code>B:min</code>: Harte notation, the standard in chord recognition research.</p><p>Transposition is an integer in the client state. Each step adds or subtracts semitones, reset sets it back to 0, and the song object is built with that value before the chords are drawn in the browser. Changing the tempo adjusts the player's playback rate. When the capo or the transposition changes, an event makes the player redraw the current chord. The bundle also ships tables to spell each chord with sharps or flats depending on the major or minor key.</p><p>The same code lists the features the product offers as paid: capo, transposition, loop, tempo, volume, countdown, setlists, audio upload, MIDI, printing and AI lyrics. None of the ones that could be traced needs to go back to the server to recompute the analysis.</p>
+          
           
           
           
@@ -123,11 +127,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           
           
           
+          
         </section>
         <section>
           
           <h2>Limits and potential</h2>
           <p>Understanding how a product works doesn't entitle you to copy it. Chordify's chord database is its product: ChordLocal doesn't use it, doesn't scrape it and generates its own analyses. The observed code served to validate decisions, not to be reused. Nor do we publish details about how access to the paid features is controlled: they add nothing to the architecture and would only serve to bypass it.</p><p>Within those limits, the potential is big. The same method works for auditing an undocumented internal tool, understanding a legacy integration before migrating it, evaluating a competitor with evidence instead of assumptions, or maintaining compatibility with a closed format. What changes with an agent and REA is speed: going from &quot;I think it works like this&quot; to &quot;here is the evidence&quot; takes minutes.</p>
+          
           
           
           

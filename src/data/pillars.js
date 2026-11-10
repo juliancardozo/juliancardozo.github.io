@@ -64,6 +64,7 @@ export const pillars = [
       '¿Qué responsabilidades siguen siendo del equipo aunque la infraestructura esté en cloud?',
     ],
     articleSlugs: [
+      'saas-multitenant-iac-resiliencia',
       'webhooks-pagos-maquinas-de-estado',
       'multi-tenancy-rls-frontera-datos',
       'aws-cloud-practitioner-field-notes',

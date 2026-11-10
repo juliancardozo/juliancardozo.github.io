@@ -1680,3 +1680,23 @@ code {
   .site-header, .site-footer, .filters, .case__toc { display: none; }
   body { background: #fff; color: #000; }
 }
+/* Artículos largos: subtítulos, listas, tablas, código y diagramas */
+.article__content h3 { font-size: 1.12rem; letter-spacing: -0.015em; margin-top: 0.5rem; color: var(--ink); }
+.article__list { display: grid; gap: 0.55rem; margin: 0; padding-left: 1.4rem; list-style: disc; color: var(--ink-soft); font-size: 1.02rem; line-height: 1.7; }
+ol.article__list { list-style: decimal; }
+.article__list li { padding-left: 0.2rem; }
+.article__list li::marker { color: var(--accent); font-weight: 600; }
+.article__note { border: 1px solid var(--line); border-left: 3px solid var(--accent); border-radius: 4px; padding: 0.85rem 1rem; background: var(--surface-2); font-size: 0.98rem !important; }
+.article__note span { display: block; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.3rem; }
+.article__table, .article__code, .article__mermaid { margin: 0; display: grid; gap: 0.6rem; min-width: 0; }
+.article__table figcaption, .article__code figcaption, .article__mermaid figcaption { font-family: var(--font-mono); font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.article__table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; }
+.article__table table { width: 100%; border-collapse: collapse; font-size: 0.92rem; line-height: 1.5; min-width: 36rem; }
+.article__table th, .article__table td { text-align: left; vertical-align: top; padding: 0.7rem 0.85rem; border-bottom: 1px solid var(--line); color: var(--ink-soft); }
+.article__table thead th { background: var(--surface-2); color: var(--ink); font-weight: 600; }
+.article__table tbody th { color: var(--ink); font-weight: 600; }
+.article__table tbody tr:last-child > * { border-bottom: 0; }
+.article__code pre { margin: 0; overflow-x: auto; padding: 1rem 1.1rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); font-family: var(--font-mono); font-size: 0.82rem; line-height: 1.6; color: var(--ink); }
+.article__code pre code { background: none; border: 0; padding: 0; font-size: inherit; white-space: pre; display: block; }
+.article__mermaid pre.mermaid { margin: 0; overflow-x: auto; padding: 1rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); text-align: center; font-family: Helvetica, Arial, sans-serif; font-size: 15px; white-space: pre; }
+.article__mermaid pre.mermaid svg { min-width: 640px; max-width: 100%; height: auto; }

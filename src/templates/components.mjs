@@ -11,11 +11,16 @@ export const esc = (value = '') =>
 
 /** Enlaces internos en markdown minimo: [texto](/url) -> <a href="/url">texto</a> */
 export const inlineLinks = (value = '') =>
-  esc(value).replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  esc(value).replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, url) =>
+    /^https?:\/\//.test(url)
+      ? `<a href="${url}" target="_blank" rel="noopener noreferrer">${text}</a>`
+      : `<a href="${url}">${text}</a>`);
 
 /** `codigo` -> <code>codigo</code>, aplicado sobre texto ya escapado. */
 export const inlineCode = (value = '') =>
-  inlineLinks(value).replace(/`([^`]+)`/g, '<code>$1</code>');
+  inlineLinks(value)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 
 /**
  * URL interna de un tipo de pagina en el idioma de `t`.

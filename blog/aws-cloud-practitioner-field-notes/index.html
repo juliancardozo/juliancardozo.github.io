@@ -99,6 +99,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <dl class="notes-fields"><div class="notes-fields__row"><dt>Explicación simple</dt><dd>Una Región es un área geográfica con varios centros de datos independientes. Cada Availability Zone (AZ) es uno o más centros de datos con energía, refrigeración y red propias, aislados de fallas en otras AZs pero unidos por redes de baja latencia. Una Edge Location es un punto de presencia más chico y más cercano al usuario final, usado para entregar contenido o resolver DNS — no para alojar tu infraestructura.</dd></div><div class="notes-fields__row"><dt>Ejemplo práctico</dt><dd>Distribuís instancias EC2 entre <code>us-east-1a</code> y <code>us-east-1b</code> para que un corte eléctrico en una AZ no tire abajo la aplicación. Amazon CloudFront, en cambio, usa Edge Locations en todo el mundo para servir contenido estático cerca del usuario, sin mover tu infraestructura de lugar.</dd></div><div class="notes-fields__row"><dt>Comparación útil</dt><dd>Región: dónde viven tus recursos. AZ: cómo los repartís para tolerar fallas. Edge Location: cómo acercás contenido al usuario, sin relocalizar nada.</dd></div><div class="notes-fields__row notes-fields__row--warn"><dt>Error frecuente</dt><dd>Confundir una Edge Location con &quot;una AZ más chica&quot;. Resuelven problemas distintos: resiliencia (AZ) contra latencia de entrega de contenido (Edge Location).</dd></div></dl>
           
           
+          
           <p class="notes-concept__check"><span>Para comprobar</span>¿Qué diferencia hay entre desplegar en varias AZs y usar una Edge Location vía CloudFront?</p>
         </section>
         <section class="notes-concept">
@@ -137,6 +138,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="architecture__description" id="architecture-title">Pública: ruta directa a un Internet Gateway. Privada: sale a internet vía el NAT Gateway que vive en la subred pública — nunca al revés.</p>
     </figure>
           <dl class="notes-fields"><div class="notes-fields__row"><dt>Ejemplo práctico</dt><dd>El servidor web que recibe tráfico de usuarios va en la subred pública. La base de datos que ese servidor consulta va en la subred privada, sin IP pública, protegida de accesos directos desde internet.</dd></div><div class="notes-fields__row"><dt>Comparación útil</dt><dd>El Internet Gateway habilita tráfico entrante y saliente para recursos con IP pública. El NAT Gateway solo habilita tráfico saliente iniciado desde adentro — nunca conexiones iniciadas desde internet hacia la subred privada.</dd></div><div class="notes-fields__row notes-fields__row--warn"><dt>Error frecuente</dt><dd>Creer que el NAT Gateway &quot;agrega seguridad&quot;. Su función es habilitar salida a internet sin exponer la subred privada a tráfico entrante; el control de acceso corre por cuenta de los Security Groups y las Network ACLs.</dd></div></dl>
+          
           <p class="notes-concept__check"><span>Para comprobar</span>¿Por qué una base de datos en una subred privada puede descargar un parche de seguridad, pero nadie desde internet puede conectarse directamente a ella?</p>
         </section>
         <section class="notes-concept">
@@ -144,6 +146,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h2>Modelo de responsabilidad compartida</h2>
           
           <dl class="notes-fields"><div class="notes-fields__row"><dt>Explicación simple</dt><dd>AWS es responsable de la seguridad de la nube: infraestructura física, hardware, virtualización y red global. El cliente es responsable de la seguridad en la nube: cómo configura sus recursos, cómo gestiona identidades y permisos (IAM), cómo cifra sus datos y, cuando aplica, cómo mantiene el sistema operativo.</dd></div><div class="notes-fields__row"><dt>Ejemplo práctico</dt><dd>AWS garantiza que el hardware del datacenter esté físicamente protegido. El cliente es quien decide si un bucket de S3 es público o privado, y quién tiene permiso para leerlo.</dd></div><div class="notes-fields__row"><dt>Comparación útil</dt><dd>En servicios administrados (Lambda, RDS) AWS asume más responsabilidad operativa — por ejemplo, los parches del motor de base de datos. En EC2, el cliente administra el sistema operativo, así que su porción de responsabilidad es mayor.</dd></div><div class="notes-fields__row notes-fields__row--warn"><dt>Error frecuente</dt><dd>Asumir que &quot;está en AWS&quot; significa que todo riesgo de seguridad es de AWS. Una mala configuración de permisos siempre es responsabilidad del cliente.</dd></div></dl>
+          
           
           
           <p class="notes-concept__check"><span>Para comprobar</span>Si un bucket de S3 queda expuesto públicamente por una configuración incorrecta, ¿de quién es la responsabilidad según el modelo?</p>
@@ -155,6 +158,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <dl class="notes-fields"><div class="notes-fields__row"><dt>Explicación simple</dt><dd>EC2 son servidores virtuales que el cliente administra (sistema operativo, parches, escalado). AWS Lambda ejecuta código sin administrar servidores, cobra por invocación y duración, y escala automáticamente. Los contenedores (Amazon ECS o EKS) empaquetan una aplicación con sus dependencias; corren sobre EC2 (el cliente administra los servidores) o sobre Fargate (AWS administra la infraestructura de cómputo).</dd></div><div class="notes-fields__row"><dt>Ejemplo práctico</dt><dd>Procesar una imagen apenas se sube a S3: buen caso para Lambda. Varios microservicios corriendo todo el tiempo: suele encajar mejor en contenedores. Una aplicación con requerimientos específicos de sistema operativo: puede necesitar EC2.</dd></div><div class="notes-fields__row"><dt>Comparación útil</dt><dd>Control total del servidor → EC2. Cero administración, eventos puntuales → Lambda. Empaquetado consistente de la app, con o sin administrar el servidor → contenedores, con EC2 o con Fargate.</dd></div><div class="notes-fields__row notes-fields__row--warn"><dt>Error frecuente</dt><dd>Asumir que Lambda siempre es más barato. Para cargas constantes y predecibles, EC2 o contenedores pueden salir más económicos que pagar por cada invocación.</dd></div></dl>
           
           
+          
           <p class="notes-concept__check"><span>Para comprobar</span>¿Qué elegirías para un proceso que corre de forma continua las 24 horas, y por qué probablemente no sea Lambda?</p>
         </section>
         <section class="notes-concept">
@@ -164,6 +168,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <dl class="notes-fields"><div class="notes-fields__row"><dt>Explicación simple</dt><dd>Amazon S3 es almacenamiento de objetos accesible por red, sin estructura de sistema de archivos. Amazon EBS es un volumen de bloques que se adjunta a una sola instancia EC2 a la vez, como un disco virtual. Amazon EFS es un sistema de archivos compartido que varias instancias EC2 pueden montar al mismo tiempo. Para datos estructurados: RDS ofrece bases relacionales administradas, y DynamoDB una base NoSQL totalmente administrada y de alta escala.</dd></div><div class="notes-fields__row"><dt>Ejemplo práctico</dt><dd>Fotos de perfil de usuarios → S3. El disco del sistema operativo de una instancia → EBS. Una carpeta que varias instancias web leen y escriben a la vez → EFS. El catálogo de un e-commerce con relaciones entre tablas → RDS. Datos de sesión con lecturas y escrituras masivas y baja latencia → DynamoDB.</dd></div><div class="notes-fields__row"><dt>Comparación útil</dt><dd>¿Un solo servidor necesita un disco? EBS. ¿Varios servidores necesitan compartir archivos? EFS. ¿Es un archivo que se accede por URL o API, no un disco? S3.</dd></div><div class="notes-fields__row notes-fields__row--warn"><dt>Error frecuente</dt><dd>Intentar montar un mismo volumen EBS en varias instancias EC2 a la vez. EBS está pensado para una sola instancia; para compartir archivos entre varias, la herramienta correcta es EFS.</dd></div></dl>
           
           
+          
           <p class="notes-concept__check"><span>Para comprobar</span>¿Por qué EBS no es la opción correcta si tres instancias EC2 necesitan leer y escribir sobre los mismos archivos al mismo tiempo?</p>
         </section>
         <section class="notes-concept">
@@ -171,6 +176,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <h2>Costos, observabilidad y seguridad</h2>
           
           <dl class="notes-fields"><div class="notes-fields__row"><dt>Explicación simple</dt><dd>AWS Cost Explorer visualiza y analiza el gasto histórico. AWS Budgets define límites y alertas antes de que el gasto se salga de control. Amazon CloudWatch centraliza métricas, logs y alarmas para observar el comportamiento de los recursos. AWS IAM controla quién puede hacer qué, mediante usuarios, grupos, roles y políticas, siguiendo el principio de menor privilegio.</dd></div><div class="notes-fields__row"><dt>Ejemplo práctico</dt><dd>Una alarma en Budgets avisa si el gasto mensual supera un monto definido. CloudWatch indica si una instancia EC2 tiene uso de CPU anormalmente alto. Un rol de IAM específico le da a una aplicación acceso solo al bucket de S3 que necesita, nada más.</dd></div><div class="notes-fields__row"><dt>Comparación útil</dt><dd>Cost Explorer mira hacia atrás (qué gasté y por qué). Budgets mira hacia adelante (qué no quiero superar). CloudWatch observa el comportamiento técnico. IAM decide quién puede actuar sobre qué recurso.</dd></div><div class="notes-fields__row notes-fields__row--warn"><dt>Error frecuente</dt><dd>Usar las credenciales de la cuenta raíz (root) para el trabajo diario, en vez de crear usuarios o roles de IAM con permisos acotados a lo que realmente necesitan.</dd></div></dl>
+          
           
           
           <p class="notes-concept__check"><span>Para comprobar</span>¿Qué herramienta usarías para que te avisen antes de gastar de más, y cuál para entender por qué una instancia está lenta?</p>
@@ -202,7 +208,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+      <li><a href="/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</strong>
+        <small>Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</small>
+      </a></li><li><a href="/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
         <span>Noticias de IA</span>
         <strong>El hardware ya no es un detalle: cómo el nuevo estándar de modelos redefine la arquitectura IA</strong>
         <small>Análisis de la nueva discusión sobre hardware para modelos de frontera y por qué la infraestructura se volvió parte central de la estrategia de IA.</small>
@@ -210,10 +220,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <span>Noticias de IA</span>
         <strong>Puffin-World y la nueva oleada de modelos multimodales: menos hype, más arquitectura real</strong>
         <small>Un vistazo a la nueva generación de modelos multimodales y a lo que realmente importa cuando se evalúan repositorios open y arquitectura de producto.</small>
-      </a></li><li><a href="/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-related-article">
-        <span>Cloud y arquitectura</span>
-        <strong>Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner</strong>
-        <small>Conceptos de cloud que cambian decisiones de ingeniería y negocio: responsabilidad compartida, elasticidad, seguridad, arquitectura y costos.</small>
       </a></li>
     </ul>
   </section>
