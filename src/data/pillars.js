@@ -14,6 +14,7 @@ export const pillars = [
       '¿Qué controles necesita cada tarea según su riesgo, y en qué decisiones no se delega?',
     ],
     articleSlugs: [
+      'loop-engineering-agentes-verificacion-parada',
       'orquestacion-multiagente-website-factory',
       'ia-especificacion-antes-codigo',
       'spec-kit-1-especificaciones-agentes-adopcion',
@@ -41,6 +42,7 @@ export const pillars = [
       '¿Cómo conectar producto, delivery y criterio técnico sin microgestión?',
     ],
     articleSlugs: [
+      'loop-engineering-agentes-verificacion-parada',
       'orquestacion-multiagente-website-factory',
       'developer-experience-ia-friccion-plataforma',
       'ia-especificacion-antes-codigo',
