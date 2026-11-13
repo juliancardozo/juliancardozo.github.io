@@ -54,69 +54,110 @@
     });
   }
 
-  /* ── 2. Filtros y carga progresiva del blog ─────────────────────────────── */
+  /* ── 2. Índice del blog: categoría, búsqueda y carga progresiva ────────── */
   var blogFilterBar = document.querySelector('[data-blog-filters]');
   var blogGrid = document.querySelector('[data-blog-grid]');
   var blogEmpty = document.querySelector('[data-blog-empty]');
+  var blogResults = document.querySelector('[data-blog-results]');
+  var blogSearch = document.querySelector('[data-blog-search]');
   var loadMore = document.querySelector('[data-blog-load-more]');
 
   if (blogFilterBar && blogGrid) {
     var blogCards = Array.prototype.slice.call(blogGrid.querySelectorAll('[data-blog-card]'));
     var blogButtons = Array.prototype.slice.call(blogFilterBar.querySelectorAll('[data-blog-filter]'));
-    var activeBlogTag = 'all';
-    var visibleLimit = 6;
+    var PAGE = 9;
+    var state = { category: 'all', tag: null, query: '', limit: PAGE };
+
+    var normalize = function (value) {
+      return (value || '').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+    };
+
+    var syncUrl = function () {
+      try {
+        var url = new URL(window.location.href);
+        url.searchParams.delete('tag');
+        if (state.category === 'all') url.searchParams.delete('categoria');
+        else url.searchParams.set('categoria', state.category);
+        window.history.replaceState(null, '', url.pathname + url.search + url.hash);
+      } catch (e) {}
+    };
 
     var updateBlog = function () {
+      var terms = normalize(state.query).split(/\s+/).filter(Boolean);
       var matches = blogCards.filter(function (card) {
-        return activeBlogTag === 'all' || card.getAttribute('data-tags').split(' ').indexOf(activeBlogTag) !== -1;
+        if (state.category !== 'all' && card.getAttribute('data-category') !== state.category) return false;
+        if (state.tag && card.getAttribute('data-tags').split(' ').indexOf(state.tag) === -1) return false;
+        var text = card.getAttribute('data-search');
+        return terms.every(function (term) { return text.indexOf(term) !== -1; });
       });
 
       blogCards.forEach(function (card) {
         var matchIndex = matches.indexOf(card);
-        var show = matchIndex !== -1 && matchIndex < visibleLimit;
+        var show = matchIndex !== -1 && matchIndex < state.limit;
         card.hidden = !show;
         if (show) card.classList.add('is-visible');
       });
 
       if (blogEmpty) blogEmpty.hidden = matches.length !== 0;
-      if (loadMore) loadMore.hidden = matches.length <= visibleLimit;
+      if (loadMore) loadMore.hidden = matches.length <= state.limit;
+      if (blogResults) {
+        var filtered = state.category !== 'all' || state.tag || terms.length;
+        blogResults.textContent = filtered ? blogResults.getAttribute('data-template').replace('{n}', matches.length) : '';
+      }
     };
 
-    blogCards.forEach(function (card, index) {
-      card.hidden = index >= visibleLimit;
-    });
+    var setCategory = function (category) {
+      var button = blogButtons.filter(function (b) { return b.getAttribute('data-blog-filter') === category; })[0];
+      if (!button) { category = 'all'; button = blogButtons[0]; }
+      state.category = category;
+      state.tag = null;
+      state.limit = PAGE;
+      blogButtons.forEach(function (other) { other.setAttribute('aria-pressed', String(other === button)); });
+      updateBlog();
+      syncUrl();
+    };
 
-    // Filtro inicial desde la URL (?tag=ia), para enlazar directo a una temática.
-    var initialTag = null;
-    try { initialTag = new URLSearchParams(window.location.search).get('tag'); } catch (e) {}
-    if (initialTag) {
-      var initialButton = blogButtons.filter(function (button) {
-        return button.getAttribute('data-blog-filter') === initialTag;
-      })[0];
-      if (initialButton) {
-        activeBlogTag = initialTag;
-        blogButtons.forEach(function (other) {
-          other.setAttribute('aria-pressed', String(other === initialButton));
-        });
-      }
+    // Estado inicial desde la URL: ?categoria=<slug>, o el formato anterior ?tag=<tag>.
+    var params = null;
+    try { params = new URLSearchParams(window.location.search); } catch (e) {}
+    var initialCategory = params && params.get('categoria');
+    var initialTag = params && params.get('tag');
+    if (initialCategory) setCategory(initialCategory);
+    else {
+      if (initialTag) state.tag = initialTag;
+      updateBlog();
     }
-    updateBlog();
 
     blogFilterBar.addEventListener('click', function (event) {
       var button = event.target.closest('[data-blog-filter]');
-      if (!button) return;
-
-      activeBlogTag = button.getAttribute('data-blog-filter');
-      visibleLimit = 6;
-      blogButtons.forEach(function (other) {
-        other.setAttribute('aria-pressed', String(other === button));
-      });
-      updateBlog();
+      if (button) setCategory(button.getAttribute('data-blog-filter'));
     });
+
+    // Enlaces de categoría dentro de la página (tarjetas, etiquetas): filtran sin recargar.
+    document.addEventListener('click', function (event) {
+      var link = event.target.closest('[data-blog-category-link]');
+      if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      setCategory(link.getAttribute('data-blog-category-link'));
+      var target = document.getElementById('articulos');
+      if (target) target.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+    });
+
+    if (blogSearch) {
+      var searchTimer;
+      blogSearch.addEventListener('input', function () {
+        window.clearTimeout(searchTimer);
+        searchTimer = window.setTimeout(function () {
+          state.query = blogSearch.value;
+          state.limit = PAGE;
+          updateBlog();
+        }, 120);
+      });
+    }
 
     if (loadMore) {
       loadMore.addEventListener('click', function () {
-        visibleLimit += 6;
+        state.limit += PAGE;
         updateBlog();
       });
     }

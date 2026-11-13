@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto","description":"Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"es","url":"https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"LLM open-weight"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/#article","headline":"Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto","description":"Análisis de Llama 4 Scout: arquitectura MoE multimodal, contexto de 10 millones de tokens, licencia comercial específica y requisitos reales de despliegue.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"es","url":"https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/","mainEntityOfPage":"https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/","articleSection":"Modelos y tendencias de IA","keywords":"IA, Open-weight","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E-Instruct"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/"},{"@type":"ListItem","position":2,"name":"Blog de tecnología y producto","item":"https://juliancardozo.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto","item":"https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/"}]}]}</script>
 </head>
 <body class="page-article">
 <!-- Google Tag Manager (noscript) -->
@@ -66,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article class="article">
   <header class="shell article__head">
     <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
-    <p class="article__meta"><span>LLM open-weight</span><time datetime="2026-08-25">25 de agosto de 2026</time><span>7 min de lectura</span></p>
+    <p class="article__meta"><a class="cat-label" data-cat="modelos-ia" href="/blog/?categoria=modelos-ia#articulos">Modelos y tendencias de IA</a><time datetime="2026-08-25">25 de agosto de 2026</time><span>7 min de lectura</span></p>
     <h1 class="article__title">Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto</h1>
     <p class="article__lead">Llama 4 Scout es el modelo open-weight multimodal de Meta que conviene mirar al evaluar capacidades de visión, texto y contexto largo bajo una estrategia de despliegue propia. Su propuesta combina una arquitectura Mixture-of-Experts, 17 mil millones de parámetros activados por inferencia y una ventana de contexto declarada de hasta 10 millones de tokens. El punto crítico para negocio no es solo su capacidad: es entender qué implica operar 109 mil millones de parámetros totales bajo una licencia comunitaria específica.</p>
   </header>
@@ -155,20 +155,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Seguir leyendo</p>
     <h2 id="related-articles-title">Artículos relacionados</h2>
     <ul>
-      <li><a href="/blog/gpt-6-astra-openai-superinteligencia-especulaciones/" class="js-track-related-article">
-        <span>Noticias de IA</span>
-        <strong>OpenAI lanza GPT-6 Astra: capacidad de frontera, presión competitiva y debate sobre superinteligencia</strong>
-        <small>Análisis técnico y estratégico del lanzamiento de GPT-6 Astra: capacidades declaradas, arquitectura de producto y qué sí (y qué no) significa hablar de superinteligencia.</small>
-      </a></li><li><a href="/blog/qwen3-235b-open-weight-china/" class="js-track-related-article">
-        <span>LLM open-weight</span>
+      <li data-cat="modelos-ia"><a href="/blog/qwen3-235b-open-weight-china/" class="js-track-related-article">
+        <span class="cat-label" data-cat="modelos-ia">Modelos y tendencias de IA</span>
         <strong>Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala</strong>
         <small>Análisis del flagship open-weight de Qwen: MoE de 235B/22B activos, 119 idiomas, hasta 1M de contexto y licencia Apache 2.0.</small>
-      </a></li><li><a href="/blog/loop-engineering-agentic-loops/" class="js-track-related-article">
-        <span>IA y agentes</span>
-        <strong>Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA</strong>
-        <small>Prompt, context y harness engineering definen qué se le pide a un agente, qué información recibe y con qué herramientas opera. Loop Engineering se ocupa del ciclo: qué lo inicia, dónde se guarda el estado, quién verifica, qué información vuelve al agente y cuándo continuar, corregir, detenerse o escalar a una persona. Un recorrido por sus componentes, sus límites y su aplicación en un sistema multiagente construido con Claude Code.</small>
+      </a></li><li data-cat="modelos-ia"><a href="/blog/claude-watermarking-gobernanza-contenido-ia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="modelos-ia">Modelos y tendencias de IA</span>
+        <strong>Claude incorporará watermarking de texto: qué cambia para la gobernanza de IA</strong>
+        <small>Anthropic anunció que futuros modelos de Claude generarán texto con watermarking: implicancias para trazabilidad, compliance y controles de contenido generado por IA.</small>
+      </a></li><li data-cat="modelos-ia"><a href="/blog/puffin-world-modelos-multimodales-open-weight/" class="js-track-related-article">
+        <span class="cat-label" data-cat="modelos-ia">Modelos y tendencias de IA</span>
+        <strong>Puffin-World y la nueva oleada de modelos multimodales: menos hype, más arquitectura real</strong>
+        <small>Un vistazo a la nueva generación de modelos multimodales y a lo que realmente importa cuando se evalúan repositorios open y arquitectura de producto.</small>
       </a></li>
     </ul>
+    <p class="article__related-more">
+      <a href="/blog/?categoria=modelos-ia#articulos" class="js-track-related-category">Más artículos de Modelos y tendencias de IA <span aria-hidden="true">→</span></a>
+      <a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Ruta de lectura: Platform Engineering y arquitectura <span aria-hidden="true">→</span></a>
+    </p>
   </section>
 </article>
 </main>

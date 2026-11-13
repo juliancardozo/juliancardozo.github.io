@@ -40,49 +40,117 @@ const conversationCta = (article, t) => {
     </aside>`;
 };
 
-export const blogIndex = ({ t, articles, pillars, newsletter }) => {
+/** Texto normalizado para la búsqueda del índice: sin tildes, en minúsculas. */
+const searchText = (...parts) =>
+  parts.join(' ').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
+const fill = (template, n) => template.replace('{n}', n);
+const blogFilterHref = (t, slug) => `${href(t, 'blog')}?categoria=${encodeURIComponent(slug)}#articulos`;
+
+const articleCard = (t, article, b) => `
+        <article class="article-card" data-blog-card data-cat="${esc(article.categorySlug)}" data-category="${esc(article.categorySlug)}" data-tags="${esc(article.tags.map(tagKey).join(' '))}" data-search="${esc(searchText(article.title, article.description, article.category, article.tags.join(' ')))}" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="${esc(article.categorySlug)}" href="${blogFilterHref(t, article.categorySlug)}" data-blog-category-link="${esc(article.categorySlug)}">${esc(article.category)}</a><time datetime="${esc(article.date)}">${esc(formattedDate(t, article.date))}</time></p>
+          <h3 class="article-card__title"><a href="${href(t, 'blog', article.slug)}" class="js-track-article-card">${esc(article.title)}</a></h3>
+          <p class="article-card__description">${esc(article.description)}</p>
+          <ul class="article-card__tags" aria-label="${esc(b.tagsLabel)}">${article.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
+          <div class="article-card__footer"><span>${esc(article.readingTime)}</span><a href="${href(t, 'blog', article.slug)}" tabindex="-1" aria-hidden="true">${esc(b.readArticle)} <span aria-hidden="true">→</span></a></div>
+        </article>`;
+
+export const blogIndex = ({ t, articles, pillars, newsletter, categories }) => {
   const b = t.blog;
-  const sortedArticles = [...articles].sort((a, z) => z.date.localeCompare(a.date));
-  const tags = [...new Set(sortedArticles.flatMap((article) => article.tags))].sort((a, z) => a.localeCompare(z, t.lang));
+  const sorted = [...articles].sort((a, z) => z.date.localeCompare(a.date));
+  const [featured, ...rest] = sorted;
+  const latest = rest.slice(0, 3);
+  const byCategory = categories
+    .map((category) => ({ ...category, items: sorted.filter((article) => article.categorySlug === category.slug) }))
+    .filter((category) => category.items.length);
   return `
 <section class="blog-index">
   <div class="shell">
-    <header class="blog-index__head">
-      <p class="section__eyebrow">${esc(b.eyebrow)}</p>
-      <h1 class="blog-index__title">${esc(b.title)}</h1>
-      <p class="section__lead">${esc(b.lead)}</p>
-      <div class="hero__ctas">
-        <a class="btn btn--ghost" href="${href(t, 'newsletter')}">${esc(b.newsletterCta)}</a>
-        <a class="btn btn--ghost js-track-newsletter-interest" href="${href(t, 'newsletter')}#suscribirme">${esc(b.subscribeCta)}</a>
+    <header class="blog-hero">
+      <div class="blog-hero__copy">
+        <p class="section__eyebrow">${esc(b.eyebrow)}</p>
+        <h1 class="blog-hero__title">${esc(b.title)}</h1>
+        <p class="blog-hero__lead">${esc(b.lead)}</p>
+        <dl class="blog-hero__stats">
+          <div><dt>${esc(b.statsArticles)}</dt><dd>${sorted.length}</dd></div>
+          <div><dt>${esc(b.statsCategories)}</dt><dd>${byCategory.length}</dd></div>
+          <div><dt>${esc(b.statsUpdated)}</dt><dd><time datetime="${esc(featured.date)}">${esc(formattedDate(t, featured.date))}</time></dd></div>
+        </dl>
+        <div class="hero__ctas">
+          <a class="btn btn--primary js-track-newsletter-interest" href="${href(t, 'newsletter')}#suscribirme">${esc(b.subscribeCta)}</a>
+          <a class="btn btn--ghost" href="#articulos">${esc(b.browseCta)}</a>
+        </div>
       </div>
+      <article class="blog-feature" data-cat="${esc(featured.categorySlug)}">
+        <p class="blog-feature__label">${esc(b.featuredLabel)}</p>
+        <p class="article-card__meta"><a class="cat-label" data-cat="${esc(featured.categorySlug)}" href="${blogFilterHref(t, featured.categorySlug)}" data-blog-category-link="${esc(featured.categorySlug)}">${esc(featured.category)}</a><time datetime="${esc(featured.date)}">${esc(formattedDate(t, featured.date))}</time></p>
+        <h2 class="blog-feature__title"><a href="${href(t, 'blog', featured.slug)}" class="js-track-article-card">${esc(featured.title)}</a></h2>
+        <p class="blog-feature__description">${esc(featured.description)}</p>
+        <p class="blog-feature__footer"><span>${esc(featured.readingTime)}</span><a href="${href(t, 'blog', featured.slug)}" tabindex="-1" aria-hidden="true">${esc(b.readArticle)} <span aria-hidden="true">→</span></a></p>
+      </article>
     </header>
+
+    <section class="blog-latest" aria-labelledby="blog-latest-title">
+      <h2 id="blog-latest-title" class="blog-section-title">${esc(b.latestTitle)}</h2>
+      <ol class="blog-latest__list">
+        ${latest.map((article, index) => `<li>
+          <span class="blog-latest__index" aria-hidden="true">${String(index + 2).padStart(2, '0')}</span>
+          <div>
+            <p class="article-card__meta"><a class="cat-label" data-cat="${esc(article.categorySlug)}" href="${blogFilterHref(t, article.categorySlug)}" data-blog-category-link="${esc(article.categorySlug)}">${esc(article.category)}</a><span>${esc(article.readingTime)}</span></p>
+            <h3><a href="${href(t, 'blog', article.slug)}" class="js-track-article-card">${esc(article.title)}</a></h3>
+          </div>
+        </li>`).join('')}
+      </ol>
+    </section>
+
+    <section class="blog-categories" aria-labelledby="blog-categories-title">
+      <p class="section__eyebrow">${esc(b.categoriesEyebrow)}</p>
+      <h2 id="blog-categories-title" class="blog-section-title">${esc(b.categoriesTitle)}</h2>
+      <div class="category-grid">
+        ${byCategory.map((category) => `<article class="category-card" data-cat="${esc(category.slug)}">
+          <p class="category-card__count">${esc(fill(b.countLabel, category.items.length))}</p>
+          <h3><a href="${blogFilterHref(t, category.slug)}" data-blog-category-link="${esc(category.slug)}">${esc(category.name)}</a></h3>
+          <p class="category-card__description">${esc(category.description)}</p>
+          <ul class="category-card__list">
+            ${category.items.slice(0, 2).map((article) => `<li><a href="${href(t, 'blog', article.slug)}" class="js-track-article-card">${esc(article.title)}</a></li>`).join('')}
+          </ul>
+        </article>`).join('')}
+      </div>
+    </section>
+
+    <section class="blog-archive" id="articulos" aria-labelledby="blog-archive-title">
+      <h2 id="blog-archive-title" class="blog-section-title">${esc(b.archiveTitle)}</h2>
+      <div class="blog-toolbar">
+        <label class="blog-search">
+          <span class="visually-hidden">${esc(b.searchLabel)}</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="${esc(b.searchPlaceholder)}" autocomplete="off" data-blog-search />
+        </label>
+        <div class="filters blog-filters" role="group" aria-label="${esc(b.filterLabel)}" data-blog-filters>
+          <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">${esc(b.allLabel)} <span class="filters__count">${sorted.length}</span></button>
+          ${byCategory.map((category) => `<button type="button" class="filters__btn" data-cat="${esc(category.slug)}" data-blog-filter="${esc(category.slug)}" aria-pressed="false">${esc(category.name)} <span class="filters__count">${category.items.length}</span></button>`).join('')}
+        </div>
+      </div>
+      <p class="blog-results" aria-live="polite" data-blog-results data-template="${esc(b.resultsLabel)}"></p>
+      <div class="article-grid" data-blog-grid>
+        ${sorted.map((article) => articleCard(t, article, b)).join('')}
+      </div>
+      <p class="blog-empty" data-blog-empty hidden>${esc(b.emptyLabel)}</p>
+      <div class="blog-more"><button type="button" class="btn btn--ghost" data-blog-load-more>${esc(b.loadMore)}</button></div>
+    </section>
+
     <section class="blog-pillars" id="pilares" aria-labelledby="blog-pillars-title">
       <p class="section__eyebrow">${esc(b.pillarsEyebrow)}</p>
-      <h2 id="blog-pillars-title">${esc(b.pillarsTitle)}</h2>
+      <h2 id="blog-pillars-title" class="blog-section-title">${esc(b.pillarsTitle)}</h2>
       <div class="pillar-strip">
         ${pillars.map((pillar) => `<article class="pillar-card">
-          <p class="pillar-card__meta">${esc(pillar.eyebrow)}</p>
+          <p class="pillar-card__meta">${esc(fill(b.countLabel, pillar.articleSlugs.length))}</p>
           <h3><a href="${href(t, 'topic', pillar.slug)}" class="js-track-pillar-hub">${esc(pillar.title)}</a></h3>
           <p>${esc(pillar.description)}</p>
         </article>`).join('')}
       </div>
     </section>
-    <div class="filters blog-filters" id="articulos" role="group" aria-label="${esc(b.filterLabel)}" data-blog-filters>
-      <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">${esc(b.allLabel)}</button>
-      ${tags.map((tag) => `<button type="button" class="filters__btn" data-blog-filter="${esc(tagKey(tag))}" aria-pressed="false">${esc(tag)}</button>`).join('')}
-    </div>
-    <div class="article-grid" data-blog-grid>
-      ${sortedArticles.map((article) => `
-        <article class="article-card" data-blog-card data-tags="${esc(article.tags.map(tagKey).join(' '))}" data-reveal>
-          <p class="article-card__meta"><span>${esc(article.category)}</span><time datetime="${esc(article.date)}">${esc(formattedDate(t, article.date))}</time></p>
-          <h2 class="article-card__title"><a href="${href(t, 'blog', article.slug)}" class="js-track-article-card">${esc(article.title)}</a></h2>
-          <p class="article-card__description">${esc(article.description)}</p>
-          <ul class="article-card__tags" aria-label="${esc(b.tagsLabel)}">${article.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
-          <div class="article-card__footer"><span>${esc(article.readingTime)}</span><a href="${href(t, 'blog', article.slug)}">${esc(b.readArticle)} <span aria-hidden="true">→</span></a></div>
-        </article>`).join('')}
-    </div>
-    <p class="blog-empty" data-blog-empty hidden>${esc(b.emptyLabel)}</p>
-    <div class="blog-more"><button type="button" class="btn btn--ghost" data-blog-load-more>${esc(b.loadMore)}</button></div>
+
     <div class="blog-newsletter">
       ${newsletterForm({
         t,
@@ -187,17 +255,17 @@ const mermaidScript = (article) =>
     ? `<script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
   const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: { fontSize: '15px' }, flowchart: { padding: 16 } });
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
 </script>`
     : '';
 
-export const articlePage = ({ t, article, relatedProject, relatedArticles = [], pillar = null, articles = [] }) => {
+export const articlePage = ({ t, article, relatedProject, relatedArticles = [], pillar = null, articles = [], category = null }) => {
   const a = t.article;
   return `
 <article class="article">
   <header class="shell article__head">
     <a class="case__back" href="${href(t, 'blog')}"><span aria-hidden="true">←</span> ${esc(a.back)}</a>
-    <p class="article__meta"><span>${esc(article.category)}</span><time datetime="${esc(article.date)}">${esc(formattedDate(t, article.date))}</time><span>${esc(article.readingTime)}</span></p>
+    <p class="article__meta"><a class="cat-label" data-cat="${esc(article.categorySlug)}" href="${blogFilterHref(t, article.categorySlug)}">${esc(article.category)}</a><time datetime="${esc(article.date)}">${esc(formattedDate(t, article.date))}</time><span>${esc(article.readingTime)}</span></p>
     <h1 class="article__title">${esc(article.title)}</h1>
     <p class="article__lead">${esc(article.lead)}</p>
   </header>
@@ -239,12 +307,16 @@ export const articlePage = ({ t, article, relatedProject, relatedArticles = [], 
     <p class="section__eyebrow">${esc(a.relatedEyebrow)}</p>
     <h2 id="related-articles-title">${esc(a.relatedTitle)}</h2>
     <ul>
-      ${relatedArticles.map((related) => `<li><a href="${href(t, 'blog', related.slug)}" class="js-track-related-article">
-        <span>${esc(related.category)}</span>
+      ${relatedArticles.map((related) => `<li data-cat="${esc(related.categorySlug)}"><a href="${href(t, 'blog', related.slug)}" class="js-track-related-article">
+        <span class="cat-label" data-cat="${esc(related.categorySlug)}">${esc(related.category)}</span>
         <strong>${esc(related.title)}</strong>
         <small>${esc(related.description)}</small>
       </a></li>`).join('')}
     </ul>
+    <p class="article__related-more">
+      ${category ? `<a href="${blogFilterHref(t, category.slug)}" class="js-track-related-category">${esc(fill(a.moreInCategory, category.name))} <span aria-hidden="true">→</span></a>` : ''}
+      ${pillar ? `<a href="${href(t, 'topic', pillar.slug)}" class="js-track-pillar-hub">${esc(fill(a.morePillar, pillar.title))} <span aria-hidden="true">→</span></a>` : ''}
+    </p>
   </section>`
       : ''
   }

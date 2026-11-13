@@ -25,6 +25,8 @@ const PORT = 9333;
 const PAGES = [
   { name: 'home', url: '/' },
   { name: 'caso-micuota', url: '/proyectos/micuota/' },
+  { name: 'blog', url: '/blog/' },
+  { name: 'articulo', url: '/blog/open-finance-argentina-arquitectura-apis-consentimiento/' },
   { name: '404', url: '/no-existe/' },
 ];
 const VIEWPORTS = [

@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Payment architecture: why a charge isn't an HTTP call","description":"Integration patterns, idempotency and traceability for modeling payments as auditable business processes.","datePublished":"2026-08-24","dateModified":"2026-08-24","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/webhooks-pagos-maquinas-de-estado/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Payments and infrastructure"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/webhooks-pagos-maquinas-de-estado/#article","headline":"Payment architecture: why a charge isn't an HTTP call","description":"Integration patterns, idempotency and traceability for modeling payments as auditable business processes.","datePublished":"2026-08-24","dateModified":"2026-08-24","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/webhooks-pagos-maquinas-de-estado/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/webhooks-pagos-maquinas-de-estado/","articleSection":"Fintech and payments","keywords":"Payments, Architecture, Infrastructure","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Payment architecture: why a charge isn't an HTTP call","item":"https://juliancardozo.github.io/en/blog/webhooks-pagos-maquinas-de-estado/"}]}]}</script>
 </head>
 <body class="page-article">
 <!-- Google Tag Manager (noscript) -->
@@ -66,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article class="article">
   <header class="shell article__head">
     <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
-    <p class="article__meta"><span>Payments and infrastructure</span><time datetime="2026-08-24">August 24, 2026</time><span>6 min read</span></p>
+    <p class="article__meta"><a class="cat-label" data-cat="fintech-pagos" href="/en/blog/?categoria=fintech-pagos#articulos">Fintech and payments</a><time datetime="2026-08-24">August 24, 2026</time><span>6 min read</span></p>
     <h1 class="article__title">Payment architecture: why a charge isn't an HTTP call</h1>
     <p class="article__lead">Experience in banking and fintech leaves an operational rule: creating a link does not complete a charge. A provider responds asynchronously, retries notifications and may deliver partial information. In MiCuota, that reality translated into a state model, idempotency controls and an auditable ledger.</p>
   </header>
@@ -144,9 +144,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <aside class="article__conversation">
       <p class="article__conversation-label">Let's keep the conversation going</p>
-      <h2>Validating a product? I'd like to talk about the hypothesis and the technical path.</h2>
+      <h2>Working in fintech, payments or subscriptions? I'd like to compare product and architecture decisions.</h2>
       <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
-      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Payment%20architecture%3A%20why%20a%20charge%20isn't%20an%20HTTP%20call&amp;body=Validating%20a%20product%3F%20I'd%20like%20to%20talk%20about%20the%20hypothesis%20and%20the%20technical%20path.%0A%0AI%20came%20from%20the%20article%3A%20Payment%20architecture%3A%20why%20a%20charge%20isn't%20an%20HTTP%20call%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fwebhooks-pagos-maquinas-de-estado%2F">Write to me about this</a>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Payment%20architecture%3A%20why%20a%20charge%20isn't%20an%20HTTP%20call&amp;body=Working%20in%20fintech%2C%20payments%20or%20subscriptions%3F%20I'd%20like%20to%20compare%20product%20and%20architecture%20decisions.%0A%0AI%20came%20from%20the%20article%3A%20Payment%20architecture%3A%20why%20a%20charge%20isn't%20an%20HTTP%20call%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fwebhooks-pagos-maquinas-de-estado%2F">Write to me about this</a>
     </aside>
     </div>
   </div>
@@ -154,20 +154,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Keep reading</p>
     <h2 id="related-articles-title">Related articles</h2>
     <ul>
-      <li><a href="/en/blog/technical-product-manager-developer-platform/" class="js-track-related-article">
-        <span>Liderazgo y plataforma</span>
-        <strong>De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers</strong>
-        <small>Un artículo de NYT Open presenta a Danny Cassidy, que pasó de ingeniero backend a Senior Technical Product Manager de la plataforma de desarrollo de The New York Times. Un análisis de por qué ese recorrido es especialmente valioso cuando los usuarios del producto son ingenieros, y de lo que su evaluación de un reemplazo de CI/CD enseña sobre cómo decidir en Platform Engineering.</small>
-      </a></li><li><a href="/en/blog/infraestructura-proporcionada-problema/" class="js-track-related-article">
-        <span>Infrastructure and product</span>
-        <strong>Proportional architecture: don't build an e-commerce store to solve a house move</strong>
-        <small>How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP.</small>
-      </a></li><li><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-related-article">
-        <span>Pagos e infraestructura</span>
+      <li data-cat="fintech-pagos"><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-related-article">
+        <span class="cat-label" data-cat="fintech-pagos">Fintech and payments</span>
         <strong>Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</strong>
         <small>En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.</small>
+      </a></li><li data-cat="arquitectura-plataforma"><a href="/en/blog/multi-tenancy-rls-frontera-datos/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
+        <strong>Secure multi-tenancy: data isolation can't depend on a WHERE clause</strong>
+        <small>How to combine identity, RBAC and Row Level Security to protect each organization's data by design.</small>
+      </a></li><li data-cat="arquitectura-plataforma"><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
+        <strong>SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</strong>
+        <small>Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</small>
       </a></li>
     </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=fintech-pagos#articulos" class="js-track-related-category">More in Fintech and payments <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/plataforma-arquitectura/" class="js-track-pillar-hub">Reading path: Platform engineering and architecture <span aria-hidden="true">→</span></a>
+    </p>
   </section>
 </article>
 </main>

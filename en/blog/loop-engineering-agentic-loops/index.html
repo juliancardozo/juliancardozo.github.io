@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA","description":"Prompt, context y harness engineering definen qué se le pide a un agente, qué información recibe y con qué herramientas opera. Loop Engineering se ocupa del ciclo: qué lo inicia, dónde se guarda el estado, quién verifica, qué información vuelve al agente y cuándo continuar, corregir, detenerse o escalar a una persona. Un recorrido por sus componentes, sus límites y su aplicación en un sistema multiagente construido con Claude Code.","datePublished":"2026-11-13","dateModified":"2026-11-13","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/loop-engineering-agentic-loops/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"IA y agentes"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/loop-engineering-agentic-loops/#article","headline":"Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA","description":"Prompt, context y harness engineering definen qué se le pide a un agente, qué información recibe y con qué herramientas opera. Loop Engineering se ocupa del ciclo: qué lo inicia, dónde se guarda el estado, quién verifica, qué información vuelve al agente y cuándo continuar, corregir, detenerse o escalar a una persona. Un recorrido por sus componentes, sus límites y su aplicación en un sistema multiagente construido con Claude Code.","datePublished":"2026-11-13","dateModified":"2026-11-13","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/loop-engineering-agentic-loops/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/loop-engineering-agentic-loops/","articleSection":"AI and agents","keywords":"AI, Agents, Architecture","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://arxiv.org/abs/2608.21884"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA","item":"https://juliancardozo.github.io/en/blog/loop-engineering-agentic-loops/"}]}]}</script>
 </head>
 <body class="page-article">
 <!-- Google Tag Manager (noscript) -->
@@ -66,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article class="article">
   <header class="shell article__head">
     <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
-    <p class="article__meta"><span>IA y agentes</span><time datetime="2026-11-13">November 13, 2026</time><span>12 min de lectura</span></p>
+    <p class="article__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos">AI and agents</a><time datetime="2026-11-13">November 13, 2026</time><span>12 min de lectura</span></p>
     <h1 class="article__title">Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA</h1>
     <p class="article__lead">Quien trabaja con agentes de código conoce la secuencia: el agente entrega un resultado, una persona lo revisa y responde con indicaciones como &quot;ejecutá los tests&quot;, &quot;el build falló&quot; o &quot;intentá de nuevo&quot;. Cada una de esas respuestas es, en los hechos, una iteración de un ciclo de control. El ciclo existe, pero lo sostiene una persona. Loop Engineering, un término que empezó a circular a mediados de 2026, describe el esfuerzo de llevar ese ciclo al diseño del sistema: definir qué lo inicia, dónde se conserva el progreso, cómo se verifica cada resultado, qué información recibe el agente en la siguiente vuelta y bajo qué condiciones se detiene o pide intervención humana.</p>
   </header>
@@ -250,25 +250,29 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Keep reading</p>
     <h2 id="related-articles-title">Related articles</h2>
     <ul>
-      <li><a href="/en/blog/orquestacion-multiagente-website-factory/" class="js-track-related-article">
-        <span>IA y agentes</span>
+      <li data-cat="ia-agentes"><a href="/en/blog/orquestacion-multiagente-website-factory/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
         <strong>Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web</strong>
         <small>Website Factory es un sistema multiagente: un orquestador de Claude Code descompone el problema, delega en seis subagentes especializados y cierra cada etapa con verificadores deterministas sobre el flujo de GitHub Spec Kit. Cómo se coordinan, cómo se programa un sistema para que los agentes ejecuten los prompts, y qué significan en la práctica prompt engineering, context engineering y loop engineering.</small>
-      </a></li><li><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
-        <span>Liderazgo y plataforma</span>
+      </a></li><li data-cat="ia-agentes"><a href="/en/blog/agentes-ia-salidas-verificables/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
+        <strong>AI for compliance: an answer without evidence is an operational risk</strong>
+        <small>Designing verifiable agents for privacy: traceable evidence, explicit uncertainty and human review.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Leadership and product</span>
         <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
         <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
-      </a></li><li><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-related-article">
-        <span>AI and product</span>
-        <strong>Reverse engineering with agents: from Chordify to ChordLocal with REA</strong>
-        <small>We ran REA (Reverse Engineer Anything) against Chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of ChordLocal, a local and free alternative.</small>
       </a></li>
     </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=ia-agentes#articulos" class="js-track-related-category">More in AI and agents <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/ingenieria-con-ia/" class="js-track-pillar-hub">Reading path: Engineering with AI and agents <span aria-hidden="true">→</span></a>
+    </p>
   </section>
 </article><script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
   const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: { fontSize: '15px' }, flowchart: { padding: 16 } });
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
 </script>
 </main>
 <footer class="site-footer">

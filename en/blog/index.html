@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"Blog by Julián Cardozo","url":"https://juliancardozo.github.io/en/blog/","inLanguage":"en","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog","name":"Blog by Julián Cardozo","url":"https://juliancardozo.github.io/en/blog/","inLanguage":"en","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"blogPost":[{"@type":"BlogPosting","headline":"Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/"},{"@type":"BlogPosting","headline":"De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/technical-product-manager-developer-platform/"},{"@type":"BlogPosting","headline":"Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/loop-engineering-agentic-loops/"},{"@type":"BlogPosting","headline":"Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web","datePublished":"2026-11-12","url":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/"},{"@type":"BlogPosting","headline":"Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering","datePublished":"2026-11-10","url":"https://juliancardozo.github.io/en/blog/developer-experience-ia-friccion-plataforma/"},{"@type":"BlogPosting","headline":"SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir","datePublished":"2026-11-10","url":"https://juliancardozo.github.io/en/blog/saas-multitenant-iac-resiliencia/"},{"@type":"BlogPosting","headline":"AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar","datePublished":"2026-11-08","url":"https://juliancardozo.github.io/en/blog/aws-cloud-practitioner-field-notes/"},{"@type":"BlogPosting","headline":"Reverse engineering with agents: from Chordify to ChordLocal with REA","datePublished":"2026-10-19","url":"https://juliancardozo.github.io/en/blog/rea-ingenieria-inversa-chordify-chordlocal/"},{"@type":"BlogPosting","headline":"Hardware is no longer a detail: how the new model standard redefines AI architecture","datePublished":"2026-09-07","url":"https://juliancardozo.github.io/en/blog/hardware-modelos-redifinen-arquitectura-ia/"},{"@type":"BlogPosting","headline":"Puffin-World and the new wave of multimodal models: less hype, more real architecture","datePublished":"2026-09-07","url":"https://juliancardozo.github.io/en/blog/puffin-world-modelos-multimodales-open-weight/"}]}</script>
 </head>
 <body class="page-blog">
 <!-- Google Tag Manager (noscript) -->
@@ -65,236 +65,332 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section class="blog-index">
   <div class="shell">
-    <header class="blog-index__head">
-      <p class="section__eyebrow">Blog</p>
-      <h1 class="blog-index__title">Technology that comes from building products</h1>
-      <p class="section__lead">Notes on AI, architecture, infrastructure and entrepreneurship, based on decisions made on my own projects.</p>
-      <div class="hero__ctas">
-        <a class="btn btn--ghost" href="/en/newsletter/">See the newsletter</a>
-        <a class="btn btn--ghost js-track-newsletter-interest" href="/en/newsletter/#suscribirme">Subscribe</a>
+    <header class="blog-hero">
+      <div class="blog-hero__copy">
+        <p class="section__eyebrow">Blog</p>
+        <h1 class="blog-hero__title">Technical notes</h1>
+        <p class="blog-hero__lead">What I learn building software: AI and agents, architecture, platforms, fintech and technical leadership.</p>
+        <dl class="blog-hero__stats">
+          <div><dt>Articles</dt><dd>27</dd></div>
+          <div><dt>Categories</dt><dd>5</dd></div>
+          <div><dt>Latest post</dt><dd><time datetime="2026-11-13">November 13, 2026</time></dd></div>
+        </dl>
+        <div class="hero__ctas">
+          <a class="btn btn--primary js-track-newsletter-interest" href="/en/newsletter/#suscribirme">Subscribe</a>
+          <a class="btn btn--ghost" href="#articulos">Browse articles</a>
+        </div>
       </div>
+      <article class="blog-feature" data-cat="fintech-pagos">
+        <p class="blog-feature__label">Latest article</p>
+        <p class="article-card__meta"><a class="cat-label" data-cat="fintech-pagos" href="/en/blog/?categoria=fintech-pagos#articulos" data-blog-category-link="fintech-pagos">Fintech and payments</a><time datetime="2026-11-13">November 13, 2026</time></p>
+        <h2 class="blog-feature__title"><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-article-card">Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</a></h2>
+        <p class="blog-feature__description">En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.</p>
+        <p class="blog-feature__footer"><span>11 min de lectura</span><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></p>
+      </article>
     </header>
+
+    <section class="blog-latest" aria-labelledby="blog-latest-title">
+      <h2 id="blog-latest-title" class="blog-section-title">Most recent</h2>
+      <ol class="blog-latest__list">
+        <li>
+          <span class="blog-latest__index" aria-hidden="true">02</span>
+          <div>
+            <p class="article-card__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos" data-blog-category-link="liderazgo-producto">Leadership and product</a><span>7 min de lectura</span></p>
+            <h3><a href="/en/blog/technical-product-manager-developer-platform/" class="js-track-article-card">De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers</a></h3>
+          </div>
+        </li><li>
+          <span class="blog-latest__index" aria-hidden="true">03</span>
+          <div>
+            <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><span>12 min de lectura</span></p>
+            <h3><a href="/en/blog/loop-engineering-agentic-loops/" class="js-track-article-card">Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA</a></h3>
+          </div>
+        </li><li>
+          <span class="blog-latest__index" aria-hidden="true">04</span>
+          <div>
+            <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><span>16 min de lectura</span></p>
+            <h3><a href="/en/blog/orquestacion-multiagente-website-factory/" class="js-track-article-card">Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web</a></h3>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="blog-categories" aria-labelledby="blog-categories-title">
+      <p class="section__eyebrow">Categories</p>
+      <h2 id="blog-categories-title" class="blog-section-title">Browse by category</h2>
+      <div class="category-grid">
+        <article class="category-card" data-cat="ia-agentes">
+          <p class="category-card__count">7 articles</p>
+          <h3><a href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a></h3>
+          <p class="category-card__description">Engineering with agents: specification, context, orchestration, loops and controls.</p>
+          <ul class="category-card__list">
+            <li><a href="/en/blog/loop-engineering-agentic-loops/" class="js-track-article-card">Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA</a></li><li><a href="/en/blog/orquestacion-multiagente-website-factory/" class="js-track-article-card">Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web</a></li>
+          </ul>
+        </article><article class="category-card" data-cat="modelos-ia">
+          <p class="category-card__count">6 articles</p>
+          <h3><a href="/en/blog/?categoria=modelos-ia#articulos" data-blog-category-link="modelos-ia">AI models and trends</a></h3>
+          <p class="category-card__description">Releases, open-weight models, hardware and governance, read from an engineering angle.</p>
+          <ul class="category-card__list">
+            <li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-article-card">Hardware is no longer a detail: how the new model standard redefines AI architecture</a></li><li><a href="/en/blog/puffin-world-modelos-multimodales-open-weight/" class="js-track-article-card">Puffin-World and the new wave of multimodal models: less hype, more real architecture</a></li>
+          </ul>
+        </article><article class="category-card" data-cat="arquitectura-plataforma">
+          <p class="category-card__count">7 articles</p>
+          <h3><a href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a></h3>
+          <p class="category-card__description">Cloud, multi-tenancy, reliability and infrastructure sized to the problem.</p>
+          <ul class="category-card__list">
+            <li><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-article-card">SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</a></li><li><a href="/en/blog/aws-cloud-practitioner-field-notes/" class="js-track-article-card">AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</a></li>
+          </ul>
+        </article><article class="category-card" data-cat="fintech-pagos">
+          <p class="category-card__count">2 articles</p>
+          <h3><a href="/en/blog/?categoria=fintech-pagos#articulos" data-blog-category-link="fintech-pagos">Fintech and payments</a></h3>
+          <p class="category-card__description">Payments, Open Finance and regulated systems, where a bug is a transaction that never happened.</p>
+          <ul class="category-card__list">
+            <li><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-article-card">Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</a></li><li><a href="/en/blog/webhooks-pagos-maquinas-de-estado/" class="js-track-article-card">Payment architecture: why a charge isn't an HTTP call</a></li>
+          </ul>
+        </article><article class="category-card" data-cat="liderazgo-producto">
+          <p class="category-card__count">5 articles</p>
+          <h3><a href="/en/blog/?categoria=liderazgo-producto#articulos" data-blog-category-link="liderazgo-producto">Leadership and product</a></h3>
+          <p class="category-card__description">Teams, Developer Experience, product and technical entrepreneurship.</p>
+          <ul class="category-card__list">
+            <li><a href="/en/blog/technical-product-manager-developer-platform/" class="js-track-article-card">De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers</a></li><li><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-article-card">Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</a></li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="blog-archive" id="articulos" aria-labelledby="blog-archive-title">
+      <h2 id="blog-archive-title" class="blog-section-title">All articles</h2>
+      <div class="blog-toolbar">
+        <label class="blog-search">
+          <span class="visually-hidden">Search articles</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="search" placeholder="Search by topic, technology or concept" autocomplete="off" data-blog-search />
+        </label>
+        <div class="filters blog-filters" role="group" aria-label="Filter articles by category" data-blog-filters>
+          <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">All <span class="filters__count">27</span></button>
+          <button type="button" class="filters__btn" data-cat="ia-agentes" data-blog-filter="ia-agentes" aria-pressed="false">AI and agents <span class="filters__count">7</span></button><button type="button" class="filters__btn" data-cat="modelos-ia" data-blog-filter="modelos-ia" aria-pressed="false">AI models and trends <span class="filters__count">6</span></button><button type="button" class="filters__btn" data-cat="arquitectura-plataforma" data-blog-filter="arquitectura-plataforma" aria-pressed="false">Architecture and platform <span class="filters__count">7</span></button><button type="button" class="filters__btn" data-cat="fintech-pagos" data-blog-filter="fintech-pagos" aria-pressed="false">Fintech and payments <span class="filters__count">2</span></button><button type="button" class="filters__btn" data-cat="liderazgo-producto" data-blog-filter="liderazgo-producto" aria-pressed="false">Leadership and product <span class="filters__count">5</span></button>
+        </div>
+      </div>
+      <p class="blog-results" aria-live="polite" data-blog-results data-template="{n} articles"></p>
+      <div class="article-grid" data-blog-grid>
+        
+        <article class="article-card" data-blog-card data-cat="fintech-pagos" data-category="fintech-pagos" data-tags="payments architecture security data" data-search="open finance como infraestructura: la arquitectura que hay detras del consentimiento en el summit fintech 2026 de forbes argentina, open finance se discutio como la infraestructura que puede cambiar el negocio de bancos y fintech. este articulo lo analiza desde la ingenieria: que componentes requiere, por que el consentimiento debe modelarse como una maquina de estados, que estandares existen para asegurar las apis y que implica que la seguridad sea un problema de todo el ecosistema. fintech and payments payments architecture security data" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="fintech-pagos" href="/en/blog/?categoria=fintech-pagos#articulos" data-blog-category-link="fintech-pagos">Fintech and payments</a><time datetime="2026-11-13">November 13, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-article-card">Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</a></h3>
+          <p class="article-card__description">En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Payments</li><li>Architecture</li><li>Security</li><li>Data</li></ul>
+          <div class="article-card__footer"><span>11 min de lectura</span><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="liderazgo-producto" data-category="liderazgo-producto" data-tags="leadership product platform-engineering" data-search="de ingenieria a producto: por que las plataformas internas necesitan technical product managers un articulo de nyt open presenta a danny cassidy, que paso de ingeniero backend a senior technical product manager de la plataforma de desarrollo de the new york times. un analisis de por que ese recorrido es especialmente valioso cuando los usuarios del producto son ingenieros, y de lo que su evaluacion de un reemplazo de ci/cd ensena sobre como decidir en platform engineering. leadership and product leadership product platform engineering" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos" data-blog-category-link="liderazgo-producto">Leadership and product</a><time datetime="2026-11-13">November 13, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/technical-product-manager-developer-platform/" class="js-track-article-card">De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers</a></h3>
+          <p class="article-card__description">Un artículo de NYT Open presenta a Danny Cassidy, que pasó de ingeniero backend a Senior Technical Product Manager de la plataforma de desarrollo de The New York Times. Un análisis de por qué ese recorrido es especialmente valioso cuando los usuarios del producto son ingenieros, y de lo que su evaluación de un reemplazo de CI/CD enseña sobre cómo decidir en Platform Engineering.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Leadership</li><li>Product</li><li>Platform Engineering</li></ul>
+          <div class="article-card__footer"><span>7 min de lectura</span><a href="/en/blog/technical-product-manager-developer-platform/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="ia-agentes" data-category="ia-agentes" data-tags="ai agents architecture" data-search="loop engineering: como disenar el ciclo de trabajo de los agentes de ia prompt, context y harness engineering definen que se le pide a un agente, que informacion recibe y con que herramientas opera. loop engineering se ocupa del ciclo: que lo inicia, donde se guarda el estado, quien verifica, que informacion vuelve al agente y cuando continuar, corregir, detenerse o escalar a una persona. un recorrido por sus componentes, sus limites y su aplicacion en un sistema multiagente construido con claude code. ai and agents ai agents architecture" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><time datetime="2026-11-13">November 13, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/loop-engineering-agentic-loops/" class="js-track-article-card">Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA</a></h3>
+          <p class="article-card__description">Prompt, context y harness engineering definen qué se le pide a un agente, qué información recibe y con qué herramientas opera. Loop Engineering se ocupa del ciclo: qué lo inicia, dónde se guarda el estado, quién verifica, qué información vuelve al agente y cuándo continuar, corregir, detenerse o escalar a una persona. Un recorrido por sus componentes, sus límites y su aplicación en un sistema multiagente construido con Claude Code.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Architecture</li></ul>
+          <div class="article-card__footer"><span>12 min de lectura</span><a href="/en/blog/loop-engineering-agentic-loops/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="ia-agentes" data-category="ia-agentes" data-tags="ai agents architecture" data-search="siete agentes, un objetivo: como se orquesta un sistema multiagente que construye un sitio web website factory es un sistema multiagente: un orquestador de claude code descompone el problema, delega en seis subagentes especializados y cierra cada etapa con verificadores deterministas sobre el flujo de github spec kit. como se coordinan, como se programa un sistema para que los agentes ejecuten los prompts, y que significan en la practica prompt engineering, context engineering y loop engineering. ai and agents ai agents architecture" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><time datetime="2026-11-12">November 12, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/orquestacion-multiagente-website-factory/" class="js-track-article-card">Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web</a></h3>
+          <p class="article-card__description">Website Factory es un sistema multiagente: un orquestador de Claude Code descompone el problema, delega en seis subagentes especializados y cierra cada etapa con verificadores deterministas sobre el flujo de GitHub Spec Kit. Cómo se coordinan, cómo se programa un sistema para que los agentes ejecuten los prompts, y qué significan en la práctica prompt engineering, context engineering y loop engineering.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Architecture</li></ul>
+          <div class="article-card__footer"><span>16 min de lectura</span><a href="/en/blog/orquestacion-multiagente-website-factory/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="liderazgo-producto" data-category="liderazgo-producto" data-tags="leadership platform-engineering ai" data-search="escribimos codigo mas rapido. ¿desarrollamos mejor software? devex, ia y platform engineering el state of developer experience 2026 de atlassian muestra una brecha entre velocidad y friccion. que dicen los datos, que no dicen, y como una plataforma interna gestionada como producto, ahora tambien para agentes, puede cerrarla. con las novedades de noviembre de 2026. leadership and product leadership platform engineering ai" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos" data-blog-category-link="liderazgo-producto">Leadership and product</a><time datetime="2026-11-10">November 10, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-article-card">Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</a></h3>
+          <p class="article-card__description">El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Leadership</li><li>Platform Engineering</li><li>AI</li></ul>
+          <div class="article-card__footer"><span>11 min de lectura</span><a href="/en/blog/developer-experience-ia-friccion-plataforma/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="arquitectura-plataforma" data-category="arquitectura-plataforma" data-tags="cloud architecture infrastructure" data-search="saas multitenant: disenar para escalar, automatizar para operar y replicar para sobrevivir aislamiento entre tenants, infrastructure as code y recuperacion ante desastres como un unico problema de diseno: modelos pool, silo y bridge, iac con drift detection, rto/rpo validados y una arquitectura de referencia cloud-agnostic. architecture and platform cloud architecture infrastructure" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a><time datetime="2026-11-10">November 10, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-article-card">SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</a></h3>
+          <p class="article-card__description">Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Cloud</li><li>Architecture</li><li>Infrastructure</li></ul>
+          <div class="article-card__footer"><span>14 min de lectura</span><a href="/en/blog/saas-multitenant-iac-resiliencia/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="arquitectura-plataforma" data-category="arquitectura-plataforma" data-tags="cloud architecture infrastructure" data-search="aws cloud practitioner — field notes: 6 conceptos para entender, no memorizar mis notas de estudio para el clf-c02: regiones y azs, vpc, responsabilidad compartida, computo, almacenamiento y costos. con ejemplos, errores frecuentes y pdf descargable. architecture and platform cloud architecture infrastructure" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a><time datetime="2026-11-08">November 8, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/aws-cloud-practitioner-field-notes/" class="js-track-article-card">AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</a></h3>
+          <p class="article-card__description">Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Cloud</li><li>Architecture</li><li>Infrastructure</li></ul>
+          <div class="article-card__footer"><span>9 min de lectura</span><a href="/en/blog/aws-cloud-practitioner-field-notes/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="ia-agentes" data-category="ia-agentes" data-tags="ai agents product" data-search="reverse engineering with agents: from chordify to chordlocal with rea we ran rea (reverse engineer anything) against chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of chordlocal, a local and free alternative. ai and agents ai agents product" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><time datetime="2026-10-19">October 19, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-article-card">Reverse engineering with agents: from Chordify to ChordLocal with REA</a></h3>
+          <p class="article-card__description">We ran REA (Reverse Engineer Anything) against Chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of ChordLocal, a local and free alternative.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Product</li></ul>
+          <div class="article-card__footer"><span>9 min read</span><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="modelos-ia" data-category="modelos-ia" data-tags="ai infrastructure" data-search="hardware is no longer a detail: how the new model standard redefines ai architecture an analysis of the new discussion about hardware for frontier models and why infrastructure has become central to ai strategy. ai models and trends ai infrastructure" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="modelos-ia" href="/en/blog/?categoria=modelos-ia#articulos" data-blog-category-link="modelos-ia">AI models and trends</a><time datetime="2026-09-07">September 7, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-article-card">Hardware is no longer a detail: how the new model standard redefines AI architecture</a></h3>
+          <p class="article-card__description">An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Infrastructure</li></ul>
+          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="modelos-ia" data-category="modelos-ia" data-tags="ai open-weight" data-search="puffin-world and the new wave of multimodal models: less hype, more real architecture a look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture. ai models and trends ai open-weight" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="modelos-ia" href="/en/blog/?categoria=modelos-ia#articulos" data-blog-category-link="modelos-ia">AI models and trends</a><time datetime="2026-09-07">September 7, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/puffin-world-modelos-multimodales-open-weight/" class="js-track-article-card">Puffin-World and the new wave of multimodal models: less hype, more real architecture</a></h3>
+          <p class="article-card__description">A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li></ul>
+          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/puffin-world-modelos-multimodales-open-weight/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="liderazgo-producto" data-category="liderazgo-producto" data-tags="leadership ai product" data-search="ai doesn't just change a tool: it changes the structure of leadership and operations an analysis of why ai redefines leadership, coordination, metrics and operational responsibility, not just the technical stack. leadership and product leadership ai product" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos" data-blog-category-link="liderazgo-producto">Leadership and product</a><time datetime="2026-09-07">September 7, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/ia-no-cambia-solo-herramienta-liderazgo-operacion/" class="js-track-article-card">AI doesn't just change a tool: it changes the structure of leadership and operations</a></h3>
+          <p class="article-card__description">An analysis of why AI redefines leadership, coordination, metrics and operational responsibility, not just the technical stack.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Leadership</li><li>AI</li><li>Product</li></ul>
+          <div class="article-card__footer"><span>8 min read</span><a href="/en/blog/ia-no-cambia-solo-herramienta-liderazgo-operacion/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="modelos-ia" data-category="modelos-ia" data-tags="ai" data-search="openai launches gpt-6 astra: frontier capability, competitive pressure and the superintelligence debate a technical and strategic analysis of the gpt-6 astra launch: stated capabilities, product architecture and what talking about superintelligence does (and does not) mean. ai models and trends ai" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="modelos-ia" href="/en/blog/?categoria=modelos-ia#articulos" data-blog-category-link="modelos-ia">AI models and trends</a><time datetime="2026-09-04">September 4, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/gpt-6-astra-openai-superinteligencia-especulaciones/" class="js-track-article-card">OpenAI launches GPT-6 Astra: frontier capability, competitive pressure and the superintelligence debate</a></h3>
+          <p class="article-card__description">A technical and strategic analysis of the GPT-6 Astra launch: stated capabilities, product architecture and what talking about superintelligence does (and does not) mean.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li></ul>
+          <div class="article-card__footer"><span>8 min read</span><a href="/en/blog/gpt-6-astra-openai-superinteligencia-especulaciones/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="modelos-ia" data-category="modelos-ia" data-tags="ai open-weight" data-search="llama 4 scout: what meta's multimodal open-weight model brings to product teams an analysis of llama 4 scout: multimodal moe architecture, a 10-million-token context, a specific commercial license and real deployment requirements. ai models and trends ai open-weight" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="modelos-ia" href="/en/blog/?categoria=modelos-ia#articulos" data-blog-category-link="modelos-ia">AI models and trends</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/llama-4-scout-open-weight-usa/" class="js-track-article-card">Llama 4 Scout: what Meta's multimodal open-weight model brings to product teams</a></h3>
+          <p class="article-card__description">An analysis of Llama 4 Scout: multimodal MoE architecture, a 10-million-token context, a specific commercial license and real deployment requirements.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li></ul>
+          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/llama-4-scout-open-weight-usa/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="modelos-ia" data-category="modelos-ia" data-tags="ai open-weight" data-search="qwen3-235b-a22b: china's case for large-scale open-weight inference an analysis of qwen's open-weight flagship: a 235b/22b-active moe, 119 languages, up to 1m context and an apache 2.0 license. ai models and trends ai open-weight" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="modelos-ia" href="/en/blog/?categoria=modelos-ia#articulos" data-blog-category-link="modelos-ia">AI models and trends</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/qwen3-235b-open-weight-china/" class="js-track-article-card">Qwen3-235B-A22B: China's case for large-scale open-weight inference</a></h3>
+          <p class="article-card__description">An analysis of Qwen's open-weight flagship: a 235B/22B-active MoE, 119 languages, up to 1M context and an Apache 2.0 license.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li></ul>
+          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/qwen3-235b-open-weight-china/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="modelos-ia" data-category="modelos-ia" data-tags="ai security" data-search="claude will add text watermarking: what changes for ai governance anthropic announced that future claude models will generate watermarked text: implications for traceability, compliance and controls on ai-generated content. ai models and trends ai security" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="modelos-ia" href="/en/blog/?categoria=modelos-ia#articulos" data-blog-category-link="modelos-ia">AI models and trends</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/claude-watermarking-gobernanza-contenido-ia/" class="js-track-article-card">Claude will add text watermarking: what changes for AI governance</a></h3>
+          <p class="article-card__description">Anthropic announced that future Claude models will generate watermarked text: implications for traceability, compliance and controls on AI-generated content.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Security</li></ul>
+          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/claude-watermarking-gobernanza-contenido-ia/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="ia-agentes" data-category="ia-agentes" data-tags="ai agents platform-engineering" data-search="kiro adopts acp: agent interoperability reaches the specialized ide kiro cli added the agent client protocol to run agents in compatible ides: impact on specialized tools, standardization and execution control. ai and agents ai agents platform engineering" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/kiro-acp-interoperabilidad-agentes-ide/" class="js-track-article-card">Kiro adopts ACP: agent interoperability reaches the specialized IDE</a></h3>
+          <p class="article-card__description">Kiro CLI added the Agent Client Protocol to run agents in compatible IDEs: impact on specialized tools, standardization and execution control.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Platform Engineering</li></ul>
+          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/kiro-acp-interoperabilidad-agentes-ide/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="ia-agentes" data-category="ia-agentes" data-tags="ai agents product" data-search="spec kit 1.0: the specification consolidates as the interface for agents github released spec kit 1.0 and 1.0.1, with adoption guides, quickstarts and extensions: impact on spec-driven development and automation with agents. ai and agents ai agents product" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/spec-kit-1-especificaciones-agentes-adopcion/" class="js-track-article-card">Spec Kit 1.0: the specification consolidates as the interface for agents</a></h3>
+          <p class="article-card__description">GitHub released Spec Kit 1.0 and 1.0.1, with adoption guides, quickstarts and extensions: impact on spec-driven development and automation with agents.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Product</li></ul>
+          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/spec-kit-1-especificaciones-agentes-adopcion/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="arquitectura-plataforma" data-category="arquitectura-plataforma" data-tags="cloud infrastructure leadership" data-search="what i'm learning while studying for aws cloud practitioner cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost. architecture and platform cloud infrastructure leadership" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-article-card">What I'm learning while studying for AWS Cloud Practitioner</a></h3>
+          <p class="article-card__description">Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Cloud</li><li>Infrastructure</li><li>Leadership</li></ul>
+          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="arquitectura-plataforma" data-category="arquitectura-plataforma" data-tags="architecture product" data-search="the corporate website in 2026: designing impact without sacrificing performance or control architecture for high-impact corporate experiences: scroll-driven storytelling, progressive webgl, purposeful animation and a maintainable foundation. architecture and platform architecture product" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/web-corporativa-2026-impacto-rendimiento/" class="js-track-article-card">The corporate website in 2026: designing impact without sacrificing performance or control</a></h3>
+          <p class="article-card__description">Architecture for high-impact corporate experiences: scroll-driven storytelling, progressive WebGL, purposeful animation and a maintainable foundation.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Architecture</li><li>Product</li></ul>
+          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/web-corporativa-2026-impacto-rendimiento/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="liderazgo-producto" data-category="liderazgo-producto" data-tags="product architecture" data-search="clinical onboarding: how to keep a health product from starting empty milo care's onboarding architecture: rules by country, a preloaded vaccination schedule and a first session with operational value. leadership and product product architecture" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos" data-blog-category-link="liderazgo-producto">Leadership and product</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/milo-care-onboarding-calendario-clinico/" class="js-track-article-card">Clinical onboarding: how to keep a health product from starting empty</a></h3>
+          <p class="article-card__description">Milo Care's onboarding architecture: rules by country, a preloaded vaccination schedule and a first session with operational value.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Product</li><li>Architecture</li></ul>
+          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/milo-care-onboarding-calendario-clinico/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="arquitectura-plataforma" data-category="arquitectura-plataforma" data-tags="infrastructure architecture" data-search="reliable reminders: designing notifications as a product responsibility how milo care models due dates and scheduled jobs so notifications help with care without eroding the user's trust. architecture and platform infrastructure architecture" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a><time datetime="2026-08-25">August 25, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/milo-care-recordatorios-confiables/" class="js-track-article-card">Reliable reminders: designing notifications as a product responsibility</a></h3>
+          <p class="article-card__description">How Milo Care models due dates and scheduled jobs so notifications help with care without eroding the user's trust.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Infrastructure</li><li>Architecture</li></ul>
+          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/milo-care-recordatorios-confiables/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="fintech-pagos" data-category="fintech-pagos" data-tags="payments architecture infrastructure" data-search="payment architecture: why a charge isn't an http call integration patterns, idempotency and traceability for modeling payments as auditable business processes. fintech and payments payments architecture infrastructure" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="fintech-pagos" href="/en/blog/?categoria=fintech-pagos#articulos" data-blog-category-link="fintech-pagos">Fintech and payments</a><time datetime="2026-08-24">August 24, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/webhooks-pagos-maquinas-de-estado/" class="js-track-article-card">Payment architecture: why a charge isn't an HTTP call</a></h3>
+          <p class="article-card__description">Integration patterns, idempotency and traceability for modeling payments as auditable business processes.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Payments</li><li>Architecture</li><li>Infrastructure</li></ul>
+          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/webhooks-pagos-maquinas-de-estado/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="arquitectura-plataforma" data-category="arquitectura-plataforma" data-tags="architecture data security" data-search="secure multi-tenancy: data isolation can't depend on a where clause how to combine identity, rbac and row level security to protect each organization's data by design. architecture and platform architecture data security" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a><time datetime="2026-08-21">August 21, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/multi-tenancy-rls-frontera-datos/" class="js-track-article-card">Secure multi-tenancy: data isolation can't depend on a WHERE clause</a></h3>
+          <p class="article-card__description">How to combine identity, RBAC and Row Level Security to protect each organization's data by design.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Architecture</li><li>Data</li><li>Security</li></ul>
+          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/multi-tenancy-rls-frontera-datos/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="ia-agentes" data-category="ia-agentes" data-tags="ai agents product" data-search="ai-assisted work: the specification is the control system for ambiguity how a sequence of product artifacts turns an idea into operational context for teams and coding agents. ai and agents ai agents product" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><time datetime="2026-08-18">August 18, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/ia-especificacion-antes-codigo/" class="js-track-article-card">AI-assisted work: the specification is the control system for ambiguity</a></h3>
+          <p class="article-card__description">How a sequence of product artifacts turns an idea into operational context for teams and coding agents.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Product</li></ul>
+          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/ia-especificacion-antes-codigo/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="ia-agentes" data-category="ia-agentes" data-tags="ai agents security" data-search="ai for compliance: an answer without evidence is an operational risk designing verifiable agents for privacy: traceable evidence, explicit uncertainty and human review. ai and agents ai agents security" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos" data-blog-category-link="ia-agentes">AI and agents</a><time datetime="2026-08-15">August 15, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/agentes-ia-salidas-verificables/" class="js-track-article-card">AI for compliance: an answer without evidence is an operational risk</a></h3>
+          <p class="article-card__description">Designing verifiable agents for privacy: traceable evidence, explicit uncertainty and human review.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Security</li></ul>
+          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/agentes-ia-salidas-verificables/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="arquitectura-plataforma" data-category="arquitectura-plataforma" data-tags="infrastructure cloud product" data-search="proportional architecture: don't build an e-commerce store to solve a house move how to choose a static, maintainable solution focused on the real flow instead of oversizing an mvp. architecture and platform infrastructure cloud product" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos" data-blog-category-link="arquitectura-plataforma">Architecture and platform</a><time datetime="2026-08-12">August 12, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/infraestructura-proporcionada-problema/" class="js-track-article-card">Proportional architecture: don't build an e-commerce store to solve a house move</a></h3>
+          <p class="article-card__description">How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Infrastructure</li><li>Cloud</li><li>Product</li></ul>
+          <div class="article-card__footer"><span>4 min read</span><a href="/en/blog/infraestructura-proporcionada-problema/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+        <article class="article-card" data-blog-card data-cat="liderazgo-producto" data-category="liderazgo-producto" data-tags="startups product" data-search="from observed problem to mvp: designing products around the user's real work escalaimprov shows how a concrete friction can turn into a hypothesis, distinct flows and reusable capabilities. leadership and product startups product" data-reveal>
+          <p class="article-card__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos" data-blog-category-link="liderazgo-producto">Leadership and product</a><time datetime="2026-08-09">August 9, 2026</time></p>
+          <h3 class="article-card__title"><a href="/en/blog/emprender-desde-problemas-observados/" class="js-track-article-card">From observed problem to MVP: designing products around the user's real work</a></h3>
+          <p class="article-card__description">EscalaImprov shows how a concrete friction can turn into a hypothesis, distinct flows and reusable capabilities.</p>
+          <ul class="article-card__tags" aria-label="Topics"><li>Startups</li><li>Product</li></ul>
+          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/emprender-desde-problemas-observados/" tabindex="-1" aria-hidden="true">Read article <span aria-hidden="true">→</span></a></div>
+        </article>
+      </div>
+      <p class="blog-empty" data-blog-empty hidden>No articles match your search.</p>
+      <div class="blog-more"><button type="button" class="btn btn--ghost" data-blog-load-more>Load more articles</button></div>
+    </section>
+
     <section class="blog-pillars" id="pilares" aria-labelledby="blog-pillars-title">
       <p class="section__eyebrow">Pillars</p>
-      <h2 id="blog-pillars-title">Three ways in to understand the journey</h2>
+      <h2 id="blog-pillars-title" class="blog-section-title">Reading paths by pillar</h2>
       <div class="pillar-strip">
         <article class="pillar-card">
-          <p class="pillar-card__meta">Pillar</p>
+          <p class="pillar-card__meta">8 articles</p>
           <h3><a href="/en/topics/ingenieria-con-ia/" class="js-track-pillar-hub">Engineering with AI and agents</a></h3>
           <p>How to bring AI agents into the development cycle: specification, context, a control harness and human review.</p>
         </article><article class="pillar-card">
-          <p class="pillar-card__meta">Pillar</p>
+          <p class="pillar-card__meta">8 articles</p>
           <h3><a href="/en/topics/liderazgo-tecnico/" class="js-track-pillar-hub">Technical leadership and teams</a></h3>
           <p>How I think about technical leadership, autonomy, sustainable delivery and the relationship between engineering, product and business.</p>
         </article><article class="pillar-card">
-          <p class="pillar-card__meta">Pillar</p>
+          <p class="pillar-card__meta">12 articles</p>
           <h3><a href="/en/topics/plataforma-arquitectura/" class="js-track-pillar-hub">Platform engineering and architecture</a></h3>
           <p>Software architecture, multi-tenancy, payments, cloud, developer experience and systems that need to be explained and operated.</p>
         </article><article class="pillar-card">
-          <p class="pillar-card__meta">Pillar</p>
+          <p class="pillar-card__meta">6 articles</p>
           <h3><a href="/en/topics/producto-mvps/" class="js-track-pillar-hub">Products, startups and MVPs</a></h3>
           <p>From observing the problem to the MVP: onboarding, user experience, hypotheses, validation and designing sustainable solutions.</p>
         </article>
       </div>
     </section>
-    <div class="filters blog-filters" id="articulos" role="group" aria-label="Filter articles by topic" data-blog-filters>
-      <button type="button" class="filters__btn" data-blog-filter="all" aria-pressed="true">All</button>
-      <button type="button" class="filters__btn" data-blog-filter="agents" aria-pressed="false">Agents</button><button type="button" class="filters__btn" data-blog-filter="ai" aria-pressed="false">AI</button><button type="button" class="filters__btn" data-blog-filter="architecture" aria-pressed="false">Architecture</button><button type="button" class="filters__btn" data-blog-filter="cloud" aria-pressed="false">Cloud</button><button type="button" class="filters__btn" data-blog-filter="data" aria-pressed="false">Data</button><button type="button" class="filters__btn" data-blog-filter="infrastructure" aria-pressed="false">Infrastructure</button><button type="button" class="filters__btn" data-blog-filter="leadership" aria-pressed="false">Leadership</button><button type="button" class="filters__btn" data-blog-filter="multi-tenancy" aria-pressed="false">Multi-tenancy</button><button type="button" class="filters__btn" data-blog-filter="music" aria-pressed="false">Music</button><button type="button" class="filters__btn" data-blog-filter="open-weight" aria-pressed="false">Open-weight</button><button type="button" class="filters__btn" data-blog-filter="payments" aria-pressed="false">Payments</button><button type="button" class="filters__btn" data-blog-filter="product" aria-pressed="false">Product</button><button type="button" class="filters__btn" data-blog-filter="reverse-engineering" aria-pressed="false">Reverse engineering</button><button type="button" class="filters__btn" data-blog-filter="startups" aria-pressed="false">Startups</button>
-    </div>
-    <div class="article-grid" data-blog-grid>
-      
-        <article class="article-card" data-blog-card data-tags="payments architecture data infrastructure" data-reveal>
-          <p class="article-card__meta"><span>Pagos e infraestructura</span><time datetime="2026-11-13">November 13, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-article-card">Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</a></h2>
-          <p class="article-card__description">En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Payments</li><li>Architecture</li><li>Data</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>11 min de lectura</span><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="leadership product infrastructure" data-reveal>
-          <p class="article-card__meta"><span>Liderazgo y plataforma</span><time datetime="2026-11-13">November 13, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/technical-product-manager-developer-platform/" class="js-track-article-card">De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers</a></h2>
-          <p class="article-card__description">Un artículo de NYT Open presenta a Danny Cassidy, que pasó de ingeniero backend a Senior Technical Product Manager de la plataforma de desarrollo de The New York Times. Un análisis de por qué ese recorrido es especialmente valioso cuando los usuarios del producto son ingenieros, y de lo que su evaluación de un reemplazo de CI/CD enseña sobre cómo decidir en Platform Engineering.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Leadership</li><li>Product</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>7 min de lectura</span><a href="/en/blog/technical-product-manager-developer-platform/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai agents architecture leadership" data-reveal>
-          <p class="article-card__meta"><span>IA y agentes</span><time datetime="2026-11-13">November 13, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/loop-engineering-agentic-loops/" class="js-track-article-card">Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA</a></h2>
-          <p class="article-card__description">Prompt, context y harness engineering definen qué se le pide a un agente, qué información recibe y con qué herramientas opera. Loop Engineering se ocupa del ciclo: qué lo inicia, dónde se guarda el estado, quién verifica, qué información vuelve al agente y cuándo continuar, corregir, detenerse o escalar a una persona. Un recorrido por sus componentes, sus límites y su aplicación en un sistema multiagente construido con Claude Code.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Architecture</li><li>Leadership</li></ul>
-          <div class="article-card__footer"><span>12 min de lectura</span><a href="/en/blog/loop-engineering-agentic-loops/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai agents architecture leadership" data-reveal>
-          <p class="article-card__meta"><span>IA y agentes</span><time datetime="2026-11-12">November 12, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/orquestacion-multiagente-website-factory/" class="js-track-article-card">Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web</a></h2>
-          <p class="article-card__description">Website Factory es un sistema multiagente: un orquestador de Claude Code descompone el problema, delega en seis subagentes especializados y cierra cada etapa con verificadores deterministas sobre el flujo de GitHub Spec Kit. Cómo se coordinan, cómo se programa un sistema para que los agentes ejecuten los prompts, y qué significan en la práctica prompt engineering, context engineering y loop engineering.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Architecture</li><li>Leadership</li></ul>
-          <div class="article-card__footer"><span>16 min de lectura</span><a href="/en/blog/orquestacion-multiagente-website-factory/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="leadership ai architecture infrastructure" data-reveal>
-          <p class="article-card__meta"><span>Liderazgo y plataforma</span><time datetime="2026-11-10">November 10, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-article-card">Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</a></h2>
-          <p class="article-card__description">El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Leadership</li><li>AI</li><li>Architecture</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>11 min de lectura</span><a href="/en/blog/developer-experience-ia-friccion-plataforma/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="cloud architecture infrastructure multi-tenancy" data-reveal>
-          <p class="article-card__meta"><span>Cloud y arquitectura</span><time datetime="2026-11-10">November 10, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-article-card">SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</a></h2>
-          <p class="article-card__description">Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Cloud</li><li>Architecture</li><li>Infrastructure</li><li>Multi-tenancy</li></ul>
-          <div class="article-card__footer"><span>14 min de lectura</span><a href="/en/blog/saas-multitenant-iac-resiliencia/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="cloud architecture infrastructure" data-reveal>
-          <p class="article-card__meta"><span>Cloud y arquitectura</span><time datetime="2026-11-08">November 8, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/aws-cloud-practitioner-field-notes/" class="js-track-article-card">AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</a></h2>
-          <p class="article-card__description">Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Cloud</li><li>Architecture</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>9 min de lectura</span><a href="/en/blog/aws-cloud-practitioner-field-notes/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai agents reverse-engineering product music" data-reveal>
-          <p class="article-card__meta"><span>AI and product</span><time datetime="2026-10-19">October 19, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-article-card">Reverse engineering with agents: from Chordify to ChordLocal with REA</a></h2>
-          <p class="article-card__description">We ran REA (Reverse Engineer Anything) against Chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of ChordLocal, a local and free alternative.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Agents</li><li>Reverse engineering</li><li>Product</li><li>Music</li></ul>
-          <div class="article-card__footer"><span>9 min read</span><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai architecture infrastructure" data-reveal>
-          <p class="article-card__meta"><span>AI news</span><time datetime="2026-09-07">September 7, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-article-card">Hardware is no longer a detail: how the new model standard redefines AI architecture</a></h2>
-          <p class="article-card__description">An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Architecture</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai architecture infrastructure" data-reveal>
-          <p class="article-card__meta"><span>AI news</span><time datetime="2026-09-07">September 7, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/puffin-world-modelos-multimodales-open-weight/" class="js-track-article-card">Puffin-World and the new wave of multimodal models: less hype, more real architecture</a></h2>
-          <p class="article-card__description">A look at the new generation of multimodal models and what really matters when evaluating open repositories and product architecture.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Architecture</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/puffin-world-modelos-multimodales-open-weight/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai leadership product" data-reveal>
-          <p class="article-card__meta"><span>Leadership and product</span><time datetime="2026-09-07">September 7, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/ia-no-cambia-solo-herramienta-liderazgo-operacion/" class="js-track-article-card">AI doesn't just change a tool: it changes the structure of leadership and operations</a></h2>
-          <p class="article-card__description">An analysis of why AI redefines leadership, coordination, metrics and operational responsibility, not just the technical stack.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Leadership</li><li>Product</li></ul>
-          <div class="article-card__footer"><span>8 min read</span><a href="/en/blog/ia-no-cambia-solo-herramienta-liderazgo-operacion/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai open-weight architecture" data-reveal>
-          <p class="article-card__meta"><span>AI news</span><time datetime="2026-09-04">September 4, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/gpt-6-astra-openai-superinteligencia-especulaciones/" class="js-track-article-card">OpenAI launches GPT-6 Astra: frontier capability, competitive pressure and the superintelligence debate</a></h2>
-          <p class="article-card__description">A technical and strategic analysis of the GPT-6 Astra launch: stated capabilities, product architecture and what talking about superintelligence does (and does not) mean.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li><li>Architecture</li></ul>
-          <div class="article-card__footer"><span>8 min read</span><a href="/en/blog/gpt-6-astra-openai-superinteligencia-especulaciones/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai open-weight architecture" data-reveal>
-          <p class="article-card__meta"><span>Open-weight LLMs</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/llama-4-scout-open-weight-usa/" class="js-track-article-card">Llama 4 Scout: what Meta's multimodal open-weight model brings to product teams</a></h2>
-          <p class="article-card__description">An analysis of Llama 4 Scout: multimodal MoE architecture, a 10-million-token context, a specific commercial license and real deployment requirements.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li><li>Architecture</li></ul>
-          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/llama-4-scout-open-weight-usa/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai open-weight architecture" data-reveal>
-          <p class="article-card__meta"><span>Open-weight LLMs</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/qwen3-235b-open-weight-china/" class="js-track-article-card">Qwen3-235B-A22B: China's case for large-scale open-weight inference</a></h2>
-          <p class="article-card__description">An analysis of Qwen's open-weight flagship: a 235B/22B-active MoE, 119 languages, up to 1M context and an Apache 2.0 license.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li><li>Architecture</li></ul>
-          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/qwen3-235b-open-weight-china/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai open-weight" data-reveal>
-          <p class="article-card__meta"><span>AI news</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/claude-watermarking-gobernanza-contenido-ia/" class="js-track-article-card">Claude will add text watermarking: what changes for AI governance</a></h2>
-          <p class="article-card__description">Anthropic announced that future Claude models will generate watermarked text: implications for traceability, compliance and controls on AI-generated content.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li></ul>
-          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/claude-watermarking-gobernanza-contenido-ia/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai open-weight" data-reveal>
-          <p class="article-card__meta"><span>AI news</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/kiro-acp-interoperabilidad-agentes-ide/" class="js-track-article-card">Kiro adopts ACP: agent interoperability reaches the specialized IDE</a></h2>
-          <p class="article-card__description">Kiro CLI added the Agent Client Protocol to run agents in compatible IDEs: impact on specialized tools, standardization and execution control.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li></ul>
-          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/kiro-acp-interoperabilidad-agentes-ide/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai open-weight" data-reveal>
-          <p class="article-card__meta"><span>AI news</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/spec-kit-1-especificaciones-agentes-adopcion/" class="js-track-article-card">Spec Kit 1.0: the specification consolidates as the interface for agents</a></h2>
-          <p class="article-card__description">GitHub released Spec Kit 1.0 and 1.0.1, with adoption guides, quickstarts and extensions: impact on spec-driven development and automation with agents.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Open-weight</li></ul>
-          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/spec-kit-1-especificaciones-agentes-adopcion/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="architecture infrastructure" data-reveal>
-          <p class="article-card__meta"><span>Cloud and architecture</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-article-card">What I'm learning while studying for AWS Cloud Practitioner</a></h2>
-          <p class="article-card__description">Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Architecture</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/aws-cloud-practitioner-conceptos-fundamentales/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="product architecture" data-reveal>
-          <p class="article-card__meta"><span>Web experiences</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/web-corporativa-2026-impacto-rendimiento/" class="js-track-article-card">The corporate website in 2026: designing impact without sacrificing performance or control</a></h2>
-          <p class="article-card__description">Architecture for high-impact corporate experiences: scroll-driven storytelling, progressive WebGL, purposeful animation and a maintainable foundation.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Product</li><li>Architecture</li></ul>
-          <div class="article-card__footer"><span>7 min read</span><a href="/en/blog/web-corporativa-2026-impacto-rendimiento/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="product architecture" data-reveal>
-          <p class="article-card__meta"><span>Product and architecture</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/milo-care-onboarding-calendario-clinico/" class="js-track-article-card">Clinical onboarding: how to keep a health product from starting empty</a></h2>
-          <p class="article-card__description">Milo Care's onboarding architecture: rules by country, a preloaded vaccination schedule and a first session with operational value.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Product</li><li>Architecture</li></ul>
-          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/milo-care-onboarding-calendario-clinico/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="infrastructure leadership" data-reveal>
-          <p class="article-card__meta"><span>Operations and reliability</span><time datetime="2026-08-25">August 25, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/milo-care-recordatorios-confiables/" class="js-track-article-card">Reliable reminders: designing notifications as a product responsibility</a></h2>
-          <p class="article-card__description">How Milo Care models due dates and scheduled jobs so notifications help with care without eroding the user's trust.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Infrastructure</li><li>Leadership</li></ul>
-          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/milo-care-recordatorios-confiables/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="infrastructure product" data-reveal>
-          <p class="article-card__meta"><span>Payments and infrastructure</span><time datetime="2026-08-24">August 24, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/webhooks-pagos-maquinas-de-estado/" class="js-track-article-card">Payment architecture: why a charge isn't an HTTP call</a></h2>
-          <p class="article-card__description">Integration patterns, idempotency and traceability for modeling payments as auditable business processes.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Infrastructure</li><li>Product</li></ul>
-          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/webhooks-pagos-maquinas-de-estado/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="architecture infrastructure" data-reveal>
-          <p class="article-card__meta"><span>Architecture and security</span><time datetime="2026-08-21">August 21, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/multi-tenancy-rls-frontera-datos/" class="js-track-article-card">Secure multi-tenancy: data isolation can't depend on a WHERE clause</a></h2>
-          <p class="article-card__description">How to combine identity, RBAC and Row Level Security to protect each organization's data by design.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Architecture</li><li>Infrastructure</li></ul>
-          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/multi-tenancy-rls-frontera-datos/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai product" data-reveal>
-          <p class="article-card__meta"><span>AI and product</span><time datetime="2026-08-18">August 18, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/ia-especificacion-antes-codigo/" class="js-track-article-card">AI-assisted work: the specification is the control system for ambiguity</a></h2>
-          <p class="article-card__description">How a sequence of product artifacts turns an idea into operational context for teams and coding agents.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Product</li></ul>
-          <div class="article-card__footer"><span>6 min read</span><a href="/en/blog/ia-especificacion-antes-codigo/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="ai leadership" data-reveal>
-          <p class="article-card__meta"><span>AI and compliance</span><time datetime="2026-08-15">August 15, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/agentes-ia-salidas-verificables/" class="js-track-article-card">AI for compliance: an answer without evidence is an operational risk</a></h2>
-          <p class="article-card__description">Designing verifiable agents for privacy: traceable evidence, explicit uncertainty and human review.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>AI</li><li>Leadership</li></ul>
-          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/agentes-ia-salidas-verificables/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="infrastructure product" data-reveal>
-          <p class="article-card__meta"><span>Infrastructure and product</span><time datetime="2026-08-12">August 12, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/infraestructura-proporcionada-problema/" class="js-track-article-card">Proportional architecture: don't build an e-commerce store to solve a house move</a></h2>
-          <p class="article-card__description">How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Infrastructure</li><li>Product</li></ul>
-          <div class="article-card__footer"><span>4 min read</span><a href="/en/blog/infraestructura-proporcionada-problema/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-        <article class="article-card" data-blog-card data-tags="startups product" data-reveal>
-          <p class="article-card__meta"><span>Startups and entrepreneurship</span><time datetime="2026-08-09">August 9, 2026</time></p>
-          <h2 class="article-card__title"><a href="/en/blog/emprender-desde-problemas-observados/" class="js-track-article-card">From observed problem to MVP: designing products around the user's real work</a></h2>
-          <p class="article-card__description">EscalaImprov shows how a concrete friction can turn into a hypothesis, distinct flows and reusable capabilities.</p>
-          <ul class="article-card__tags" aria-label="Topics"><li>Startups</li><li>Product</li></ul>
-          <div class="article-card__footer"><span>5 min read</span><a href="/en/blog/emprender-desde-problemas-observados/">Read article <span aria-hidden="true">→</span></a></div>
-        </article>
-    </div>
-    <p class="blog-empty" data-blog-empty hidden>No articles match this combination of tags.</p>
-    <div class="blog-more"><button type="button" class="btn btn--ghost" data-blog-load-more>Load more articles</button></div>
+
     <div class="blog-newsletter">
       
   <section class="newsletter-signup newsletter-signup--compact" aria-labelledby="newsletter-signup-title-blog-index">

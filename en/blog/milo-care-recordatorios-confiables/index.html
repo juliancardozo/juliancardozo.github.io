@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Reliable reminders: designing notifications as a product responsibility","description":"How Milo Care models due dates and scheduled jobs so notifications help with care without eroding the user's trust.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/milo-care-recordatorios-confiables/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Operations and reliability"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/milo-care-recordatorios-confiables/#article","headline":"Reliable reminders: designing notifications as a product responsibility","description":"How Milo Care models due dates and scheduled jobs so notifications help with care without eroding the user's trust.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/milo-care-recordatorios-confiables/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/milo-care-recordatorios-confiables/","articleSection":"Architecture and platform","keywords":"Infrastructure, Architecture","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Reliable reminders: designing notifications as a product responsibility","item":"https://juliancardozo.github.io/en/blog/milo-care-recordatorios-confiables/"}]}]}</script>
 </head>
 <body class="page-article">
 <!-- Google Tag Manager (noscript) -->
@@ -66,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article class="article">
   <header class="shell article__head">
     <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
-    <p class="article__meta"><span>Operations and reliability</span><time datetime="2026-08-25">August 25, 2026</time><span>5 min read</span></p>
+    <p class="article__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos">Architecture and platform</a><time datetime="2026-08-25">August 25, 2026</time><span>5 min read</span></p>
     <h1 class="article__title">Reliable reminders: designing notifications as a product responsibility</h1>
     <p class="article__lead">A vaccine or medication reminder seems like a small feature until it arrives late, arrives twice or arrives for a treatment that has already changed. In a care product, every notification is an operational promise. Milo Care treats that promise as part of the domain, not as an email sent at the end of a flow.</p>
   </header>
@@ -144,9 +144,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <aside class="article__conversation">
       <p class="article__conversation-label">Let's keep the conversation going</p>
-      <h2>Leading an engineering team? I'd like to talk about the challenges you're facing.</h2>
+      <h2>Designing a similar architecture? We can compare decisions and trade-offs.</h2>
       <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
-      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Reliable%20reminders%3A%20designing%20notifications%20as%20a%20product%20responsibility&amp;body=Leading%20an%20engineering%20team%3F%20I'd%20like%20to%20talk%20about%20the%20challenges%20you're%20facing.%0A%0AI%20came%20from%20the%20article%3A%20Reliable%20reminders%3A%20designing%20notifications%20as%20a%20product%20responsibility%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fmilo-care-recordatorios-confiables%2F">Write to me about this</a>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Reliable%20reminders%3A%20designing%20notifications%20as%20a%20product%20responsibility&amp;body=Designing%20a%20similar%20architecture%3F%20We%20can%20compare%20decisions%20and%20trade-offs.%0A%0AI%20came%20from%20the%20article%3A%20Reliable%20reminders%3A%20designing%20notifications%20as%20a%20product%20responsibility%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fmilo-care-recordatorios-confiables%2F">Write to me about this</a>
     </aside>
     </div>
   </div>
@@ -154,20 +154,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Keep reading</p>
     <h2 id="related-articles-title">Related articles</h2>
     <ul>
-      <li><a href="/en/blog/technical-product-manager-developer-platform/" class="js-track-related-article">
-        <span>Liderazgo y plataforma</span>
-        <strong>De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers</strong>
-        <small>Un artículo de NYT Open presenta a Danny Cassidy, que pasó de ingeniero backend a Senior Technical Product Manager de la plataforma de desarrollo de The New York Times. Un análisis de por qué ese recorrido es especialmente valioso cuando los usuarios del producto son ingenieros, y de lo que su evaluación de un reemplazo de CI/CD enseña sobre cómo decidir en Platform Engineering.</small>
-      </a></li><li><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
-        <span>Liderazgo y plataforma</span>
-        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
-        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
-      </a></li><li><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-related-article">
-        <span>Pagos e infraestructura</span>
-        <strong>Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</strong>
-        <small>En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.</small>
+      <li data-cat="arquitectura-plataforma"><a href="/en/blog/web-corporativa-2026-impacto-rendimiento/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
+        <strong>The corporate website in 2026: designing impact without sacrificing performance or control</strong>
+        <small>Architecture for high-impact corporate experiences: scroll-driven storytelling, progressive WebGL, purposeful animation and a maintainable foundation.</small>
+      </a></li><li data-cat="arquitectura-plataforma"><a href="/en/blog/infraestructura-proporcionada-problema/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
+        <strong>Proportional architecture: don't build an e-commerce store to solve a house move</strong>
+        <small>How to choose a static, maintainable solution focused on the real flow instead of oversizing an MVP.</small>
+      </a></li><li data-cat="arquitectura-plataforma"><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
+        <strong>SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</strong>
+        <small>Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</small>
       </a></li>
     </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=arquitectura-plataforma#articulos" class="js-track-related-category">More in Architecture and platform <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/producto-mvps/" class="js-track-pillar-hub">Reading path: Products, startups and MVPs <span aria-hidden="true">→</span></a>
+    </p>
   </section>
 </article>
 </main>

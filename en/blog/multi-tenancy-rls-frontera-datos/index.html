@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Secure multi-tenancy: data isolation can't depend on a WHERE clause","description":"How to combine identity, RBAC and Row Level Security to protect each organization's data by design.","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Architecture and security"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/#article","headline":"Secure multi-tenancy: data isolation can't depend on a WHERE clause","description":"How to combine identity, RBAC and Row Level Security to protect each organization's data by design.","datePublished":"2026-08-21","dateModified":"2026-08-21","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/","articleSection":"Architecture and platform","keywords":"Architecture, Data, Security","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Secure multi-tenancy: data isolation can't depend on a WHERE clause","item":"https://juliancardozo.github.io/en/blog/multi-tenancy-rls-frontera-datos/"}]}]}</script>
 </head>
 <body class="page-article">
 <!-- Google Tag Manager (noscript) -->
@@ -66,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article class="article">
   <header class="shell article__head">
     <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
-    <p class="article__meta"><span>Architecture and security</span><time datetime="2026-08-21">August 21, 2026</time><span>5 min read</span></p>
+    <p class="article__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/en/blog/?categoria=arquitectura-plataforma#articulos">Architecture and platform</a><time datetime="2026-08-21">August 21, 2026</time><span>5 min read</span></p>
     <h1 class="article__title">Secure multi-tenancy: data isolation can't depend on a WHERE clause</h1>
     <p class="article__lead">Patio manages vehicles, margins, documents, reservations and opportunities for multiple dealerships. In that context, a missing filter isn't an interface defect: it's an isolation incident. The architecture combines authenticated context, RBAC and RLS policies in PostgreSQL so that a wrong query can't cross an organization's boundary.</p>
   </header>
@@ -154,20 +154,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p class="section__eyebrow">Keep reading</p>
     <h2 id="related-articles-title">Related articles</h2>
     <ul>
-      <li><a href="/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" class="js-track-related-article">
-        <span>Pagos e infraestructura</span>
-        <strong>Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</strong>
-        <small>En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.</small>
-      </a></li><li><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
-        <span>Liderazgo y plataforma</span>
-        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
-        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
-      </a></li><li><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
-        <span>Cloud y arquitectura</span>
+      <li data-cat="arquitectura-plataforma"><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
         <strong>SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</strong>
         <small>Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</small>
+      </a></li><li data-cat="arquitectura-plataforma"><a href="/en/blog/aws-cloud-practitioner-field-notes/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
+        <strong>AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</strong>
+        <small>Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</small>
+      </a></li><li data-cat="arquitectura-plataforma"><a href="/en/blog/aws-cloud-practitioner-conceptos-fundamentales/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Architecture and platform</span>
+        <strong>What I'm learning while studying for AWS Cloud Practitioner</strong>
+        <small>Cloud concepts that change engineering and business decisions: shared responsibility, elasticity, security, architecture and cost.</small>
       </a></li>
     </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=arquitectura-plataforma#articulos" class="js-track-related-category">More in Architecture and platform <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/plataforma-arquitectura/" class="js-track-pillar-hub">Reading path: Platform engineering and architecture <span aria-hidden="true">→</span></a>
+    </p>
   </section>
 </article>
 </main>

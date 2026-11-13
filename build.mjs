@@ -98,18 +98,59 @@ const projectJsonLd = (project, t, url) => ({
   ...(project.repositoryUrl ? { codeRepository: project.repositoryUrl } : {}),
 });
 
+/**
+ * Artículos relacionados para el enlazado interno, por puntuación:
+ * relación explícita (relatedSlugs) > misma categoría > mismo pilar > tags compartidos.
+ * A igual puntuación gana el más reciente. Siempre devuelve 3 si hay candidatos.
+ */
+const relatedFor = (article, articles, pillars) => {
+  const pillarsOf = (slug) => pillars.filter((pillar) => pillar.articleSlugs.includes(slug)).map((pillar) => pillar.slug);
+  const ownPillars = pillarsOf(article.slug);
+  const explicit = article.relatedSlugs || [];
+  return articles
+    .filter((candidate) => candidate.slug !== article.slug)
+    .map((candidate) => {
+      const explicitIndex = explicit.indexOf(candidate.slug);
+      const score =
+        (explicitIndex === -1 ? 0 : 100 - explicitIndex) +
+        (candidate.categorySlug === article.categorySlug ? 4 : 0) +
+        (pillarsOf(candidate.slug).some((slug) => ownPillars.includes(slug)) ? 2 : 0) +
+        candidate.tags.filter((tag) => article.tags.includes(tag)).length;
+      return { ...candidate, score };
+    })
+    .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date))
+    .slice(0, 3);
+};
+
 const articleJsonLd = (article, t, url) => ({
   '@context': 'https://schema.org',
-  '@type': 'BlogPosting',
-  headline: article.title,
-  description: article.description,
-  datePublished: article.date,
-  dateModified: article.date,
-  inLanguage: t.lang,
-  url,
-  author: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
-  publisher: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
-  keywords: article.category,
+  '@graph': [
+    {
+      '@type': 'BlogPosting',
+      '@id': `${url}#article`,
+      headline: article.title,
+      description: article.description,
+      datePublished: article.date,
+      dateModified: article.updated || article.date,
+      inLanguage: t.lang,
+      url,
+      mainEntityOfPage: url,
+      articleSection: article.category,
+      keywords: article.tags.join(', '),
+      isPartOf: { '@type': 'Blog', '@id': `${site.baseUrl}${href(t, 'blog')}#blog` },
+      author: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
+      publisher: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
+      ...(article.sourceUrl ? { citation: article.sourceUrl } : {}),
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: site.author, item: `${site.baseUrl}${href(t, 'home')}` },
+        { '@type': 'ListItem', position: 2, name: t.pages.blogTitle, item: `${site.baseUrl}${href(t, 'blog')}` },
+        { '@type': 'ListItem', position: 3, name: article.title, item: url },
+      ],
+    },
+  ],
 });
 
 const pillarJsonLd = (pillar, t, url, articles, projects) => ({
@@ -172,7 +213,7 @@ const build = async () => {
 
   for (const code of locales) {
     const t = content[code];
-    const { projects, articles, pillars, newsletter, labFilters } = dataFor(code);
+    const { projects, articles, pillars, newsletter, categories, labFilters } = dataFor(code);
     const featured = projects
       .filter((p) => p.featured)
       .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
@@ -199,14 +240,19 @@ const build = async () => {
       title: `${t.pages.blogTitle} | ${site.author}`,
       description: t.pages.blogDescription,
       bodyClass: 'page-blog',
-      content: blogIndex({ t, articles, pillars, newsletter }),
+      content: blogIndex({ t, articles, pillars, newsletter, categories }),
       jsonLd: {
         '@context': 'https://schema.org',
         '@type': 'Blog',
+        '@id': `${site.baseUrl}${blogPath}#blog`,
         name: `${t.pages.blogName} ${site.author}`,
         url: `${site.baseUrl}${blogPath}`,
         inLanguage: t.lang,
         author: { '@id': `${site.baseUrl}/#person`, name: site.author, url: site.baseUrl },
+        blogPost: [...articles]
+          .sort((a, z) => z.date.localeCompare(a.date))
+          .slice(0, 10)
+          .map((article) => ({ '@type': 'BlogPosting', headline: article.title, datePublished: article.date, url: `${site.baseUrl}${href(t, 'blog', article.slug)}` })),
       },
     }, '0.8');
 
@@ -269,19 +315,12 @@ const build = async () => {
       const relatedProject = projects.find((project) => project.slug === article.projectSlug);
       if (article.projectSlug && !relatedProject) throw new Error(`Article "${article.slug}" references an unknown project.`);
       const articlePillar = pillars.find((pillar) => pillar.articleSlugs.includes(article.slug)) || null;
-      const relatedArticles = articles
-        .filter((candidate) => candidate.slug !== article.slug)
-        .map((candidate) => ({
-          ...candidate,
-          score: candidate.tags.filter((tag) => article.tags.includes(tag)).length,
-        }))
-        .sort((a, b) => b.score - a.score || b.date.localeCompare(a.date))
-        .slice(0, 3);
+      const relatedArticles = relatedFor(article, articles, pillars);
       await page('blog', article.slug, {
         title: `${article.seoTitle || article.title} | ${site.author}`,
         description: article.seoDescription || article.description,
         bodyClass: 'page-article',
-        content: articlePage({ t, article, relatedProject, relatedArticles, pillar: articlePillar, articles }),
+        content: articlePage({ t, article, relatedProject, relatedArticles, pillar: articlePillar, articles, category: categories.find((c) => c.slug === article.categorySlug) }),
         jsonLd: articleJsonLd(article, t, `${site.baseUrl}${href(t, 'blog', article.slug)}`),
         ogType: 'article',
       }, '0.7');

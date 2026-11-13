@@ -21,6 +21,8 @@ export const tags = {
   Startups: 'Startups',
   Pagos: 'Payments',
   Cloud: 'Cloud',
+  Seguridad: 'Security',
+  'Platform Engineering': 'Platform Engineering',
 };
 
 export const articles = { ...aiArticles, ...projectArticles };

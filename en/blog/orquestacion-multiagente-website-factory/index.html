@@ -39,7 +39,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web","description":"Website Factory es un sistema multiagente: un orquestador de Claude Code descompone el problema, delega en seis subagentes especializados y cierra cada etapa con verificadores deterministas sobre el flujo de GitHub Spec Kit. Cómo se coordinan, cómo se programa un sistema para que los agentes ejecuten los prompts, y qué significan en la práctica prompt engineering, context engineering y loop engineering.","datePublished":"2026-11-12","dateModified":"2026-11-12","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"IA y agentes"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/#article","headline":"Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web","description":"Website Factory es un sistema multiagente: un orquestador de Claude Code descompone el problema, delega en seis subagentes especializados y cierra cada etapa con verificadores deterministas sobre el flujo de GitHub Spec Kit. Cómo se coordinan, cómo se programa un sistema para que los agentes ejecuten los prompts, y qué significan en la práctica prompt engineering, context engineering y loop engineering.","datePublished":"2026-11-12","dateModified":"2026-11-12","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/","articleSection":"AI and agents","keywords":"AI, Agents, Architecture","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://github.com/juliancardozo/website-factory-mvp"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web","item":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/"}]}]}</script>
 </head>
 <body class="page-article">
 <!-- Google Tag Manager (noscript) -->
@@ -66,7 +66,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <article class="article">
   <header class="shell article__head">
     <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
-    <p class="article__meta"><span>IA y agentes</span><time datetime="2026-11-12">November 12, 2026</time><span>16 min de lectura</span></p>
+    <p class="article__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos">AI and agents</a><time datetime="2026-11-12">November 12, 2026</time><span>16 min de lectura</span></p>
     <h1 class="article__title">Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web</h1>
     <p class="article__lead">Un modelo de lenguaje, por sí solo, es una función estocástica: recibe contexto y devuelve una muestra. Un agente es esa función dentro de un loop con herramientas, memoria y un criterio de parada. Y un sistema multiagente es otra cosa: una arquitectura distribuida donde varias de esas inferencias se reparten el trabajo, comparten estado y se controlan entre sí. Website Factory es un ejemplo completo y público: un orquestador de Claude Code descompone un objetivo, lo delega en seis subagentes especializados sobre el flujo Spec-Driven Development de GitHub Spec Kit y solo da una etapa por cerrada cuando un verificador determinista lo confirma. Entrada: un brief en Markdown. Salida: un sitio Astro + Tailwind CSS 4 que compila, pasa sus controles y deja la traza de cada decisión. Este artículo abre el sistema por dentro.</p>
   </header>
@@ -292,25 +292,29 @@ for f in src_files:
     <p class="section__eyebrow">Keep reading</p>
     <h2 id="related-articles-title">Related articles</h2>
     <ul>
-      <li><a href="/en/blog/loop-engineering-agentic-loops/" class="js-track-related-article">
-        <span>IA y agentes</span>
+      <li data-cat="ia-agentes"><a href="/en/blog/loop-engineering-agentic-loops/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
         <strong>Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA</strong>
         <small>Prompt, context y harness engineering definen qué se le pide a un agente, qué información recibe y con qué herramientas opera. Loop Engineering se ocupa del ciclo: qué lo inicia, dónde se guarda el estado, quién verifica, qué información vuelve al agente y cuándo continuar, corregir, detenerse o escalar a una persona. Un recorrido por sus componentes, sus límites y su aplicación en un sistema multiagente construido con Claude Code.</small>
-      </a></li><li><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
-        <span>Liderazgo y plataforma</span>
-        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
-        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
-      </a></li><li><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-related-article">
-        <span>AI and product</span>
-        <strong>Reverse engineering with agents: from Chordify to ChordLocal with REA</strong>
-        <small>We ran REA (Reverse Engineer Anything) against Chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of ChordLocal, a local and free alternative.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/en/blog/ia-especificacion-antes-codigo/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
+        <strong>AI-assisted work: the specification is the control system for ambiguity</strong>
+        <small>How a sequence of product artifacts turns an idea into operational context for teams and coding agents.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/en/blog/spec-kit-1-especificaciones-agentes-adopcion/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
+        <strong>Spec Kit 1.0: the specification consolidates as the interface for agents</strong>
+        <small>GitHub released Spec Kit 1.0 and 1.0.1, with adoption guides, quickstarts and extensions: impact on spec-driven development and automation with agents.</small>
       </a></li>
     </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=ia-agentes#articulos" class="js-track-related-category">More in AI and agents <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/ingenieria-con-ia/" class="js-track-pillar-hub">Reading path: Engineering with AI and agents <span aria-hidden="true">→</span></a>
+    </p>
   </section>
 </article><script type="module">
   import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
   const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: { fontSize: '15px' }, flowchart: { padding: 16 } });
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
 </script>
 </main>
 <footer class="site-footer">

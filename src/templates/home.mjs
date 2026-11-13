@@ -88,7 +88,7 @@ export const home = ({ t, featured, pillars }) => {
     <ul class="chips">${s.ia.tags.map((tag) => `<li>${esc(tag)}</li>`).join('')}</ul>
     <div class="hero__ctas">${s.ia.cta ? `<a class="btn btn--primary" href="#contacto">${esc(s.ia.cta)}<span aria-hidden="true">→</span></a>` : ''}
       ${s.ia.pillarCta ? `<a class="btn ${s.ia.cta ? 'btn--ghost' : 'btn--primary'}" href="${href(t, 'topic', s.ia.pillarSlug)}">${esc(s.ia.pillarCta)}</a>` : ''}
-      ${s.ia.blogCta ? `<a class="btn btn--ghost" href="${href(t, 'blog')}?tag=${encodeURIComponent(s.ia.blogTag)}#articulos">${esc(s.ia.blogCta)}</a>` : ''}</div>
+      ${s.ia.blogCta ? `<a class="btn btn--ghost" href="${href(t, 'blog')}?categoria=${encodeURIComponent(s.ia.blogTag)}#articulos">${esc(s.ia.blogCta)}</a>` : ''}</div>
   </div>
 </section>
 

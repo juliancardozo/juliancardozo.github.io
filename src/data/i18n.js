@@ -12,6 +12,7 @@ import { projects, labFilters } from './projects.js';
 import { articles } from './articles.js';
 import { pillars } from './pillars.js';
 import { newsletter } from './newsletter.js';
+import { categories, categoryBySlug } from './categories.js';
 import * as en from './en/index.js';
 
 const translations = { en };
@@ -37,7 +38,7 @@ const localizeBySlug = (list, overrides, kind, code) =>
   });
 
 export const dataFor = (code) => {
-  if (code === 'es') return { projects, articles, pillars, newsletter, labFilters: labFilters.es };
+  if (code === 'es') return { projects, articles, pillars, newsletter, categories, labFilters: labFilters.es };
 
   const tr = translations[code];
   if (!tr) throw new Error(`No hay traducciones para el locale "${code}".`);
@@ -49,8 +50,11 @@ export const dataFor = (code) => {
     })),
     articles: localizeBySlug(articles, tr.articles, 'artículo', code).map((article) => ({
       ...article,
+      // La categoría sale siempre de categories.js, para que el filtro y los textos coincidan.
+      category: categoryBySlug[article.categorySlug][code]?.name || article.category,
       tags: article.tags.map((tag) => tr.tags[tag] || tag),
     })),
+    categories: categories.map((category) => ({ ...category, ...(category[code] || {}) })),
     pillars: localizeBySlug(pillars, tr.pillars, 'pilar', code),
     newsletter: {
       ...merge(newsletter, tr.newsletter.base),
