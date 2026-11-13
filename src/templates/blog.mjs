@@ -128,6 +128,17 @@ const downloadBox = (download, t, articles = []) => {
 };
 
 
+/** Infografía del artículo: imagen optimizada que abre la versión original en alta resolución. */
+const infographic = (image) =>
+  image
+    ? `<figure class="article__infographic">
+      <a href="${esc(image.full || image.src)}" target="_blank" rel="noopener" class="js-track-infographic">
+        <img src="${esc(image.src)}" alt="${esc(image.alt)}" width="${image.width}" height="${image.height}" loading="lazy" decoding="async" />
+      </a>
+      ${image.caption ? `<figcaption>${esc(image.caption)}${image.full ? ` <a href="${esc(image.full)}" download>${esc(image.downloadLabel || 'Descargar en alta resolución')}</a>` : ''}</figcaption>` : ''}
+    </figure>`
+    : '';
+
 /**
  * Bloques de contenido largo, en orden: subtítulos, listas, tablas, código y diagramas Mermaid.
  *   { type: 'h3' | 'p' | 'ul' | 'ol' | 'table' | 'code' | 'mermaid' | 'note', ... }
@@ -204,6 +215,7 @@ export const articlePage = ({ t, article, relatedProject, relatedArticles = [], 
     </aside>
     <div class="article__content">
       ${downloadBox(article.download, t, articles)}
+      ${infographic(article.infographic)}
       ${article.sections.map((section) => `
         <section${section.kicker ? ' class="notes-concept"' : ''}>
           ${section.kicker ? `<p class="notes-concept__kicker">${esc(section.kicker)}</p>` : ''}

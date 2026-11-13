@@ -2195,6 +2195,15 @@ module "tenant_runtime" {
       companionLabel: 'Leé también qué me está dejando estudiar AWS como Engineering Manager',
       credentialLabel: 'Ya aprobé el examen: ver mi certificado AWS Certified Cloud Practitioner',
     },
+    infographic: {
+      src: '/assets/img/notes/aws-cloud-practitioner-infografia.jpg',
+      full: '/assets/notes/AWS-Cloud-Practitioner-Infografia.png',
+      width: 1122,
+      height: 1402,
+      alt: 'Infografía AWS Cloud Practitioner: 6 conceptos para entender, no memorizar. 1) Infraestructura global: Región, Availability Zones y Edge Locations; resiliencia no es cercanía al usuario. 2) Networking: VPC con subred privada y pública, NAT Gateway e Internet Gateway; NAT permite salida, no entrada. 3) Responsabilidad compartida: AWS protege centros de datos, hardware y red global; el cliente configura IAM, servicios, datos y sistema operativo. 4) EC2, Lambda y contenedores: control total, ejecución por evento, portabilidad con ECS/EKS sobre EC2 o Fargate. 5) Almacenamiento: S3 objetos, EBS bloque, EFS compartido, RDS relacional, DynamoDB NoSQL. 6) Costos, observabilidad y seguridad: Cost Explorer, Budgets, CloudWatch e IAM.',
+      caption: 'Los seis conceptos en una sola imagen, para repasar de un vistazo.',
+      downloadLabel: 'Descargar la infografía (PNG)',
+    },
     sections: [
       {
         kicker: 'Concepto 01',
