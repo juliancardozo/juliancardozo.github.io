@@ -285,6 +285,24 @@ const build = async () => {
         jsonLd: articleJsonLd(article, t, `${site.baseUrl}${href(t, 'blog', article.slug)}`),
         ogType: 'article',
       }, '0.7');
+
+      // Slugs anteriores: la ruta vieja redirige a la nueva y queda fuera del sitemap.
+      for (const oldSlug of article.previousSlugs || []) {
+        const target = `${site.baseUrl}${href(t, 'blog', article.slug)}`;
+        written.push(await write(fileFor(href(t, 'blog', oldSlug)), `<!DOCTYPE html>
+<html lang="${t.lang}">
+<head>
+<meta charset="utf-8" />
+<title>${article.title}</title>
+<meta name="robots" content="noindex, follow" />
+<link rel="canonical" href="${target}" />
+<meta http-equiv="refresh" content="0; url=${target}" />
+<script>location.replace(${JSON.stringify(target)});</script>
+</head>
+<body><p><a href="${target}">${target}</a></p></body>
+</html>
+`));
+      }
     }
 
     // Casos de estudio

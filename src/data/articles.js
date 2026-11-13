@@ -4,7 +4,8 @@
  */
 const articleEntries = [
   {
-    slug: 'loop-engineering-agentes-verificacion-parada',
+    slug: 'loop-engineering-agentic-loops',
+    previousSlugs: ['loop-engineering-agentes-verificacion-parada'],
     seoTitle: 'Loop Engineering: el ciclo de trabajo de los agentes de IA',
     seoDescription: 'Qué es Loop Engineering, cómo se compone un loop agéntico con estado, verificadores y condiciones de parada, y cómo se aplica en un sistema multiagente.',
     title: 'Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA',

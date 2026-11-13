@@ -1,6 +1,6 @@
 # Kit editorial — Loop Engineering
 
-Artículo: `/blog/loop-engineering-agentes-verificacion-parada/` · Markdown: `docs/articulos/loop-engineering-agentes-verificacion-parada.md`
+Artículo: `/blog/loop-engineering-agentic-loops/` · Markdown: `docs/articulos/loop-engineering-agentic-loops.md`
 Pilares: Ingeniería con IA y agentes · Liderazgo técnico y equipos · Publicación: 2026-11-13
 Artículo relacionado: `/blog/orquestacion-multiagente-website-factory/`
 
@@ -16,7 +16,7 @@ Artículo relacionado: `/blog/orquestacion-multiagente-website-factory/`
 
 - **Meta description** (152 car.): Qué es Loop Engineering, cómo se compone un loop agéntico con estado, verificadores y condiciones de parada, y cómo se aplica en un sistema multiagente.
 - **Meta title** (57 car.): Loop Engineering: el ciclo de trabajo de los agentes de IA
-- **Slug**: `loop-engineering-agentes-verificacion-parada`
+- **Slug**: `loop-engineering-agentic-loops`
 
 ## 3. Post de LinkedIn (≈ 230 palabras)
 
@@ -36,7 +36,7 @@ Artículo relacionado: `/blog/orquestacion-multiagente-website-factory/`
 >
 > #LoopEngineering #AgenticAI #SoftwareEngineering
 
-Primer comentario: `https://juliancardozo.github.io/blog/loop-engineering-agentes-verificacion-parada/?utm_source=linkedin&utm_medium=social&utm_campaign=loop-engineering&utm_content=post-principal`
+Primer comentario: `https://juliancardozo.github.io/blog/loop-engineering-agentic-loops/?utm_source=linkedin&utm_medium=social&utm_campaign=loop-engineering&utm_content=post-principal`
 
 ## 4. Tres preguntas para la comunidad
 
