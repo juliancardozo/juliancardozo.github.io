@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Open Finance en Argentina: APIs, consentimiento y seguridad | Julián Cardozo</title>
+<meta name="description" content="Open Finance como infraestructura: consentimiento como máquina de estados, APIs con perfil FAPI, directorio de participantes y seguridad sistémica." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/open-finance-argentina-arquitectura-apis-consentimiento/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/open-finance-argentina-arquitectura-apis-consentimiento/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Open Finance en Argentina: APIs, consentimiento y seguridad | Julián Cardozo" />
+<meta property="og:description" content="Open Finance como infraestructura: consentimiento como máquina de estados, APIs con perfil FAPI, directorio de participantes y seguridad sistémica." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Open Finance en Argentina: APIs, consentimiento y seguridad | Julián Cardozo" />
+<meta name="twitter:description" content="Open Finance como infraestructura: consentimiento como máquina de estados, APIs con perfil FAPI, directorio de participantes y seguridad sistémica." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento","description":"En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.","datePublished":"2026-11-13","dateModified":"2026-11-13","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"Pagos e infraestructura"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#fortalezas">Strengths</a></li><li><a href="/en/#recorrido">Career</a></li><li><a href="/en/#productos">Projects</a></li><li><a href="/en/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/open-finance-argentina-arquitectura-apis-consentimiento/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><span>Pagos e infraestructura</span><time datetime="2026-11-13">November 13, 2026</time><span>11 min de lectura</span></p>
+    <h1 class="article__title">Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento</h1>
+    <p class="article__lead">En octubre, Forbes Argentina publicó la crónica de un panel del Summit Fintech 2026 dedicado a Open Finance, con Julián Bersano, CEO y cofundador de Klimber, y Andrés Gil, socio de Cyber en Banca, Seguros y Tecnología de Deloitte. La conversación giró alrededor de una idea: que el cliente controle sus datos financieros y pueda compartirlos, con su consentimiento, con otros proveedores. La nota se detiene en el impacto sobre la competencia, la regulación y la educación financiera. Este artículo se ocupa de la capa que la hace posible: qué tiene que existir, en términos de arquitectura, para que compartir datos financieros sea seguro, auditable y revocable.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/plataforma-arquitectura/" class="js-track-pillar-hub">Platform engineering and architecture <span aria-hidden="true">→</span></a></div>
+      <div><p>Context</p>
+      <span>Análisis técnico · Summit Fintech 2026, Forbes Argentina</span>
+      <a href="https://www.forbesargentina.com/summit/open-finance-infraestructura-puede-cambiar-negocio-fintech-bancos-argentina-n100767" target="_blank" rel="noopener noreferrer">Forbes Argentina: Open Finance, la infraestructura que puede cambiar el negocio <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>Lo que se dijo en el panel</h2>
+          <p>Según la crónica, firmada por Andrea Glikman, Open Finance reúne en un mismo acceso información de cuentas bancarias, billeteras virtuales, inversiones, seguros y créditos. El usuario decide qué datos comparte, con quién, con qué finalidad y por cuánto tiempo, y a cambio puede acceder a ofertas más ajustadas a su perfil. Bersano lo describió como la &quot;democratización de los servicios financieros&quot; y calificó al mercado argentino de incipiente.</p><p>Gil aportó la mirada de seguridad y regulación. Mencionó el Decreto 353 de mayo de 2025 como punto de partida de la agenda de finanzas abiertas, con principios generales que todavía requieren normas específicas, y planteó la necesidad de actualizar la legislación de protección de datos personales y fortalecer su aplicación. Sostuvo además dos ideas con consecuencias directas para la arquitectura: que los datos no estarán en un repositorio central, sino en cada participante, compartidos mediante reglas comunes; y que la seguridad no puede pensarse entidad por entidad, porque una organización con buenos controles queda expuesta a las vulnerabilidades de sus contrapartes.</p><p>El panel dejó abierta una pregunta concreta: quién verificará que las APIs sean seguras y cómo se controlará a los participantes que acceden al ecosistema. Es, en esencia, una pregunta de ingeniería de plataformas.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Los componentes de un ecosistema de Open Finance</h2>
+          <p>Los mercados que avanzaron antes —el Reino Unido con Open Banking, Brasil con Open Finance— convergieron en una arquitectura con piezas reconocibles. Ninguna es exótica por separado; la dificultad está en que deben funcionar igual en decenas de organizaciones con sistemas, prioridades y niveles de madurez distintos.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Arquitectura de referencia de un ecosistema de Open Finance</figcaption>
+            <pre class="mermaid" aria-label="El usuario autoriza en la entidad que tiene sus datos. El receptor de datos, registrado en un directorio de participantes con sus certificados, solicita un consentimiento y obtiene un token restringido. Con ese token consume las APIs del proveedor de datos a través de su gateway, que valida token, certificado y vigencia del consentimiento. Las revocaciones se propagan por eventos y todo queda registrado para auditoría.">flowchart LR
+  U[&quot;Usuario&quot;] -- &quot;autoriza&quot; --&gt; AS
+  subgraph DIR[&quot;Directorio de participantes&quot;]
+    REG[&quot;Registro, roles y certificados&quot;]
+  end
+  subgraph TPP[&quot;Receptor de datos · fintech, banco, aseguradora&quot;]
+    APP[&quot;Aplicación&quot;]
+  end
+  subgraph DP[&quot;Proveedor de datos · entidad del usuario&quot;]
+    AS[&quot;Servidor de autorización&quot;]
+    CS[(&quot;Servicio de consentimientos&quot;)]
+    GW[&quot;API gateway&quot;]
+    API[&quot;APIs de cuentas, inversiones, seguros&quot;]
+  end
+  APP -- &quot;solicita consentimiento (PAR)&quot; --&gt; AS
+  AS --&gt; CS
+  AS -- &quot;token restringido&quot; --&gt; APP
+  APP -- &quot;llamada con mTLS + token&quot; --&gt; GW
+  GW -- &quot;valida consentimiento&quot; --&gt; CS
+  GW --&gt; API
+  REG -. &quot;valida identidad del participante&quot; .-&gt; AS
+  REG -. &quot;valida identidad del participante&quot; .-&gt; GW
+  CS -. &quot;evento de revocación&quot; .-&gt; APP</pre>
+            <p class="architecture__description">El usuario autoriza en la entidad que tiene sus datos. El receptor de datos, registrado en un directorio de participantes con sus certificados, solicita un consentimiento y obtiene un token restringido. Con ese token consume las APIs del proveedor de datos a través de su gateway, que valida token, certificado y vigencia del consentimiento. Las revocaciones se propagan por eventos y todo queda registrado para auditoría.</p>
+          </figure><figure class="article__table">
+            <figcaption>Responsabilidad de cada componente</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Responsabilidad de cada componente"><table>
+              <thead><tr><th scope="col">Componente</th><th scope="col">Responsabilidad</th><th scope="col">Pregunta que responde</th></tr></thead>
+              <tbody><tr><th scope="row">Directorio de participantes</th><td>Registrar entidades habilitadas, sus roles y sus certificados</td><td>¿Quién puede participar y quién es cada uno?</td></tr><tr><th scope="row">Servidor de autorización</th><td>Autenticar al usuario y emitir tokens con alcance acotado</td><td>¿Qué autorizó el usuario y a quién?</td></tr><tr><th scope="row">Servicio de consentimientos</th><td>Persistir cada consentimiento, su finalidad, su vigencia y su estado</td><td>¿Este acceso sigue siendo válido hoy?</td></tr><tr><th scope="row">API gateway</th><td>Aplicar autenticación mutua, límites de uso y validación del consentimiento en cada llamada</td><td>¿Esta llamada concreta está permitida?</td></tr><tr><th scope="row">APIs de datos</th><td>Exponer información con esquemas comunes y versionados</td><td>¿Qué datos se entregan y en qué formato?</td></tr><tr><th scope="row">Auditoría y eventos</th><td>Registrar accesos y propagar cambios de estado</td><td>¿Qué ocurrió, cuándo y quién lo hizo?</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>El consentimiento es una máquina de estados</h2>
+          <p>La definición que se escuchó en el panel —qué datos, con quién, para qué y por cuánto tiempo— es, leída desde la ingeniería, la especificación de un objeto. El error más frecuente es tratar el consentimiento como un booleano o como un registro que se escribe una vez. En la práctica es un proceso con estados, transiciones y efectos, del mismo modo que un cobro no es una llamada HTTP sino un proceso de negocio auditable, como desarrollé en <a href="/blog/webhooks-pagos-maquinas-de-estado/">un artículo sobre webhooks de pago</a>.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Ciclo de vida de un consentimiento</figcaption>
+            <pre class="mermaid" aria-label="Un consentimiento se crea pendiente de autorización. El usuario puede autorizarlo o rechazarlo. Una vez autorizado, puede consumirse hasta que vence, el usuario lo revoca o el receptor lo revoca. Los estados finales son rechazado, vencido y revocado; ninguno vuelve a autorizado.">stateDiagram-v2
+  [*] --&gt; Pendiente: receptor solicita
+  Pendiente --&gt; Autorizado: usuario autoriza
+  Pendiente --&gt; Rechazado: usuario rechaza o expira la solicitud
+  Autorizado --&gt; Vencido: fin de la vigencia
+  Autorizado --&gt; Revocado: usuario o receptor revocan
+  Rechazado --&gt; [*]
+  Vencido --&gt; [*]
+  Revocado --&gt; [*]</pre>
+            <p class="architecture__description">Un consentimiento se crea pendiente de autorización. El usuario puede autorizarlo o rechazarlo. Una vez autorizado, puede consumirse hasta que vence, el usuario lo revoca o el receptor lo revoca. Los estados finales son rechazado, vencido y revocado; ninguno vuelve a autorizado.</p>
+          </figure><p>Modelarlo así tiene consecuencias de diseño concretas. Las transiciones deben ser idempotentes, porque una revocación puede llegar dos veces. Los estados finales no deben poder reabrirse: un nuevo acceso exige un consentimiento nuevo. Cada llamada a una API de datos debe validar el estado vigente, no el estado al momento de emitir el token. Y la revocación tiene que propagarse a los receptores mediante eventos, con reintentos y verificación, para que dejen de usar los datos y no solo de pedirlos.</p><figure class="article__code">
+            <figcaption>Ejemplo ilustrativo de solicitud de acceso con detalle de autorización (estructura inspirada en RFC 9396; los campos no corresponden a un estándar argentino)</figcaption>
+            <pre tabindex="0"><code class="language-json">{
+  &quot;authorization_details&quot;: [
+    {
+      &quot;type&quot;: &quot;account_information&quot;,
+      &quot;purpose&quot;: &quot;evaluacion_crediticia&quot;,
+      &quot;permissions&quot;: [&quot;accounts:read&quot;, &quot;balances:read&quot;, &quot;transactions:read&quot;],
+      &quot;transaction_window_days&quot;: 180,
+      &quot;expires_at&quot;: &quot;2027-05-13T00:00:00-03:00&quot;
+    }
+  ]
+}</code></pre>
+          </figure><p>La finalidad (<code>purpose</code>) merece una mención aparte. No es un dato decorativo: es lo que permite, más adelante, auditar si los datos se usaron para lo que el usuario autorizó. Un diseño que no la persiste en el consentimiento ni la asocia a cada acceso no puede responder esa pregunta.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Seguridad sistémica: proteger APIs entre organizaciones</h2>
+          <p>La observación de Gil sobre la seguridad del ecosistema tiene una traducción técnica directa. En un esquema de Open Finance, una entidad con controles robustos puede verse comprometida si uno de los participantes a los que entrega datos tiene credenciales débiles o tokens que pueden reutilizarse. Por eso los mercados que avanzaron no dejaron la seguridad de las APIs librada al criterio de cada organización: adoptaron perfiles de seguridad comunes.</p><p>El más difundido es FAPI (Financial-grade API), de la OpenID Foundation, que construye sobre OAuth 2.0 y OpenID Connect y restringe las opciones a las combinaciones adecuadas para datos financieros. Brasil lo adoptó para su Open Finance, y el Reino Unido lo utiliza en su estándar de Open Banking. Sus mecanismos centrales responden a riesgos específicos:</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Mecanismos de un perfil de seguridad para APIs financieras</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Mecanismos de un perfil de seguridad para APIs financieras"><table>
+              <thead><tr><th scope="col">Mecanismo</th><th scope="col">Especificación</th><th scope="col">Riesgo que mitiga</th></tr></thead>
+              <tbody><tr><th scope="row">Pushed Authorization Requests (PAR)</th><td>RFC 9126</td><td>Manipulación de los parámetros de la solicitud en el navegador del usuario</td></tr><tr><th scope="row">Autenticación mutua con TLS</th><td>RFC 8705</td><td>Que un cliente no registrado se haga pasar por un participante habilitado</td></tr><tr><th scope="row">Tokens restringidos al emisor (mTLS o DPoP)</th><td>RFC 8705 / RFC 9449</td><td>Reutilización de un token robado por un tercero</td></tr><tr><th scope="row">Detalle de autorización</th><td>RFC 9396</td><td>Permisos amplios cuando el usuario autorizó algo específico</td></tr><tr><th scope="row">Pruebas de conformidad</th><td>Suites de la OpenID Foundation</td><td>Implementaciones que dicen cumplir el perfil y no lo cumplen</td></tr></tbody>
+            </table></div>
+          </figure><p>La última fila responde, en parte, la pregunta que el panel dejó abierta. En los ecosistemas más maduros, la verificación de que una API es segura no depende de una auditoría documental: combina un perfil técnico obligatorio, pruebas de conformidad automatizadas que cada participante debe superar y un directorio que solo emite credenciales a quienes cumplen. La supervisión deja de ser un control periódico y se convierte en una condición para operar.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Datos distribuidos, contratos comunes</h2>
+          <p>Que los datos permanezcan en cada participante, como señaló Gil, es una decisión acertada desde la privacidad y la resiliencia: no hay un repositorio central que concentre riesgo. Pero traslada la complejidad a los contratos. Si cada entidad expone sus datos con un esquema propio, cada receptor debe construir y mantener una integración por proveedor, y la promesa de comparar ofertas con facilidad se diluye.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Esquemas comunes y versionados.</strong> Una especificación compartida, por ejemplo en OpenAPI, con reglas explícitas de compatibilidad y plazos de convivencia entre versiones.</li><li><strong>Niveles de servicio públicos.</strong> Disponibilidad, latencia y límites de uso medidos y publicados por cada proveedor; sin ellos, un receptor no puede ofrecer una experiencia confiable.</li><li><strong>Semántica precisa.</strong> Qué significa &quot;saldo disponible&quot;, en qué moneda y zona horaria se informan los movimientos, cómo se identifican las cuentas. Las diferencias semánticas generan más errores que los formatos.</li><li><strong>Entornos de prueba compartidos.</strong> Un sandbox con datos sintéticos realistas acelera la integración y permite automatizar las pruebas de conformidad.</li></ul><p>Para equipos que trabajan con plataformas multi-tenant, el problema resulta familiar: como se analiza en <a href="/blog/multi-tenancy-rls-frontera-datos/">el artículo sobre Row Level Security</a>, el aislamiento y la autorización deben resolverse en la capa de datos, no confiarse a cada pantalla o servicio. El mismo principio, aplicado a nivel de ecosistema, lleva a validar el consentimiento en el gateway en cada llamada, y no solo al emitir el token.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Agentes de IA con acceso a datos financieros</h2>
+          <p>Bersano planteó, en condicional, que agentes de IA podrían comparar créditos o seguros en nombre del usuario y proponer alternativas según su perfil. Es una posibilidad plausible, y también el escenario que más exige de la arquitectura de consentimiento.</p><p>Un agente que actúa por un usuario necesita una autorización delegada con alcance mínimo, finalidad explícita y vigencia corta; no las credenciales del usuario. Cada acceso debe quedar atribuido al agente y al consentimiento que lo habilitó. Y el agente no debería poder ampliar sus propios permisos ni encadenar finalidades: comparar ofertas de crédito no es lo mismo que contratar una. Las mismas reglas que ordenan el trabajo de agentes en desarrollo de software —mínimo privilegio, verificadores deterministas y escalamiento a una persona ante decisiones con consecuencias, como se analiza en <a href="/blog/loop-engineering-agentic-loops/">el artículo sobre Loop Engineering</a>— se vuelven, en finanzas, requisitos de cumplimiento.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Fraude, transparencia y educación</h2>
+          <p>El cierre de la nota advierte que, sin estándares, una mayor circulación de información puede aumentar el riesgo de fraude. La ingeniería puede reducir ese riesgo, aunque no eliminarlo. Tres prácticas tienen un impacto directo:</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Un panel de consentimientos para el usuario</strong>, en cada entidad, que muestre quién accede a qué datos, con qué finalidad y hasta cuándo, con revocación en un paso. Es la contraparte técnica de la educación financiera que reclamó el panel.</li><li><strong>Detección de anomalías sobre el patrón de acceso</strong>: volúmenes, horarios o tipos de datos inusuales para un receptor y una finalidad determinados.</li><li><strong>Trazabilidad de punta a punta</strong>: un identificador de correlación que permita reconstruir, ante un reclamo, el recorrido desde la autorización hasta cada lectura de datos.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Lo que un equipo puede hacer hoy</h2>
+          <p>Según la nota, Argentina cuenta con un marco inicial y con experiencias de intercambio entre entidades mediante APIs, pero todavía carece de reglas específicas y de mecanismos efectivos de supervisión. Para un equipo técnico en un banco o una fintech, esperar la norma definitiva no es la única opción. Hay decisiones que resultan valiosas en cualquier escenario regulatorio:</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Modelar el consentimiento como entidad propia</strong>, con estados, finalidad, vigencia y auditoría, aunque hoy solo se use internamente.</li><li><strong>Separar autorización de acceso a datos</strong>: un servidor de autorización basado en estándares abiertos y un gateway que valide cada llamada.</li><li><strong>Adoptar un perfil de seguridad reconocido</strong>, como FAPI, en lugar de diseñar uno propio. Es más fácil adaptarse a una norma futura desde un estándar que desde una solución a medida.</li><li><strong>Documentar las APIs con contratos versionados</strong> y publicar niveles de servicio, aunque los consumidores sean, por ahora, internos.</li><li><strong>Diseñar la revocación desde el inicio</strong>, incluida su propagación a terceros y la eliminación de los datos ya entregados cuando corresponda.</li><li><strong>Medir el ecosistema, no solo la integración</strong>: tasa de consentimientos revocados, tiempo de propagación de una revocación, accesos rechazados por consentimiento vencido.</li></ol><p>Open Finance suele presentarse como un cambio de modelo de negocio, y lo es. Pero su viabilidad se decide en una capa menos visible: la que garantiza que cada dato compartido tenga una autorización vigente, una finalidad declarada y un registro que permita explicarlo. Como dijo Gil en el panel, lo que importa de cualquier normativa es cómo se aplica; en este caso, buena parte de esa aplicación será código.</p><h3>Referencias</h3><ul class="article__list"><li><a href="https://www.forbesargentina.com/summit/open-finance-infraestructura-puede-cambiar-negocio-fintech-bancos-argentina-n100767" target="_blank" rel="noopener noreferrer">Open Finance: la infraestructura que puede cambiar el negocio de fintech y bancos en la Argentina</a> — Andrea Glikman, Forbes Argentina, 21 de octubre de 2026.</li><li><a href="https://openid.net/wg/fapi/" target="_blank" rel="noopener noreferrer">FAPI Working Group</a> — OpenID Foundation: perfiles de seguridad para APIs financieras.</li><li><a href="https://www.rfc-editor.org/rfc/rfc9126" target="_blank" rel="noopener noreferrer">RFC 9126: OAuth 2.0 Pushed Authorization Requests</a> — IETF.</li><li><a href="https://www.rfc-editor.org/rfc/rfc8705" target="_blank" rel="noopener noreferrer">RFC 8705: OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens</a> — IETF.</li><li><a href="https://www.rfc-editor.org/rfc/rfc9449" target="_blank" rel="noopener noreferrer">RFC 9449: OAuth 2.0 Demonstrating Proof of Possession (DPoP)</a> — IETF.</li><li><a href="https://www.rfc-editor.org/rfc/rfc9396" target="_blank" rel="noopener noreferrer">RFC 9396: OAuth 2.0 Rich Authorization Requests</a> — IETF.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: Open Finance se discute como una transformación de negocio, pero se construye como infraestructura. Consentimiento modelado como máquina de estados, un perfil de seguridad común, un directorio de participantes, contratos versionados y revocación de punta a punta son las condiciones para que compartir datos financieros sea, además de posible, confiable.</p>
+      
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Working in fintech, payments or subscriptions? I'd like to compare product and architecture decisions.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Open%20Finance%20como%20infraestructura%3A%20la%20arquitectura%20que%20hay%20detr%C3%A1s%20del%20consentimiento&amp;body=Working%20in%20fintech%2C%20payments%20or%20subscriptions%3F%20I'd%20like%20to%20compare%20product%20and%20architecture%20decisions.%0A%0AI%20came%20from%20the%20article%3A%20Open%20Finance%20como%20infraestructura%3A%20la%20arquitectura%20que%20hay%20detr%C3%A1s%20del%20consentimiento%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fopen-finance-argentina-arquitectura-apis-consentimiento%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span>Liderazgo y plataforma</span>
+        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
+        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
+      </a></li><li><a href="/en/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</strong>
+        <small>Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</small>
+      </a></li><li><a href="/en/blog/aws-cloud-practitioner-field-notes/" class="js-track-related-article">
+        <span>Cloud y arquitectura</span>
+        <strong>AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar</strong>
+        <small>Mis notas de estudio para el CLF-C02: regiones y AZs, VPC, responsabilidad compartida, cómputo, almacenamiento y costos. Con ejemplos, errores frecuentes y PDF descargable.</small>
+      </a></li>
+    </ul>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

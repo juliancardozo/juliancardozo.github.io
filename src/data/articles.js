@@ -4,6 +4,363 @@
  */
 const articleEntries = [
   {
+    slug: 'open-finance-argentina-arquitectura-apis-consentimiento',
+    seoTitle: 'Open Finance en Argentina: APIs, consentimiento y seguridad',
+    seoDescription: 'Open Finance como infraestructura: consentimiento como máquina de estados, APIs con perfil FAPI, directorio de participantes y seguridad sistémica.',
+    title: 'Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento',
+    description: 'En el Summit Fintech 2026 de Forbes Argentina, Open Finance se discutió como la infraestructura que puede cambiar el negocio de bancos y fintech. Este artículo lo analiza desde la ingeniería: qué componentes requiere, por qué el consentimiento debe modelarse como una máquina de estados, qué estándares existen para asegurar las APIs y qué implica que la seguridad sea un problema de todo el ecosistema.',
+    category: 'Pagos e infraestructura',
+    tags: ['Pagos', 'Arquitectura', 'Datos', 'Infraestructura'],
+    date: '2026-11-13',
+    readingTime: '11 min de lectura',
+    projectSlug: '',
+    contextLabel: 'Análisis técnico · Summit Fintech 2026, Forbes Argentina',
+    sourceUrl: 'https://www.forbesargentina.com/summit/open-finance-infraestructura-puede-cambiar-negocio-fintech-bancos-argentina-n100767',
+    sourceLabel: 'Forbes Argentina: Open Finance, la infraestructura que puede cambiar el negocio',
+    lead: 'En octubre, Forbes Argentina publicó la crónica de un panel del Summit Fintech 2026 dedicado a Open Finance, con Julián Bersano, CEO y cofundador de Klimber, y Andrés Gil, socio de Cyber en Banca, Seguros y Tecnología de Deloitte. La conversación giró alrededor de una idea: que el cliente controle sus datos financieros y pueda compartirlos, con su consentimiento, con otros proveedores. La nota se detiene en el impacto sobre la competencia, la regulación y la educación financiera. Este artículo se ocupa de la capa que la hace posible: qué tiene que existir, en términos de arquitectura, para que compartir datos financieros sea seguro, auditable y revocable.',
+    sections: [
+      {
+        title: 'Lo que se dijo en el panel',
+        paragraphs: [
+          'Según la crónica, firmada por Andrea Glikman, Open Finance reúne en un mismo acceso información de cuentas bancarias, billeteras virtuales, inversiones, seguros y créditos. El usuario decide qué datos comparte, con quién, con qué finalidad y por cuánto tiempo, y a cambio puede acceder a ofertas más ajustadas a su perfil. Bersano lo describió como la "democratización de los servicios financieros" y calificó al mercado argentino de incipiente.',
+          'Gil aportó la mirada de seguridad y regulación. Mencionó el Decreto 353 de mayo de 2025 como punto de partida de la agenda de finanzas abiertas, con principios generales que todavía requieren normas específicas, y planteó la necesidad de actualizar la legislación de protección de datos personales y fortalecer su aplicación. Sostuvo además dos ideas con consecuencias directas para la arquitectura: que los datos no estarán en un repositorio central, sino en cada participante, compartidos mediante reglas comunes; y que la seguridad no puede pensarse entidad por entidad, porque una organización con buenos controles queda expuesta a las vulnerabilidades de sus contrapartes.',
+          'El panel dejó abierta una pregunta concreta: quién verificará que las APIs sean seguras y cómo se controlará a los participantes que acceden al ecosistema. Es, en esencia, una pregunta de ingeniería de plataformas.',
+        ],
+      },
+      {
+        title: 'Los componentes de un ecosistema de Open Finance',
+        paragraphs: [
+          'Los mercados que avanzaron antes —el Reino Unido con Open Banking, Brasil con Open Finance— convergieron en una arquitectura con piezas reconocibles. Ninguna es exótica por separado; la dificultad está en que deben funcionar igual en decenas de organizaciones con sistemas, prioridades y niveles de madurez distintos.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Arquitectura de referencia de un ecosistema de Open Finance',
+            description: 'El usuario autoriza en la entidad que tiene sus datos. El receptor de datos, registrado en un directorio de participantes con sus certificados, solicita un consentimiento y obtiene un token restringido. Con ese token consume las APIs del proveedor de datos a través de su gateway, que valida token, certificado y vigencia del consentimiento. Las revocaciones se propagan por eventos y todo queda registrado para auditoría.',
+            text: `flowchart LR
+  U["Usuario"] -- "autoriza" --> AS
+  subgraph DIR["Directorio de participantes"]
+    REG["Registro, roles y certificados"]
+  end
+  subgraph TPP["Receptor de datos · fintech, banco, aseguradora"]
+    APP["Aplicación"]
+  end
+  subgraph DP["Proveedor de datos · entidad del usuario"]
+    AS["Servidor de autorización"]
+    CS[("Servicio de consentimientos")]
+    GW["API gateway"]
+    API["APIs de cuentas, inversiones, seguros"]
+  end
+  APP -- "solicita consentimiento (PAR)" --> AS
+  AS --> CS
+  AS -- "token restringido" --> APP
+  APP -- "llamada con mTLS + token" --> GW
+  GW -- "valida consentimiento" --> CS
+  GW --> API
+  REG -. "valida identidad del participante" .-> AS
+  REG -. "valida identidad del participante" .-> GW
+  CS -. "evento de revocación" .-> APP`,
+          },
+          {
+            type: 'table',
+            caption: 'Responsabilidad de cada componente',
+            head: ['Componente', 'Responsabilidad', 'Pregunta que responde'],
+            rows: [
+              ['Directorio de participantes', 'Registrar entidades habilitadas, sus roles y sus certificados', '¿Quién puede participar y quién es cada uno?'],
+              ['Servidor de autorización', 'Autenticar al usuario y emitir tokens con alcance acotado', '¿Qué autorizó el usuario y a quién?'],
+              ['Servicio de consentimientos', 'Persistir cada consentimiento, su finalidad, su vigencia y su estado', '¿Este acceso sigue siendo válido hoy?'],
+              ['API gateway', 'Aplicar autenticación mutua, límites de uso y validación del consentimiento en cada llamada', '¿Esta llamada concreta está permitida?'],
+              ['APIs de datos', 'Exponer información con esquemas comunes y versionados', '¿Qué datos se entregan y en qué formato?'],
+              ['Auditoría y eventos', 'Registrar accesos y propagar cambios de estado', '¿Qué ocurrió, cuándo y quién lo hizo?'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'El consentimiento es una máquina de estados',
+        paragraphs: [
+          'La definición que se escuchó en el panel —qué datos, con quién, para qué y por cuánto tiempo— es, leída desde la ingeniería, la especificación de un objeto. El error más frecuente es tratar el consentimiento como un booleano o como un registro que se escribe una vez. En la práctica es un proceso con estados, transiciones y efectos, del mismo modo que un cobro no es una llamada HTTP sino un proceso de negocio auditable, como desarrollé en [un artículo sobre webhooks de pago](/blog/webhooks-pagos-maquinas-de-estado/).',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Ciclo de vida de un consentimiento',
+            description: 'Un consentimiento se crea pendiente de autorización. El usuario puede autorizarlo o rechazarlo. Una vez autorizado, puede consumirse hasta que vence, el usuario lo revoca o el receptor lo revoca. Los estados finales son rechazado, vencido y revocado; ninguno vuelve a autorizado.',
+            text: `stateDiagram-v2
+  [*] --> Pendiente: receptor solicita
+  Pendiente --> Autorizado: usuario autoriza
+  Pendiente --> Rechazado: usuario rechaza o expira la solicitud
+  Autorizado --> Vencido: fin de la vigencia
+  Autorizado --> Revocado: usuario o receptor revocan
+  Rechazado --> [*]
+  Vencido --> [*]
+  Revocado --> [*]`,
+          },
+          {
+            type: 'p',
+            text: 'Modelarlo así tiene consecuencias de diseño concretas. Las transiciones deben ser idempotentes, porque una revocación puede llegar dos veces. Los estados finales no deben poder reabrirse: un nuevo acceso exige un consentimiento nuevo. Cada llamada a una API de datos debe validar el estado vigente, no el estado al momento de emitir el token. Y la revocación tiene que propagarse a los receptores mediante eventos, con reintentos y verificación, para que dejen de usar los datos y no solo de pedirlos.',
+          },
+          {
+            type: 'code',
+            lang: 'json',
+            caption: 'Ejemplo ilustrativo de solicitud de acceso con detalle de autorización (estructura inspirada en RFC 9396; los campos no corresponden a un estándar argentino)',
+            text: `{
+  "authorization_details": [
+    {
+      "type": "account_information",
+      "purpose": "evaluacion_crediticia",
+      "permissions": ["accounts:read", "balances:read", "transactions:read"],
+      "transaction_window_days": 180,
+      "expires_at": "2027-05-13T00:00:00-03:00"
+    }
+  ]
+}`,
+          },
+          {
+            type: 'p',
+            text: 'La finalidad (`purpose`) merece una mención aparte. No es un dato decorativo: es lo que permite, más adelante, auditar si los datos se usaron para lo que el usuario autorizó. Un diseño que no la persiste en el consentimiento ni la asocia a cada acceso no puede responder esa pregunta.',
+          },
+        ],
+      },
+      {
+        title: 'Seguridad sistémica: proteger APIs entre organizaciones',
+        paragraphs: [
+          'La observación de Gil sobre la seguridad del ecosistema tiene una traducción técnica directa. En un esquema de Open Finance, una entidad con controles robustos puede verse comprometida si uno de los participantes a los que entrega datos tiene credenciales débiles o tokens que pueden reutilizarse. Por eso los mercados que avanzaron no dejaron la seguridad de las APIs librada al criterio de cada organización: adoptaron perfiles de seguridad comunes.',
+          'El más difundido es FAPI (Financial-grade API), de la OpenID Foundation, que construye sobre OAuth 2.0 y OpenID Connect y restringe las opciones a las combinaciones adecuadas para datos financieros. Brasil lo adoptó para su Open Finance, y el Reino Unido lo utiliza en su estándar de Open Banking. Sus mecanismos centrales responden a riesgos específicos:',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Mecanismos de un perfil de seguridad para APIs financieras',
+            head: ['Mecanismo', 'Especificación', 'Riesgo que mitiga'],
+            rows: [
+              ['Pushed Authorization Requests (PAR)', 'RFC 9126', 'Manipulación de los parámetros de la solicitud en el navegador del usuario'],
+              ['Autenticación mutua con TLS', 'RFC 8705', 'Que un cliente no registrado se haga pasar por un participante habilitado'],
+              ['Tokens restringidos al emisor (mTLS o DPoP)', 'RFC 8705 / RFC 9449', 'Reutilización de un token robado por un tercero'],
+              ['Detalle de autorización', 'RFC 9396', 'Permisos amplios cuando el usuario autorizó algo específico'],
+              ['Pruebas de conformidad', 'Suites de la OpenID Foundation', 'Implementaciones que dicen cumplir el perfil y no lo cumplen'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La última fila responde, en parte, la pregunta que el panel dejó abierta. En los ecosistemas más maduros, la verificación de que una API es segura no depende de una auditoría documental: combina un perfil técnico obligatorio, pruebas de conformidad automatizadas que cada participante debe superar y un directorio que solo emite credenciales a quienes cumplen. La supervisión deja de ser un control periódico y se convierte en una condición para operar.',
+          },
+        ],
+      },
+      {
+        title: 'Datos distribuidos, contratos comunes',
+        paragraphs: [
+          'Que los datos permanezcan en cada participante, como señaló Gil, es una decisión acertada desde la privacidad y la resiliencia: no hay un repositorio central que concentre riesgo. Pero traslada la complejidad a los contratos. Si cada entidad expone sus datos con un esquema propio, cada receptor debe construir y mantener una integración por proveedor, y la promesa de comparar ofertas con facilidad se diluye.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Esquemas comunes y versionados.** Una especificación compartida, por ejemplo en OpenAPI, con reglas explícitas de compatibilidad y plazos de convivencia entre versiones.',
+              '**Niveles de servicio públicos.** Disponibilidad, latencia y límites de uso medidos y publicados por cada proveedor; sin ellos, un receptor no puede ofrecer una experiencia confiable.',
+              '**Semántica precisa.** Qué significa "saldo disponible", en qué moneda y zona horaria se informan los movimientos, cómo se identifican las cuentas. Las diferencias semánticas generan más errores que los formatos.',
+              '**Entornos de prueba compartidos.** Un sandbox con datos sintéticos realistas acelera la integración y permite automatizar las pruebas de conformidad.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Para equipos que trabajan con plataformas multi-tenant, el problema resulta familiar: como se analiza en [el artículo sobre Row Level Security](/blog/multi-tenancy-rls-frontera-datos/), el aislamiento y la autorización deben resolverse en la capa de datos, no confiarse a cada pantalla o servicio. El mismo principio, aplicado a nivel de ecosistema, lleva a validar el consentimiento en el gateway en cada llamada, y no solo al emitir el token.',
+          },
+        ],
+      },
+      {
+        title: 'Agentes de IA con acceso a datos financieros',
+        paragraphs: [
+          'Bersano planteó, en condicional, que agentes de IA podrían comparar créditos o seguros en nombre del usuario y proponer alternativas según su perfil. Es una posibilidad plausible, y también el escenario que más exige de la arquitectura de consentimiento.',
+          'Un agente que actúa por un usuario necesita una autorización delegada con alcance mínimo, finalidad explícita y vigencia corta; no las credenciales del usuario. Cada acceso debe quedar atribuido al agente y al consentimiento que lo habilitó. Y el agente no debería poder ampliar sus propios permisos ni encadenar finalidades: comparar ofertas de crédito no es lo mismo que contratar una. Las mismas reglas que ordenan el trabajo de agentes en desarrollo de software —mínimo privilegio, verificadores deterministas y escalamiento a una persona ante decisiones con consecuencias, como se analiza en [el artículo sobre Loop Engineering](/blog/loop-engineering-agentic-loops/)— se vuelven, en finanzas, requisitos de cumplimiento.',
+        ],
+      },
+      {
+        title: 'Fraude, transparencia y educación',
+        paragraphs: [
+          'El cierre de la nota advierte que, sin estándares, una mayor circulación de información puede aumentar el riesgo de fraude. La ingeniería puede reducir ese riesgo, aunque no eliminarlo. Tres prácticas tienen un impacto directo:',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Un panel de consentimientos para el usuario**, en cada entidad, que muestre quién accede a qué datos, con qué finalidad y hasta cuándo, con revocación en un paso. Es la contraparte técnica de la educación financiera que reclamó el panel.',
+              '**Detección de anomalías sobre el patrón de acceso**: volúmenes, horarios o tipos de datos inusuales para un receptor y una finalidad determinados.',
+              '**Trazabilidad de punta a punta**: un identificador de correlación que permita reconstruir, ante un reclamo, el recorrido desde la autorización hasta cada lectura de datos.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Lo que un equipo puede hacer hoy',
+        paragraphs: [
+          'Según la nota, Argentina cuenta con un marco inicial y con experiencias de intercambio entre entidades mediante APIs, pero todavía carece de reglas específicas y de mecanismos efectivos de supervisión. Para un equipo técnico en un banco o una fintech, esperar la norma definitiva no es la única opción. Hay decisiones que resultan valiosas en cualquier escenario regulatorio:',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Modelar el consentimiento como entidad propia**, con estados, finalidad, vigencia y auditoría, aunque hoy solo se use internamente.',
+              '**Separar autorización de acceso a datos**: un servidor de autorización basado en estándares abiertos y un gateway que valide cada llamada.',
+              '**Adoptar un perfil de seguridad reconocido**, como FAPI, en lugar de diseñar uno propio. Es más fácil adaptarse a una norma futura desde un estándar que desde una solución a medida.',
+              '**Documentar las APIs con contratos versionados** y publicar niveles de servicio, aunque los consumidores sean, por ahora, internos.',
+              '**Diseñar la revocación desde el inicio**, incluida su propagación a terceros y la eliminación de los datos ya entregados cuando corresponda.',
+              '**Medir el ecosistema, no solo la integración**: tasa de consentimientos revocados, tiempo de propagación de una revocación, accesos rechazados por consentimiento vencido.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Open Finance suele presentarse como un cambio de modelo de negocio, y lo es. Pero su viabilidad se decide en una capa menos visible: la que garantiza que cada dato compartido tenga una autorización vigente, una finalidad declarada y un registro que permita explicarlo. Como dijo Gil en el panel, lo que importa de cualquier normativa es cómo se aplica; en este caso, buena parte de esa aplicación será código.',
+          },
+          { type: 'h3', text: 'Referencias' },
+          {
+            type: 'ul',
+            items: [
+              '[Open Finance: la infraestructura que puede cambiar el negocio de fintech y bancos en la Argentina](https://www.forbesargentina.com/summit/open-finance-infraestructura-puede-cambiar-negocio-fintech-bancos-argentina-n100767) — Andrea Glikman, Forbes Argentina, 21 de octubre de 2026.',
+              '[FAPI Working Group](https://openid.net/wg/fapi/) — OpenID Foundation: perfiles de seguridad para APIs financieras.',
+              '[RFC 9126: OAuth 2.0 Pushed Authorization Requests](https://www.rfc-editor.org/rfc/rfc9126) — IETF.',
+              '[RFC 8705: OAuth 2.0 Mutual-TLS Client Authentication and Certificate-Bound Access Tokens](https://www.rfc-editor.org/rfc/rfc8705) — IETF.',
+              '[RFC 9449: OAuth 2.0 Demonstrating Proof of Possession (DPoP)](https://www.rfc-editor.org/rfc/rfc9449) — IETF.',
+              '[RFC 9396: OAuth 2.0 Rich Authorization Requests](https://www.rfc-editor.org/rfc/rfc9396) — IETF.',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: Open Finance se discute como una transformación de negocio, pero se construye como infraestructura. Consentimiento modelado como máquina de estados, un perfil de seguridad común, un directorio de participantes, contratos versionados y revocación de punta a punta son las condiciones para que compartir datos financieros sea, además de posible, confiable.',
+  },
+  {
+    slug: 'technical-product-manager-developer-platform',
+    seoTitle: 'Technical Product Manager en plataformas internas: caso NYT',
+    seoDescription: 'Un ingeniero de The New York Times pasó a Technical PM de su plataforma interna. Por qué ese perfil importa y qué enseña su evaluación de CI/CD.',
+    title: 'De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers',
+    description: 'Un artículo de NYT Open presenta a Danny Cassidy, que pasó de ingeniero backend a Senior Technical Product Manager de la plataforma de desarrollo de The New York Times. Un análisis de por qué ese recorrido es especialmente valioso cuando los usuarios del producto son ingenieros, y de lo que su evaluación de un reemplazo de CI/CD enseña sobre cómo decidir en Platform Engineering.',
+    category: 'Liderazgo y plataforma',
+    tags: ['Liderazgo', 'Producto', 'Infraestructura'],
+    date: '2026-11-13',
+    readingTime: '7 min de lectura',
+    projectSlug: '',
+    contextLabel: 'Análisis · NYT Open, febrero de 2026',
+    sourceUrl: 'https://open.nytimes.com/the-right-team-for-the-job-from-engineering-to-product-a-superpower-for-developer-platform-a290e65970ea',
+    sourceLabel: 'NYT Open: The Right Team for the Job',
+    lead: 'El equipo de ingeniería de The New York Times publica en NYT Open una serie dedicada a los recorridos de sus Product Managers. Una de sus entregas, de febrero de 2026, presenta a Danny Cassidy, que llegó al diario en 2015 como ingeniero backend y hoy es Senior Technical Product Manager en el área que provee infraestructura y herramientas a los equipos de ingeniería de producto. Es un texto breve, con formato de perfil, pero plantea una cuestión que cualquier organización que construye una plataforma interna termina enfrentando: quién debe gestionar como producto algo cuyos usuarios son ingenieros.',
+    sections: [
+      {
+        title: 'Un recorrido que empieza en el código',
+        paragraphs: [
+          'Según el artículo, Cassidy aprendió a programar por su cuenta en la escuela secundaria, estudió tecnologías de la información y trabajó como ingeniero en APIs backend y sistemas de gestión de contenidos para empresas de medios. En The Times se incorporó al equipo de las APIs que llevan el contenido del CMS a las aplicaciones de escritorio y móviles.',
+          'El cambio de rol no surgió de un plan de carrera. A medida que participaba en proyectos más complejos y transversales, observó que los mejores líderes de ingeniería volvían una y otra vez a las mismas preguntas: por qué se construye algo, a quién sirve y cómo contribuye al negocio. Fue su responsable de entonces quien, al notar que su trabajo se inclinaba en esa dirección, le propuso considerar Product Management. Cassidy relata que hasta ese momento no sabía que existía el rol de Technical Product Manager.',
+          'Ese detalle merece atención desde la gestión de equipos. La transición no la inició un proceso formal, sino un líder que reconoció un cambio en el tipo de trabajo en el que una persona estaba destacándose y abrió la conversación. Muchas trayectorias valiosas dependen de que alguien haga esa pregunta a tiempo.',
+        ],
+      },
+      {
+        title: 'Cuando los usuarios del producto son ingenieros',
+        paragraphs: [
+          'En su rol actual, Cassidy es responsable de proveer infraestructura y herramientas centralizadas para que los equipos de ingeniería de producto de The Times trabajen con mayor eficiencia. Describe una plataforma muy técnica, con usuarios que tienen distintos niveles de experiencia y necesidades, y explica que recurre a su formación técnica casi a diario para moverse entre dominios técnicos y perfiles de usuario.',
+          'La tesis central del artículo es que, en este tipo de producto, resulta difícil ejercer buen criterio de producto sin comprender cómo las decisiones técnicas afectan a los usuarios y a los resultados de negocio. En una plataforma interna, la distancia entre una decisión técnica y la experiencia del usuario es mínima: elegir un sistema de CI, una forma de gestionar secretos o un modelo de despliegue es, al mismo tiempo, decidir cómo trabajarán cientos de ingenieros.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Qué cambia cuando el producto es una plataforma interna (lectura propia, no del artículo original)',
+            head: ['Dimensión', 'Producto para clientes externos', 'Plataforma para ingenieros'],
+            rows: [
+              ['Usuarios', 'Personas que eligen si usar el producto', 'Equipos internos que con frecuencia no tienen alternativa'],
+              ['Señal de valor', 'Adopción, retención, ingresos', 'Tiempo de espera, autoservicio, fricción percibida, incidentes evitados'],
+              ['Discovery', 'Entrevistas, analítica de uso', 'Lo anterior, más leer pipelines, tickets y post-mortems'],
+              ['Costo de una mala decisión', 'Una funcionalidad que no se usa', 'Fricción multiplicada en todos los equipos durante años'],
+              ['Conocimiento técnico requerido', 'Útil', 'Necesario para evaluar alternativas y sus consecuencias'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'El caso del reemplazo de CI/CD',
+        paragraphs: [
+          'El ejemplo concreto del artículo es el que mejor ilustra el argumento. Un proveedor discontinuó la herramienta de CI/CD que usaban varios equipos, y eso generó bloqueos para los desarrolladores. Cassidy, que conocía esos bloqueos de primera mano, condujo una evaluación centrada en los usuarios y basada en datos, que abarcó a The New York Times y a Wirecutter.',
+          'De acuerdo con el texto, esa evaluación permitió sintetizar los puntos de dolor de la plataforma, analizar alternativas con proyección a futuro y alinear a la organización en torno a una estrategia de CI/CD de largo plazo que equilibrara impacto de negocio, experiencia de desarrollo y factibilidad técnica. El artículo incluye una captura de la matriz de evaluación, en la que las necesidades de los equipos se priorizan y se comparan entre proveedores. No detalla los criterios completos ni cuál fue la herramienta elegida.',
+          'Lo instructivo del caso es su encuadre. La discontinuación de un proveedor suele tratarse como un problema de infraestructura: encontrar un reemplazo equivalente y migrar. Abordarlo como una decisión de producto cambia las preguntas: qué necesitan hoy los equipos que la herramienta anterior no resolvía, qué necesidades son comunes y cuáles particulares, y qué alternativa sostiene mejor la evolución de la organización.',
+        ],
+        blocks: [
+          { type: 'h3', text: 'Cómo podría estructurarse una matriz de ese tipo' },
+          {
+            type: 'p',
+            text: 'El artículo no publica la matriz completa. A modo de ejemplo, una evaluación de proveedores de CI/CD que combine las tres dimensiones que menciona podría organizarse así:',
+          },
+          {
+            type: 'table',
+            caption: 'Ejemplo ilustrativo de matriz de evaluación (propuesta propia, no la utilizada por The New York Times)',
+            head: ['Dimensión', 'Criterio', 'Cómo se evidencia'],
+            rows: [
+              ['Experiencia de desarrollo', 'Tiempo de feedback de un pipeline típico', 'Prueba piloto con repositorios representativos de cada equipo'],
+              ['Experiencia de desarrollo', 'Esfuerzo de migración por repositorio', 'Migración de muestra y estimación por tipo de proyecto'],
+              ['Factibilidad técnica', 'Integración con el entorno actual (nube, secretos, artefactos)', 'Prueba de concepto y revisión de arquitectura'],
+              ['Factibilidad técnica', 'Seguridad y cumplimiento', 'Revisión con el equipo de seguridad'],
+              ['Impacto de negocio', 'Costo total en tres años', 'Licencias, cómputo y horas de mantenimiento'],
+              ['Impacto de negocio', 'Riesgo de proveedor', 'Hoja de ruta pública, portabilidad de la configuración, salida posible'],
+            ],
+          },
+          {
+            type: 'note',
+            label: 'Una lección del propio caso',
+            text: 'El punto de partida fue la discontinuación de un proveedor. Incluir el riesgo de proveedor y la portabilidad de la configuración como criterios explícitos reduce la probabilidad de repetir la misma situación con la herramienta elegida.',
+          },
+        ],
+      },
+      {
+        title: 'Por qué el perfil técnico es una ventaja en Platform Engineering',
+        paragraphs: [
+          'El argumento conecta con una idea que ya había desarrollado en [un análisis sobre Developer Experience y plataformas internas](/blog/developer-experience-ia-friccion-plataforma/): una plataforma tratada como proyecto se entrega y se mantiene; una plataforma tratada como producto tiene usuarios, discovery, una hoja de ruta priorizada por valor y métricas de resultado. El perfil de Cassidy muestra quién puede sostener ese enfoque.',
+          'En la práctica, un Technical Product Manager de plataforma aporta tres capacidades que difícilmente se encuentren juntas por separado:',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Empatía con el usuario basada en experiencia propia.** Haber sufrido un pipeline lento o una migración mal planificada permite reconocer el problema real detrás de un pedido.',
+              '**Capacidad para evaluar alternativas técnicas.** Sin reemplazar a los ingenieros en las decisiones de arquitectura, puede discutir consecuencias, costos de migración y riesgos con el mismo vocabulario.',
+              '**Traducción hacia el negocio.** Puede explicar a la dirección por qué una inversión en infraestructura interna se traduce en velocidad de entrega, menos incidentes o menor costo operativo.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El riesgo opuesto también existe y conviene nombrarlo. Un perfil muy técnico puede caer en la tentación de decidir la arquitectura en lugar de facilitar la decisión, o de priorizar lo técnicamente interesante sobre lo que más fricción elimina. El valor del rol está en mantener las preguntas de producto —por qué, para quién, con qué impacto— aun cuando el conocimiento técnico permitiría saltearlas.',
+          },
+        ],
+      },
+      {
+        title: 'Qué pueden tomar los líderes de ingeniería',
+        paragraphs: [
+          'Para quienes gestionan equipos, el artículo deja algunas lecciones prácticas, más allá del recorrido individual:',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Gestionar la plataforma interna como un producto**, con una persona responsable de su estrategia, sus usuarios y sus resultados, y no solo de su operación.',
+              '**Buscar ese perfil dentro de la organización.** Los ingenieros que preguntan sistemáticamente por qué y para quién se construye algo suelen ser los mejores candidatos, aunque nunca hayan considerado el rol.',
+              '**Tratar los cambios forzados de proveedor como decisiones de producto**, con discovery, criterios explícitos y participación de los equipos afectados.',
+              '**Documentar la evaluación.** Una matriz compartida no solo ayuda a decidir: permite que la organización entienda y acepte la decisión.',
+              '**Equilibrar explícitamente tres dimensiones**: impacto de negocio, experiencia de desarrollo y factibilidad técnica. Optimizar una sola suele trasladar el costo a las otras dos.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El texto de NYT Open cierra invitando a quienes tienen formación técnica a considerar Product Management como próximo paso. Desde la perspectiva de una organización, la lectura complementaria es igual de relevante: las plataformas internas se benefician especialmente de que alguien con ese recorrido las gestione como un producto.',
+          },
+          { type: 'h3', text: 'Referencias' },
+          {
+            type: 'ul',
+            items: [
+              '[The Right Team for the Job: From Engineering to Product: A Superpower for Developer Platform Strategy](https://open.nytimes.com/the-right-team-for-the-job-from-engineering-to-product-a-superpower-for-developer-platform-a290e65970ea) — Geethu Jacob, Daniel Cassidy, Nikki Larson y Erica Vendetti, NYT Open, 11 de febrero de 2026.',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: cuando los usuarios de un producto son ingenieros, el criterio de producto depende de comprender las consecuencias técnicas de cada decisión. Un Technical Product Manager con experiencia en ingeniería puede sostener esa doble mirada y convertir decisiones de infraestructura en decisiones de producto.',
+  },
+  {
     slug: 'loop-engineering-agentic-loops',
     previousSlugs: ['loop-engineering-agentes-verificacion-parada'],
     seoTitle: 'Loop Engineering: el ciclo de trabajo de los agentes de IA',

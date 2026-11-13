@@ -42,6 +42,7 @@ export const pillars = [
       '¿Cómo conectar producto, delivery y criterio técnico sin microgestión?',
     ],
     articleSlugs: [
+      'technical-product-manager-developer-platform',
       'loop-engineering-agentic-loops',
       'orquestacion-multiagente-website-factory',
       'developer-experience-ia-friccion-plataforma',
@@ -69,6 +70,8 @@ export const pillars = [
       '¿Qué responsabilidades siguen siendo del equipo aunque la infraestructura esté en cloud?',
     ],
     articleSlugs: [
+      'open-finance-argentina-arquitectura-apis-consentimiento',
+      'technical-product-manager-developer-platform',
       'developer-experience-ia-friccion-plataforma',
       'saas-multitenant-iac-resiliencia',
       'webhooks-pagos-maquinas-de-estado',
