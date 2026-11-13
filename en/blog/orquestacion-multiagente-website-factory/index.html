@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Orquestación multiagente: 7 agentes que construyen un sitio | Julián Cardozo</title>
+<meta name="description" content="Un orquestador de Claude Code y seis subagentes con Spec Kit convierten un brief en un sitio Astro: topología, contratos, contexto y loops verificables." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/orquestacion-multiagente-website-factory/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/orquestacion-multiagente-website-factory/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Orquestación multiagente: 7 agentes que construyen un sitio | Julián Cardozo" />
+<meta property="og:description" content="Un orquestador de Claude Code y seis subagentes con Spec Kit convierten un brief en un sitio Astro: topología, contratos, contexto y loops verificables." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Orquestación multiagente: 7 agentes que construyen un sitio | Julián Cardozo" />
+<meta name="twitter:description" content="Un orquestador de Claude Code y seis subagentes con Spec Kit convierten un brief en un sitio Astro: topología, contratos, contexto y loops verificables." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web","description":"Website Factory es un sistema multiagente: un orquestador de Claude Code descompone el problema, delega en seis subagentes especializados y cierra cada etapa con verificadores deterministas sobre el flujo de GitHub Spec Kit. Cómo se coordinan, cómo se programa un sistema para que los agentes ejecuten los prompts, y qué significan en la práctica prompt engineering, context engineering y loop engineering.","datePublished":"2026-11-12","dateModified":"2026-11-12","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"IA y agentes"}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#fortalezas">Strengths</a></li><li><a href="/en/#recorrido">Career</a></li><li><a href="/en/#productos">Projects</a></li><li><a href="/en/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/orquestacion-multiagente-website-factory/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><span>IA y agentes</span><time datetime="2026-11-12">November 12, 2026</time><span>16 min de lectura</span></p>
+    <h1 class="article__title">Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web</h1>
+    <p class="article__lead">Un modelo de lenguaje, por sí solo, es una función estocástica: recibe contexto y devuelve una muestra. Un agente es esa función dentro de un loop con herramientas, memoria y un criterio de parada. Y un sistema multiagente es otra cosa: una arquitectura distribuida donde varias de esas inferencias se reparten el trabajo, comparten estado y se controlan entre sí. Website Factory es un ejemplo completo y público: un orquestador de Claude Code descompone un objetivo, lo delega en seis subagentes especializados sobre el flujo Spec-Driven Development de GitHub Spec Kit y solo da una etapa por cerrada cuando un verificador determinista lo confirma. Entrada: un brief en Markdown. Salida: un sitio Astro + Tailwind CSS 4 que compila, pasa sus controles y deja la traza de cada decisión. Este artículo abre el sistema por dentro.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/ingenieria-con-ia/" class="js-track-pillar-hub">Engineering with AI and agents <span aria-hidden="true">→</span></a></div>
+      <div><p>Context</p>
+      <span>Sistemas multiagente · repositorio público juliancardozo/website-factory-mvp</span>
+      <a href="https://github.com/juliancardozo/website-factory-mvp" target="_blank" rel="noopener noreferrer">Repositorio: juliancardozo/website-factory-mvp <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+        <section>
+          
+          <h2>De la inferencia al sistema</h2>
+          <p>Para entender por qué hace falta orquestar, conviene separar tres niveles que en la conversación cotidiana se mezclan:</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Tres niveles de abstracción en IA generativa aplicada</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Tres niveles de abstracción en IA generativa aplicada"><table>
+              <thead><tr><th scope="col">Nivel</th><th scope="col">Qué es</th><th scope="col">Unidad de diseño</th><th scope="col">Modo de falla típico</th></tr></thead>
+              <tbody><tr><th scope="row">Modelo</th><td>Una inferencia: contexto → distribución → muestra</td><td>El prompt</td><td>Alucinación: una salida plausible y sin grounding</td></tr><tr><th scope="row">Agente</th><td>Un loop de razonamiento y acción con tool use (patrón ReAct)</td><td>Herramientas, contexto y condición de parada</td><td>Deriva: el loop no converge o converge a algo incorrecto</td></tr><tr><th scope="row">Sistema multiagente</th><td>Varios agentes con roles, estado compartido y control</td><td>Topología, contratos, verificadores y límites</td><td>Errores en cascada: la salida mala de uno es la entrada de otro</td></tr></tbody>
+            </table></div>
+          </figure><p>Con un agente generalista las tres fallas se acumulan en un único contexto: el mismo loop decide posicionamiento, copy, SEO, accesibilidad y código, y además evalúa su propio trabajo. La ventana de contexto se llena de información irrelevante para cada subtarea, la atención del modelo se diluye y no hay ningún punto independiente que detecte el error antes de que se propague. La respuesta de ingeniería es la misma que en cualquier sistema distribuido: <strong>descomponer, aislar, contratar interfaces y verificar en los bordes</strong>.</p><p>En Website Factory el repositorio pasa a ser <strong>el programa que ejecutan los agentes</strong>: las reglas (<code>CLAUDE.md</code>), los roles (<code>.claude/agents/*.md</code>), los flujos (<code>.claude/skills/*/SKILL.md</code>), las especificaciones (<code>specs/</code>) y los verificadores (<code>scripts/</code>) son el código fuente del sistema, y el modelo es el runtime. Los prompts que recibe cada agente no se escriben a mano: los genera el orquestador a partir de ese programa.</p>
+          
+        </section>
+        <section>
+          
+          <h2>El problema y las restricciones de diseño</h2>
+          <p>El objetivo es una <strong>fábrica reproducible</strong>: dado cualquier brief con el mismo formato, producir un sitio que compile, pase controles automáticos y deje evidencia de cada decisión. El caso de demostración del repositorio es *Supermercado Los Álamos*, un comercio ficticio. Antes de escribir una línea se fijaron cinco restricciones, que funcionan como la función objetivo del sistema:</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Grounding estricto: el brief es la fuente de verdad.</strong> Cada dato comercial se etiqueta como <code>VERIFIED</code>, <code>ASSUMPTION</code>, <code>PLACEHOLDER</code> o <code>BLOCKED</code>. Lo no confirmado no se publica como si fuera real: es la defensa estructural contra la alucinación.</li><li><strong>Especialización con mínimo privilegio</strong>: cada rol con sus herramientas y sus archivos de salida, y nada más.</li><li><strong>Trazabilidad de punta a punta</strong>: IDs que conecten brief → requisitos → spec → copy → tareas → código → QA.</li><li><strong>Verificación determinista</strong>: <code>astro check</code>, <code>astro build</code> y un validador de contenido tienen que pasar; no alcanza con que el agente diga que pasaron.</li><li><strong>Personas en los puntos de riesgo</strong>: nada de despliegues, dependencias nuevas ni servicios externos sin aprobación explícita.</li></ol><p class="article__note"><span>Alcance</span>MVP de hasta cinco páginas, sin CMS, pagos, autenticación ni formularios con backend. Stack fijo: Astro con TypeScript y salida estática, Tailwind CSS 4 vía @tailwindcss/vite, JavaScript de cliente solo cuando una funcionalidad lo justifique.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Topología: un orquestador, seis especialistas</h2>
+          <p>La primera decisión de arquitectura fue la topología. El sistema usa <strong>orquestador + especialistas</strong> (hub-and-spoke), que en la taxonomía de Anthropic sobre sistemas agénticos corresponde al patrón *orchestrator-workers*. Hay una sola sesión principal de Claude Code que decide prioridades, permisos, reintentos y resultado final. Los subagentes no se hablan entre sí, y no pueden crear otros agentes ni modificar las reglas superiores.</p><p>La coordinación no ocurre por mensajes sino <strong>a través de archivos</strong>, al estilo de una arquitectura *blackboard*: cada agente lee los artefactos que produjeron los anteriores y escribe solo los suyos. Esto tiene tres ventajas sobre un chat entre agentes: el estado es inspeccionable y versionable con git, el contexto de cada agente queda acotado a lo que necesita, y el orquestador puede auditar cualquier paso intermedio.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Topología orquestador-especialistas con coordinación por archivos</figcaption>
+            <pre class="mermaid" aria-label="El brief entra al orquestador. El business-analyst produce requisitos e inventario. Brand-strategist y content-seo-specialist trabajan en paralelo. El ux-ui-designer produce el sistema de diseño. El frontend-engineer implementa y el qa-reviewer audita; sus hallazgos vuelven al orquestador con un máximo de dos iteraciones. Cada delegación queda registrada en agent-runs.md.">flowchart TD
+  B[&quot;briefs/*.md · fuente de verdad&quot;] --&gt; O
+  subgraph O[&quot;Orquestador · CLAUDE.md + skill /website-factory&quot;]
+    direction TB
+    K1[&quot;/speckit.constitution&quot;] --&gt; K2[&quot;/speckit.specify&quot;]
+    K2 --&gt; K3[&quot;/speckit.plan · tasks · analyze&quot;]
+    K3 --&gt; K4[&quot;/speckit.converge&quot;]
+  end
+  O -- &quot;1&quot; --&gt; BA[&quot;business-analyst&quot;]
+  BA --&gt; D1[(&quot;requirements.md · content-inventory.md&quot;)]
+  D1 --&gt; O
+  O -- &quot;2 · paralelo&quot; --&gt; BS[&quot;brand-strategist&quot;]
+  O -- &quot;2 · paralelo&quot; --&gt; CS[&quot;content-seo-specialist&quot;]
+  BS --&gt; D2[(&quot;brand-strategy.md&quot;)]
+  CS --&gt; D3[(&quot;copy-deck.md · seo-plan.md&quot;)]
+  D2 --&gt; UX[&quot;ux-ui-designer&quot;]
+  D3 --&gt; UX
+  UX --&gt; D4[(&quot;design-system.md · site-map.md&quot;)]
+  D4 --&gt; O
+  O -- &quot;3 · plan + tasks&quot; --&gt; FE[&quot;frontend-engineer&quot;]
+  FE --&gt; SRC[(&quot;src/ · check · build&quot;)]
+  SRC --&gt; QA[&quot;qa-reviewer&quot;]
+  QA --&gt; D5[(&quot;qa-report.md&quot;)]
+  D5 -- &quot;máx. 2 iteraciones&quot; --&gt; O
+  O -.-&gt; LOG[(&quot;agent-runs.md&quot;)]</pre>
+            <p class="architecture__description">El brief entra al orquestador. El business-analyst produce requisitos e inventario. Brand-strategist y content-seo-specialist trabajan en paralelo. El ux-ui-designer produce el sistema de diseño. El frontend-engineer implementa y el qa-reviewer audita; sus hallazgos vuelven al orquestador con un máximo de dos iteraciones. Cada delegación queda registrada en agent-runs.md.</p>
+          </figure><h3>Los seis especialistas y su superficie de herramientas</h3><figure class="article__table">
+            <figcaption>Roles, herramientas y propiedad de archivos (definidos en .claude/agents/)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Roles, herramientas y propiedad de archivos (definidos en .claude/agents/)"><table>
+              <thead><tr><th scope="col">Agente</th><th scope="col">Responsabilidad</th><th scope="col">Herramientas</th><th scope="col">Es dueño de</th></tr></thead>
+              <tbody><tr><th scope="row">business-analyst</th><td>Brief → REQ-001..n con Given/When/Then, supuestos y bloqueos; clasifica cada dato</td><td>Read, Grep, Glob, Write</td><td>requirements.md, content-inventory.md</td></tr><tr><th scope="row">brand-strategist</th><td>Posicionamiento, tono, mensajes por sección, dirección visual</td><td>Read, Grep, Glob, Write</td><td>brand-strategy.md</td></tr><tr><th scope="row">content-seo-specialist</th><td>Copy con IDs estables (HOME-S1-SUB…), SEO local, JSON-LD estricto</td><td>Read, Grep, Glob, Write</td><td>copy-deck.md, seo-plan.md</td></tr><tr><th scope="row">ux-ui-designer</th><td>Tokens @theme, componentes con props, responsive 360/768/1440, foco</td><td>Read, Grep, Glob, Write</td><td>design-system.md, site-map.md</td></tr><tr><th scope="row">frontend-engineer</th><td>Implementa tasks.md en Astro + TS + Tailwind 4</td><td>Read, Grep, Glob, Write, Edit, <strong>Bash</strong></td><td>src/, public/, astro.config.mjs</td></tr><tr><th scope="row">qa-reviewer</th><td>Auditoría independiente brief ↔ spec ↔ diseño ↔ código</td><td>Read, Grep, Glob, <strong>Bash</strong>, Write</td><td>qa-report.md</td></tr></tbody>
+            </table></div>
+          </figure><p>Dos principios de coordinación sostienen la tabla. <strong>Propiedad exclusiva de archivos</strong>: como <code>brand-strategist</code> y <code>content-seo-specialist</code> escriben archivos distintos, pueden correr en paralelo (*fan-out*) sin condiciones de carrera; las ediciones de un mismo archivo se serializan. <strong>Mínimo privilegio</strong>: los cuatro roles de análisis y diseño no tienen <code>Bash</code>, así que no pueden instalar paquetes, borrar archivos ni ejecutar nada. Solo compila quien implementa y solo verifica quien audita.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Programar el sistema para que los agentes ejecuten los prompts</h2>
+          <p>La tendencia más interesante de la ingeniería agéntica es esta: dejamos de escribir prompts y empezamos a <strong>programar sistemas que generan y ejecutan prompts</strong>. En Website Factory hay tres capas, cada una con un nivel de abstracción distinto:</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Las capas del programa agéntico</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Las capas del programa agéntico"><table>
+              <thead><tr><th scope="col">Capa</th><th scope="col">Archivo</th><th scope="col">Equivalente en software tradicional</th><th scope="col">Qué define</th></tr></thead>
+              <tbody><tr><th scope="row">Gobernanza</th><td><code>CLAUDE.md</code> + <code>.specify/memory/constitution.md</code></td><td>Invariantes y políticas del sistema</td><td>Misión, regla de oro, secuencia obligatoria, política de subagentes, quality gates</td></tr><tr><th scope="row">Flujo</th><td><code>.claude/skills/website-factory/SKILL.md</code></td><td>Función principal / pipeline</td><td>Los nueve pasos, qué agente o skill corre en cada uno, qué se paraleliza</td></tr><tr><th scope="row">Roles</th><td><code>.claude/agents/*.md</code></td><td>Módulos con interfaz</td><td>Rol, inputs, outputs, restricciones y herramientas permitidas</td></tr><tr><th scope="row">Contexto de trabajo</th><td><code>specs/001-…/</code> y <code>docs/</code></td><td>Estado / memoria compartida</td><td>Spec, plan, contratos, tareas y artefactos intermedios</td></tr><tr><th scope="row">Verificación</th><td><code>scripts/validate_content.py</code>, <code>npm run check/build</code></td><td>Tests</td><td>Señales deterministas de aprobado o fallido</td></tr></tbody>
+            </table></div>
+          </figure><p>Con esa estructura, <code>/website-factory briefs/cliente.md</code> se comporta como una llamada a función: la skill lee el brief, recorre la secuencia y, en cada paso, <strong>compila un prompt</strong> para el agente que corresponde. Ese prompt no es fijo; se construye con las rutas, los criterios de aceptación y las restricciones del paso actual.</p><p>Una distinción que el <code>CLAUDE.md</code> deja explícita, porque es fácil de confundir: las invocaciones <code>/speckit.*</code> son operaciones del orquestador dentro del chat de Claude Code, no comandos de terminal, y que un agente &quot;escriba una spec&quot; no equivale a ejecutar <code>/speckit.specify</code>. El sistema tiene dos runtimes —el shell y el agente— y cada instrucción tiene que dejar claro en cuál corre.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Prompt engineering: cada delegación es un contrato</h2>
+          <p>El prompt engineering cambia de naturaleza cuando quien escribe el prompt es otro agente. Ya no se trata de encontrar la frase mágica, sino de definir <strong>una interfaz</strong>: qué entra, qué sale, cómo se valida y cuándo se termina. Por cada delegación, el orquestador genera un prompt con seis secciones obligatorias y registra un resumen en <code>docs/agent-runs.md</code>.</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>Contrato de delegación (ejemplo reconstruido a partir del registro de la ejecución)</figcaption>
+            <pre tabindex="0"><code class="language-text">MISSION:          Convertir el brief en requisitos verificables y clasificar
+                  cada dato como VERIFIED / ASSUMPTION / PLACEHOLDER / BLOCKED.
+INPUTS:           briefs/supermercado-los-alamos.md
+                  .specify/memory/constitution.md · CLAUDE.md · docs/quality-gates.md
+OUTPUT FILES:     docs/requirements.md · docs/content-inventory.md   (solo estos)
+ACCEPTANCE:       REQ-001..n con criterios Given/When/Then; cada dato comercial
+                  con estado y línea del brief; supuestos A-xx y bloqueos B-xx.
+CONSTRAINTS:      No inventar cifras, reseñas, servicios ni canales de contacto.
+                  Stack y alcance fijos. No editar archivos de otros agentes.
+STOP CONDITIONS:  Si un dato es contradictorio, marcarlo BLOCKED y devolver el
+                  control; no resolver la ambigüedad por cuenta propia.</code></pre>
+          </figure><ul class="article__list"><li><strong>MISSION</strong> acota el rol a una responsabilidad. Un agente con una misión difusa expande su alcance.</li><li><strong>INPUTS</strong> con rutas exactas es *context engineering*: el agente no explora el repo buscando qué leer, recibe exactamente lo necesario.</li><li><strong>OUTPUT FILES</strong> convierte la propiedad de archivos en parte del contrato y hace posible la paralelización.</li><li><strong>ACCEPTANCE</strong> con IDs medibles permite que otro agente (el QA) verifique sin interpretar.</li><li><strong>CONSTRAINTS</strong> repite las invariantes en el punto de uso: no se confía en que el agente &quot;recuerde&quot; la constitución.</li><li><strong>STOP CONDITIONS</strong> es la sección que más se olvida y la que más importa: define cuándo el agente tiene que dejar de intentar y devolver el control.</li></ul><p>Los prompts de rol (<code>.claude/agents/*.md</code>) son estables y cortos; los prompts de tarea son dinámicos y específicos. Esa separación es la misma que entre la definición de una clase y la llamada a uno de sus métodos con argumentos.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Context engineering: el contexto es un presupuesto</h2>
+          <p>Si el prompt es la interfaz, el contexto es la memoria de trabajo, y es un recurso finito. Cuanto más ruido entra en la ventana de contexto, peor decide el modelo. El diseño del enjambre es, en buena medida, una estrategia de gestión de contexto:</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Aislamiento por subagente.</strong> Cada subagente arranca con su propia ventana de contexto. El <code>ux-ui-designer</code> no carga la conversación sobre JSON-LD; el orquestador solo recibe resúmenes, no la exploración completa de cada agente.</li><li><strong>Memoria externa en archivos.</strong> Los artefactos de <code>docs/</code> y <code>specs/</code> son memoria persistente: sobreviven a la sesión, se pueden leer por partes y cualquier agente posterior los consume sin reconstruirlos.</li><li><strong>Contexto progresivo.</strong> Las skills se cargan cuando se invocan; los roles exponen una <code>description</code> corta y el cuerpo completo entra solo cuando el agente se usa.</li><li><strong>IDs estables como índice.</strong> <code>REQ-007</code>, <code>FR-012</code>, <code>CONT-S2-MAP-TITLE</code>, <code>T024</code>: un agente puede citar y buscar un requisito sin copiar su texto, y el QA puede cruzar capas con <code>grep</code>.</li><li><strong>Fuente única de datos.</strong> Dirección, teléfono y horarios aparecen literalmente en un solo archivo, <code>src/content/site.ts</code> (contrato C-01). Menos duplicación también es menos contexto contradictorio.</li></ul><figure class="article__code">
+            <figcaption>src/content/site.ts: cada dato comercial lleva su estado y su origen en el brief</figcaption>
+            <pre tabindex="0"><code class="language-ts">// --- Teléfono: BRIEF-VALIDAR (brief L148, B-03); formato E.164 = ASSUMPTION (A-09) ---
+export const phone: Phone = {
+  display: '0000 00-0000', // BRIEF-VALIDAR
+  e164: phoneE164,          // ASSUMPTION (A-09)
+  href: 'tel:' + phoneE164,
+};
+
+// --- Horarios: BRIEF-VALIDAR (brief L151-152). Sin feriados (PENDIENTE) ni &quot;abierto ahora&quot;. ---
+export const hours: OpeningHours[] = [
+  { days: 'Lunes a sábado', value: '07:30 a 21:00', closed: false }, // BRIEF-VALIDAR
+  { days: 'Domingo', value: 'Cerrado', closed: true },               // BRIEF-VALIDAR
+];
+
+export const offers: Offer[] = []; // sin ofertas confirmadas → estado vacío honesto</code></pre>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>Loop engineering: iterar con señales deterministas</h2>
+          <p>Todo agente es un loop: reunir contexto, actuar, observar el resultado y decidir si sigue. Un sistema multi-agente es un <strong>loop de loops</strong>. Llamo *loop engineering* a diseñar esos ciclos de forma explícita: qué señal cierra cada iteración, cuántas iteraciones se permiten y qué pasa cuando se agotan. Un loop sin señal de salida diverge; un loop con una señal blanda (&quot;me parece que quedó bien&quot;) converge a cualquier cosa.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Los loops del sistema y sus condiciones de salida</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Los loops del sistema y sus condiciones de salida"><table>
+              <thead><tr><th scope="col">Loop</th><th scope="col">Quién itera</th><th scope="col">Señal de feedback</th><th scope="col">Límite / salida</th></tr></thead>
+              <tbody><tr><th scope="row">Interno de implementación</th><td>frontend-engineer</td><td><code>astro check</code> y <code>astro build</code> (exit code)</td><td>0 errores, 0 warnings; si no, corrige y reintenta</td></tr><tr><th scope="row">Consistencia de especificación</th><td>Orquestador con <code>/speckit.analyze</code></td><td>Hallazgos CRITICAL / MEDIUM / LOW entre spec, plan y tasks</td><td>No se implementa con CRITICAL abiertos</td></tr><tr><th scope="row">Evaluador-optimizador</th><td>qa-reviewer → orquestador → corrección</td><td>Hallazgos BLOCKER / MAJOR / MINOR con evidencia <code>archivo:línea</code></td><td><strong>Máximo dos iteraciones</strong>; lo no resuelto queda como pendiente documentado</td></tr><tr><th scope="row">Convergencia</th><td>Orquestador con <code>/speckit.converge</code></td><td>Brechas entre spec y código generado</td><td>Converged, o tarea bloqueada a la espera de una persona</td></tr><tr><th scope="row">Aprobación humana</th><td>Persona</td><td>Decisión explícita</td><td>Dependencias nuevas, servicios externos y despliegue</td></tr></tbody>
+            </table></div>
+          </figure><p>El patrón *evaluator-optimizer* (un agente produce, otro evalúa, el primero corrige) funciona solo si el evaluador es <strong>independiente</strong>: otro contexto, otro prompt, criterios escritos de antemano. Si el mismo agente que implementó se autoevalúa, tiende a confirmar lo que hizo: es el equivalente agéntico de evaluar un modelo con sus propios datos de entrenamiento. Por eso el <code>qa-reviewer</code> no recibe el razonamiento del implementador, solo los artefactos; no hay fuga de información entre quien produce y quien evalúa.</p><p>Y la parte que hace que los loops sean confiables: las señales de cierre son <strong>deterministas</strong> siempre que se pueda. El modelo muestrea de una distribución; el exit code de un build no. En términos de aprendizaje por refuerzo, el verificador es una función de recompensa verificable: binaria, barata de calcular e imposible de convencer con una buena redacción. El validador de contenido convierte reglas de negocio en una señal binaria:</p><figure class="article__code">
+            <figcaption>scripts/validate_content.py (fragmento): invariante C-01 de fuente única</figcaption>
+            <pre tabindex="0"><code class="language-python">single_source = src / 'content' / 'site.ts'
+for f in src_files:
+    if f == single_source:
+        continue
+    s = f.read_text(encoding='utf-8')
+    for m in re.finditer(r'Ejemplo|B0000|00-0000|000000|07:30|21:00', s):
+        errors.append(f'{f.relative_to(root)}: C-01 dato comercial literal fuera de site.ts (&quot;{m.group(0)}&quot;)')</code></pre>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>El arnés: guardrails que no dependen del modelo</h2>
+          <p>Un enjambre sin límites diverge. Además de los loops, el sistema tiene frenos que no dependen de que el modelo &quot;se porte bien&quot;:</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Constitución versionada</strong> con seis principios no negociables (brief como fuente de verdad, stack fijo, contenido separado del diseño, accesibilidad, SEO local honesto, verificabilidad). <code>/speckit.plan</code> incluye un *Constitution Check* que tiene que pasar.</li><li><strong>Estados vacíos honestos</strong>: canales sin confirmar con <code>value: null</code> no se renderizan; <code>offers: []</code> muestra &quot;todavía no hay ofertas publicadas&quot;, nunca precios de ejemplo.</li><li><strong>SEO sin inventar</strong>: sin <code>canonical</code>, <code>og:url</code> ni <code>og:image</code> mientras no exista una URL pública confirmada; JSON-LD <code>GroceryStore</code> solo con <code>name</code> y <code>address</code>.</li><li><strong>Permisos del proyecto mínimos</strong>: <code>.claude/settings.json</code> solo habilita el navegador contra <code>127.0.0.1:4321</code> para la revisión visual local.</li><li><strong>Sin acciones externas</strong>: no se declaran pruebas de navegador ni puntuaciones Lighthouse que no se ejecutaron, y no se instala nada sin aprobación.</li><li><strong>Registro de cada delegación</strong> en <code>docs/agent-runs.md</code>: fecha, agente, misión, entradas, salidas, validación y estado. Es el *trace* del sistema.</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Qué produjo una ejecución completa</h2>
+          <p>La ejecución completa quedó en el repositorio: specs, documentación intermedia, registro de agentes, reporte de QA y el sitio generado. Estos son los números, todos verificables en <code>docs/agent-runs.md</code> y <code>docs/qa-report.md</code>:</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Resultados de la ejecución sobre el brief de Supermercado Los Álamos</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Resultados de la ejecución sobre el brief de Supermercado Los Álamos"><table>
+              <thead><tr><th scope="col">Etapa</th><th scope="col">Resultado</th></tr></thead>
+              <tbody><tr><th scope="row">Análisis de negocio</th><td>18 requisitos, 11 supuestos y 8 bloqueos explícitos</td></tr><tr><th scope="row">Especificación (<code>/speckit.specify</code>)</th><td>4 historias de usuario, FR-001..019 trazados a REQ, SC-001..007; checklist 16/16, sin necesidad de <code>/speckit.clarify</code></td></tr><tr><th scope="row">Diseño</th><td>34 componentes especificados, tokens <code>@theme</code>, ilustraciones SVG propias en lugar de fotos sin licencia</td></tr><tr><th scope="row">Plan y tareas</th><td>Investigación R-01..08, contratos C-01..03, 41 tareas organizadas por historia</td></tr><tr><th scope="row"><code>/speckit.analyze</code></th><td>0 CRITICAL, 2 MEDIUM, 4 LOW; los relevantes se corrigieron en <code>tasks.md</code> antes de implementar</td></tr><tr><th scope="row">Implementación</th><td><code>astro check</code> 0 errores / 0 warnings / 0 hints; build de 5 páginas; validador PASS</td></tr><tr><th scope="row">QA independiente</th><td>0 BLOCKER, 0 MAJOR, 8 MINOR</td></tr><tr><th scope="row">Revisión visual</th><td>5 páginas × 3 anchos (360/768/1440): 15/15 sin scroll horizontal</td></tr><tr><th scope="row">Convergencia</th><td>Converged; una tarea (cargar tipografías) bloqueada a la espera de aprobación</td></tr></tbody>
+            </table></div>
+          </figure><h3>Lo que mostró el loop de QA</h3><p>El hallazgo más revelador fue QA-008: el <code>qa-reviewer</code> detectó que <strong>el validador escrito por el <code>frontend-engineer</code> era más estrecho que el contrato</strong> que debía verificar. Buscaba algunos datos literales pero no todos, y su patrón no detectaba &quot;compras online&quot;. El auditor no solo revisa el código: revisa los tests. Se corrigió en la primera iteración, con prueba positiva y negativa.</p><p>El otro momento clave fue una parada correcta. El brief pedía tipografías específicas; cargarlas requería instalar paquetes <code>@fontsource</code>. Como eso es una dependencia nueva, el sistema no la instaló: dejó la tarea T040 bloqueada, lo documentó como QA-001 y devolvió la decisión. Un agente que sabe detenerse vale más que uno que siempre termina.</p><p class="article__note"><span>Veredicto del propio sistema</span>Aprobado para preview local con observaciones; no apto para producción hasta validar teléfono y horarios con el comercio, confirmar categorías, sumar fotos con licencia y definir dominio. Que el sistema diga esto de sí mismo es parte del resultado.</p><h3>Límites honestos</h3><ul class="article__list"><li>Es no determinista: otra ejecución con el mismo brief puede producir otro sitio que cumpla igualmente la spec. Lo reproducible es el proceso y los controles, no el HTML exacto.</li><li><code>validate_content.py</code> es heurístico: no reemplaza una revisión editorial ni una auditoría de seguridad.</li><li>No incluye Playwright, Lighthouse ni despliegue automático. La prueba de teclado asistida quedó registrada como no ejecutada.</li><li>Para varios clientes en paralelo conviene un repo o una rama por proyecto, para que no choquen <code>specs/</code> ni el estado de <code>.specify/</code>.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Principios de diseño para sistemas multiagente</h2>
+          <p>La conclusión no es que los agentes reemplacen a un equipo, sino que <strong>el trabajo de ingeniería se mueve un nivel de abstracción hacia arriba</strong>. En lugar de escribir el sitio, escribimos el sistema que escribe sitios: sus reglas, sus roles, sus contratos y sus loops. Ese sistema se revisa en pull requests, se versiona y mejora entre ejecuciones.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Diseñá la topología antes que los prompts.</strong> Orquestador único, especialistas sin comunicación lateral y coordinación por archivos es un punto de partida que escala y se puede auditar.</li><li><strong>Tratá cada delegación como una llamada a una API</strong>: misión, entradas, salidas, aceptación, restricciones y condición de parada.</li><li><strong>El contexto es un presupuesto.</strong> Aislá contextos por agente, persistí en archivos y pasá rutas exactas, no &quot;mirá el repo&quot;.</li><li><strong>Todo loop necesita una señal determinista y un límite.</strong> Dos iteraciones y después una persona.</li><li><strong>El evaluador tiene que ser independiente</strong>, y también tiene que auditar los tests.</li><li><strong>Mínimo privilegio por rol</strong>: si un agente no necesita ejecutar comandos, no le des <code>Bash</code>.</li><li><strong>Escribí dónde se detiene la autonomía</strong>: dependencias, servicios externos, datos personales y despliegues pasan por una persona.</li></ol><p>El repositorio es público y tiene licencia MIT. Se puede clonar, completar <code>templates/brief-template.md</code> con datos reales y correr <code>/website-factory briefs/mi-empresa.md</code> desde Claude Code. Me interesa saber cómo están armando sus propios arneses: ¿qué loops cerraron con señales deterministas y cuáles siguen dependiendo de &quot;me parece que está bien&quot;?</p><h3>Referencias</h3><ul class="article__list"><li><a href="https://github.com/juliancardozo/website-factory-mvp" target="_blank" rel="noopener noreferrer">juliancardozo/website-factory-mvp</a> — repositorio del caso, con la ejecución completa.</li><li><a href="https://github.com/github/spec-kit" target="_blank" rel="noopener noreferrer">GitHub Spec Kit</a> — toolkit de Spec-Driven Development (en el repo, versión 1.4.1.dev0).</li><li><a href="https://www.anthropic.com/engineering/building-effective-agents" target="_blank" rel="noopener noreferrer">Building effective agents</a> — Anthropic: patrones orchestrator-workers, parallelization y evaluator-optimizer.</li><li><a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank" rel="noopener noreferrer">Effective context engineering for AI agents</a> — Anthropic: el contexto como recurso finito.</li><li><a href="https://docs.claude.com/en/docs/claude-code/sub-agents" target="_blank" rel="noopener noreferrer">Subagents en Claude Code</a> — documentación oficial de subagentes, herramientas y contexto aislado.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">Criterio práctico: en un sistema multiagente no se optimiza el prompt, se diseña la arquitectura. Topología clara, contratos de delegación, contexto acotado, loops con señales deterministas y límites, y personas en los puntos donde un error cuesta caro.</p>
+      
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Is your team evaluating applied AI? I'd like to hear about the problem you're trying to solve.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Siete%20agentes%2C%20un%20objetivo%3A%20c%C3%B3mo%20se%20orquesta%20un%20sistema%20multiagente%20que%20construye%20un%20sitio%20web&amp;body=Is%20your%20team%20evaluating%20applied%20AI%3F%20I'd%20like%20to%20hear%20about%20the%20problem%20you're%20trying%20to%20solve.%0A%0AI%20came%20from%20the%20article%3A%20Siete%20agentes%2C%20un%20objetivo%3A%20c%C3%B3mo%20se%20orquesta%20un%20sistema%20multiagente%20que%20construye%20un%20sitio%20web%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Forquestacion-multiagente-website-factory%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span>Liderazgo y plataforma</span>
+        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
+        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
+      </a></li><li><a href="/en/blog/rea-ingenieria-inversa-chordify-chordlocal/" class="js-track-related-article">
+        <span>AI and product</span>
+        <strong>Reverse engineering with agents: from Chordify to ChordLocal with REA</strong>
+        <small>We ran REA (Reverse Engineer Anything) against Chordify's public pages: what stack it uses, where its paid features live and what that confirms about the architecture of ChordLocal, a local and free alternative.</small>
+      </a></li><li><a href="/en/blog/hardware-modelos-redifinen-arquitectura-ia/" class="js-track-related-article">
+        <span>AI news</span>
+        <strong>Hardware is no longer a detail: how the new model standard redefines AI architecture</strong>
+        <small>An analysis of the new discussion about hardware for frontier models and why infrastructure has become central to AI strategy.</small>
+      </a></li>
+    </ul>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

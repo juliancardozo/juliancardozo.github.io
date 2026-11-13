@@ -14,6 +14,7 @@ export const pillars = [
       '¿Qué controles necesita cada tarea según su riesgo, y en qué decisiones no se delega?',
     ],
     articleSlugs: [
+      'orquestacion-multiagente-website-factory',
       'ia-especificacion-antes-codigo',
       'spec-kit-1-especificaciones-agentes-adopcion',
       'kiro-acp-interoperabilidad-agentes-ide',
@@ -40,6 +41,7 @@ export const pillars = [
       '¿Cómo conectar producto, delivery y criterio técnico sin microgestión?',
     ],
     articleSlugs: [
+      'orquestacion-multiagente-website-factory',
       'developer-experience-ia-friccion-plataforma',
       'ia-especificacion-antes-codigo',
       'kiro-acp-interoperabilidad-agentes-ide',
