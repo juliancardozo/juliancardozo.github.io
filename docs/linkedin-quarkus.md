@@ -14,11 +14,11 @@ Artículos relacionados: `/blog/saas-multitenant-iac-resiliencia/`, `/blog/devel
 
 ## 2. Resumen SEO (≤ 160 caracteres)
 
-- **Meta description** (155 car.): Qué cambia con Quarkus: arranque en tiempo de build, JVM vs. nativo con datos oficiales, Dev Services, compatibilidad con Spring y cómo evaluarlo en un equipo.
+- **Meta description** (139 car.): Qué cambia con Quarkus: arranque en el build, JVM vs. nativo con datos oficiales, Dev Services, compatibilidad con Spring y cómo evaluarlo.
 - **Meta title** (60 car.): Quarkus para equipos Java y Spring: guía técnica de adopción
 - **Slug**: `quarkus-java-cloud-native-equipos-spring`
 
-## 3. Post de LinkedIn (≈ 220 palabras)
+## 3. Post de LinkedIn (≈ 200 palabras)
 
 > **Quarkus para equipos Java: qué cambia cuando el framework arranca en el build**
 >

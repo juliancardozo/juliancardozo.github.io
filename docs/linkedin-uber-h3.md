@@ -18,7 +18,7 @@ Artículos relacionados: `/blog/infraestructura-proporcionada-problema/`, `/blog
 - **Meta title** (56 car.): Uber H3: soluciones óptimas en ingeniería y arquitectura
 - **Slug**: `uber-h3-soluciones-optimas-ingenieria-arquitectura`
 
-## 3. Post de LinkedIn (≈ 225 palabras)
+## 3. Post de LinkedIn (≈ 200 palabras)
 
 > **Uber H3: buscando soluciones óptimas en ingeniería y arquitectura**
 >
