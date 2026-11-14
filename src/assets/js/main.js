@@ -275,7 +275,7 @@
 
   /* ── 4. dataLayer para medición editorial ──────────────────────────────── */
   var trackedClicks = document.querySelectorAll(
-    '.js-track-conversation, .js-track-related-article, .js-track-origin-project, .js-track-project-insight, .js-track-pillar-hub, .js-track-article-card, .js-track-newsletter-interest, .js-track-newsletter-issue'
+    '.js-track-conversation, .js-track-linkedin, .js-track-related-article, .js-track-origin-project, .js-track-project-insight, .js-track-pillar-hub, .js-track-article-card, .js-track-newsletter-interest, .js-track-newsletter-issue'
   );
   if (trackedClicks.length) {
     window.dataLayer = window.dataLayer || [];
@@ -284,6 +284,7 @@
         var href = link.getAttribute('href') || '';
         var eventName = 'content_navigation_click';
         if (link.classList.contains('js-track-conversation')) eventName = 'conversation_cta_click';
+        else if (link.classList.contains('js-track-linkedin')) eventName = 'linkedin_cta_click';
         else if (link.classList.contains('js-track-related-article')) eventName = 'related_article_click';
         else if (link.classList.contains('js-track-origin-project')) eventName = 'article_to_project_click';
         else if (link.classList.contains('js-track-project-insight')) eventName = 'project_to_article_click';

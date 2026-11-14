@@ -492,6 +492,12 @@ export const content = {
       architectureLabel: 'Arquitectura de referencia',
       checkLabel: 'Para comprobar',
       followLinkedin: 'Seguime en LinkedIn',
+      linkedin: {
+        label: 'Sigamos en LinkedIn',
+        title: '¿Te sirvió este artículo? Conectemos en LinkedIn',
+        body: 'Ahí comparto cada artículo nuevo, notas cortas sobre arquitectura, IA aplicada y liderazgo de equipos, y las conversaciones que surgen a partir de ellos.',
+        button: 'Seguime en LinkedIn',
+      },
       aboutAuthor: 'Quién escribe esto',
       relatedEyebrow: 'Seguir leyendo',
       relatedTitle: 'Artículos relacionados',

@@ -40,6 +40,21 @@ const conversationCta = (article, t) => {
     </aside>`;
 };
 
+/** Llamado a seguir el perfil de LinkedIn, presente al final de todos los artículos. */
+const linkedinCta = (t) => {
+  const l = t.article.linkedin;
+  if (!site.links.linkedin || !l) return '';
+  return `<aside class="article__linkedin" aria-labelledby="article-linkedin-title">
+      <svg class="article__linkedin-icon" aria-hidden="true" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      <div>
+        <p class="article__conversation-label">${esc(l.label)}</p>
+        <h2 id="article-linkedin-title">${esc(l.title)}</h2>
+        <p>${esc(l.body)}</p>
+        <a class="btn btn--primary js-track-linkedin" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${esc(l.button)} <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>`;
+};
+
 /** Texto normalizado para la búsqueda del índice: sin tildes, en minúsculas. */
 const searchText = (...parts) =>
   parts.join(' ').normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/\s+/g, ' ').trim();
@@ -298,6 +313,7 @@ export const articlePage = ({ t, article, relatedProject, relatedArticles = [], 
       ${architectureDiagram(article.architecture, t)}
       <p class="article__takeaway">${esc(article.takeaway)}</p>
       ${article.download ? downloadBox({ ...article.download, companion: null, disclaimer: null, credentialLabel: null, idSuffix: '-end' }, t) : ''}
+      ${linkedinCta(t)}
       ${conversationCta(article, t)}
     </div>
   </div>
