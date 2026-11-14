@@ -37,6 +37,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Productos, startups y MVPs","description":"De la observación del problema al MVP: onboarding, experiencia de uso, hipótesis, validación y diseño de soluciones sostenibles.","url":"https://juliancardozo.github.io/temas/producto-mvps/","inLanguage":"es","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"hasPart":[{"@type":"BlogPosting","name":"Ingeniería inversa con agentes: de Chordify a ChordLocal con REA","url":"https://juliancardozo.github.io/blog/rea-ingenieria-inversa-chordify-chordlocal/"},{"@type":"BlogPosting","name":"Web corporativa en 2026: diseñar impacto sin sacrificar rendimiento ni control","url":"https://juliancardozo.github.io/blog/web-corporativa-2026-impacto-rendimiento/"},{"@type":"BlogPosting","name":"Onboarding clínico: cómo evitar que un producto de salud empiece vacío","url":"https://juliancardozo.github.io/blog/milo-care-onboarding-calendario-clinico/"},{"@type":"BlogPosting","name":"Recordatorios confiables: diseñar notificaciones como una responsabilidad de producto","url":"https://juliancardozo.github.io/blog/milo-care-recordatorios-confiables/"},{"@type":"BlogPosting","name":"Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza","url":"https://juliancardozo.github.io/blog/infraestructura-proporcionada-problema/"},{"@type":"BlogPosting","name":"Del problema observado al MVP: diseñar producto desde el trabajo real del usuario","url":"https://juliancardozo.github.io/blog/emprender-desde-problemas-observados/"},{"@type":"CreativeWork","name":"Milo Care","url":"https://juliancardozo.github.io/proyectos/milo-care/"},{"@type":"CreativeWork","name":"WebSpec AI","url":"https://juliancardozo.github.io/proyectos/webspec-ai/"},{"@type":"CreativeWork","name":"Casa Médanos","url":"https://juliancardozo.github.io/proyectos/casa-medanos/"},{"@type":"CreativeWork","name":"EscalaImprov","url":"https://juliancardozo.github.io/proyectos/escalaimprov/"},{"@type":"CreativeWork","name":"ChordLocal","url":"https://juliancardozo.github.io/proyectos/chordlocal/"}]}</script>
@@ -178,7 +192,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="/newsletter/">Newsletter</a></li>
       <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
     </ul>
   </div>

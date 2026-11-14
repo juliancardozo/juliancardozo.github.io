@@ -69,6 +69,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
@@ -117,7 +131,7 @@ ${content}
       <li><a href="${esc(href(t, 'newsletter'))}">Newsletter</a></li>
       <li><a href="${esc(href(t, 'privacy'))}">${esc(t.ui.privacy)}</a></li>
       <li><a href="${esc(site.links.github)}" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      ${site.links.linkedin ? `<li><a href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>` : ''}
+      ${site.links.linkedin ? `<li><a class="js-track-linkedin" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>` : ''}
       ${site.links.email ? `<li><a href="mailto:${esc(site.links.email)}">Email</a></li>` : ''}
     </ul>
   </div>

@@ -292,6 +292,11 @@
         else if (link.classList.contains('js-track-article-card')) eventName = 'blog_card_click';
         else if (link.classList.contains('js-track-newsletter-interest')) eventName = 'newsletter_interest_click';
         else if (link.classList.contains('js-track-newsletter-issue')) eventName = 'newsletter_issue_click';
+        if (eventName === 'linkedin_cta_click' && typeof window.oaiq === 'function') {
+          /* Clic hacia el perfil de LinkedIn: conversión de OpenAI Ads (estándar para optimizar, custom para reportar). */
+          window.oaiq('measure', 'lead_created', { type: 'customer_action' });
+          window.oaiq('measure', 'custom', { type: 'custom' }, { custom_event_name: 'linkedin_profile_click' });
+        }
         window.dataLayer.push({
           event: eventName,
           link_url: href,

@@ -260,7 +260,7 @@ export const home = ({ t, featured, pillars }) => {
       <a class="btn btn--ghost" href="${esc(site.links.github)}" ${external}>${githubIcon}${esc(s.contacto.githubLabel)}</a>
       ${
         site.links.linkedin
-          ? `<a class="btn btn--ghost" href="${esc(site.links.linkedin)}" ${external}>${esc(s.contacto.linkedinLabel)}</a>`
+          ? `<a class="btn btn--ghost js-track-linkedin" href="${esc(site.links.linkedin)}" ${external}>${esc(s.contacto.linkedinLabel)}</a>`
           : ''
       }
     </div>

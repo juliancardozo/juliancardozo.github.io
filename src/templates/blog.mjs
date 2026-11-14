@@ -201,7 +201,7 @@ const downloadBox = (download, t, articles = []) => {
       <p>${esc(download.body)}</p>
       <div class="hero__ctas">
         <a class="btn btn--primary js-track-notes-download" href="${esc(download.href)}" download="${esc(download.filename)}" type="application/pdf">${esc(download.label)}<span aria-hidden="true">↓</span></a>
-        ${site.links.linkedin ? `<a class="btn btn--ghost" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${esc(a.followLinkedin)}</a>` : ''}
+        ${site.links.linkedin ? `<a class="btn btn--ghost js-track-linkedin" href="${esc(site.links.linkedin)}" target="_blank" rel="noopener noreferrer">${esc(a.followLinkedin)}</a>` : ''}
         <a class="btn btn--ghost" href="${href(t)}">${esc(a.aboutAuthor)}</a>
       </div>
       ${companion ? `<p class="notes-download__companion"><a href="${href(t, 'blog', companion.slug)}" class="js-track-related-article">${esc(download.companionLabel || companion.title)} <span aria-hidden="true">→</span></a></p>` : ''}

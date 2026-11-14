@@ -37,6 +37,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CreativeWork","name":"EscalaImprov","headline":"EscalaImprov — What I needed to understand to dare to play at a jam session.","description":"Music theory is studied by reading and learned by playing. In between, there's a missing tool that gives instant feedback —one that tells you, in the moment, whether that minor sixth was the one you thought— and that also turns theory into an actionable instruction while you're playing.","url":"https://juliancardozo.github.io/en/projects/escalaimprov/","inLanguage":"en","author":{"@type":"Person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"keywords":"JavaScript, HTML, SVG, Web Audio, Electron (versión de escritorio)","codeRepository":"https://github.com/juliancardozo/escalas-app"}</script>
@@ -154,7 +168,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="/en/newsletter/">Newsletter</a></li>
       <li><a href="/en/privacy/">Privacy</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
     </ul>
   </div>

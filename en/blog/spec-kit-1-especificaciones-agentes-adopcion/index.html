@@ -37,6 +37,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/spec-kit-1-especificaciones-agentes-adopcion/#article","headline":"Spec Kit 1.0: the specification consolidates as the interface for agents","description":"GitHub released Spec Kit 1.0 and 1.0.1, with adoption guides, quickstarts and extensions: impact on spec-driven development and automation with agents.","datePublished":"2026-08-25","dateModified":"2026-08-25","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/spec-kit-1-especificaciones-agentes-adopcion/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/spec-kit-1-especificaciones-agentes-adopcion/","articleSection":"AI and agents","keywords":"AI, Agents, Product","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://github.com/github/spec-kit/releases/tag/v1.0.1"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Spec Kit 1.0: the specification consolidates as the interface for agents","item":"https://juliancardozo.github.io/en/blog/spec-kit-1-especificaciones-agentes-adopcion/"}]}]}</script>
@@ -193,7 +207,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="/en/newsletter/">Newsletter</a></li>
       <li><a href="/en/privacy/">Privacy</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
     </ul>
   </div>

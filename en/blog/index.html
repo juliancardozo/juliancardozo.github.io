@@ -37,6 +37,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog","name":"Blog by Julián Cardozo","url":"https://juliancardozo.github.io/en/blog/","inLanguage":"en","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"blogPost":[{"@type":"BlogPosting","headline":"Uber H3: buscando soluciones óptimas en ingeniería y arquitectura. Caso práctico","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/"},{"@type":"BlogPosting","headline":"Quarkus para equipos Java: qué cambia cuando el framework arranca en el build","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/quarkus-java-cloud-native-equipos-spring/"},{"@type":"BlogPosting","headline":"Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/open-finance-argentina-arquitectura-apis-consentimiento/"},{"@type":"BlogPosting","headline":"De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/technical-product-manager-developer-platform/"},{"@type":"BlogPosting","headline":"Loop Engineering: cómo diseñar el ciclo de trabajo de los agentes de IA","datePublished":"2026-11-13","url":"https://juliancardozo.github.io/en/blog/loop-engineering-agentic-loops/"},{"@type":"BlogPosting","headline":"Siete agentes, un objetivo: cómo se orquesta un sistema multiagente que construye un sitio web","datePublished":"2026-11-12","url":"https://juliancardozo.github.io/en/blog/orquestacion-multiagente-website-factory/"},{"@type":"BlogPosting","headline":"Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering","datePublished":"2026-11-10","url":"https://juliancardozo.github.io/en/blog/developer-experience-ia-friccion-plataforma/"},{"@type":"BlogPosting","headline":"SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir","datePublished":"2026-11-10","url":"https://juliancardozo.github.io/en/blog/saas-multitenant-iac-resiliencia/"},{"@type":"BlogPosting","headline":"AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar","datePublished":"2026-11-08","url":"https://juliancardozo.github.io/en/blog/aws-cloud-practitioner-field-notes/"},{"@type":"BlogPosting","headline":"Reverse engineering with agents: from Chordify to ChordLocal with REA","datePublished":"2026-10-19","url":"https://juliancardozo.github.io/en/blog/rea-ingenieria-inversa-chordify-chordlocal/"}]}</script>
@@ -472,7 +486,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="/en/newsletter/">Newsletter</a></li>
       <li><a href="/en/privacy/">Privacy</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
     </ul>
   </div>

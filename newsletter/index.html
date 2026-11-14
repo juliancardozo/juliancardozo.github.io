@@ -37,6 +37,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Notas desde el frente: liderazgo en tech LATAM","description":"Una newsletter personal sobre liderazgo técnico, decisiones de arquitectura, producto, IA aplicada y aprendizajes reales de construir en Latinoamérica.","url":"https://juliancardozo.github.io/newsletter/","inLanguage":"es","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"hasPart":[{"@type":"BlogPosting","headline":"Lo difícil de un webhook no es recibirlo","url":"https://juliancardozo.github.io/newsletter/lo-dificil-de-un-webhook-no-es-recibirlo/"},{"@type":"BlogPosting","headline":"Especificar antes de construir también es liderazgo","url":"https://juliancardozo.github.io/newsletter/especificar-antes-de-construir-tambien-es-liderazgo/"}]}</script>
@@ -259,7 +273,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="/newsletter/">Newsletter</a></li>
       <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
     </ul>
   </div>

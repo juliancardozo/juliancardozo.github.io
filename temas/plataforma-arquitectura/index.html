@@ -37,6 +37,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Platform Engineering y arquitectura","description":"Arquitectura de software, multi-tenancy, pagos, cloud, experiencia de desarrollo y sistemas que deben explicarse y operarse.","url":"https://juliancardozo.github.io/temas/plataforma-arquitectura/","inLanguage":"es","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"hasPart":[{"@type":"BlogPosting","name":"Uber H3: buscando soluciones óptimas en ingeniería y arquitectura. Caso práctico","url":"https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/"},{"@type":"BlogPosting","name":"Quarkus para equipos Java: qué cambia cuando el framework arranca en el build","url":"https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/"},{"@type":"BlogPosting","name":"Open Finance como infraestructura: la arquitectura que hay detrás del consentimiento","url":"https://juliancardozo.github.io/blog/open-finance-argentina-arquitectura-apis-consentimiento/"},{"@type":"BlogPosting","name":"De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers","url":"https://juliancardozo.github.io/blog/technical-product-manager-developer-platform/"},{"@type":"BlogPosting","name":"Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering","url":"https://juliancardozo.github.io/blog/developer-experience-ia-friccion-plataforma/"},{"@type":"BlogPosting","name":"SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir","url":"https://juliancardozo.github.io/blog/saas-multitenant-iac-resiliencia/"},{"@type":"BlogPosting","name":"Llama 4 Scout: qué aporta el open-weight multimodal de Meta a equipos de producto","url":"https://juliancardozo.github.io/blog/llama-4-scout-open-weight-usa/"},{"@type":"BlogPosting","name":"Qwen3-235B-A22B: el caso de China para inferencia open-weight a gran escala","url":"https://juliancardozo.github.io/blog/qwen3-235b-open-weight-china/"},{"@type":"BlogPosting","name":"Claude incorporará watermarking de texto: qué cambia para la gobernanza de IA","url":"https://juliancardozo.github.io/blog/claude-watermarking-gobernanza-contenido-ia/"},{"@type":"BlogPosting","name":"Lo que estoy aprendiendo al estudiar AWS Cloud Practitioner","url":"https://juliancardozo.github.io/blog/aws-cloud-practitioner-conceptos-fundamentales/"},{"@type":"BlogPosting","name":"Arquitectura de pagos: por qué un cobro no es una llamada HTTP","url":"https://juliancardozo.github.io/blog/webhooks-pagos-maquinas-de-estado/"},{"@type":"BlogPosting","name":"Multi-tenancy seguro: el aislamiento de datos no puede depender de un WHERE","url":"https://juliancardozo.github.io/blog/multi-tenancy-rls-frontera-datos/"},{"@type":"BlogPosting","name":"IA para compliance: una respuesta sin evidencia es un riesgo operativo","url":"https://juliancardozo.github.io/blog/agentes-ia-salidas-verificables/"},{"@type":"BlogPosting","name":"AWS Cloud Practitioner — Field Notes: 6 conceptos para entender, no memorizar","url":"https://juliancardozo.github.io/blog/aws-cloud-practitioner-field-notes/"},{"@type":"CreativeWork","name":"MiCuota","url":"https://juliancardozo.github.io/proyectos/micuota/"},{"@type":"CreativeWork","name":"Patio","url":"https://juliancardozo.github.io/proyectos/patio/"},{"@type":"CreativeWork","name":"compliance-uy","url":"https://juliancardozo.github.io/proyectos/compliance-uy/"}]}</script>
@@ -194,7 +208,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="/newsletter/">Newsletter</a></li>
       <li><a href="/privacidad/">Privacidad</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
     </ul>
   </div>

@@ -37,6 +37,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
 <!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
 <script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
 if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"CollectionPage","name":"Products, startups and MVPs","description":"From observing the problem to the MVP: onboarding, user experience, hypotheses, validation and designing sustainable solutions.","url":"https://juliancardozo.github.io/en/topics/producto-mvps/","inLanguage":"en","author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"hasPart":[{"@type":"BlogPosting","name":"Reverse engineering with agents: from Chordify to ChordLocal with REA","url":"https://juliancardozo.github.io/en/blog/rea-ingenieria-inversa-chordify-chordlocal/"},{"@type":"BlogPosting","name":"The corporate website in 2026: designing impact without sacrificing performance or control","url":"https://juliancardozo.github.io/en/blog/web-corporativa-2026-impacto-rendimiento/"},{"@type":"BlogPosting","name":"Clinical onboarding: how to keep a health product from starting empty","url":"https://juliancardozo.github.io/en/blog/milo-care-onboarding-calendario-clinico/"},{"@type":"BlogPosting","name":"Reliable reminders: designing notifications as a product responsibility","url":"https://juliancardozo.github.io/en/blog/milo-care-recordatorios-confiables/"},{"@type":"BlogPosting","name":"Proportional architecture: don't build an e-commerce store to solve a house move","url":"https://juliancardozo.github.io/en/blog/infraestructura-proporcionada-problema/"},{"@type":"BlogPosting","name":"From observed problem to MVP: designing products around the user's real work","url":"https://juliancardozo.github.io/en/blog/emprender-desde-problemas-observados/"},{"@type":"CreativeWork","name":"Milo Care","url":"https://juliancardozo.github.io/en/projects/milo-care/"},{"@type":"CreativeWork","name":"WebSpec AI","url":"https://juliancardozo.github.io/en/projects/webspec-ai/"},{"@type":"CreativeWork","name":"Casa Médanos","url":"https://juliancardozo.github.io/en/projects/casa-medanos/"},{"@type":"CreativeWork","name":"EscalaImprov","url":"https://juliancardozo.github.io/en/projects/escalaimprov/"},{"@type":"CreativeWork","name":"ChordLocal","url":"https://juliancardozo.github.io/en/projects/chordlocal/"}]}</script>
@@ -178,7 +192,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <li><a href="/en/newsletter/">Newsletter</a></li>
       <li><a href="/en/privacy/">Privacy</a></li>
       <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
       <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
     </ul>
   </div>
