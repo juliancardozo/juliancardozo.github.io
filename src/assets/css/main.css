@@ -1452,7 +1452,7 @@ a.cat-label:hover { text-decoration: underline; text-underline-offset: 3px; }
 .article__content h2 { font-size: clamp(1.35rem, 2.4vw, 1.75rem); letter-spacing: -0.025em; }
 .article__content p { color: var(--ink-soft); font-size: 1.04rem; line-height: 1.75; }
 /* Field notes: ficha por concepto con filas etiqueta / valor */
-.notes-concept { border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 6px; padding: clamp(1.1rem, 3vw, 1.75rem); background: var(--surface, transparent); }
+.notes-concept { border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: 6px; padding: clamp(1.1rem, 3vw, 1.75rem); background: var(--surface); }
 .notes-concept__kicker { font-family: var(--font-mono); font-size: 0.72rem !important; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent) !important; margin: 0; }
 .notes-fields { display: grid; gap: 0.9rem; margin: 0; }
 .notes-fields__row { display: grid; grid-template-columns: 11rem minmax(0, 1fr); gap: 1rem; }
@@ -1486,6 +1486,21 @@ a.cat-label:hover { text-decoration: underline; text-underline-offset: 3px; }
 }
 .article__conversation h2 { font-size: clamp(1.2rem, 2.4vw, 1.55rem); margin-bottom: 0.7rem; }
 .article__conversation .btn { margin-top: 1.25rem; }
+.article__linkedin {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.article__linkedin-icon { color: #0a66c2; margin-top: 0.15rem; }
+@media (prefers-color-scheme: dark) { .article__linkedin-icon { color: #70b5f9; } }
+.article__linkedin h2 { font-size: clamp(1.2rem, 2.4vw, 1.55rem); margin-bottom: 0.7rem; }
+.article__linkedin .btn { margin-top: 1.25rem; }
+@media (max-width: 480px) { .article__linkedin { grid-template-columns: 1fr; } }
 .pillar__head { padding-block: clamp(2rem, 5vw, 4rem) 1.5rem; }
 .pillar__title { font-size: clamp(2.2rem, 5vw, 3.8rem); letter-spacing: -0.04em; max-width: 18ch; margin-bottom: 1rem; }
 .pillar__layout {

@@ -468,6 +468,12 @@ export const en = {
     architectureLabel: 'Reference architecture',
     checkLabel: 'Check yourself',
     followLinkedin: 'Follow me on LinkedIn',
+    linkedin: {
+      label: "Let's connect on LinkedIn",
+      title: 'Found this useful? Connect with me on LinkedIn',
+      body: 'I share every new article there, along with short notes on architecture, applied AI and engineering leadership, and the conversations they spark.',
+      button: 'Follow me on LinkedIn',
+    },
     aboutAuthor: 'Who wrote this',
     relatedEyebrow: 'Keep reading',
     relatedTitle: 'Related articles',
