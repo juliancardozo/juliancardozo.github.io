@@ -20,7 +20,8 @@ export const inlineLinks = (value = '') =>
 export const inlineCode = (value = '') =>
   inlineLinks(value)
     .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*\w])\*([^*\s][^*]*?)\*(?![*\w])/g, '$1<em>$2</em>');
 
 /**
  * URL interna de un tipo de pagina en el idioma de `t`.

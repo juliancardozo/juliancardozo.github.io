@@ -6,6 +6,477 @@ import { categories } from './categories.js';
 
 const articleEntries = [
   {
+    slug: 'uber-h3-soluciones-optimas-ingenieria-arquitectura',
+    seoTitle: 'Uber H3: soluciones óptimas en ingeniería y arquitectura',
+    seoDescription: 'Caso práctico de Uber H3: qué hace óptima una solución de arquitectura, qué criterios la definen, qué costos acepta y un método para buscarla.',
+    title: 'Uber H3: buscando soluciones óptimas en ingeniería y arquitectura. Caso práctico',
+    description: 'Un caso práctico sobre cómo se busca una solución óptima en arquitectura, a partir del índice geoespacial hexagonal que Uber publicó en 2018: qué significa óptimo cuando hay criterios en tensión, por qué las opciones convencionales no alcanzaban, qué costos aceptó el diseño, cómo se compara con geohash y S2, lo que las fuentes no permiten afirmar y un método replicable para equipos de ingeniería y plataforma.',
+    category: 'Arquitectura y plataforma',
+    tags: ['Arquitectura', 'Datos', 'Platform Engineering'],
+    date: '2026-11-13',
+    readingTime: '13 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['infraestructura-proporcionada-problema', 'developer-experience-ia-friccion-plataforma', 'technical-product-manager-developer-platform'],
+    contextLabel: 'Caso práctico · fuentes públicas de Uber y del proyecto H3',
+    sourceUrl: 'https://www.uber.com/us/en/blog/h3/',
+    sourceLabel: 'Uber Engineering: H3, Uber’s Hexagonal Hierarchical Spatial Index',
+    lead: 'Cada viaje solicitado, cada inicio de recorrido y cada pedido de comida deja en el marketplace de Uber un evento con latitud y longitud. Según el artículo con el que la empresa presentó H3 en 2018, esos eventos se cuentan por millones cada día. Ante un volumen así, la reacción habitual de un equipo de ingeniería es buscar la solución óptima en términos de velocidad: qué base de datos escala mejor, cuántos nodos agregar, cómo acelerar una consulta. El caso H3 muestra que la búsqueda de una solución óptima empieza antes, al decidir en qué unidad se piensa el problema, y que lo óptimo solo existe respecto de criterios explícitos. Este artículo es un análisis independiente basado en fuentes públicas; no se apoya en información interna de Uber y señala como inferencia todo razonamiento que las fuentes no documentan.',
+    sections: [
+      {
+        title: 'Qué significa óptimo en arquitectura',
+        paragraphs: [
+          'En matemática, una solución óptima es la mejor según una función objetivo y dentro de un conjunto de restricciones. En arquitectura de software rara vez hay una sola función objetivo: rendimiento, costo, simplicidad, precisión, facilidad de operación y capacidad de cambio tiran en direcciones distintas. Por eso una solución óptima no es la más rápida ni la más elegante, sino la que mejor satisface los criterios que importan para una decisión concreta, con costos conocidos y aceptados.',
+          'Esa definición tiene una consecuencia práctica. Optimizar sin criterios escritos suele llevar a mejorar lo que es fácil de medir, normalmente la velocidad, aunque el problema esté en otro lado. Buscar una solución óptima exige, en orden, formular la decisión que se quiere habilitar, explicitar los criterios, comparar alternativas contra ellos y registrar lo que se sacrifica. El caso H3 permite recorrer esos pasos con fuentes públicas.',
+        ],
+      },
+      {
+        title: 'El límite de las opciones convencionales',
+        paragraphs: [
+          'El artículo de Isaac Brodsky, ingeniero de Uber, parte de una observación sencilla: analizar cada evento en su ubicación exacta es difícil y costoso, mientras que analizarlo por áreas, como barrios, resulta mucho más práctico. Con eso el problema cambia de forma. La pregunta deja de ser cómo procesar puntos y pasa a ser qué áreas usar.',
+          'Las alternativas que el texto menciona tienen costos concretos. Las zonas dibujadas a mano por equipos de operaciones capturan conocimiento local, pero requieren actualizaciones frecuentes a medida que la ciudad cambia y tienen bordes arbitrarios. Los códigos postales presentan formas y tamaños poco útiles para el análisis y cambian por motivos ajenos a él. La combinación de la proyección de Mercator con una grilla cuadrada funciona, pero Mercator distorsiona significativamente los tamaños: celdas nominalmente iguales terminan cubriendo áreas muy distintas.',
+          'Los cuadrados tienen además un problema menos visible. Tienen dos tipos de vecinos, los que comparten un lado y los que comparten solo un vértice, y según Uber eso obliga a manejar varios conjuntos de coeficientes en el análisis.',
+          'Ninguna de estas dificultades es de rendimiento. Son problemas de representación: la unidad de análisis introduce sesgo, inestabilidad o complejidad antes de que se escriba la primera consulta. Una optimización de consultas sobre cualquiera de esas unidades habría producido una solución más rápida, pero no mejor.',
+        ],
+      },
+      {
+        title: 'La decisión de representación',
+        paragraphs: [
+          'La idea central de H3 es convertir cada coordenada en el identificador de una celda. Un evento deja de ser un par de números decimales y pasa a ser «la celda X en la resolución 9». Ese identificador es un entero de 64 bits. Lo que antes era un problema geométrico, qué puntos están cerca de cuáles, se convierte en aritmética sobre identificadores: agrupar por celda, obtener las celdas vecinas, pasar a una resolución más gruesa.',
+          'Un ejemplo ayuda a fijar la idea. En un barrio a la hora de mayor demanda hay pedidos de viaje y conductores disponibles. Con H3, cada punto cae en un hexágono, y contar pedidos y conductores por hexágono produce un mapa de oferta y demanda por zona. Uber documenta este uso de forma explícita: el precio dinámico se calcula midiendo oferta y demanda en hexágonos.',
+          'Conviene hacer una distinción. Ese cálculo es análisis del mercado. Decidir qué conductor toma qué viaje es asignación (matching o dispatch), y el artículo no describe ese algoritmo. Menciona que H3 se usa para optimizar precios y despacho, y que los eventos pueden revelar, por ejemplo, dos pedidos cercanos a un conductor de uberPOOL. Pero H3 es la capa de indexación sobre la que se construyen esos análisis, no el sistema que asigna viajes.',
+        ],
+        blocks: [
+          {
+            type: 'code',
+            lang: 'text',
+            caption: 'Patrón básico de agregación por celdas (pseudocódigo ilustrativo, no un diseño de producción)',
+            text: `PARA cada evento e en el lote:
+    celda ← coordenada_a_celda(e.lat, e.lng, resolución = r)
+    conteo[celda][e.tipo] += 1
+
+PARA cada celda c con datos:
+    zona ← vecinas_hasta_distancia(c, k = 1)   # c y sus vecinas
+    demanda ← SUMA conteo[z]["pedido"]    para z en zona
+    oferta  ← SUMA conteo[z]["conductor"] para z en zona
+    indicador[c] ← demanda / max(oferta, 1)
+
+SI hace falta una vista más gruesa:
+    padre ← celda_padre(c, r - 1)   # contención lógica, no geométrica exacta`,
+          },
+          {
+            type: 'p',
+            text: 'En la API actual de la librería (versión 4), esas operaciones corresponden a `latLngToCell`, `gridDisk` y `cellToParent`. El artículo de 2018 usa los nombres de la versión 3, como `geoToH3` y `kRing`.',
+          },
+        ],
+      },
+      {
+        title: 'Hexágonos, icosaedro y jerarquía',
+        paragraphs: [
+          'El argumento a favor del hexágono es geométrico. Un hexágono tiene una sola distancia entre su centro y el de cada vecino; un cuadrado tiene dos y un triángulo, tres. Uber explica que esto simplifica el análisis y el suavizado de gradientes, y que minimiza el error de cuantización cuando las personas se desplazan por la ciudad. Los anillos de vecinos, además, aproximan círculos.',
+          'Para llevar la grilla a la esfera, H3 usa proyecciones gnomónicas centradas en las 20 caras de un icosaedro. Una esfera no puede cubrirse solo con hexágonos, de modo que cada resolución tiene exactamente 12 pentágonos, uno en cada vértice del icosaedro. La orientación elegida, basada en el mapa Dymaxion de Buckminster Fuller, ubica todos esos vértices en el agua, lejos de donde Uber opera.',
+          'La jerarquía comienza en 122 celdas base (110 hexágonos y 12 pentágonos) y ofrece 16 resoluciones, de 0 a 15. En cada nivel más fino, las celdas tienen aproximadamente un séptimo del área de las del nivel anterior. La documentación llama a esta subdivisión apertura 7.',
+        ],
+        blocks: [
+          { type: 'h3', text: 'Los costos del diseño' },
+          {
+            type: 'ul',
+            items: [
+              '**Las celdas no son uniformes.** El área de una celda varía según su posición respecto de los vértices del icosaedro.',
+              '**Los hijos no quedan perfectamente contenidos en el padre.** Un hexágono no se subdivide limpiamente en siete hexágonos; H3 aproxima esa subdivisión rotando la grilla entre niveles. La contención lógica en el índice es exacta, pero la geográfica es aproximada: un punto dentro de una celda hija puede quedar fuera del polígono de la celda padre.',
+              '**Los pentágonos tienen cinco vecinos.** El código que asume seis puede fallar en esos casos.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La aproximación solo afecta cuando se cambia de resolución. Indexar puntos en una resolución fija y buscar vecinos no se ve afectado. Cuando se necesitan bordes exactos, la documentación del proyecto sugiere usar la grilla como optimización, combinada con un chequeo preciso de punto en polígono.',
+          },
+          {
+            type: 'table',
+            caption: 'Sistemas de indexación espacial comparados: ninguno es óptimo en todos los criterios',
+            head: ['Criterio', 'Grilla cuadrada', 'Geohash', 'S2 (Google)', 'H3'],
+            rows: [
+              ['Forma de celda', 'Rectángulo', 'Rectángulo (curva Z)', 'Cuadrilátero sobre un cubo proyectado (curva de Hilbert)', 'Hexágono, más 12 pentágonos por resolución'],
+              ['Vecinos', 'Dos tipos (lado y vértice)', 'Dos tipos; un prefijo común no garantiza cercanía', 'Dos tipos', 'Un tipo, equidistante'],
+              ['Jerarquía', 'Depende de la implementación', 'Por prefijo de la cadena', '31 niveles (0 a 30), subdivisión exacta en cuatro', '16 resoluciones, contención geográfica aproximada'],
+              ['Distorsión', 'Alta lejos del ecuador', 'Alta en polos y en el meridiano 180', 'Moderada', 'Moderada; varía cerca de los vértices'],
+              ['Encaja mejor en', 'Análisis local simple', 'Claves legibles, búsquedas por prefijo', 'Agregación y subdivisión exactas, cobertura de regiones', 'Vecindad, recorrido de grilla, movimiento, suavizado'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Fuentes de la comparación: la [jerarquía de celdas de S2](https://s2geometry.io/devguide/s2cell_hierarchy), la [entrada de Geohash](https://en.wikipedia.org/wiki/Geohash), las [comparaciones del propio proyecto H3](https://h3geo.org/docs/) y un [resumen de Foursquare](https://foursquare.com/resources/reports-and-insights/ebook/all-about-h3-your-questions-answered/), que concluye que S2 rinde mejor cuando se necesitan agregación y subdivisión exactas, y H3 cuando importan los vecinos. Foursquare usa H3 comercialmente y la comparación de H3 la escribe el propio proyecto, por lo que ambas pueden tener sesgo.',
+          },
+        ],
+      },
+      {
+        title: 'Cómo se llegó a la solución: criterios, opciones y decisión',
+        paragraphs: [
+          'Con lo publicado puede reconstruirse la estructura de una búsqueda de solución óptima, no una historia: una necesidad, criterios, opciones, un diseño y sus propiedades.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Necesidad.** Analizar millones de eventos a escala de ciudad, con granularidad fina, para fijar precios dinámicos y tomar otras decisiones del marketplace.',
+              '**Criterios.** Las críticas del artículo los dejan ver: formas y tamaños comparables entre ciudades, unidades que no cambien por motivos arbitrarios, vecindad simple y capacidad de cambiar de nivel de detalle. Que estos fueran los criterios formales del equipo es una inferencia.',
+              '**Opciones.** Zonas manuales, códigos postales y proyección con grilla cuadrada, cada una con los costos descritos.',
+              '**Diseño.** Una grilla global hexagonal con indexación jerárquica, sobre un icosaedro orientado para dejar los pentágonos en el océano.',
+              '**Propiedades.** Identificadores de 64 bits, anillos de vecinos y compactación. El ejemplo del artículo: California ocupa 10.633 hexágonos en la resolución 6 y 901 en su representación compacta con resoluciones mixtas. Uber liberó H3 como código abierto en 2018, bajo licencia Apache 2.0.',
+            ],
+          },
+          { type: 'h3', text: 'Lo que las fuentes no permiten afirmar' },
+          {
+            type: 'p',
+            text: 'Las fuentes no indican quién propuso la idea, cuánto tiempo llevó ni qué prototipos se descartaron. Tampoco documentan una evaluación formal de S2 o de geohash. El README del repositorio describe H3 como una combinación de los beneficios de una grilla hexagonal con las subdivisiones jerárquicas de S2, lo que muestra que el equipo conocía S2, no que exista una evaluación publicada. No hay en estas fuentes cifras de mejora en latencia, ingresos o precisión, ni una descripción de cómo H3 se integra con el sistema de despacho.',
+          },
+        ],
+      },
+      {
+        title: 'Otros casos con el mismo patrón',
+        paragraphs: [
+          'Algunos sistemas conocidos comparten un rasgo con H3: cuestionaron un supuesto en lugar de acelerar la solución vigente. No son equivalentes; cada uno resolvió un problema distinto.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Amazon Dynamo (2007).** Servicios como el carrito de compras debían poder leer y escribir siempre, aun con fallas de discos, redes o centros de datos. El [paper](https://www.amazon.science/publications/dynamo-amazons-highly-available-key-value-store) observa que muchos servicios solo accedían por clave primaria y que la replicación de las bases relacionales tendía a elegir consistencia sobre disponibilidad. La respuesta fue un almacén clave-valor que particiona y replica con consistent hashing, versiona objetos y coordina réplicas con una técnica tipo quorum, a cambio de sacrificar consistencia en ciertos escenarios de falla.',
+              '**Google MapReduce (2004).** Cientos de cómputos sobre grandes volúmenes en los que paralelizar, distribuir datos y manejar fallas [oscurecía una lógica simple](https://research.google/pubs/pub62/). En lugar de que cada equipo escribiera su propio código distribuido, una abstracción de dos funciones, map y reduce, delegó el resto a un runtime común. El costo, como inferencia, es expresividad: no todo cómputo encaja cómodamente en ese modelo.',
+              '**LinkedIn y el log (2013).** Jay Kreps propuso dejar de tratar la integración de datos como una red de conexiones punto a punto y adoptar un [log central](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying), ordenado y de solo escritura al final, al que cada sistema escribe y del que cada sistema se suscribe. Es un ensayo de autor, no un paper con evaluación, y debe leerse como testimonio.',
+            ],
+          },
+          {
+            type: 'note',
+            label: 'Una distinción necesaria',
+            text: 'Consistent hashing y H3 no son la misma idea. El primero reparte claves entre nodos de modo que agregar o quitar un nodo mueva pocas claves, sin preservar ninguna noción de cercanía. H3 asigna puntos del espacio a celdas precisamente para preservar la vecindad.',
+          },
+        ],
+      },
+      {
+        title: 'Un método para buscar la solución óptima',
+        paragraphs: [
+          'Aplicar la lección no requiere inventar una grilla global. El marco que sigue es una propuesta propia en seis etapas para buscar una solución óptima de forma explícita, inspirada en el caso pero no derivada de un proceso documentado por Uber.',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Formular el problema sin nombrar una herramienta.** Qué decisión tiene que poder tomar alguien al final y qué ocurre hoy cuando no la toma. Una técnica útil es escribir el problema en una sola frase, sin nombres de productos, bases de datos ni frameworks.',
+              '**Identificar invariantes y restricciones.** Qué tiene que seguir siendo cierto aunque cambie todo lo demás, y qué restricción es física y cuál es heredada. Una tabla con dos columnas, «no negociable» y «asumido», permite discutir cada fila de la segunda.',
+              '**Cuestionar la representación y la unidad de análisis.** Punto, zona, ticket, servicio o equipo: cada unidad introduce un sesgo. Ver el mismo dato en tres granularidades muestra qué decisiones cambian.',
+              '**Explorar otros dominios.** Quién resolvió un problema con la misma forma en otro campo y qué estándar existente ya lo cubre. H3 se apoya en cartografía, geometría y la proyección de Fuller.',
+              '**Prototipar alternativas y medir.** Dos o tres prototipos descartables sobre el mismo conjunto de datos, evaluados contra los criterios definidos al principio y con el criterio de abandono escrito antes de ejecutarlos. Es la etapa en la que «óptimo» deja de ser una opinión.',
+              '**Registrar los trade-offs, introducir el cambio y revisar.** Un [ADR](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions) con contexto, decisión y consecuencias, y una fecha de revisión.',
+            ],
+          },
+          {
+            type: 'mermaid',
+            caption: 'La búsqueda de la solución óptima como ciclo: un prototipo que no supera el criterio vuelve a la representación',
+            description: 'Seis etapas: problema sin herramienta, invariantes y restricciones, cuestionar la representación, explorar otros dominios, prototipar y medir, y ADR con despliegue gradual. Si el prototipo no supera el criterio, se vuelve a cuestionar la representación; la revisión con métricas puede reabrir el problema si cambian los supuestos.',
+            text: `flowchart LR
+    A[Problema sin herramienta] --> B[Invariantes y restricciones]
+    B --> C[Cuestionar la representación]
+    C --> D[Explorar otros dominios]
+    D --> E[Prototipar y medir]
+    E -->|no supera el criterio| C
+    E -->|supera el criterio| F[ADR y despliegue gradual]
+    F --> G[Revisión con métricas]
+    G -->|supuestos cambiaron| A`,
+          },
+          {
+            type: 'p',
+            text: 'El ciclo importa más que la secuencia. Un prototipo que falla vuelve a la representación, no al principio. Descartar una idea, o elegir un estándar existente, también es un resultado válido: a menudo la solución óptima es la que ya existe.',
+          },
+          {
+            type: 'table',
+            caption: 'El caso H3 leído como una serie de reencuadres (las tres primeras filas provienen del artículo de Uber; la última es un ejemplo propio)',
+            head: ['Supuesto tradicional', 'Reencuadre', 'Alternativa', 'Costo aceptado'],
+            rows: [
+              ['Hay que analizar cada punto', 'La decisión se toma por zona', 'Agregar en celdas', 'Se pierde precisión individual'],
+              ['Las zonas las define el negocio', 'Las zonas pueden ser una grilla estable', 'Grilla global', 'No coincide con calles ni barrios'],
+              ['La grilla natural es cuadrada', 'La vecindad importa más que la subdivisión', 'Hexágonos', 'Contención jerárquica aproximada y 12 pentágonos'],
+              ['El equipo de plataforma resuelve tickets', 'El cuello de botella es la espera, no la ejecución', 'Autoservicio', 'Construir y mantener un producto interno'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Caso práctico en Platform Engineering',
+        paragraphs: [
+          'Un ejemplo hipotético muestra cómo se traslada la pregunta. Un equipo de plataforma recibe tickets para crear bases de datos, colas y pipelines. La cola crece y la primera reacción es acelerar: más personas, mejores plantillas de ticket, acuerdos de servicio más cortos.',
+          'Con el método, la unidad de análisis cambia. El ticket no es el problema; el problema es que un equipo de producto espera a otro para una tarea repetible. Ese reencuadre conduce a golden paths: caminos estandarizados y autoservicio para los casos más comunes, con el equipo de plataforma como responsable de un producto interno.',
+          'El costo es real: ese producto hay que construirlo, documentarlo y mantenerlo, y los casos poco frecuentes siguen requiriendo atención humana. Para saber si el cambio funcionó, conviene medir antes y después el tiempo de entrega de cambios y la frecuencia de despliegue (métricas de [DORA](https://dora.dev/)), el tiempo de incorporación hasta el primer despliegue, la proporción de servicios nuevos creados por el camino estándar, la satisfacción de los desarrolladores mediante una encuesta breve y recurrente, la tasa de fallas de cambio y el costo de infraestructura por servicio. Ninguna cifra de este ejemplo corresponde a una empresa real.',
+        ],
+      },
+      {
+        title: 'Preguntas para una revisión de arquitectura',
+        paragraphs: [
+          'El método puede condensarse en cinco preguntas para la próxima revisión de diseño, o para un taller breve con el equipo.',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              'Qué problema se estaría resolviendo si esta tecnología no existiera.',
+              'En qué unidad se está midiendo, y qué decisión empeora por esa elección.',
+              'Qué estándar o librería existente se descartó, y por qué.',
+              'Qué resultado de un prototipo llevaría a abandonar la propuesta.',
+              'Quién paga el trade-off aceptado, y cuándo se va a revisar.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Un ejercicio práctico consiste en pedir a cada integrante que escriba el problema actual del equipo en una oración, sin nombres de tecnología, y comparar las respuestas. Es habitual que aparezcan dos o tres formulaciones distintas que habilitan decisiones diferentes, y esa diferencia suele ser el punto de partida de la discusión.',
+          },
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'Brodsky, I. (2018). [H3: Uber’s Hexagonal Hierarchical Spatial Index](https://www.uber.com/us/en/blog/h3/). Uber Engineering.',
+              'Proyecto H3: [Overview](https://h3geo.org/docs/core-library/overview/), [Indexing](https://h3geo.org/docs/highlights/indexing/), [Introducción y comparaciones](https://h3geo.org/docs/), [Tablas por resolución](https://h3geo.org/docs/core-library/restable/) y [API de indexación](https://h3geo.org/docs/api/indexing/).',
+              'Uber. [uber/h3](https://github.com/uber/h3), repositorio en GitHub (Apache 2.0; última versión publicada: 4.5.0).',
+              'DeCandia, G. et al. (2007). [Dynamo: Amazon’s Highly Available Key-value Store](https://www.amazon.science/publications/dynamo-amazons-highly-available-key-value-store). SOSP.',
+              'Dean, J. y Ghemawat, S. (2004). [MapReduce: Simplified Data Processing on Large Clusters](https://research.google/pubs/pub62/). OSDI.',
+              'Kreps, J. (2013). [The Log: What every software engineer should know about real-time data’s unifying abstraction](https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying). LinkedIn Engineering.',
+              'Proyecto S2. [S2 Cell Hierarchy](https://s2geometry.io/devguide/s2cell_hierarchy).',
+              'Rabinowitz, N. (2021). [All about H3: your questions answered](https://foursquare.com/resources/reports-and-insights/ebook/all-about-h3-your-questions-answered/). Foursquare.',
+              'Nygard, M. (2011). [Documenting Architecture Decisions](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions).',
+              'DORA. [dora.dev](https://dora.dev/).',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: una solución óptima en arquitectura es la que mejor satisface criterios explícitos, con costos conocidos y aceptados. H3 lo muestra: no resolvió un problema de velocidad sino de representación, y su grilla estable, comparable y con vecindad uniforme tiene costos declarados, como celdas no uniformes, pentágonos y una jerarquía exacta en lo lógico pero no en lo geométrico. La lección transferible no es adoptar hexágonos, sino definir qué significa óptimo y revisar la representación del problema antes de optimizar la solución.',
+  },
+  {
+    slug: 'quarkus-java-cloud-native-equipos-spring',
+    seoTitle: 'Quarkus para equipos Java y Spring: guía técnica de adopción',
+    seoDescription: 'Qué cambia con Quarkus: arranque en el build, JVM vs. nativo con datos oficiales, Dev Services, compatibilidad con Spring y cómo evaluarlo.',
+    title: 'Quarkus para equipos Java: qué cambia cuando el framework arranca en el build',
+    description: 'Una lectura técnica de la documentación de Quarkus 3.40 pensada para equipos que vienen de Spring: el modelo de arranque en tiempo de compilación, la comparación oficial entre JVM, caché AOT y ejecutable nativo, Dev Services y testing continuo, la capa de compatibilidad con Spring y sus límites, y un plan para evaluarlo sin reescribir un sistema.',
+    category: 'Arquitectura y plataforma',
+    tags: ['Java', 'Arquitectura', 'Cloud'],
+    date: '2026-11-13',
+    readingTime: '12 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['saas-multitenant-iac-resiliencia', 'developer-experience-ia-friccion-plataforma', 'infraestructura-proporcionada-problema'],
+    contextLabel: 'Análisis técnico · documentación oficial de Quarkus 3.40',
+    sourceUrl: 'https://quarkus.io/guides/',
+    sourceLabel: 'Quarkus: guías oficiales',
+    lead: 'Quarkus se presenta como un framework Java para construir aplicaciones cloud-native rápidas y eficientes. Su documentación, organizada en un índice de guías que hoy corresponde a la versión 3.40, cubre desde la primera API REST hasta compilación nativa, mensajería, seguridad y observabilidad. Para un equipo que trabaja con Spring Boot, la pregunta relevante no es si Quarkus es más rápido, sino qué cambia en la forma de construir, probar y operar un servicio, y qué costos implica ese cambio. Este artículo recorre las guías con esa pregunta, a partir de una trayectoria que empezó en backend Java con Spring.',
+    sections: [
+      {
+        title: 'La idea central: mover trabajo del arranque al build',
+        paragraphs: [
+          'Un framework Java tradicional hace buena parte de su trabajo cuando la aplicación arranca: escanea el classpath, lee anotaciones mediante reflexión, construye el grafo de dependencias, genera proxies y procesa la configuración. Ese trabajo se repite en cada inicio y consume tiempo y memoria durante toda la vida del proceso.',
+          'Quarkus traslada la mayor parte de ese trabajo a la compilación. El proyecto lo llama *compile time boot*: durante el build, cada extensión analiza el código, resuelve la inyección de dependencias, precalcula metadatos y genera el código necesario para arrancar. En tiempo de ejecución queda un proceso que ya sabe qué tiene que hacer. Según la página del proyecto, eso permite arranques rápidos y menor consumo de memoria tanto en la JVM como en ejecutables nativos.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Dónde ocurre el trabajo: arranque tradicional frente a compile time boot',
+            description: 'En el modelo tradicional, el escaneo de clases, la reflexión y la construcción del contexto ocurren en cada arranque. En Quarkus, las extensiones procesan el código durante el build y generan bytecode con la configuración y el grafo de dependencias resueltos; el arranque solo ejecuta ese resultado.',
+            text: `flowchart LR
+  subgraph TRAD["Modelo tradicional"]
+    direction TB
+    B1["Build: compilar y empaquetar"] --> R1["Arranque: escanear classpath, reflexión, proxies, contexto"]
+    R1 --> S1["Servicio listo"]
+  end
+  subgraph QK["Quarkus"]
+    direction TB
+    B2["Build: compilar"] --> A2["Augmentation: extensiones resuelven CDI, configuración y metadatos"]
+    A2 --> R2["Arranque: ejecutar lo ya resuelto"]
+    R2 --> S2["Servicio listo"]
+  end`,
+          },
+          {
+            type: 'p',
+            text: 'Esta decisión de diseño tiene consecuencias que conviene conocer antes de adoptar el framework. Lo que se resuelve en el build no puede cambiar en ejecución: la inyección de dependencias se determina al compilar, y por eso, por ejemplo, la anotación `@Conditional` de Spring no tiene efecto en la capa de compatibilidad. La flexibilidad se traslada a los perfiles de configuración y de build, no al arranque.',
+          },
+        ],
+      },
+      {
+        title: 'JVM, caché AOT o nativo: qué dicen los números oficiales',
+        paragraphs: [
+          'La compilación a ejecutable nativo con GraalVM o Mandrel es la característica más citada de Quarkus, y también la más malinterpretada. La propia guía de compilación nativa es explícita: Quarkus en la JVM ya es rápido, y para muchas aplicaciones el modo JVM es la opción correcta. Su recomendación es empezar en JVM y pasar a nativo cuando exista una necesidad concreta.',
+          'La guía publica una comparación entre tres modos de ejecución, medida en abril de 2026 con Quarkus 3.34.3, JDK 25 y GraalVM 25, sobre 4 CPU y un heap máximo de 512 MB:',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Modos de ejecución según la guía oficial de compilación nativa (benchmark del proyecto, no medición propia)',
+            head: ['Indicador', 'JVM (fast-jar)', 'JVM + caché AOT de Leyden', 'Nativo (Mandrel)'],
+            rows: [
+              ['Arranque en frío', '≈ 0,4 s a 3 s', '≈ 80 ms a 900 ms', '≈ 17 ms a 240 ms'],
+              ['Tiempo hasta la primera respuesta', '4.417 ms', '1.859 ms', '581 ms'],
+              ['Throughput máximo', '13.265 tps', '12.389 tps (≈ 7 % menos)', '5.411 tps (≈ 59 % menos)'],
+              ['Memoria residente (RSS)', '304 MiB', '240 MiB', '95 MiB'],
+              ['Tiempo de build', '≈ 30 s', '—', '3 a 10 min, con 4 a 8 GB de RAM'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La tabla muestra un trade-off claro. El ejecutable nativo arranca en milisegundos y usa una fracción de la memoria, pero en este benchmark entrega menos de la mitad del throughput máximo y multiplica el tiempo de build. La guía lo resume en criterios: nativo cuando el arranque es crítico (serverless, escalado a cero, herramientas de línea de comandos), la memoria es escasa o el tamaño de la imagen importa; JVM cuando el throughput máximo es prioritario, el tiempo de build es una restricción o la aplicación depende mucho de reflexión o carga dinámica de clases.',
+          },
+          {
+            type: 'note',
+            label: 'Una lectura práctica',
+            text: 'La opción intermedia —la JVM con la caché AOT del proyecto Leyden, disponible desde JDK 24— reduce el arranque y la memoria con una pérdida de throughput pequeña y sin renunciar a las herramientas habituales de la JVM. Para servicios de larga duración, suele ser el primer paso a evaluar antes que el nativo.',
+          },
+        ],
+      },
+      {
+        title: 'La experiencia de desarrollo: dev mode, testing continuo y Dev Services',
+        paragraphs: [
+          'El testimonio de Adoptium que aparece en el sitio del proyecto ilustra un punto que los benchmarks no capturan: para aplicaciones de larga duración, el arranque rápido no era decisivo, pero la recarga en vivo ahorraba tiempo de desarrollo. En la práctica, el argumento más fuerte de Quarkus para un equipo suele estar en el ciclo de trabajo diario.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Dev mode.** `quarkus dev` (o `./mvnw quarkus:dev`) recompila y recarga la aplicación al guardar un cambio, sin reiniciar el proceso manualmente.',
+              '**Testing continuo.** Con el dev mode activo, Quarkus detecta qué tests cubren el código modificado y ejecuta solo esos. Arranca en pausa por defecto y se controla con teclas: `r` vuelve a correr todo, `f` solo los fallidos, `b` activa el modo de tests rotos.',
+              '**Dev Services.** Si una extensión necesita un servicio —una base PostgreSQL, Kafka, Redis, Keycloak— y no hay una conexión configurada, Quarkus lo levanta automáticamente en un contenedor durante desarrollo y tests, y conecta la aplicación. Requiere Docker o Podman.',
+            ],
+          },
+          {
+            type: 'code',
+            lang: 'properties',
+            caption: 'application.properties: Dev Services en desarrollo y tests, conexión explícita solo en producción',
+            text: `# Desarrollo y tests: sin URL configurada, Dev Services inicia PostgreSQL en un contenedor
+quarkus.datasource.db-kind=postgresql
+
+# Producción: la conexión se define únicamente en el perfil prod
+%prod.quarkus.datasource.jdbc.url=jdbc:postgresql://db:5432/app
+%prod.quarkus.datasource.username=\${DB_USER}
+%prod.quarkus.datasource.password=\${DB_PASSWORD}`,
+          },
+          {
+            type: 'p',
+            text: 'El detalle importa: Dev Services se activa solo cuando no hay configuración explícita. Declarar la conexión de producción con el prefijo `%prod.` permite que el entorno local siga siendo automático sin riesgo de que un desarrollador apunte por error a una base real. Para equipos de plataforma, es una forma concreta de reducir la fricción de incorporación: clonar el repositorio y ejecutar un comando alcanza para tener el servicio con sus dependencias funcionando.',
+          },
+        ],
+      },
+      {
+        title: 'Viniendo de Spring: compatibilidad útil, no equivalencia',
+        paragraphs: [
+          'Quarkus ofrece extensiones de compatibilidad con Spring —inyección de dependencias, Web, Data JPA, Security, Scheduling, entre otras— que permiten usar anotaciones conocidas. La guía de Spring DI aclara el alcance: las clases de Spring se usan solo para leer metadatos; no se inicia un `ApplicationContext` ni se ejecuta infraestructura de Spring, y agregar bibliotecas arbitrarias de Spring no tiene efecto. Por debajo, la inyección la resuelve ArC, la implementación de Jakarta CDI 4.1 de Quarkus, en tiempo de build.',
+          'La propia documentación recomienda usar las anotaciones de CDI y publica una tabla de equivalencias. La migración de un componente típico es mecánica:',
+        ],
+        blocks: [
+          {
+            type: 'code',
+            lang: 'java',
+            caption: 'El mismo componente con anotaciones de Spring y con CDI (equivalencias de la guía oficial)',
+            text: `// Spring
+@Service
+public class GreetingService {
+    @Value("\${greeting.suffix:!}")
+    String suffix;
+}
+
+// Quarkus con CDI
+@Singleton
+public class GreetingService {
+    @ConfigProperty(name = "greeting.suffix", defaultValue = "!")
+    String suffix;
+}`,
+          },
+          {
+            type: 'table',
+            caption: 'Limitaciones documentadas de la capa de compatibilidad con Spring DI',
+            head: ['Comportamiento de Spring', 'En Quarkus', 'Alternativa'],
+            rows: [
+              ['`@Conditional`', 'Se ignora: la inyección se resuelve en el build', 'Perfiles de build condicionales'],
+              ['`@Autowired(required = false)`', 'No soportado', 'Inyectar `Instance<T>` y verificar `isResolvable()`'],
+              ['Resolución por nombre ante beans ambiguos', 'No soportada', 'Usar `@Named`'],
+              ['Inyectar `Set<T>` o `Map<String, T>`', 'No soportado; solo `List<T>`', 'Usar `List<T>`'],
+              ['`@Import`, `@ComponentScan`', 'No aplica: el descubrimiento ocurre en el build', '—'],
+              ['Funcionalidades de test de Spring Boot', 'No soportadas', 'Guía de testing de Quarkus'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La conclusión práctica es que la compatibilidad reduce la curva de aprendizaje y permite migrar por partes, pero no convierte a Quarkus en un Spring más rápido. Los proyectos que dependen de configuración condicional en tiempo de ejecución, de auto-configuración de Spring Boot o de bibliotecas del ecosistema Spring requieren rediseño, no solo un cambio de dependencias.',
+          },
+        ],
+      },
+      {
+        title: 'Un mapa de las guías según la necesidad del equipo',
+        paragraphs: [
+          'El índice de guías es extenso y está organizado por áreas. Para no recorrerlo de forma lineal, conviene entrar según el problema que el equipo necesita resolver:',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Puntos de entrada en la documentación de Quarkus',
+            head: ['Necesidad', 'Guías relevantes'],
+            rows: [
+              ['Primer contacto', '"Creating your first application" (una API REST con recarga en vivo, inyección y tests en menos de 15 minutos) y "Your second Quarkus application"'],
+              ['APIs y servicios web', 'Quarkus REST, REST Client, OpenAPI, gRPC, GraphQL, WebSockets'],
+              ['Datos', 'Datasources, Hibernate ORM con Panache, Hibernate Reactive, Flyway y Liquibase, Redis y MongoDB'],
+              ['Mensajería y eventos', 'Kafka, AMQP, RabbitMQ, Pulsar, JMS'],
+              ['Seguridad', 'OpenID Connect, JWT, OAuth2, WebAuthn, Keycloak'],
+              ['Modelo de ejecución', 'Virtual threads, programación reactiva con Mutiny, propagación de contexto'],
+              ['Operación', 'Health checks, logging, Micrometer, OpenTelemetry, Fault Tolerance'],
+              ['Despliegue', 'Imágenes de contenedor, Kubernetes, OpenShift, funciones serverless en AWS Lambda, Azure y Google Cloud'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Gobernanza, versiones y la capa de IA',
+        paragraphs: [
+          'Dos aspectos no técnicos influyen en una decisión de adopción. El primero es la gobernanza: el proyecto pasó a la Commonhaus Foundation, y el sitio lo presenta como una respuesta a la percepción de dependencia de un único proveedor; IBM, Red Hat y HeroDevs figuran como patrocinadores. El segundo es la política de versiones: Quarkus mantiene líneas LTS —3.40 y 3.33, entre otras— y publica versiones de emergencia cuando corresponde. La más reciente, 3.40.1.2, del 9 de noviembre de 2026, corrige un conjunto de CVE. Para un equipo, eso implica definir una política de actualización explícita, no solo elegir una versión.',
+          'El proyecto también avanza sobre herramientas para agentes de IA. Las guías para escribir extensiones incluyen capítulos sobre Dev MCP, Agent MCP y Dev Assistant, y el blog oficial publicó en noviembre de 2026 contenidos sobre análisis de causa raíz con LLM conectado por MCP a un stack de observabilidad y sobre aislamiento de agentes. Es una señal de dirección interesante, aunque todavía en evolución, para equipos que combinan Java con [ingeniería agéntica](/blog/loop-engineering-agentic-loops/).',
+        ],
+      },
+      {
+        title: 'Cómo evaluarlo en un equipo sin reescribir un sistema',
+        paragraphs: [
+          'Adoptar un framework es una decisión de plataforma, con efectos durante años. Una evaluación razonable no empieza por migrar el servicio más crítico, sino por un piloto acotado con criterios definidos de antemano:',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Elegir un servicio nuevo o periférico**, con dependencias representativas (una base de datos, un broker de mensajes, autenticación) pero sin impacto crítico.',
+              '**Definir qué se quiere mejorar**: tiempo de arranque, memoria por instancia, costo de infraestructura o, con frecuencia, el ciclo de desarrollo. Cada objetivo lleva a decisiones distintas.',
+              '**Empezar en modo JVM** y medir con la carga real del servicio, no con un benchmark genérico. Evaluar la caché AOT antes que el ejecutable nativo.',
+              '**Medir la experiencia del equipo**: tiempo hasta el primer cambio en una persona nueva, duración del ciclo editar-probar, facilidad para levantar el entorno local con Dev Services.',
+              '**Inventariar dependencias de Spring** que no tienen equivalente directo, en particular configuración condicional y bibliotecas del ecosistema.',
+              '**Decidir con datos**: mantener, extender a otros servicios o descartar. Una plataforma con dos frameworks también tiene un costo, y conviene explicitarlo.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Quarkus no resuelve todos los problemas de un backend Java, y su propia documentación evita prometerlo. Lo que ofrece es una tesis clara —resolver en el build lo que no necesita resolverse en cada arranque— y un conjunto de herramientas que reducen la fricción del desarrollo diario. Para muchos equipos, ese segundo beneficio termina pesando más que el primero.',
+          },
+          { type: 'h3', text: 'Referencias' },
+          {
+            type: 'ul',
+            items: [
+              '[Quarkus: guías oficiales](https://quarkus.io/guides/) — índice de documentación, versión 3.40.',
+              '[Quarkus](https://quarkus.io/) — sitio oficial del proyecto.',
+              '[Building a native executable](https://quarkus.io/guides/building-native-image) — comparación de modos de ejecución y criterios de elección.',
+              '[Dev Services overview](https://quarkus.io/guides/dev-services) — aprovisionamiento automático de servicios en desarrollo y tests.',
+              '[Continuous testing](https://quarkus.io/guides/continuous-testing) — ejecución automática de tests afectados por un cambio.',
+              '[Quarkus extension for Spring DI API](https://quarkus.io/guides/spring-di) — alcance y limitaciones de la compatibilidad con Spring.',
+              '[Quarkus 3.40.1.2 released](https://quarkus.io/blog/quarkus-3-40-1-2-released/) — versión de emergencia de la línea LTS 3.40, 9 de noviembre de 2026.',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: Quarkus mueve al build el trabajo que otros frameworks repiten en cada arranque. El ejecutable nativo es una opción para casos concretos, no un objetivo; el beneficio más amplio suele estar en el ciclo de desarrollo. Para equipos que vienen de Spring, la compatibilidad facilita la transición, pero la adopción conviene evaluarla con un piloto y criterios medibles.',
+  },
+  {
     slug: 'open-finance-argentina-arquitectura-apis-consentimiento',
     seoTitle: 'Open Finance en Argentina: APIs, consentimiento y seguridad',
     seoDescription: 'Open Finance como infraestructura: consentimiento como máquina de estados, APIs con perfil FAPI, directorio de participantes y seguridad sistémica.',

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Uber H3: soluciones óptimas en ingeniería y arquitectura | Julián Cardozo</title>
+<meta name="description" content="Caso práctico de Uber H3: qué hace óptima una solución de arquitectura, qué criterios la definen, qué costos acepta y un método para buscarla." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Uber H3: soluciones óptimas en ingeniería y arquitectura | Julián Cardozo" />
+<meta property="og:description" content="Caso práctico de Uber H3: qué hace óptima una solución de arquitectura, qué criterios la definen, qué costos acepta y un método para buscarla." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Uber H3: soluciones óptimas en ingeniería y arquitectura | Julián Cardozo" />
+<meta name="twitter:description" content="Caso práctico de Uber H3: qué hace óptima una solución de arquitectura, qué criterios la definen, qué costos acepta y un método para buscarla." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/#article","headline":"Uber H3: buscando soluciones óptimas en ingeniería y arquitectura. Caso práctico","description":"Un caso práctico sobre cómo se busca una solución óptima en arquitectura, a partir del índice geoespacial hexagonal que Uber publicó en 2018: qué significa óptimo cuando hay criterios en tensión, por qué las opciones convencionales no alcanzaban, qué costos aceptó el diseño, cómo se compara con geohash y S2, lo que las fuentes no permiten afirmar y un método replicable para equipos de ingeniería y plataforma.","datePublished":"2026-11-13","dateModified":"2026-11-13","inLanguage":"es","url":"https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/","mainEntityOfPage":"https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/","articleSection":"Arquitectura y plataforma","keywords":"Arquitectura, Datos, Platform Engineering","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://www.uber.com/us/en/blog/h3/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/"},{"@type":"ListItem","position":2,"name":"Blog de tecnología y producto","item":"https://juliancardozo.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Uber H3: buscando soluciones óptimas en ingeniería y arquitectura. Caso práctico","item":"https://juliancardozo.github.io/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#fortalezas">Fortalezas</a></li><li><a href="/#recorrido">Trayectoria</a></li><li><a href="/#productos">Proyectos</a></li><li><a href="/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/en/blog/uber-h3-soluciones-optimas-ingenieria-arquitectura/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/blog/?categoria=arquitectura-plataforma#articulos">Arquitectura y plataforma</a><time datetime="2026-11-13">13 de noviembre de 2026</time><span>13 min de lectura</span></p>
+    <h1 class="article__title">Uber H3: buscando soluciones óptimas en ingeniería y arquitectura. Caso práctico</h1>
+    <p class="article__lead">Cada viaje solicitado, cada inicio de recorrido y cada pedido de comida deja en el marketplace de Uber un evento con latitud y longitud. Según el artículo con el que la empresa presentó H3 en 2018, esos eventos se cuentan por millones cada día. Ante un volumen así, la reacción habitual de un equipo de ingeniería es buscar la solución óptima en términos de velocidad: qué base de datos escala mejor, cuántos nodos agregar, cómo acelerar una consulta. El caso H3 muestra que la búsqueda de una solución óptima empieza antes, al decidir en qué unidad se piensa el problema, y que lo óptimo solo existe respecto de criterios explícitos. Este artículo es un análisis independiente basado en fuentes públicas; no se apoya en información interna de Uber y señala como inferencia todo razonamiento que las fuentes no documentan.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pilar</p><a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Platform Engineering y arquitectura <span aria-hidden="true">→</span></a></div>
+      <div><p>Contexto</p>
+      <span>Caso práctico · fuentes públicas de Uber y del proyecto H3</span>
+      <a href="https://www.uber.com/us/en/blog/h3/" target="_blank" rel="noopener noreferrer">Uber Engineering: H3, Uber’s Hexagonal Hierarchical Spatial Index <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>Qué significa óptimo en arquitectura</h2>
+          <p>En matemática, una solución óptima es la mejor según una función objetivo y dentro de un conjunto de restricciones. En arquitectura de software rara vez hay una sola función objetivo: rendimiento, costo, simplicidad, precisión, facilidad de operación y capacidad de cambio tiran en direcciones distintas. Por eso una solución óptima no es la más rápida ni la más elegante, sino la que mejor satisface los criterios que importan para una decisión concreta, con costos conocidos y aceptados.</p><p>Esa definición tiene una consecuencia práctica. Optimizar sin criterios escritos suele llevar a mejorar lo que es fácil de medir, normalmente la velocidad, aunque el problema esté en otro lado. Buscar una solución óptima exige, en orden, formular la decisión que se quiere habilitar, explicitar los criterios, comparar alternativas contra ellos y registrar lo que se sacrifica. El caso H3 permite recorrer esos pasos con fuentes públicas.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>El límite de las opciones convencionales</h2>
+          <p>El artículo de Isaac Brodsky, ingeniero de Uber, parte de una observación sencilla: analizar cada evento en su ubicación exacta es difícil y costoso, mientras que analizarlo por áreas, como barrios, resulta mucho más práctico. Con eso el problema cambia de forma. La pregunta deja de ser cómo procesar puntos y pasa a ser qué áreas usar.</p><p>Las alternativas que el texto menciona tienen costos concretos. Las zonas dibujadas a mano por equipos de operaciones capturan conocimiento local, pero requieren actualizaciones frecuentes a medida que la ciudad cambia y tienen bordes arbitrarios. Los códigos postales presentan formas y tamaños poco útiles para el análisis y cambian por motivos ajenos a él. La combinación de la proyección de Mercator con una grilla cuadrada funciona, pero Mercator distorsiona significativamente los tamaños: celdas nominalmente iguales terminan cubriendo áreas muy distintas.</p><p>Los cuadrados tienen además un problema menos visible. Tienen dos tipos de vecinos, los que comparten un lado y los que comparten solo un vértice, y según Uber eso obliga a manejar varios conjuntos de coeficientes en el análisis.</p><p>Ninguna de estas dificultades es de rendimiento. Son problemas de representación: la unidad de análisis introduce sesgo, inestabilidad o complejidad antes de que se escriba la primera consulta. Una optimización de consultas sobre cualquiera de esas unidades habría producido una solución más rápida, pero no mejor.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>La decisión de representación</h2>
+          <p>La idea central de H3 es convertir cada coordenada en el identificador de una celda. Un evento deja de ser un par de números decimales y pasa a ser «la celda X en la resolución 9». Ese identificador es un entero de 64 bits. Lo que antes era un problema geométrico, qué puntos están cerca de cuáles, se convierte en aritmética sobre identificadores: agrupar por celda, obtener las celdas vecinas, pasar a una resolución más gruesa.</p><p>Un ejemplo ayuda a fijar la idea. En un barrio a la hora de mayor demanda hay pedidos de viaje y conductores disponibles. Con H3, cada punto cae en un hexágono, y contar pedidos y conductores por hexágono produce un mapa de oferta y demanda por zona. Uber documenta este uso de forma explícita: el precio dinámico se calcula midiendo oferta y demanda en hexágonos.</p><p>Conviene hacer una distinción. Ese cálculo es análisis del mercado. Decidir qué conductor toma qué viaje es asignación (matching o dispatch), y el artículo no describe ese algoritmo. Menciona que H3 se usa para optimizar precios y despacho, y que los eventos pueden revelar, por ejemplo, dos pedidos cercanos a un conductor de uberPOOL. Pero H3 es la capa de indexación sobre la que se construyen esos análisis, no el sistema que asigna viajes.</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>Patrón básico de agregación por celdas (pseudocódigo ilustrativo, no un diseño de producción)</figcaption>
+            <pre tabindex="0"><code class="language-text">PARA cada evento e en el lote:
+    celda ← coordenada_a_celda(e.lat, e.lng, resolución = r)
+    conteo[celda][e.tipo] += 1
+
+PARA cada celda c con datos:
+    zona ← vecinas_hasta_distancia(c, k = 1)   # c y sus vecinas
+    demanda ← SUMA conteo[z][&quot;pedido&quot;]    para z en zona
+    oferta  ← SUMA conteo[z][&quot;conductor&quot;] para z en zona
+    indicador[c] ← demanda / max(oferta, 1)
+
+SI hace falta una vista más gruesa:
+    padre ← celda_padre(c, r - 1)   # contención lógica, no geométrica exacta</code></pre>
+          </figure><p>En la API actual de la librería (versión 4), esas operaciones corresponden a <code>latLngToCell</code>, <code>gridDisk</code> y <code>cellToParent</code>. El artículo de 2018 usa los nombres de la versión 3, como <code>geoToH3</code> y <code>kRing</code>.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Hexágonos, icosaedro y jerarquía</h2>
+          <p>El argumento a favor del hexágono es geométrico. Un hexágono tiene una sola distancia entre su centro y el de cada vecino; un cuadrado tiene dos y un triángulo, tres. Uber explica que esto simplifica el análisis y el suavizado de gradientes, y que minimiza el error de cuantización cuando las personas se desplazan por la ciudad. Los anillos de vecinos, además, aproximan círculos.</p><p>Para llevar la grilla a la esfera, H3 usa proyecciones gnomónicas centradas en las 20 caras de un icosaedro. Una esfera no puede cubrirse solo con hexágonos, de modo que cada resolución tiene exactamente 12 pentágonos, uno en cada vértice del icosaedro. La orientación elegida, basada en el mapa Dymaxion de Buckminster Fuller, ubica todos esos vértices en el agua, lejos de donde Uber opera.</p><p>La jerarquía comienza en 122 celdas base (110 hexágonos y 12 pentágonos) y ofrece 16 resoluciones, de 0 a 15. En cada nivel más fino, las celdas tienen aproximadamente un séptimo del área de las del nivel anterior. La documentación llama a esta subdivisión apertura 7.</p>
+          
+          
+          
+          <h3>Los costos del diseño</h3><ul class="article__list"><li><strong>Las celdas no son uniformes.</strong> El área de una celda varía según su posición respecto de los vértices del icosaedro.</li><li><strong>Los hijos no quedan perfectamente contenidos en el padre.</strong> Un hexágono no se subdivide limpiamente en siete hexágonos; H3 aproxima esa subdivisión rotando la grilla entre niveles. La contención lógica en el índice es exacta, pero la geográfica es aproximada: un punto dentro de una celda hija puede quedar fuera del polígono de la celda padre.</li><li><strong>Los pentágonos tienen cinco vecinos.</strong> El código que asume seis puede fallar en esos casos.</li></ul><p>La aproximación solo afecta cuando se cambia de resolución. Indexar puntos en una resolución fija y buscar vecinos no se ve afectado. Cuando se necesitan bordes exactos, la documentación del proyecto sugiere usar la grilla como optimización, combinada con un chequeo preciso de punto en polígono.</p><figure class="article__table">
+            <figcaption>Sistemas de indexación espacial comparados: ninguno es óptimo en todos los criterios</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Sistemas de indexación espacial comparados: ninguno es óptimo en todos los criterios"><table>
+              <thead><tr><th scope="col">Criterio</th><th scope="col">Grilla cuadrada</th><th scope="col">Geohash</th><th scope="col">S2 (Google)</th><th scope="col">H3</th></tr></thead>
+              <tbody><tr><th scope="row">Forma de celda</th><td>Rectángulo</td><td>Rectángulo (curva Z)</td><td>Cuadrilátero sobre un cubo proyectado (curva de Hilbert)</td><td>Hexágono, más 12 pentágonos por resolución</td></tr><tr><th scope="row">Vecinos</th><td>Dos tipos (lado y vértice)</td><td>Dos tipos; un prefijo común no garantiza cercanía</td><td>Dos tipos</td><td>Un tipo, equidistante</td></tr><tr><th scope="row">Jerarquía</th><td>Depende de la implementación</td><td>Por prefijo de la cadena</td><td>31 niveles (0 a 30), subdivisión exacta en cuatro</td><td>16 resoluciones, contención geográfica aproximada</td></tr><tr><th scope="row">Distorsión</th><td>Alta lejos del ecuador</td><td>Alta en polos y en el meridiano 180</td><td>Moderada</td><td>Moderada; varía cerca de los vértices</td></tr><tr><th scope="row">Encaja mejor en</th><td>Análisis local simple</td><td>Claves legibles, búsquedas por prefijo</td><td>Agregación y subdivisión exactas, cobertura de regiones</td><td>Vecindad, recorrido de grilla, movimiento, suavizado</td></tr></tbody>
+            </table></div>
+          </figure><p>Fuentes de la comparación: la <a href="https://s2geometry.io/devguide/s2cell_hierarchy" target="_blank" rel="noopener noreferrer">jerarquía de celdas de S2</a>, la <a href="https://en.wikipedia.org/wiki/Geohash" target="_blank" rel="noopener noreferrer">entrada de Geohash</a>, las <a href="https://h3geo.org/docs/" target="_blank" rel="noopener noreferrer">comparaciones del propio proyecto H3</a> y un <a href="https://foursquare.com/resources/reports-and-insights/ebook/all-about-h3-your-questions-answered/" target="_blank" rel="noopener noreferrer">resumen de Foursquare</a>, que concluye que S2 rinde mejor cuando se necesitan agregación y subdivisión exactas, y H3 cuando importan los vecinos. Foursquare usa H3 comercialmente y la comparación de H3 la escribe el propio proyecto, por lo que ambas pueden tener sesgo.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Cómo se llegó a la solución: criterios, opciones y decisión</h2>
+          <p>Con lo publicado puede reconstruirse la estructura de una búsqueda de solución óptima, no una historia: una necesidad, criterios, opciones, un diseño y sus propiedades.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Necesidad.</strong> Analizar millones de eventos a escala de ciudad, con granularidad fina, para fijar precios dinámicos y tomar otras decisiones del marketplace.</li><li><strong>Criterios.</strong> Las críticas del artículo los dejan ver: formas y tamaños comparables entre ciudades, unidades que no cambien por motivos arbitrarios, vecindad simple y capacidad de cambiar de nivel de detalle. Que estos fueran los criterios formales del equipo es una inferencia.</li><li><strong>Opciones.</strong> Zonas manuales, códigos postales y proyección con grilla cuadrada, cada una con los costos descritos.</li><li><strong>Diseño.</strong> Una grilla global hexagonal con indexación jerárquica, sobre un icosaedro orientado para dejar los pentágonos en el océano.</li><li><strong>Propiedades.</strong> Identificadores de 64 bits, anillos de vecinos y compactación. El ejemplo del artículo: California ocupa 10.633 hexágonos en la resolución 6 y 901 en su representación compacta con resoluciones mixtas. Uber liberó H3 como código abierto en 2018, bajo licencia Apache 2.0.</li></ul><h3>Lo que las fuentes no permiten afirmar</h3><p>Las fuentes no indican quién propuso la idea, cuánto tiempo llevó ni qué prototipos se descartaron. Tampoco documentan una evaluación formal de S2 o de geohash. El README del repositorio describe H3 como una combinación de los beneficios de una grilla hexagonal con las subdivisiones jerárquicas de S2, lo que muestra que el equipo conocía S2, no que exista una evaluación publicada. No hay en estas fuentes cifras de mejora en latencia, ingresos o precisión, ni una descripción de cómo H3 se integra con el sistema de despacho.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Otros casos con el mismo patrón</h2>
+          <p>Algunos sistemas conocidos comparten un rasgo con H3: cuestionaron un supuesto en lugar de acelerar la solución vigente. No son equivalentes; cada uno resolvió un problema distinto.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Amazon Dynamo (2007).</strong> Servicios como el carrito de compras debían poder leer y escribir siempre, aun con fallas de discos, redes o centros de datos. El <a href="https://www.amazon.science/publications/dynamo-amazons-highly-available-key-value-store" target="_blank" rel="noopener noreferrer">paper</a> observa que muchos servicios solo accedían por clave primaria y que la replicación de las bases relacionales tendía a elegir consistencia sobre disponibilidad. La respuesta fue un almacén clave-valor que particiona y replica con consistent hashing, versiona objetos y coordina réplicas con una técnica tipo quorum, a cambio de sacrificar consistencia en ciertos escenarios de falla.</li><li><strong>Google MapReduce (2004).</strong> Cientos de cómputos sobre grandes volúmenes en los que paralelizar, distribuir datos y manejar fallas <a href="https://research.google/pubs/pub62/" target="_blank" rel="noopener noreferrer">oscurecía una lógica simple</a>. En lugar de que cada equipo escribiera su propio código distribuido, una abstracción de dos funciones, map y reduce, delegó el resto a un runtime común. El costo, como inferencia, es expresividad: no todo cómputo encaja cómodamente en ese modelo.</li><li><strong>LinkedIn y el log (2013).</strong> Jay Kreps propuso dejar de tratar la integración de datos como una red de conexiones punto a punto y adoptar un <a href="https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying" target="_blank" rel="noopener noreferrer">log central</a>, ordenado y de solo escritura al final, al que cada sistema escribe y del que cada sistema se suscribe. Es un ensayo de autor, no un paper con evaluación, y debe leerse como testimonio.</li></ul><p class="article__note"><span>Una distinción necesaria</span>Consistent hashing y H3 no son la misma idea. El primero reparte claves entre nodos de modo que agregar o quitar un nodo mueva pocas claves, sin preservar ninguna noción de cercanía. H3 asigna puntos del espacio a celdas precisamente para preservar la vecindad.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Un método para buscar la solución óptima</h2>
+          <p>Aplicar la lección no requiere inventar una grilla global. El marco que sigue es una propuesta propia en seis etapas para buscar una solución óptima de forma explícita, inspirada en el caso pero no derivada de un proceso documentado por Uber.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Formular el problema sin nombrar una herramienta.</strong> Qué decisión tiene que poder tomar alguien al final y qué ocurre hoy cuando no la toma. Una técnica útil es escribir el problema en una sola frase, sin nombres de productos, bases de datos ni frameworks.</li><li><strong>Identificar invariantes y restricciones.</strong> Qué tiene que seguir siendo cierto aunque cambie todo lo demás, y qué restricción es física y cuál es heredada. Una tabla con dos columnas, «no negociable» y «asumido», permite discutir cada fila de la segunda.</li><li><strong>Cuestionar la representación y la unidad de análisis.</strong> Punto, zona, ticket, servicio o equipo: cada unidad introduce un sesgo. Ver el mismo dato en tres granularidades muestra qué decisiones cambian.</li><li><strong>Explorar otros dominios.</strong> Quién resolvió un problema con la misma forma en otro campo y qué estándar existente ya lo cubre. H3 se apoya en cartografía, geometría y la proyección de Fuller.</li><li><strong>Prototipar alternativas y medir.</strong> Dos o tres prototipos descartables sobre el mismo conjunto de datos, evaluados contra los criterios definidos al principio y con el criterio de abandono escrito antes de ejecutarlos. Es la etapa en la que «óptimo» deja de ser una opinión.</li><li><strong>Registrar los trade-offs, introducir el cambio y revisar.</strong> Un <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noopener noreferrer">ADR</a> con contexto, decisión y consecuencias, y una fecha de revisión.</li></ol><figure class="article__mermaid">
+            <figcaption>La búsqueda de la solución óptima como ciclo: un prototipo que no supera el criterio vuelve a la representación</figcaption>
+            <pre class="mermaid" aria-label="Seis etapas: problema sin herramienta, invariantes y restricciones, cuestionar la representación, explorar otros dominios, prototipar y medir, y ADR con despliegue gradual. Si el prototipo no supera el criterio, se vuelve a cuestionar la representación; la revisión con métricas puede reabrir el problema si cambian los supuestos.">flowchart LR
+    A[Problema sin herramienta] --&gt; B[Invariantes y restricciones]
+    B --&gt; C[Cuestionar la representación]
+    C --&gt; D[Explorar otros dominios]
+    D --&gt; E[Prototipar y medir]
+    E --&gt;|no supera el criterio| C
+    E --&gt;|supera el criterio| F[ADR y despliegue gradual]
+    F --&gt; G[Revisión con métricas]
+    G --&gt;|supuestos cambiaron| A</pre>
+            <p class="architecture__description">Seis etapas: problema sin herramienta, invariantes y restricciones, cuestionar la representación, explorar otros dominios, prototipar y medir, y ADR con despliegue gradual. Si el prototipo no supera el criterio, se vuelve a cuestionar la representación; la revisión con métricas puede reabrir el problema si cambian los supuestos.</p>
+          </figure><p>El ciclo importa más que la secuencia. Un prototipo que falla vuelve a la representación, no al principio. Descartar una idea, o elegir un estándar existente, también es un resultado válido: a menudo la solución óptima es la que ya existe.</p><figure class="article__table">
+            <figcaption>El caso H3 leído como una serie de reencuadres (las tres primeras filas provienen del artículo de Uber; la última es un ejemplo propio)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="El caso H3 leído como una serie de reencuadres (las tres primeras filas provienen del artículo de Uber; la última es un ejemplo propio)"><table>
+              <thead><tr><th scope="col">Supuesto tradicional</th><th scope="col">Reencuadre</th><th scope="col">Alternativa</th><th scope="col">Costo aceptado</th></tr></thead>
+              <tbody><tr><th scope="row">Hay que analizar cada punto</th><td>La decisión se toma por zona</td><td>Agregar en celdas</td><td>Se pierde precisión individual</td></tr><tr><th scope="row">Las zonas las define el negocio</th><td>Las zonas pueden ser una grilla estable</td><td>Grilla global</td><td>No coincide con calles ni barrios</td></tr><tr><th scope="row">La grilla natural es cuadrada</th><td>La vecindad importa más que la subdivisión</td><td>Hexágonos</td><td>Contención jerárquica aproximada y 12 pentágonos</td></tr><tr><th scope="row">El equipo de plataforma resuelve tickets</th><td>El cuello de botella es la espera, no la ejecución</td><td>Autoservicio</td><td>Construir y mantener un producto interno</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>Caso práctico en Platform Engineering</h2>
+          <p>Un ejemplo hipotético muestra cómo se traslada la pregunta. Un equipo de plataforma recibe tickets para crear bases de datos, colas y pipelines. La cola crece y la primera reacción es acelerar: más personas, mejores plantillas de ticket, acuerdos de servicio más cortos.</p><p>Con el método, la unidad de análisis cambia. El ticket no es el problema; el problema es que un equipo de producto espera a otro para una tarea repetible. Ese reencuadre conduce a golden paths: caminos estandarizados y autoservicio para los casos más comunes, con el equipo de plataforma como responsable de un producto interno.</p><p>El costo es real: ese producto hay que construirlo, documentarlo y mantenerlo, y los casos poco frecuentes siguen requiriendo atención humana. Para saber si el cambio funcionó, conviene medir antes y después el tiempo de entrega de cambios y la frecuencia de despliegue (métricas de <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">DORA</a>), el tiempo de incorporación hasta el primer despliegue, la proporción de servicios nuevos creados por el camino estándar, la satisfacción de los desarrolladores mediante una encuesta breve y recurrente, la tasa de fallas de cambio y el costo de infraestructura por servicio. Ninguna cifra de este ejemplo corresponde a una empresa real.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Preguntas para una revisión de arquitectura</h2>
+          <p>El método puede condensarse en cinco preguntas para la próxima revisión de diseño, o para un taller breve con el equipo.</p>
+          
+          
+          
+          <ol class="article__list"><li>Qué problema se estaría resolviendo si esta tecnología no existiera.</li><li>En qué unidad se está midiendo, y qué decisión empeora por esa elección.</li><li>Qué estándar o librería existente se descartó, y por qué.</li><li>Qué resultado de un prototipo llevaría a abandonar la propuesta.</li><li>Quién paga el trade-off aceptado, y cuándo se va a revisar.</li></ol><p>Un ejercicio práctico consiste en pedir a cada integrante que escriba el problema actual del equipo en una oración, sin nombres de tecnología, y comparar las respuestas. Es habitual que aparezcan dos o tres formulaciones distintas que habilitan decisiones diferentes, y esa diferencia suele ser el punto de partida de la discusión.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Referencias</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li>Brodsky, I. (2018). <a href="https://www.uber.com/us/en/blog/h3/" target="_blank" rel="noopener noreferrer">H3: Uber’s Hexagonal Hierarchical Spatial Index</a>. Uber Engineering.</li><li>Proyecto H3: <a href="https://h3geo.org/docs/core-library/overview/" target="_blank" rel="noopener noreferrer">Overview</a>, <a href="https://h3geo.org/docs/highlights/indexing/" target="_blank" rel="noopener noreferrer">Indexing</a>, <a href="https://h3geo.org/docs/" target="_blank" rel="noopener noreferrer">Introducción y comparaciones</a>, <a href="https://h3geo.org/docs/core-library/restable/" target="_blank" rel="noopener noreferrer">Tablas por resolución</a> y <a href="https://h3geo.org/docs/api/indexing/" target="_blank" rel="noopener noreferrer">API de indexación</a>.</li><li>Uber. <a href="https://github.com/uber/h3" target="_blank" rel="noopener noreferrer">uber/h3</a>, repositorio en GitHub (Apache 2.0; última versión publicada: 4.5.0).</li><li>DeCandia, G. et al. (2007). <a href="https://www.amazon.science/publications/dynamo-amazons-highly-available-key-value-store" target="_blank" rel="noopener noreferrer">Dynamo: Amazon’s Highly Available Key-value Store</a>. SOSP.</li><li>Dean, J. y Ghemawat, S. (2004). <a href="https://research.google/pubs/pub62/" target="_blank" rel="noopener noreferrer">MapReduce: Simplified Data Processing on Large Clusters</a>. OSDI.</li><li>Kreps, J. (2013). <a href="https://engineering.linkedin.com/distributed-systems/log-what-every-software-engineer-should-know-about-real-time-datas-unifying" target="_blank" rel="noopener noreferrer">The Log: What every software engineer should know about real-time data’s unifying abstraction</a>. LinkedIn Engineering.</li><li>Proyecto S2. <a href="https://s2geometry.io/devguide/s2cell_hierarchy" target="_blank" rel="noopener noreferrer">S2 Cell Hierarchy</a>.</li><li>Rabinowitz, N. (2021). <a href="https://foursquare.com/resources/reports-and-insights/ebook/all-about-h3-your-questions-answered/" target="_blank" rel="noopener noreferrer">All about H3: your questions answered</a>. Foursquare.</li><li>Nygard, M. (2011). <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noopener noreferrer">Documenting Architecture Decisions</a>.</li><li>DORA. <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">dora.dev</a>.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: una solución óptima en arquitectura es la que mejor satisface criterios explícitos, con costos conocidos y aceptados. H3 lo muestra: no resolvió un problema de velocidad sino de representación, y su grilla estable, comparable y con vecindad uniforme tiene costos declarados, como celdas no uniformes, pentágonos y una jerarquía exacta en lo lógico pero no en lo geométrico. La lección transferible no es adoptar hexágonos, sino definir qué significa óptimo y revisar la representación del problema antes de optimizar la solución.</p>
+      
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás diseñando una arquitectura parecida? Podemos contrastar decisiones y trade-offs.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Uber%20H3%3A%20buscando%20soluciones%20%C3%B3ptimas%20en%20ingenier%C3%ADa%20y%20arquitectura.%20Caso%20pr%C3%A1ctico&amp;body=%C2%BFEst%C3%A1s%20dise%C3%B1ando%20una%20arquitectura%20parecida%3F%20Podemos%20contrastar%20decisiones%20y%20trade-offs.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Uber%20H3%3A%20buscando%20soluciones%20%C3%B3ptimas%20en%20ingenier%C3%ADa%20y%20arquitectura.%20Caso%20pr%C3%A1ctico%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fuber-h3-soluciones-optimas-ingenieria-arquitectura%2F">Escribirme sobre este tema</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li data-cat="arquitectura-plataforma"><a href="/blog/infraestructura-proporcionada-problema/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Arquitectura y plataforma</span>
+        <strong>Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza</strong>
+        <small>Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Liderazgo y producto</span>
+        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
+        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/blog/technical-product-manager-developer-platform/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Liderazgo y producto</span>
+        <strong>De ingeniería a producto: por qué las plataformas internas necesitan Technical Product Managers</strong>
+        <small>Un artículo de NYT Open presenta a Danny Cassidy, que pasó de ingeniero backend a Senior Technical Product Manager de la plataforma de desarrollo de The New York Times. Un análisis de por qué ese recorrido es especialmente valioso cuando los usuarios del producto son ingenieros, y de lo que su evaluación de un reemplazo de CI/CD enseña sobre cómo decidir en Platform Engineering.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/blog/?categoria=arquitectura-plataforma#articulos" class="js-track-related-category">Más artículos de Arquitectura y plataforma <span aria-hidden="true">→</span></a>
+      <a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Ruta de lectura: Platform Engineering y arquitectura <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

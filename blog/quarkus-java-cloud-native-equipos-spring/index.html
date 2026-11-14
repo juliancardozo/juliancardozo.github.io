@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Quarkus para equipos Java y Spring: guía técnica de adopción | Julián Cardozo</title>
+<meta name="description" content="Qué cambia con Quarkus: arranque en el build, JVM vs. nativo con datos oficiales, Dev Services, compatibilidad con Spring y cómo evaluarlo." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/quarkus-java-cloud-native-equipos-spring/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Quarkus para equipos Java y Spring: guía técnica de adopción | Julián Cardozo" />
+<meta property="og:description" content="Qué cambia con Quarkus: arranque en el build, JVM vs. nativo con datos oficiales, Dev Services, compatibilidad con Spring y cómo evaluarlo." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Quarkus para equipos Java y Spring: guía técnica de adopción | Julián Cardozo" />
+<meta name="twitter:description" content="Qué cambia con Quarkus: arranque en el build, JVM vs. nativo con datos oficiales, Dev Services, compatibilidad con Spring y cómo evaluarlo." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/#article","headline":"Quarkus para equipos Java: qué cambia cuando el framework arranca en el build","description":"Una lectura técnica de la documentación de Quarkus 3.40 pensada para equipos que vienen de Spring: el modelo de arranque en tiempo de compilación, la comparación oficial entre JVM, caché AOT y ejecutable nativo, Dev Services y testing continuo, la capa de compatibilidad con Spring y sus límites, y un plan para evaluarlo sin reescribir un sistema.","datePublished":"2026-11-13","dateModified":"2026-11-13","inLanguage":"es","url":"https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/","mainEntityOfPage":"https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/","articleSection":"Arquitectura y plataforma","keywords":"Java, Arquitectura, Cloud","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://quarkus.io/guides/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/"},{"@type":"ListItem","position":2,"name":"Blog de tecnología y producto","item":"https://juliancardozo.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Quarkus para equipos Java: qué cambia cuando el framework arranca en el build","item":"https://juliancardozo.github.io/blog/quarkus-java-cloud-native-equipos-spring/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#fortalezas">Fortalezas</a></li><li><a href="/#recorrido">Trayectoria</a></li><li><a href="/#productos">Proyectos</a></li><li><a href="/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/en/blog/quarkus-java-cloud-native-equipos-spring/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/blog/?categoria=arquitectura-plataforma#articulos">Arquitectura y plataforma</a><time datetime="2026-11-13">13 de noviembre de 2026</time><span>12 min de lectura</span></p>
+    <h1 class="article__title">Quarkus para equipos Java: qué cambia cuando el framework arranca en el build</h1>
+    <p class="article__lead">Quarkus se presenta como un framework Java para construir aplicaciones cloud-native rápidas y eficientes. Su documentación, organizada en un índice de guías que hoy corresponde a la versión 3.40, cubre desde la primera API REST hasta compilación nativa, mensajería, seguridad y observabilidad. Para un equipo que trabaja con Spring Boot, la pregunta relevante no es si Quarkus es más rápido, sino qué cambia en la forma de construir, probar y operar un servicio, y qué costos implica ese cambio. Este artículo recorre las guías con esa pregunta, a partir de una trayectoria que empezó en backend Java con Spring.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pilar</p><a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Platform Engineering y arquitectura <span aria-hidden="true">→</span></a></div>
+      <div><p>Contexto</p>
+      <span>Análisis técnico · documentación oficial de Quarkus 3.40</span>
+      <a href="https://quarkus.io/guides/" target="_blank" rel="noopener noreferrer">Quarkus: guías oficiales <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>La idea central: mover trabajo del arranque al build</h2>
+          <p>Un framework Java tradicional hace buena parte de su trabajo cuando la aplicación arranca: escanea el classpath, lee anotaciones mediante reflexión, construye el grafo de dependencias, genera proxies y procesa la configuración. Ese trabajo se repite en cada inicio y consume tiempo y memoria durante toda la vida del proceso.</p><p>Quarkus traslada la mayor parte de ese trabajo a la compilación. El proyecto lo llama <em>compile time boot</em>: durante el build, cada extensión analiza el código, resuelve la inyección de dependencias, precalcula metadatos y genera el código necesario para arrancar. En tiempo de ejecución queda un proceso que ya sabe qué tiene que hacer. Según la página del proyecto, eso permite arranques rápidos y menor consumo de memoria tanto en la JVM como en ejecutables nativos.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Dónde ocurre el trabajo: arranque tradicional frente a compile time boot</figcaption>
+            <pre class="mermaid" aria-label="En el modelo tradicional, el escaneo de clases, la reflexión y la construcción del contexto ocurren en cada arranque. En Quarkus, las extensiones procesan el código durante el build y generan bytecode con la configuración y el grafo de dependencias resueltos; el arranque solo ejecuta ese resultado.">flowchart LR
+  subgraph TRAD[&quot;Modelo tradicional&quot;]
+    direction TB
+    B1[&quot;Build: compilar y empaquetar&quot;] --&gt; R1[&quot;Arranque: escanear classpath, reflexión, proxies, contexto&quot;]
+    R1 --&gt; S1[&quot;Servicio listo&quot;]
+  end
+  subgraph QK[&quot;Quarkus&quot;]
+    direction TB
+    B2[&quot;Build: compilar&quot;] --&gt; A2[&quot;Augmentation: extensiones resuelven CDI, configuración y metadatos&quot;]
+    A2 --&gt; R2[&quot;Arranque: ejecutar lo ya resuelto&quot;]
+    R2 --&gt; S2[&quot;Servicio listo&quot;]
+  end</pre>
+            <p class="architecture__description">En el modelo tradicional, el escaneo de clases, la reflexión y la construcción del contexto ocurren en cada arranque. En Quarkus, las extensiones procesan el código durante el build y generan bytecode con la configuración y el grafo de dependencias resueltos; el arranque solo ejecuta ese resultado.</p>
+          </figure><p>Esta decisión de diseño tiene consecuencias que conviene conocer antes de adoptar el framework. Lo que se resuelve en el build no puede cambiar en ejecución: la inyección de dependencias se determina al compilar, y por eso, por ejemplo, la anotación <code>@Conditional</code> de Spring no tiene efecto en la capa de compatibilidad. La flexibilidad se traslada a los perfiles de configuración y de build, no al arranque.</p>
+          
+        </section>
+        <section>
+          
+          <h2>JVM, caché AOT o nativo: qué dicen los números oficiales</h2>
+          <p>La compilación a ejecutable nativo con GraalVM o Mandrel es la característica más citada de Quarkus, y también la más malinterpretada. La propia guía de compilación nativa es explícita: Quarkus en la JVM ya es rápido, y para muchas aplicaciones el modo JVM es la opción correcta. Su recomendación es empezar en JVM y pasar a nativo cuando exista una necesidad concreta.</p><p>La guía publica una comparación entre tres modos de ejecución, medida en abril de 2026 con Quarkus 3.34.3, JDK 25 y GraalVM 25, sobre 4 CPU y un heap máximo de 512 MB:</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Modos de ejecución según la guía oficial de compilación nativa (benchmark del proyecto, no medición propia)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Modos de ejecución según la guía oficial de compilación nativa (benchmark del proyecto, no medición propia)"><table>
+              <thead><tr><th scope="col">Indicador</th><th scope="col">JVM (fast-jar)</th><th scope="col">JVM + caché AOT de Leyden</th><th scope="col">Nativo (Mandrel)</th></tr></thead>
+              <tbody><tr><th scope="row">Arranque en frío</th><td>≈ 0,4 s a 3 s</td><td>≈ 80 ms a 900 ms</td><td>≈ 17 ms a 240 ms</td></tr><tr><th scope="row">Tiempo hasta la primera respuesta</th><td>4.417 ms</td><td>1.859 ms</td><td>581 ms</td></tr><tr><th scope="row">Throughput máximo</th><td>13.265 tps</td><td>12.389 tps (≈ 7 % menos)</td><td>5.411 tps (≈ 59 % menos)</td></tr><tr><th scope="row">Memoria residente (RSS)</th><td>304 MiB</td><td>240 MiB</td><td>95 MiB</td></tr><tr><th scope="row">Tiempo de build</th><td>≈ 30 s</td><td>—</td><td>3 a 10 min, con 4 a 8 GB de RAM</td></tr></tbody>
+            </table></div>
+          </figure><p>La tabla muestra un trade-off claro. El ejecutable nativo arranca en milisegundos y usa una fracción de la memoria, pero en este benchmark entrega menos de la mitad del throughput máximo y multiplica el tiempo de build. La guía lo resume en criterios: nativo cuando el arranque es crítico (serverless, escalado a cero, herramientas de línea de comandos), la memoria es escasa o el tamaño de la imagen importa; JVM cuando el throughput máximo es prioritario, el tiempo de build es una restricción o la aplicación depende mucho de reflexión o carga dinámica de clases.</p><p class="article__note"><span>Una lectura práctica</span>La opción intermedia —la JVM con la caché AOT del proyecto Leyden, disponible desde JDK 24— reduce el arranque y la memoria con una pérdida de throughput pequeña y sin renunciar a las herramientas habituales de la JVM. Para servicios de larga duración, suele ser el primer paso a evaluar antes que el nativo.</p>
+          
+        </section>
+        <section>
+          
+          <h2>La experiencia de desarrollo: dev mode, testing continuo y Dev Services</h2>
+          <p>El testimonio de Adoptium que aparece en el sitio del proyecto ilustra un punto que los benchmarks no capturan: para aplicaciones de larga duración, el arranque rápido no era decisivo, pero la recarga en vivo ahorraba tiempo de desarrollo. En la práctica, el argumento más fuerte de Quarkus para un equipo suele estar en el ciclo de trabajo diario.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Dev mode.</strong> <code>quarkus dev</code> (o <code>./mvnw quarkus:dev</code>) recompila y recarga la aplicación al guardar un cambio, sin reiniciar el proceso manualmente.</li><li><strong>Testing continuo.</strong> Con el dev mode activo, Quarkus detecta qué tests cubren el código modificado y ejecuta solo esos. Arranca en pausa por defecto y se controla con teclas: <code>r</code> vuelve a correr todo, <code>f</code> solo los fallidos, <code>b</code> activa el modo de tests rotos.</li><li><strong>Dev Services.</strong> Si una extensión necesita un servicio —una base PostgreSQL, Kafka, Redis, Keycloak— y no hay una conexión configurada, Quarkus lo levanta automáticamente en un contenedor durante desarrollo y tests, y conecta la aplicación. Requiere Docker o Podman.</li></ul><figure class="article__code">
+            <figcaption>application.properties: Dev Services en desarrollo y tests, conexión explícita solo en producción</figcaption>
+            <pre tabindex="0"><code class="language-properties"># Desarrollo y tests: sin URL configurada, Dev Services inicia PostgreSQL en un contenedor
+quarkus.datasource.db-kind=postgresql
+
+# Producción: la conexión se define únicamente en el perfil prod
+%prod.quarkus.datasource.jdbc.url=jdbc:postgresql://db:5432/app
+%prod.quarkus.datasource.username=${DB_USER}
+%prod.quarkus.datasource.password=${DB_PASSWORD}</code></pre>
+          </figure><p>El detalle importa: Dev Services se activa solo cuando no hay configuración explícita. Declarar la conexión de producción con el prefijo <code>%prod.</code> permite que el entorno local siga siendo automático sin riesgo de que un desarrollador apunte por error a una base real. Para equipos de plataforma, es una forma concreta de reducir la fricción de incorporación: clonar el repositorio y ejecutar un comando alcanza para tener el servicio con sus dependencias funcionando.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Viniendo de Spring: compatibilidad útil, no equivalencia</h2>
+          <p>Quarkus ofrece extensiones de compatibilidad con Spring —inyección de dependencias, Web, Data JPA, Security, Scheduling, entre otras— que permiten usar anotaciones conocidas. La guía de Spring DI aclara el alcance: las clases de Spring se usan solo para leer metadatos; no se inicia un <code>ApplicationContext</code> ni se ejecuta infraestructura de Spring, y agregar bibliotecas arbitrarias de Spring no tiene efecto. Por debajo, la inyección la resuelve ArC, la implementación de Jakarta CDI 4.1 de Quarkus, en tiempo de build.</p><p>La propia documentación recomienda usar las anotaciones de CDI y publica una tabla de equivalencias. La migración de un componente típico es mecánica:</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>El mismo componente con anotaciones de Spring y con CDI (equivalencias de la guía oficial)</figcaption>
+            <pre tabindex="0"><code class="language-java">// Spring
+@Service
+public class GreetingService {
+    @Value(&quot;${greeting.suffix:!}&quot;)
+    String suffix;
+}
+
+// Quarkus con CDI
+@Singleton
+public class GreetingService {
+    @ConfigProperty(name = &quot;greeting.suffix&quot;, defaultValue = &quot;!&quot;)
+    String suffix;
+}</code></pre>
+          </figure><figure class="article__table">
+            <figcaption>Limitaciones documentadas de la capa de compatibilidad con Spring DI</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Limitaciones documentadas de la capa de compatibilidad con Spring DI"><table>
+              <thead><tr><th scope="col">Comportamiento de Spring</th><th scope="col">En Quarkus</th><th scope="col">Alternativa</th></tr></thead>
+              <tbody><tr><th scope="row"><code>@Conditional</code></th><td>Se ignora: la inyección se resuelve en el build</td><td>Perfiles de build condicionales</td></tr><tr><th scope="row"><code>@Autowired(required = false)</code></th><td>No soportado</td><td>Inyectar <code>Instance&lt;T&gt;</code> y verificar <code>isResolvable()</code></td></tr><tr><th scope="row">Resolución por nombre ante beans ambiguos</th><td>No soportada</td><td>Usar <code>@Named</code></td></tr><tr><th scope="row">Inyectar <code>Set&lt;T&gt;</code> o <code>Map&lt;String, T&gt;</code></th><td>No soportado; solo <code>List&lt;T&gt;</code></td><td>Usar <code>List&lt;T&gt;</code></td></tr><tr><th scope="row"><code>@Import</code>, <code>@ComponentScan</code></th><td>No aplica: el descubrimiento ocurre en el build</td><td>—</td></tr><tr><th scope="row">Funcionalidades de test de Spring Boot</th><td>No soportadas</td><td>Guía de testing de Quarkus</td></tr></tbody>
+            </table></div>
+          </figure><p>La conclusión práctica es que la compatibilidad reduce la curva de aprendizaje y permite migrar por partes, pero no convierte a Quarkus en un Spring más rápido. Los proyectos que dependen de configuración condicional en tiempo de ejecución, de auto-configuración de Spring Boot o de bibliotecas del ecosistema Spring requieren rediseño, no solo un cambio de dependencias.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Un mapa de las guías según la necesidad del equipo</h2>
+          <p>El índice de guías es extenso y está organizado por áreas. Para no recorrerlo de forma lineal, conviene entrar según el problema que el equipo necesita resolver:</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Puntos de entrada en la documentación de Quarkus</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Puntos de entrada en la documentación de Quarkus"><table>
+              <thead><tr><th scope="col">Necesidad</th><th scope="col">Guías relevantes</th></tr></thead>
+              <tbody><tr><th scope="row">Primer contacto</th><td>&quot;Creating your first application&quot; (una API REST con recarga en vivo, inyección y tests en menos de 15 minutos) y &quot;Your second Quarkus application&quot;</td></tr><tr><th scope="row">APIs y servicios web</th><td>Quarkus REST, REST Client, OpenAPI, gRPC, GraphQL, WebSockets</td></tr><tr><th scope="row">Datos</th><td>Datasources, Hibernate ORM con Panache, Hibernate Reactive, Flyway y Liquibase, Redis y MongoDB</td></tr><tr><th scope="row">Mensajería y eventos</th><td>Kafka, AMQP, RabbitMQ, Pulsar, JMS</td></tr><tr><th scope="row">Seguridad</th><td>OpenID Connect, JWT, OAuth2, WebAuthn, Keycloak</td></tr><tr><th scope="row">Modelo de ejecución</th><td>Virtual threads, programación reactiva con Mutiny, propagación de contexto</td></tr><tr><th scope="row">Operación</th><td>Health checks, logging, Micrometer, OpenTelemetry, Fault Tolerance</td></tr><tr><th scope="row">Despliegue</th><td>Imágenes de contenedor, Kubernetes, OpenShift, funciones serverless en AWS Lambda, Azure y Google Cloud</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>Gobernanza, versiones y la capa de IA</h2>
+          <p>Dos aspectos no técnicos influyen en una decisión de adopción. El primero es la gobernanza: el proyecto pasó a la Commonhaus Foundation, y el sitio lo presenta como una respuesta a la percepción de dependencia de un único proveedor; IBM, Red Hat y HeroDevs figuran como patrocinadores. El segundo es la política de versiones: Quarkus mantiene líneas LTS —3.40 y 3.33, entre otras— y publica versiones de emergencia cuando corresponde. La más reciente, 3.40.1.2, del 9 de noviembre de 2026, corrige un conjunto de CVE. Para un equipo, eso implica definir una política de actualización explícita, no solo elegir una versión.</p><p>El proyecto también avanza sobre herramientas para agentes de IA. Las guías para escribir extensiones incluyen capítulos sobre Dev MCP, Agent MCP y Dev Assistant, y el blog oficial publicó en noviembre de 2026 contenidos sobre análisis de causa raíz con LLM conectado por MCP a un stack de observabilidad y sobre aislamiento de agentes. Es una señal de dirección interesante, aunque todavía en evolución, para equipos que combinan Java con <a href="/blog/loop-engineering-agentic-loops/">ingeniería agéntica</a>.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Cómo evaluarlo en un equipo sin reescribir un sistema</h2>
+          <p>Adoptar un framework es una decisión de plataforma, con efectos durante años. Una evaluación razonable no empieza por migrar el servicio más crítico, sino por un piloto acotado con criterios definidos de antemano:</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Elegir un servicio nuevo o periférico</strong>, con dependencias representativas (una base de datos, un broker de mensajes, autenticación) pero sin impacto crítico.</li><li><strong>Definir qué se quiere mejorar</strong>: tiempo de arranque, memoria por instancia, costo de infraestructura o, con frecuencia, el ciclo de desarrollo. Cada objetivo lleva a decisiones distintas.</li><li><strong>Empezar en modo JVM</strong> y medir con la carga real del servicio, no con un benchmark genérico. Evaluar la caché AOT antes que el ejecutable nativo.</li><li><strong>Medir la experiencia del equipo</strong>: tiempo hasta el primer cambio en una persona nueva, duración del ciclo editar-probar, facilidad para levantar el entorno local con Dev Services.</li><li><strong>Inventariar dependencias de Spring</strong> que no tienen equivalente directo, en particular configuración condicional y bibliotecas del ecosistema.</li><li><strong>Decidir con datos</strong>: mantener, extender a otros servicios o descartar. Una plataforma con dos frameworks también tiene un costo, y conviene explicitarlo.</li></ol><p>Quarkus no resuelve todos los problemas de un backend Java, y su propia documentación evita prometerlo. Lo que ofrece es una tesis clara —resolver en el build lo que no necesita resolverse en cada arranque— y un conjunto de herramientas que reducen la fricción del desarrollo diario. Para muchos equipos, ese segundo beneficio termina pesando más que el primero.</p><h3>Referencias</h3><ul class="article__list"><li><a href="https://quarkus.io/guides/" target="_blank" rel="noopener noreferrer">Quarkus: guías oficiales</a> — índice de documentación, versión 3.40.</li><li><a href="https://quarkus.io/" target="_blank" rel="noopener noreferrer">Quarkus</a> — sitio oficial del proyecto.</li><li><a href="https://quarkus.io/guides/building-native-image" target="_blank" rel="noopener noreferrer">Building a native executable</a> — comparación de modos de ejecución y criterios de elección.</li><li><a href="https://quarkus.io/guides/dev-services" target="_blank" rel="noopener noreferrer">Dev Services overview</a> — aprovisionamiento automático de servicios en desarrollo y tests.</li><li><a href="https://quarkus.io/guides/continuous-testing" target="_blank" rel="noopener noreferrer">Continuous testing</a> — ejecución automática de tests afectados por un cambio.</li><li><a href="https://quarkus.io/guides/spring-di" target="_blank" rel="noopener noreferrer">Quarkus extension for Spring DI API</a> — alcance y limitaciones de la compatibilidad con Spring.</li><li><a href="https://quarkus.io/blog/quarkus-3-40-1-2-released/" target="_blank" rel="noopener noreferrer">Quarkus 3.40.1.2 released</a> — versión de emergencia de la línea LTS 3.40, 9 de noviembre de 2026.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: Quarkus mueve al build el trabajo que otros frameworks repiten en cada arranque. El ejecutable nativo es una opción para casos concretos, no un objetivo; el beneficio más amplio suele estar en el ciclo de desarrollo. Para equipos que vienen de Spring, la compatibilidad facilita la transición, pero la adopción conviene evaluarla con un piloto y criterios medibles.</p>
+      
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás diseñando una arquitectura parecida? Podemos contrastar decisiones y trade-offs.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Quarkus%20para%20equipos%20Java%3A%20qu%C3%A9%20cambia%20cuando%20el%20framework%20arranca%20en%20el%20build&amp;body=%C2%BFEst%C3%A1s%20dise%C3%B1ando%20una%20arquitectura%20parecida%3F%20Podemos%20contrastar%20decisiones%20y%20trade-offs.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Quarkus%20para%20equipos%20Java%3A%20qu%C3%A9%20cambia%20cuando%20el%20framework%20arranca%20en%20el%20build%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fquarkus-java-cloud-native-equipos-spring%2F">Escribirme sobre este tema</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li data-cat="arquitectura-plataforma"><a href="/blog/saas-multitenant-iac-resiliencia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Arquitectura y plataforma</span>
+        <strong>SaaS multitenant: diseñar para escalar, automatizar para operar y replicar para sobrevivir</strong>
+        <small>Aislamiento entre tenants, Infrastructure as Code y recuperación ante desastres como un único problema de diseño: modelos pool, silo y bridge, IaC con drift detection, RTO/RPO validados y una arquitectura de referencia cloud-agnostic.</small>
+      </a></li><li data-cat="arquitectura-plataforma"><a href="/blog/infraestructura-proporcionada-problema/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Arquitectura y plataforma</span>
+        <strong>Arquitectura proporcional: no construyas un e-commerce para resolver una mudanza</strong>
+        <small>Cómo elegir una solución estática, mantenible y orientada al flujo real en lugar de sobredimensionar un MVP.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Liderazgo y producto</span>
+        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
+        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/blog/?categoria=arquitectura-plataforma#articulos" class="js-track-related-category">Más artículos de Arquitectura y plataforma <span aria-hidden="true">→</span></a>
+      <a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Ruta de lectura: Platform Engineering y arquitectura <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

@@ -70,6 +70,8 @@ export const pillars = [
       '¿Qué responsabilidades siguen siendo del equipo aunque la infraestructura esté en cloud?',
     ],
     articleSlugs: [
+      'uber-h3-soluciones-optimas-ingenieria-arquitectura',
+      'quarkus-java-cloud-native-equipos-spring',
       'open-finance-argentina-arquitectura-apis-consentimiento',
       'technical-product-manager-developer-platform',
       'developer-experience-ia-friccion-plataforma',

@@ -22,6 +22,7 @@ export const tags = {
   Pagos: 'Payments',
   Cloud: 'Cloud',
   Seguridad: 'Security',
+  Java: 'Java',
   'Platform Engineering': 'Platform Engineering',
 };
 
