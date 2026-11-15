@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Tooling para equipos de alto desempeño: sistemas con IA | Julián Cardozo</title>
+<meta name="description" content="Cómo pasar de herramientas aisladas a un sistema de trabajo integrado con IA: capas, skills y MCP, gobernanza, métricas y una hoja de ruta de 90 días." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Tooling para equipos de alto desempeño: sistemas con IA | Julián Cardozo" />
+<meta property="og:description" content="Cómo pasar de herramientas aisladas a un sistema de trabajo integrado con IA: capas, skills y MCP, gobernanza, métricas y una hoja de ruta de 90 días." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Tooling para equipos de alto desempeño: sistemas con IA | Julián Cardozo" />
+<meta name="twitter:description" content="Cómo pasar de herramientas aisladas a un sistema de trabajo integrado con IA: capas, skills y MCP, gobernanza, métricas y una hoja de ruta de 90 días." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/#article","headline":"Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA","description":"Un análisis desde Engineering Management sobre cómo diseñar el sistema de trabajo de un equipo de ingeniería: un modelo de seis capas, el plugin de ingeniería de Anthropic como caso de estudio, la diferencia entre tools, skills, MCP, workflows, agentes y harness, un caso práctico de extremo a extremo, métricas de impacto, riesgos y una hoja de ruta de adopción de 90 días.","datePublished":"2026-11-14","dateModified":"2026-11-14","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/","articleSection":"Leadership and product","keywords":"Leadership, AI, Platform Engineering","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://github.com/anthropics/knowledge-work-plugins/tree/e91a134584eb798bac7fb0379358006a2b63b965/engineering"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA","item":"https://juliancardozo.github.io/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#fortalezas">Strengths</a></li><li><a href="/en/#recorrido">Career</a></li><li><a href="/en/#productos">Projects</a></li><li><a href="/en/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos">Leadership and product</a><time datetime="2026-11-14">November 14, 2026</time><span>15 min de lectura</span></p>
+    <h1 class="article__title">Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA</h1>
+    <p class="article__lead">Un equipo trabaja con GitHub, Jira, Slack, Confluence, dashboards de observabilidad y pipelines de CI/CD. Tiene todas las herramientas que se esperan de un equipo moderno y, aun así, las decisiones quedan dispersas en hilos de chat, el standup consiste en reconstruir de memoria lo que pasó ayer, las revisiones de código dependen de dos personas que conocen el sistema y cada incidente produce información que rara vez se convierte en aprendizaje. Este artículo sostiene una tesis: un equipo de alto desempeño no es el que tiene más herramientas ni el que usa más inteligencia artificial, sino el que logra reducir el costo de coordinación, preservar el conocimiento, automatizar el trabajo repetitivo y mejorar la calidad de sus decisiones. Para desarrollarla, usa como caso de estudio el plugin de ingeniería que Anthropic publicó en su repositorio knowledge-work-plugins.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/liderazgo-tecnico/" class="js-track-pillar-hub">Technical leadership and teams <span aria-hidden="true">→</span></a></div>
+      <div><p>Context</p>
+      <span>Análisis · Engineering Management y Developer Experience</span>
+      <a href="https://github.com/anthropics/knowledge-work-plugins/tree/e91a134584eb798bac7fb0379358006a2b63b965/engineering" target="_blank" rel="noopener noreferrer">Anthropic: plugin de ingeniería de knowledge-work-plugins <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>El problema no es la falta de herramientas</h2>
+          <p>Cada herramienta de ese equipo resuelve bien su parte: GitHub guarda el código, Jira el estado del trabajo, Slack las conversaciones, el sistema de monitoreo las métricas. El problema aparece entre ellas. La información necesaria para tomar una decisión casi nunca vive en un solo lugar, y alguien tiene que recorrer varias fuentes, reconstruir el contexto e interpretarlo. Ese trabajo de integración lo hacen las personas, a mano y de forma repetida.</p><p>Dos conceptos ayudan a nombrarlo. La <strong>carga cognitiva</strong>, que Team Topologies propone como una restricción de diseño de los equipos: cuanto más contexto ajeno a su tarea principal debe sostener un equipo, menos capacidad le queda para esa tarea. Y el <strong>costo de coordinación</strong>: el tiempo que se dedica a sincronizar, buscar información, esperar respuestas y reconstruir decisiones. Agregar herramientas sin integrarlas suele aumentar ambos, porque multiplica los lugares donde puede estar la información.</p><p>Por eso la cantidad de herramientas no predice el desempeño. Lo que importa es si el conjunto funciona como un sistema: si la información fluye entre las fuentes, si las prácticas del equipo están incorporadas en la forma de trabajar y si cada ciclo deja al equipo mejor preparado para el siguiente.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Del tooling individual al sistema de trabajo del equipo</h2>
+          <p>Para pasar de herramientas a sistema, resulta útil pensar en capas, cada una con una responsabilidad distinta. El modelo que sigue es una propuesta propia, no un estándar.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Fuentes de verdad:</strong> el código, los tickets, la documentación, las decisiones registradas y las métricas. Son los sistemas de registro.</li><li><strong>Integraciones:</strong> APIs, conectores y servidores MCP que exponen esas fuentes a otras herramientas, incluidas las de IA.</li><li><strong>Capacidades reutilizables:</strong> skills, comandos, reglas y automatizaciones que codifican cómo el equipo hace una tarea.</li><li><strong>Workflows:</strong> secuencias orientadas a un resultado, como revisar un cambio, depurar un error, desplegar o gestionar un incidente.</li><li><strong>Gobernanza:</strong> permisos, aprobaciones humanas, controles deterministas y trazabilidad.</li><li><strong>Aprendizaje:</strong> feedback, métricas y revisión que modifican las capas anteriores.</li></ol><figure class="article__mermaid">
+            <figcaption>Arquitectura de un sistema de trabajo de ingeniería con IA</figcaption>
+            <pre class="mermaid" aria-label="Seis capas apiladas. Las fuentes de verdad (código, tickets, documentación, métricas) se exponen mediante integraciones y MCP. Sobre ellas, las capacidades reutilizables (skills, comandos, reglas) alimentan los workflows (revisión, debugging, despliegue, incidentes, decisiones). La gobernanza envuelve a los workflows con permisos, aprobaciones y auditoría. El aprendizaje toma los resultados y actualiza las capacidades y las fuentes.">flowchart TB
+  subgraph L1[&quot;1 · Fuentes de verdad&quot;]
+    A1[&quot;Código&quot;] --- A2[&quot;Tickets&quot;] --- A3[&quot;Docs y ADR&quot;] --- A4[&quot;Métricas y logs&quot;]
+  end
+  subgraph L2[&quot;2 · Integraciones&quot;]
+    B[&quot;APIs · conectores · servidores MCP&quot;]
+  end
+  subgraph L3[&quot;3 · Capacidades reutilizables&quot;]
+    C[&quot;Skills · comandos · reglas · automatizaciones&quot;]
+  end
+  subgraph L4[&quot;4 · Workflows&quot;]
+    D[&quot;Revisión · debugging · despliegue · incidentes · decisiones&quot;]
+  end
+  subgraph L5[&quot;5 · Gobernanza&quot;]
+    E[&quot;Menor privilegio · aprobación humana · controles deterministas · auditoría&quot;]
+  end
+  subgraph L6[&quot;6 · Aprendizaje&quot;]
+    F[&quot;Feedback · métricas · postmortems · revisión de estándares&quot;]
+  end
+  L1 --&gt; L2 --&gt; L3 --&gt; L4
+  L5 -. controla .-&gt; L4
+  L4 --&gt; L6
+  L6 --&gt;|&quot;actualiza&quot;| L3
+  L6 --&gt;|&quot;registra&quot;| L1</pre>
+            <p class="architecture__description">Seis capas apiladas. Las fuentes de verdad (código, tickets, documentación, métricas) se exponen mediante integraciones y MCP. Sobre ellas, las capacidades reutilizables (skills, comandos, reglas) alimentan los workflows (revisión, debugging, despliegue, incidentes, decisiones). La gobernanza envuelve a los workflows con permisos, aprobaciones y auditoría. El aprendizaje toma los resultados y actualiza las capacidades y las fuentes.</p>
+          </figure><p>Las capas interactúan en dos direcciones. Hacia arriba, cada workflow consume capacidades, que a su vez dependen de integraciones con las fuentes de verdad. Hacia abajo, el aprendizaje modifica las capacidades y deja registro en las fuentes. Un equipo que solo invierte en las capas 2 y 3, conectores y prompts, obtiene velocidad sin dirección; uno que descuida la capa 5 obtiene velocidad sin control.</p>
+          
+        </section>
+        <section>
+          
+          <h2>El plugin de ingeniería de Anthropic como caso de estudio</h2>
+          <p>El repositorio <a href="https://github.com/anthropics/knowledge-work-plugins" target="_blank" rel="noopener noreferrer">knowledge-work-plugins</a>, con licencia Apache 2.0, contiene plugins para distintos tipos de trabajo. El de ingeniería, en su versión 1.2.0 al commit <code>e91a134</code>, se describe como diseñado principalmente para Cowork, la aplicación de escritorio de Anthropic, aunque también funciona en Claude Code. Su contenido es deliberadamente simple: diez skills escritas en Markdown, un archivo de conectores y una configuración de servidores MCP.</p><p>Seis de esas skills se invocan como comandos (<code>/standup</code>, revisión de código, <code>/architecture</code>, <code>/debug</code>, gestión de incidentes y <code>/deploy-checklist</code>) y cuatro se activan automáticamente cuando el tema es relevante: diseño de sistemas, deuda técnica, estrategia de testing y documentación. Cada skill tiene una descripción que indica cuándo usarla, un procedimiento, un formato de salida y una sección que explica qué hacer si hay conectores disponibles. Hay un detalle menor pero ilustrativo: el README presenta los comandos como <code>/review</code> e <code>/incident</code>, mientras que las skills se llaman <code>code-review</code> e <code>incident-response</code>. Incluso un catálogo pequeño necesita mantenimiento.</p><p>Dos decisiones de diseño son más interesantes que los comandos en sí. La primera es la <strong>independencia de herramientas</strong>: las skills no nombran productos, sino categorías mediante marcadores como <code>~~source control</code> o <code>~~monitoring</code>, y el archivo de conectores mapea cada categoría a servidores concretos. La configuración <code>.mcp.json</code> incluye servidores HTTP para Slack, Linear, Asana, Atlassian, Notion, GitHub, PagerDuty y Datadog, y no incluye ninguno para CI/CD. La segunda es el modo <strong>standalone o supercharged</strong>: cada comando funciona con lo que la persona describe o pega, y mejora cuando hay conectores. La práctica queda separada de la integración.</p><p>Lo que el plugin no hace también importa. No ejecuta controles deterministas ni impone aprobaciones: el checklist de despliegue es un documento que la persona completa, no un gate del pipeline. La gobernanza queda a cargo del entorno que lo ejecuta y del sistema de CI/CD del equipo. Es razonable que así sea, pero significa que adoptar el plugin no equivale a tener un proceso controlado.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Workflows manuales frente a asistidos, a partir de las skills del plugin (el beneficio y la métrica son propuestas propias)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Workflows manuales frente a asistidos, a partir de las skills del plugin (el beneficio y la métrica son propuestas propias)"><table>
+              <thead><tr><th scope="col">Workflow</th><th scope="col">Problema original</th><th scope="col">Qué aporta la skill</th><th scope="col">Responsabilidad humana</th><th scope="col">Riesgo principal</th><th scope="col">Métrica útil</th></tr></thead>
+              <tbody><tr><th scope="row">Standup</th><td>Reconstruir de memoria commits, PRs y tickets</td><td>Formato ayer/hoy/bloqueos; con conectores, toma commits, PRs, tickets y conversaciones</td><td>Agregar matices, prioridades y bloqueos reales</td><td>Confundir actividad con progreso; uso como vigilancia</td><td>Tiempo de preparación; bloqueos detectados antes</td></tr><tr><th scope="row">Revisión de código</th><td>Dependencia de pocos revisores</td><td>Revisión estructurada en seguridad, performance, corrección y mantenibilidad, con veredicto</td><td>Aprobar o rechazar; juzgar diseño y contexto</td><td>Reviews superficiales que se aprueban por confianza</td><td>Defectos encontrados después del merge; tiempo de revisión</td></tr><tr><th scope="row">Decisiones de arquitectura</th><td>Decisiones sin registro ni alternativas</td><td>ADR con contexto, opciones, trade-offs, consecuencias y tareas</td><td>Elegir, firmar y asumir la decisión</td><td>ADR plausibles pero sin restricciones reales</td><td>Decisiones revisadas con su ADR; retrabajo por decisiones</td></tr><tr><th scope="row">Incidentes</th><td>Comunicación desordenada y postmortems que no se escriben</td><td>Severidad SEV1–4, roles, actualizaciones de estado y postmortem blameless con 5 porqués</td><td>Comandar el incidente y decidir mitigaciones</td><td>Diagnóstico confiado con contexto incompleto</td><td>Tiempo hasta el postmortem; incidentes recurrentes</td></tr><tr><th scope="row">Despliegue</th><td>Pasos olvidados y criterios de rollback improvisados</td><td>Checklist antes, durante y después, con disparadores de rollback definidos de antemano</td><td>Ejecutar el despliegue y decidir el rollback</td><td>Tratar un checklist como un control</td><td>Tasa de fallas de cambio; tiempo de recuperación</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>Tools, skills, MCP, workflows, agentes y harness</h2>
+          <p>Estos términos se usan como sinónimos y no lo son. Distinguirlos ayuda a decidir en qué invertir.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Tool:</strong> una capacidad para ejecutar o consultar una acción concreta, como leer un pull request o consultar una métrica.</li><li><strong>Skill:</strong> conocimiento e instrucciones reutilizables para hacer bien una tarea. Una skill no ejecuta nada por sí misma; orienta cómo se usan las tools.</li><li><strong>MCP:</strong> el <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">Model Context Protocol</a>, un protocolo abierto para conectar aplicaciones de IA con sistemas externos. Estandariza cómo se exponen las tools, no qué se hace con ellas.</li><li><strong>Workflow:</strong> una secuencia coordinada de pasos orientada a un resultado, con puntos de decisión.</li><li><strong>Agente:</strong> un sistema que razona sobre un objetivo y usa las capacidades disponibles dentro de límites definidos.</li><li><strong>Harness:</strong> el entorno que rodea al agente con contexto, herramientas, restricciones, evaluación y mecanismos de control, como se analiza en <a href="/blog/harness-engineering-agentes-codigo-guias-sensores/">este artículo sobre harness engineering</a>.</li></ul><p>En una revisión de pull request, las piezas se combinan así: el servidor MCP de GitHub expone la tool que obtiene el diff; la skill de revisión indica qué dimensiones evaluar y qué formato entregar; el agente ejecuta el procedimiento; el workflow define que la revisión asistida ocurre después de que el pipeline pasa y antes de la revisión humana; y el harness aporta los controles deterministas, como tests, análisis estático y reglas de arquitectura, además de los permisos que impiden que el agente apruebe o fusione el cambio. Ninguna pieza sustituye a las otras.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Golden paths para el trabajo diario</h2>
+          <p>En Platform Engineering, un golden path es el camino recomendado y soportado para una tarea frecuente, normalmente crear un servicio o aprovisionar infraestructura. La idea se puede extender al trabajo diario: incorporar a una persona nueva, abrir y revisar un pull request, documentar una decisión, resolver un incidente, preparar un despliegue o gestionar deuda técnica. En cada caso, el estándar del equipo debería estar incorporado en la herramienta, no en una página de wiki que nadie consulta.</p><p>Las skills son un vehículo natural para esto, porque convierten una práctica implícita en una capacidad explícita y versionada. La skill de deuda técnica del plugin, por ejemplo, propone una fórmula de priorización explícita: impacto más riesgo, multiplicado por seis menos el esfuerzo. Se puede discutir la fórmula, pero tenerla escrita permite discutirla. Bajo el enfoque de Platform as a Product, estas capacidades deberían tratarse como un producto interno: con usuarios, feedback, versiones y la libertad de no usarlas cuando no aplican. Un golden path que se impone por obligación deja de ser un camino fácil y se convierte en burocracia.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Alto desempeño sin burocracia</h2>
+          <p>Buena parte del valor inmediato está en reducir trabajo administrativo: standups escritos y asíncronos que parten de un borrador generado a partir de la actividad real, reportes que se arman solos, documentación generada y luego revisada, y una conexión directa entre tickets, código y resultados que permite detectar bloqueos antes de la reunión semanal.</p><p>Conviene separar dos cosas que suelen mezclarse: automatizar la <strong>recopilación</strong> de información y automatizar la <strong>interpretación</strong> del trabajo humano. La primera es útil y de bajo riesgo. La segunda, como resumir el desempeño de una persona a partir de sus commits, es peligrosa: confunde actividad con aporte y convierte la herramienta en un mecanismo de vigilancia. Un standup generado debería ser un borrador para la persona, no un informe sobre ella. Si el equipo percibe que la herramienta lo observa, dejará de usarla o empezará a optimizar lo que mide.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>La IA como acelerador del aprendizaje organizacional</h2>
+          <p>El aporte más duradero no es hacer más rápido una tarea, sino reducir el costo de convertir experiencia en conocimiento reutilizable. Dos ciclos lo muestran. En el primero, un incidente se investiga, se documenta en un postmortem, el aprendizaje se traduce en un runbook o una skill actualizada y eso previene o acorta el siguiente incidente. En el segundo, una decisión de arquitectura se registra en un ADR, se implementa, se observa con métricas y se revisa, y la revisión ajusta el estándar del equipo.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Dos ciclos de aprendizaje organizacional</figcaption>
+            <pre class="mermaid" aria-label="Ciclo de incidentes: incidente, investigación, postmortem, aprendizaje, skill o runbook actualizado y prevención, que vuelve a reducir la probabilidad del incidente. Ciclo de decisiones: decisión arquitectónica, ADR, implementación, métricas, revisión y evolución del estándar, que vuelve a orientar la próxima decisión.">flowchart LR
+  subgraph I[&quot;Ciclo de incidentes&quot;]
+    I1[&quot;Incidente&quot;] --&gt; I2[&quot;Investigación&quot;] --&gt; I3[&quot;Postmortem&quot;] --&gt; I4[&quot;Aprendizaje&quot;] --&gt; I5[&quot;Skill o runbook actualizado&quot;] --&gt; I6[&quot;Prevención&quot;]
+    I6 -.-&gt; I1
+  end
+  subgraph D[&quot;Ciclo de decisiones&quot;]
+    D1[&quot;Decisión&quot;] --&gt; D2[&quot;ADR&quot;] --&gt; D3[&quot;Implementación&quot;] --&gt; D4[&quot;Métricas&quot;] --&gt; D5[&quot;Revisión&quot;] --&gt; D6[&quot;Estándar actualizado&quot;]
+    D6 -.-&gt; D1
+  end</pre>
+            <p class="architecture__description">Ciclo de incidentes: incidente, investigación, postmortem, aprendizaje, skill o runbook actualizado y prevención, que vuelve a reducir la probabilidad del incidente. Ciclo de decisiones: decisión arquitectónica, ADR, implementación, métricas, revisión y evolución del estándar, que vuelve a orientar la próxima decisión.</p>
+          </figure><p>La IA reduce el costo de cada paso: reconstruir la línea de tiempo, redactar el primer borrador del postmortem, proponer alternativas para un ADR. Lo que no puede hacer es decidir qué se aprendió. Es la misma lógica de <a href="/blog/loop-engineering-agentic-loops/">Loop Engineering</a> aplicada a la organización: un ciclo solo mejora si tiene una señal de salida y alguien que la evalúe. Y es una cuestión de context engineering: el aprendizaje que no queda registrado en una fuente de verdad no está disponible para el próximo ciclo, ni para las personas ni para los agentes.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Caso práctico: una alerta de latencia de extremo a extremo</h2>
+          <p>El escenario es ficticio e ilustrativo. Nexo Logística, una empresa inventada, tiene un equipo de plataforma de cinco personas que mantiene servicios Java con Spring Boot desplegados en Kubernetes sobre AWS. Usa GitHub, Jira, GitHub Actions, SonarQube, New Relic y Backstage como portal interno, y Claude Code con servidores MCP para GitHub, Jira y su herramienta de monitoreo. Un martes a las 10:40, una alerta indica que la latencia p95 del servicio <code>order-pricing</code> subió de forma sostenida.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Qué se asiste con IA, qué verifican los controles automáticos y qué decide una persona (escenario ficticio)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Qué se asiste con IA, qué verifican los controles automáticos y qué decide una persona (escenario ficticio)"><table>
+              <thead><tr><th scope="col">Paso</th><th scope="col">Asistido con IA</th><th scope="col">Verificación automática</th><th scope="col">Responsabilidad humana</th></tr></thead>
+              <tbody><tr><th scope="row">Triage</th><td>Resume la alerta, las métricas del servicio y propone una severidad con la skill de incidentes</td><td>Umbrales de alerta y SLO definidos en el monitoreo</td><td>La persona de guardia confirma la severidad y asume el rol de incident commander</td></tr><tr><th scope="row">Contexto</th><td>Cruza despliegues recientes, PRs fusionados y tickets: un cambio de ayer agregó una consulta por cada ítem del pedido</td><td>Registro de despliegues de GitHub Actions y catálogo de Backstage</td><td>Validar que la correlación tiene sentido</td></tr><tr><th scope="row">Diagnóstico</th><td>Con la skill de debug, formula hipótesis y señala un patrón N+1</td><td>Trazas distribuidas que confirman el aumento de llamadas a la base</td><td>Aceptar o descartar la causa raíz</td></tr><tr><th scope="row">Mitigación</th><td>Redacta las actualizaciones de estado</td><td>Rollback automatizado del despliegue</td><td>Decidir el rollback y comunicar</td></tr><tr><th scope="row">Decisión técnica</th><td>Borrador de ADR: consulta agregada frente a caché</td><td>Prueba de carga comparativa en staging</td><td>Elegir la opción y registrar el ADR</td></tr><tr><th scope="row">Corrección y revisión</th><td>Implementa el cambio y hace una primera revisión estructurada</td><td>Tests, cobertura y quality gate de SonarQube en el pipeline</td><td>Revisar y aprobar el pull request</td></tr><tr><th scope="row">Despliegue</th><td>Genera el checklist con disparadores de rollback a partir de las métricas actuales</td><td>Canary con análisis automático de error y latencia</td><td>Autorizar la promoción a producción</td></tr><tr><th scope="row">Aprendizaje</th><td>Redacta el postmortem y propone una regla nueva de revisión para consultas en bucles</td><td>Una regla de análisis estático que detecta el patrón</td><td>Aprobar el postmortem y la actualización del estándar</td></tr></tbody>
+            </table></div>
+          </figure><p>El caso muestra el reparto que conviene diseñar. La IA reduce el tiempo de recopilar y redactar; los controles deterministas, como tests, quality gates y el análisis del canary, verifican; y las personas deciden en los puntos donde hay responsabilidad: la severidad, la causa, la mitigación, la decisión técnica y la aprobación. El último paso es el más valioso, porque convierte el incidente en un control nuevo.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Medir el impacto del tooling</h2>
+          <p>Las métricas fáciles de obtener son las menos útiles. La cantidad de prompts, los tokens consumidos, las líneas generadas o el número de pull requests miden actividad, no resultado, y pueden subir mientras la calidad baja. Las métricas relevantes provienen de marcos establecidos: <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">DORA</a> para el flujo de entrega y <a href="https://queue.acm.org/detail.cfm?id=3454124" target="_blank" rel="noopener noreferrer">SPACE</a> para recordar que la productividad tiene varias dimensiones, entre ellas la satisfacción y la colaboración.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Matriz de métricas para evaluar un sistema de trabajo</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Matriz de métricas para evaluar un sistema de trabajo"><table>
+              <thead><tr><th scope="col">Dimensión</th><th scope="col">Indicadores</th><th scope="col">Fuente</th></tr></thead>
+              <tbody><tr><th scope="row">Flujo de entrega</th><td>Lead time for changes, frecuencia de despliegue, tasa de fallas de cambio, tiempo de recuperación de despliegues fallidos</td><td>CI/CD y control de versiones</td></tr><tr><th scope="row">Developer Experience</th><td>Tiempo dedicado a buscar información, carga cognitiva percibida, tiempo de onboarding, fricción en tareas frecuentes, satisfacción con herramientas internas</td><td>Encuestas breves y recurrentes</td></tr><tr><th scope="row">Calidad y operación</th><td>Defectos en producción, incidentes recurrentes, tiempo de recuperación, actualización de la documentación, retrabajo por requisitos ambiguos</td><td>Tracker, monitoreo y postmortems</td></tr><tr><th scope="row">Adopción</th><td>Uso efectivo de los workflows, tareas completadas sin asistencia manual innecesaria, utilidad percibida</td><td>Telemetría de uso y encuestas</td></tr></tbody>
+            </table></div>
+          </figure><p>Para que la medición sirva, hace falta una línea de base antes del cambio, comparar períodos equivalentes y desconfiar de las atribuciones causales simples. Si el lead time baja en el trimestre en que se adoptó una herramienta, también pudo influir un cambio de prioridades, una contratación o una estacionalidad. Las métricas de adopción y las de resultado deben leerse juntas: una herramienta muy usada que no mejora ningún resultado es un costo.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Los riesgos de automatizar prácticas de ingeniería</h2>
+          <p>Automatizar una práctica no la mejora si la práctica es deficiente; la vuelve más rápida. Los riesgos más concretos son la dependencia excesiva de agentes y la pérdida gradual de conocimiento humano; las revisiones superficiales que se aprueban porque «ya lo revisó la IA»; las alucinaciones y el contexto incompleto; los conectores con permisos excesivos; la exposición de información sensible a través de integraciones; el prompt injection, especialmente cuando un agente lee contenido no confiable como issues, comentarios o logs; el aumento de la complejidad operativa y la dependencia de proveedores.</p><p>Los controles son conocidos, aunque se apliquen poco: <strong>menor privilegio</strong> en cada conector, empezando por accesos de solo lectura; <strong>auditoría</strong> de lo que hace cada agente; <strong>evaluación continua</strong> de la calidad de las salidas; preferencia por <strong>acciones reversibles</strong>; <strong>controles deterministas</strong> en los puntos críticos, en lugar de instrucciones; y <strong>human-in-the-loop</strong> en toda acción con efectos externos, como fusionar, desplegar, paginar a alguien o comunicar a clientes.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Cómo implementarlo: una hoja de ruta de 90 días</h2>
+          <p>La hoja de ruta que sigue es una propuesta. Su premisa es empezar por la fricción real del equipo, no por la herramienta.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Días 1–30, discovery.</strong> Entrevistas breves, observación de tareas frecuentes y una línea de base de métricas. Se eligen dos workflows de alto impacto y bajo riesgo; el standup asíncrono y la revisión asistida de pull requests suelen ser buenos candidatos, porque son frecuentes y la decisión final sigue siendo humana.</li><li><strong>Días 31–60, piloto.</strong> Se configuran las integraciones con permisos de solo lectura, se adaptan las skills a las prácticas del equipo, se definen los controles y se mide la adopción con usuarios reales, recogiendo feedback cada semana.</li><li><strong>Días 61–90, evolución.</strong> Se comparan los resultados con la línea de base, se corrigen los problemas, se documentan los aprendizajes y se decide qué capacidades escalar, cuáles ajustar y cuáles abandonar.</li></ul><figure class="article__table">
+            <figcaption>Matriz de priorización de workflows candidatos (valoraciones ilustrativas)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Matriz de priorización de workflows candidatos (valoraciones ilustrativas)"><table>
+              <thead><tr><th scope="col">Workflow</th><th scope="col">Impacto</th><th scope="col">Frecuencia</th><th scope="col">Riesgo</th><th scope="col">Esfuerzo</th><th scope="col">Prioridad sugerida</th></tr></thead>
+              <tbody><tr><th scope="row">Standup asíncrono</th><td>Medio</td><td>Diaria</td><td>Bajo</td><td>Bajo</td><td>Alta: piloto</td></tr><tr><th scope="row">Revisión asistida de PR</th><td>Alto</td><td>Diaria</td><td>Medio</td><td>Medio</td><td>Alta: piloto</td></tr><tr><th scope="row">ADR asistido</th><td>Alto</td><td>Mensual</td><td>Bajo</td><td>Bajo</td><td>Media</td></tr><tr><th scope="row">Postmortem asistido</th><td>Alto</td><td>Ocasional</td><td>Bajo</td><td>Bajo</td><td>Media</td></tr><tr><th scope="row">Checklist de despliegue</th><td>Medio</td><td>Semanal</td><td>Alto si reemplaza gates</td><td>Medio</td><td>Media, solo como complemento del pipeline</td></tr><tr><th scope="row">Respuesta a incidentes con acciones</th><td>Alto</td><td>Ocasional</td><td>Alto</td><td>Alto</td><td>Baja hasta tener controles maduros</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>El nuevo rol del Engineering Manager</h2>
+          <p>Cuando una parte del trabajo de coordinación se automatiza, el rol del Engineering Manager no desaparece: se desplaza. Pasa de organizar y supervisar tareas a diseñar el sistema de trabajo en el que esas tareas ocurren. Eso implica identificar las fricciones antes de que se normalicen, crear condiciones para la autonomía, promover estándares útiles en lugar de procesos, reducir dependencias entre equipos, facilitar el aprendizaje continuo, proteger la calidad de las decisiones y asegurar que la adopción de IA sea responsable, con permisos acotados y criterios explícitos.</p><p>La IA no elimina la necesidad de liderazgo ni de coordinación humana. Cambia dónde se ejerce: menos en el seguimiento de tareas y más en las decisiones sobre qué automatizar, qué controlar y qué conocimiento preservar.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Conclusión</h2>
+          <p>El plugin de ingeniería de Anthropic es útil como caso de estudio precisamente por su simplicidad: muestra que una práctica de ingeniería puede escribirse como una capacidad explícita, reutilizable e independiente de la herramienta concreta, y que su valor crece cuando se conecta con las fuentes de verdad del equipo. También muestra sus límites: una skill orienta, pero no controla, y la gobernanza sigue siendo responsabilidad del sistema que la ejecuta.</p><p>El objetivo no es que la IA haga más cosas por el equipo, sino diseñar un entorno en el que el equipo pueda concentrar su capacidad en los problemas que requieren inteligencia, creatividad y criterio profesional. Un equipo de alto desempeño, en ese sentido, es sostenible: reduce su costo de coordinación, conserva lo que aprende y mejora sus decisiones con cada ciclo.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Referencias</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li>Anthropic. <a href="https://github.com/anthropics/knowledge-work-plugins/tree/e91a134584eb798bac7fb0379358006a2b63b965/engineering" target="_blank" rel="noopener noreferrer">knowledge-work-plugins: engineering</a>, commit <code>e91a134</code>, versión 1.2.0 del plugin. Incluye <a href="https://github.com/anthropics/knowledge-work-plugins/blob/e91a134584eb798bac7fb0379358006a2b63b965/engineering/README.md" target="_blank" rel="noopener noreferrer">README</a>, <a href="https://github.com/anthropics/knowledge-work-plugins/blob/e91a134584eb798bac7fb0379358006a2b63b965/engineering/CONNECTORS.md" target="_blank" rel="noopener noreferrer">CONNECTORS.md</a> y <code>.mcp.json</code>.</li><li>Model Context Protocol. <a href="https://modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">Especificación y documentación</a>.</li><li>DORA. <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">dora.dev</a>.</li><li>Forsgren, N., Storey, M.-A., Maddila, C., Zimmermann, T., Houck, B. y Butler, J. (2021). <a href="https://queue.acm.org/detail.cfm?id=3454124" target="_blank" rel="noopener noreferrer">The SPACE of Developer Productivity</a>. ACM Queue.</li><li>Skelton, M. y Pais, M. <a href="https://teamtopologies.com/" target="_blank" rel="noopener noreferrer">Team Topologies</a>.</li><li>CNCF TAG App Delivery. <a href="https://tag-app-delivery.cncf.io/whitepapers/platforms/" target="_blank" rel="noopener noreferrer">Platforms White Paper</a>.</li><li>Backstage. <a href="https://backstage.io/" target="_blank" rel="noopener noreferrer">backstage.io</a>.</li><li>Nygard, M. (2011). <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions" target="_blank" rel="noopener noreferrer">Documenting Architecture Decisions</a>.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: el desempeño de un equipo depende menos de la cantidad de herramientas que del sistema que forman. Convertir prácticas en capacidades explícitas, como hace el plugin de ingeniería de Anthropic, reduce el costo de coordinación y preserva conocimiento, pero solo genera valor si se integra con las fuentes de verdad, se gobierna con controles deterministas y aprobación humana, y se mide por resultados de entrega, calidad y experiencia, no por actividad.</p>
+      
+      <aside class="article__linkedin" aria-labelledby="article-linkedin-title">
+      <svg class="article__linkedin-icon" aria-hidden="true" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      <div>
+        <p class="article__conversation-label">Let's connect on LinkedIn</p>
+        <h2 id="article-linkedin-title">Found this useful? Connect with me on LinkedIn</h2>
+        <p>I share every new article there, along with short notes on architecture, applied AI and engineering leadership, and the conversations they spark.</p>
+        <a class="btn btn--primary js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">Follow me on LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Leading an engineering team? I'd like to talk about the challenges you're facing.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Tooling%20para%20equipos%20de%20alto%20desempe%C3%B1o%3A%20de%20herramientas%20aisladas%20a%20sistemas%20de%20ingenier%C3%ADa%20aumentados%20por%20IA&amp;body=Leading%20an%20engineering%20team%3F%20I'd%20like%20to%20talk%20about%20the%20challenges%20you're%20facing.%0A%0AI%20came%20from%20the%20article%3A%20Tooling%20para%20equipos%20de%20alto%20desempe%C3%B1o%3A%20de%20herramientas%20aisladas%20a%20sistemas%20de%20ingenier%C3%ADa%20aumentados%20por%20IA%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Ftooling-equipos-alto-desempeno-sistemas-ingenieria-ia%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li data-cat="liderazgo-producto"><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Leadership and product</span>
+        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
+        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/en/blog/ia-no-cambia-solo-herramienta-liderazgo-operacion/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Leadership and product</span>
+        <strong>AI doesn't just change a tool: it changes the structure of leadership and operations</strong>
+        <small>An analysis of why AI redefines leadership, coordination, metrics and operational responsibility, not just the technical stack.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/en/blog/harness-engineering-agentes-codigo-guias-sensores/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
+        <strong>Harness engineering: cómo dar confianza al trabajo de un agente de código</strong>
+        <small>Una lectura técnica del modelo que Birgitta Böckeler publicó en martinfowler.com para quienes usan agentes de código: guías y sensores, controles computacionales e inferenciales, el momento en que conviene ejecutar cada uno, las tres dimensiones que un harness puede regular y sus límites. Incluye la aplicación del modelo a Website Factory, un sistema multiagente propio, y lo que ese ejercicio deja ver.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=liderazgo-producto#articulos" class="js-track-related-category">More in Leadership and product <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/liderazgo-tecnico/" class="js-track-pillar-hub">Reading path: Technical leadership and teams <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

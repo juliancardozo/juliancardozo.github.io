@@ -14,6 +14,7 @@ export const pillars = [
       '¿Qué controles necesita cada tarea según su riesgo, y en qué decisiones no se delega?',
     ],
     articleSlugs: [
+      'harness-engineering-agentes-codigo-guias-sensores',
       'loop-engineering-agentic-loops',
       'orquestacion-multiagente-website-factory',
       'ia-especificacion-antes-codigo',
@@ -42,6 +43,7 @@ export const pillars = [
       '¿Cómo conectar producto, delivery y criterio técnico sin microgestión?',
     ],
     articleSlugs: [
+      'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia',
       'technical-product-manager-developer-platform',
       'loop-engineering-agentic-loops',
       'orquestacion-multiagente-website-factory',
@@ -70,6 +72,7 @@ export const pillars = [
       '¿Qué responsabilidades siguen siendo del equipo aunque la infraestructura esté en cloud?',
     ],
     articleSlugs: [
+      'floci-emulacion-cloud-local-platform-engineering',
       'uber-h3-soluciones-optimas-ingenieria-arquitectura',
       'quarkus-java-cloud-native-equipos-spring',
       'open-finance-argentina-arquitectura-apis-consentimiento',

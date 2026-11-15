@@ -6,6 +6,1028 @@ import { categories } from './categories.js';
 
 const articleEntries = [
   {
+    slug: 'floci-emulacion-cloud-local-platform-engineering',
+    seoTitle: 'Floci: emulación cloud local para Platform Engineering',
+    seoDescription: 'Qué es Floci, cómo funciona por dentro, un ejemplo con Spring Boot, S3, SQS y Testcontainers, y los límites de emular la nube en una plataforma interna.',
+    title: 'Floci: llevar la nube al entorno local sin perder el control arquitectónico',
+    description: 'Un análisis de Floci, el ecosistema open source que emula AWS, Azure, GCP y OCI en local, desde la perspectiva de Platform Engineering: qué problema resuelve, cómo está construido, un ejemplo reproducible con Spring Boot, S3, SQS y Testcontainers, su lugar en un golden path, la comparación con LocalStack y otras alternativas, y por qué la emulación no reemplaza las pruebas en la nube real.',
+    category: 'Arquitectura y plataforma',
+    tags: ['Platform Engineering', 'Cloud', 'Java'],
+    date: '2026-11-15',
+    readingTime: '15 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['developer-experience-ia-friccion-plataforma', 'harness-engineering-agentes-codigo-guias-sensores', 'quarkus-java-cloud-native-equipos-spring'],
+    contextLabel: 'Análisis técnico · repositorios de floci-io, noviembre de 2026',
+    sourceUrl: 'https://github.com/floci-io',
+    sourceLabel: 'Floci: emuladores cloud locales (GitHub)',
+    lead: 'Un desarrollador necesita validar un cambio en un servicio que guarda archivos en S3 y publica eventos en SQS. La aplicación levanta en su máquina, pero probarla de verdad requiere credenciales de una cuenta de desarrollo, permisos que gestiona otro equipo, una VPN y un ambiente de integración compartido que a esa hora usan otras tres personas. Cada uno de esos pasos agrega espera y variabilidad a un ciclo que debería durar segundos. Este artículo analiza Floci, un ecosistema open source de emuladores cloud locales, a partir de una tesis: la velocidad del feedback es una propiedad del diseño de la plataforma, no un esfuerzo individual de cada desarrollador. Las capacidades que se mencionan son las declaradas en los repositorios oficiales al 15 de noviembre de 2026; las conclusiones son propias y se señalan como tales.',
+    sections: [
+      {
+        title: 'La dependencia invisible de la nube',
+        paragraphs: [
+          'En un equipo que desarrolla aplicaciones cloud-native, levantar el servicio en local no equivale a poder probarlo. El código arranca, pero cada llamada a almacenamiento, colas, secretos o identidad sale de la máquina hacia una cuenta remota. Esa dependencia rara vez aparece en los diagramas de arquitectura y, sin embargo, determina buena parte de la experiencia de desarrollo.',
+          'Sus efectos se acumulan en cuatro lugares. En el **onboarding**, porque una persona nueva no puede ejecutar las pruebas de integración hasta tener acceso a la cuenta correcta. En el **debugging**, porque reproducir un error que depende del estado de un ambiente compartido es difícil y a veces imposible. En el **testing**, porque las pruebas que tocan servicios reales son lentas, costosas o inestables, y terminan desactivándose. Y en la **autonomía**, porque cada ajuste de permisos o de infraestructura de desarrollo pasa por la cola de otro equipo.',
+          'Desde Platform Engineering, el problema no es que los desarrolladores tengan que esperar, sino que la plataforma convierte esa espera en el camino por defecto. Si la forma más fácil de probar un cambio es abrir un pull request y esperar al pipeline, el ciclo de feedback se mide en decenas de minutos aunque el cambio sea trivial. El principio de que el camino correcto debe ser el más fácil aplica también acá: probar contra dependencias realistas debería ser más fácil que no probar.',
+        ],
+      },
+      {
+        title: 'Qué es Floci',
+        paragraphs: [
+          'Floci es una familia de emuladores open source, publicados bajo licencia MIT, que exponen APIs con la forma de los servicios de cuatro nubes en un entorno local. El repositorio principal, [floci](https://github.com/floci-io/floci), emula AWS en el puerto 4566. Lo acompañan [floci-az](https://github.com/floci-io/floci-az) para Azure (puerto 4577), [floci-gcp](https://github.com/floci-io/floci-gcp) para GCP (4588) y [floci-oci](https://github.com/floci-io/floci-oci) para Oracle Cloud (4599). Alrededor de ellos hay una CLI ([floci-cli](https://github.com/floci-io/floci-cli)), una consola web ([floci-ui](https://github.com/floci-io/floci-ui)) que muestra solo lo que devuelven los emuladores, y módulos de Testcontainers para Java, Node.js, Python, .NET y Go.',
+          'Emular una API cloud significa implementar el protocolo de red del servicio, de modo que un cliente estándar, como el AWS SDK, la CLI o Terraform, funcione sin cambios salvo la URL de destino. Conviene distinguirlo de otras tres opciones. Un **mock** reemplaza al cliente dentro del proceso de pruebas y verifica que se lo llamó, pero no ejecuta el protocolo. Un **contenedor con la tecnología real**, como PostgreSQL detrás de una API con forma de RDS, ejecuta el motor auténtico pero no la capa administrada del proveedor. La **infraestructura de producción** es la única que reproduce el comportamiento completo, con sus permisos, cuotas y fallas. Floci combina las dos primeras: emula en proceso la mayoría de las APIs y delega en contenedores reales los servicios donde la fidelidad depende del motor.',
+        ],
+      },
+      {
+        title: 'Arquitectura: cómo funciona por dentro',
+        paragraphs: [
+          'Según el README y el código del repositorio, el emulador de AWS es una aplicación Java construida con Quarkus (versión 3.40.1.1 al momento de esta revisión) y compilada a Java 25, que se distribuye como imagen nativa de GraalVM y como binario independiente. Un enrutador HTTP basado en JAX-RS y Vert.x recibe todas las peticiones en un único puerto y las dirige al servicio correspondiente según el protocolo de AWS de cada llamada.',
+          'Los servicios se dividen en tres grupos. La mayoría, como SQS, SNS, IAM, KMS, Secrets Manager o Step Functions, se emulan en proceso. S3 y DynamoDB también corren en proceso, pero con estado persistible. Un tercer grupo, que incluye Lambda, RDS, ElastiCache, MSK, ECS, EKS y OpenSearch, levanta contenedores Docker reales a través del socket del host: RDS usa `postgres:16-alpine` o `mysql:8.0`, MSK usa Redpanda y EKS usa k3s. Athena ejecuta SQL real mediante un sidecar basado en DuckDB.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Arquitectura del emulador de AWS, según la documentación del repositorio',
+            description: 'Un cliente AWS (SDK, CLI o Terraform) envía peticiones HTTP al puerto 4566. Un enrutador JAX-RS y Vert.x las distribuye a servicios emulados en proceso, a servicios con estado como S3 y DynamoDB, y a servicios respaldados por contenedores Docker como Lambda, RDS o MSK. El estado de los servicios en proceso se guarda en un backend configurable: memoria, persistente, híbrido o write-ahead log.',
+            text: `flowchart LR
+  C["AWS SDK · CLI · Terraform · CDK"] -->|"HTTP :4566 · protocolo AWS"| R["Enrutador HTTP (JAX-RS / Vert.x)"]
+  subgraph F["Floci: imagen nativa de Quarkus + GraalVM"]
+    R --> P["Servicios en proceso: SQS, SNS, IAM, KMS, Secrets Manager, Step Functions…"]
+    R --> E["Servicios con estado: S3, DynamoDB"]
+    R --> K["Servicios con contenedores: Lambda, RDS, ElastiCache, MSK, EKS…"]
+    P --> ST[("Storage: memory · persistent · hybrid · wal")]
+    E --> ST
+  end
+  K -->|"API de Docker"| D["Contenedores reales: Postgres, Valkey, Redpanda, k3s"]`,
+          },
+          {
+            type: 'p',
+            text: 'El estado se configura con `FLOCI_STORAGE_MODE`: `memory` para pruebas efímeras, `persistent` con escritura inmediata a disco, `hybrid` con volcados asíncronos cada cinco segundos y `wal` con un registro previo a cada respuesta. El emulador también aísla recursos por cuenta: si la access key tiene doce dígitos, se usa como ID de cuenta, lo que permite probar flujos entre cuentas en local.',
+          },
+          { type: 'h3', text: 'Los trade-offs del enfoque' },
+          {
+            type: 'ul',
+            items: [
+              '**Un proceso para muchos servicios** simplifica la configuración, pero concentra el riesgo: un defecto en el enrutamiento afecta a todos los servicios a la vez.',
+              '**La emulación en proceso** es rápida y liviana, pero su fidelidad depende de cuánto del comportamiento real se haya reimplementado. Los contenedores reales mejoran la fidelidad del motor a cambio de más recursos y de requerir el socket de Docker, que otorga privilegios amplios sobre el host.',
+              '**La imagen nativa** reduce el tiempo de arranque y la memoria. El proyecto declara alrededor de 24 ms de arranque y 13 MiB de memoria en reposo, frente a 3,3 s y 143 MiB de LocalStack Community; son cifras del propio proyecto, no mediciones independientes.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Del concepto a la práctica: S3 y SQS con Spring Boot',
+        paragraphs: [
+          'El ejemplo implementa un caso frecuente: un servicio recibe un documento por HTTP, lo guarda en S3 y publica un evento en SQS para que otro componente lo procese de forma asíncrona. Usa Java 21, Spring Boot 3.5.16, AWS SDK for Java v2 (2.59.1), JUnit 5, Testcontainers 1.21.4 y `testcontainers-floci` 1.16.0, la línea compatible con Testcontainers 1.x. Para Spring Boot 4 y Testcontainers 2 corresponde la línea 2.x del módulo, cuyo artefacto es `testcontainers-floci-aws`.',
+        ],
+        blocks: [
+          {
+            type: 'note',
+            label: 'Qué se verificó',
+            text: 'El proyecto del ejemplo compila con esas versiones, resueltas desde Maven Central. La prueba de integración no se ejecutó en el entorno donde se escribió este artículo, porque no tenía Docker disponible; por eso no se informan resultados de ejecución.',
+          },
+          {
+            type: 'mermaid',
+            caption: 'El ejemplo en local y en pruebas',
+            description: 'Un cliente envía un documento al endpoint POST /documents. El servicio Spring Boot lo guarda en un bucket S3 y publica un mensaje en una cola SQS. En local y en pruebas, ambos servicios los provee Floci; en la nube, el mismo código usa los servicios reales porque la URL de destino queda vacía.',
+            text: `flowchart LR
+  U["Cliente"] -->|"POST /documents"| A["Servicio Spring Boot"]
+  A -->|"PutObject"| S3[("S3: bucket documents")]
+  A -->|"SendMessage"| Q[["SQS: document-events"]]
+  Q --> W["Procesador asíncrono"]
+  subgraph L["Local y CI: Floci en :4566"]
+    S3
+    Q
+  end`,
+          },
+          { type: 'h3', text: 'Dependencias' },
+          {
+            type: 'code',
+            lang: 'xml',
+            caption: 'pom.xml (fragmento): el BOM del SDK y las dependencias de prueba',
+            text: `<parent>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-parent</artifactId>
+  <version>3.5.16</version>
+</parent>
+
+<dependencyManagement>
+  <dependencies>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>bom</artifactId>
+      <version>2.59.1</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+  </dependencies>
+</dependencyManagement>
+
+<dependencies>
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>software.amazon.awssdk</groupId>
+    <artifactId>s3</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>software.amazon.awssdk</groupId>
+    <artifactId>sqs</artifactId>
+  </dependency>
+  <dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.testcontainers</groupId>
+    <artifactId>junit-jupiter</artifactId>  <!-- 1.21.4, gestionada por Spring Boot -->
+    <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>io.floci</groupId>
+    <artifactId>testcontainers-floci</artifactId>
+    <version>1.16.0</version>
+    <scope>test</scope>
+  </dependency>
+</dependencies>`,
+          },
+          { type: 'h3', text: 'Configuración: el mismo código en local y en la nube' },
+          {
+            type: 'p',
+            text: 'La decisión de diseño más importante del ejemplo es que el código no sabe si habla con Floci o con AWS. La URL del emulador llega por configuración y, cuando está vacía, el SDK usa su resolución estándar de endpoints y credenciales. Así se evita mantener un perfil de código distinto para desarrollo.',
+          },
+          {
+            type: 'code',
+            lang: 'yaml',
+            caption: 'application.yml',
+            text: `app:
+  aws:
+    region: \${AWS_REGION:us-east-1}
+    endpoint: \${AWS_ENDPOINT_URL:}   # vacío en la nube real
+    bucket: \${DOCUMENTS_BUCKET:documents}
+    queue-name: \${DOCUMENTS_QUEUE:document-events}`,
+          },
+          {
+            type: 'code',
+            lang: 'java',
+            caption: 'AwsConfig.java: clientes del SDK con endpoint opcional',
+            text: `@ConfigurationProperties(prefix = "app.aws")
+public record AwsProperties(String region, String endpoint, String bucket, String queueName) {
+    boolean hasEndpointOverride() { return endpoint != null && !endpoint.isBlank(); }
+}
+
+@Configuration
+@EnableConfigurationProperties(AwsProperties.class)
+class AwsConfig {
+
+    @Bean
+    S3Client s3Client(AwsProperties props) {
+        S3ClientBuilder builder = S3Client.builder().region(Region.of(props.region()));
+        if (props.hasEndpointOverride()) {
+            // Solo en local o en pruebas: emulador y URLs path-style.
+            builder.endpointOverride(URI.create(props.endpoint())).forcePathStyle(true);
+        }
+        return builder.build();
+    }
+
+    @Bean
+    SqsClient sqsClient(AwsProperties props) {
+        SqsClientBuilder builder = SqsClient.builder().region(Region.of(props.region()));
+        if (props.hasEndpointOverride()) {
+            builder.endpointOverride(URI.create(props.endpoint()));
+        }
+        return builder.build();
+    }
+}`,
+          },
+          {
+            type: 'code',
+            lang: 'java',
+            caption: 'DocumentService.java: guardar y publicar',
+            text: `@Service
+public class DocumentService {
+
+    private final S3Client s3;
+    private final SqsClient sqs;
+    private final AwsProperties props;
+
+    DocumentService(S3Client s3, SqsClient sqs, AwsProperties props) {
+        this.s3 = s3;
+        this.sqs = sqs;
+        this.props = props;
+    }
+
+    public String store(byte[] content, String contentType) {
+        String id = UUID.randomUUID().toString();
+        String key = "documents/" + id;
+
+        s3.putObject(b -> b.bucket(props.bucket()).key(key).contentType(contentType),
+                RequestBody.fromBytes(content));
+
+        String queueUrl = sqs.getQueueUrl(b -> b.queueName(props.queueName())).queueUrl();
+        sqs.sendMessage(b -> b.queueUrl(queueUrl).messageBody(
+                "{\\"documentId\\":\\"%s\\",\\"bucket\\":\\"%s\\",\\"key\\":\\"%s\\"}"
+                        .formatted(id, props.bucket(), key)));
+        return id;
+    }
+}`,
+          },
+          {
+            type: 'p',
+            text: 'El controlador que expone `POST /documents` solo delega en este servicio y responde `202 Accepted` con el identificador. En un sistema real, el evento debería publicarse con una garantía explícita, por ejemplo mediante el patrón outbox, porque el código anterior puede guardar el archivo y fallar antes de publicar el mensaje. La emulación local no cambia esa responsabilidad de diseño.',
+          },
+          { type: 'h3', text: 'Docker Compose para desarrollo' },
+          {
+            type: 'code',
+            lang: 'yaml',
+            caption: 'compose.yaml: emulador, inicialización de recursos y aplicación',
+            text: `services:
+  floci:
+    image: floci/floci:2.5.0          # versión fija para entornos reproducibles
+    ports:
+      - "4566:4566"
+    environment:
+      FLOCI_HOSTNAME: floci           # las URLs devueltas (QueueUrl) apuntan al servicio, no a localhost
+      FLOCI_STORAGE_MODE: hybrid      # conserva el estado entre reinicios
+
+  init:
+    image: amazon/aws-cli:2.17.0
+    depends_on: [floci]
+    environment:
+      AWS_ENDPOINT_URL: http://floci:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test
+    entrypoint: ["/bin/sh", "-c"]
+    command: >
+      "until aws s3 ls >/dev/null 2>&1; do sleep 1; done;
+       aws s3 mb s3://documents || true;
+       aws sqs create-queue --queue-name document-events"
+
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      init:
+        condition: service_completed_successfully
+    environment:
+      AWS_ENDPOINT_URL: http://floci:4566
+      AWS_REGION: us-east-1
+      AWS_ACCESS_KEY_ID: test
+      AWS_SECRET_ACCESS_KEY: test`,
+          },
+          {
+            type: 'p',
+            text: 'El servicio `init` crea los recursos con la AWS CLI estándar. En un equipo que ya define su infraestructura con Terraform u OpenTofu, la alternativa más coherente es aplicar los mismos módulos contra Floci, que el proyecto declara compatible con el proveedor oficial de AWS: así el entorno local se deriva de la misma fuente que producción.',
+          },
+          { type: 'h3', text: 'Prueba de integración automatizada' },
+          {
+            type: 'code',
+            lang: 'java',
+            caption: 'DocumentServiceIntegrationTest.java: un emulador aislado por ejecución',
+            text: `@SpringBootTest
+@Testcontainers
+class DocumentServiceIntegrationTest {
+
+    @Container
+    static FlociContainer floci = new FlociContainer("floci/floci:2.5.0")
+            .withDockerSocket(false); // S3 y SQS corren en proceso: sin socket de Docker
+
+    @DynamicPropertySource
+    static void awsProperties(DynamicPropertyRegistry registry) {
+        registry.add("app.aws.endpoint", floci::getEndpoint);
+        registry.add("app.aws.region", floci::getRegion);
+        // La cadena de credenciales por defecto del SDK lee estas propiedades del sistema.
+        System.setProperty("aws.accessKeyId", floci.getAccessKey());
+        System.setProperty("aws.secretAccessKey", floci.getSecretKey());
+    }
+
+    @Autowired DocumentService documents;
+    @Autowired S3Client s3;
+    @Autowired SqsClient sqs;
+    @Autowired AwsProperties props;
+
+    @BeforeAll
+    static void createResources(@Autowired S3Client s3, @Autowired SqsClient sqs,
+                                @Autowired AwsProperties props) {
+        s3.createBucket(b -> b.bucket(props.bucket()));
+        sqs.createQueue(b -> b.queueName(props.queueName()));
+    }
+
+    @Test
+    void storesTheDocumentAndPublishesAnEvent() {
+        String id = documents.store("hola".getBytes(StandardCharsets.UTF_8), "text/plain");
+
+        String stored = s3.getObjectAsBytes(b -> b.bucket(props.bucket()).key("documents/" + id))
+                .asUtf8String();
+        assertThat(stored).isEqualTo("hola");
+
+        String queueUrl = sqs.getQueueUrl(b -> b.queueName(props.queueName())).queueUrl();
+        var messages = sqs.receiveMessage(b -> b.queueUrl(queueUrl)
+                .waitTimeSeconds(2).maxNumberOfMessages(1)).messages();
+        assertThat(messages).extracting(Message::body).singleElement().asString().contains(id);
+    }
+}`,
+          },
+          {
+            type: 'p',
+            text: 'Dos detalles merecen atención. El primero es fijar la versión de la imagen: `FlociContainer()` sin argumentos usa `floci/floci:latest`, y el proyecto publica versiones estables dos veces por mes, de modo que una prueba sin versión fija puede cambiar de comportamiento sin que cambie el código. El segundo es `withDockerSocket(false)`: el módulo monta el socket de Docker de forma automática cuando algún servicio habilitado lo necesita, y todos están habilitados por defecto. Para un servicio que solo usa S3 y SQS, desactivarlo reduce los privilegios que la prueba otorga al contenedor.',
+          },
+          { type: 'h3', text: 'Ejecución en CI' },
+          {
+            type: 'code',
+            lang: 'yaml',
+            caption: '.github/workflows/ci.yml: Testcontainers en un runner con Docker',
+            text: `name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+      - run: ./mvnw -B verify`,
+          },
+          {
+            type: 'p',
+            text: 'Los runners de GitHub Actions basados en Ubuntu incluyen Docker, por lo que Testcontainers puede crear el emulador sin pasos adicionales. Cada ejecución obtiene una instancia aislada, sin estado compartido con otras ramas ni con otras personas.',
+          },
+        ],
+      },
+      {
+        title: 'Floci como componente de una Internal Developer Platform',
+        paragraphs: [
+          'El valor de un emulador crece cuando deja de ser una herramienta que cada equipo configura por su cuenta y pasa a formar parte de un golden path. La experiencia deseada se puede describir en una frase: una persona crea un servicio desde una plantilla, ejecuta un comando y obtiene una aplicación funcional con sus dependencias cloud emuladas y sus pruebas de integración en verde.',
+          'Conviene separar lo que existe de lo que es una propuesta. Lo que el ecosistema ofrece hoy, según sus repositorios, incluye la CLI con comandos `start`, `wait`, `env` y `stop` pensados para CI; los módulos de Testcontainers en cinco lenguajes; compatibilidad declarada con Terraform, OpenTofu y CDK, respaldada por pruebas automatizadas en el repositorio; un chart de Helm para Kubernetes; compatibilidad con la configuración y los scripts de inicialización de LocalStack; y una skill para agentes de programación. Lo que sigue es una propuesta de arquitectura, no una integración existente.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Plantilla en Backstage** (u otro portal interno) que genere el servicio con `compose.yaml`, la prueba de integración con Testcontainers y la versión de Floci fijada por la plataforma.',
+              '**Módulos de Terraform u OpenTofu compartidos** que se apliquen contra Floci en local y contra la cuenta real en los ambientes, de modo que el entorno de desarrollo y el de producción provengan de la misma definición.',
+              '**Un workflow reutilizable de CI** que ejecute las pruebas contra el emulador y deje para una etapa posterior las pruebas de humo en la nube.',
+              '**Una versión de Floci gestionada por la plataforma**, actualizada de forma deliberada y con pruebas de regresión propias, porque el ritmo de cambios del proyecto es alto.',
+              '**Onboarding automatizado**: la primera tarea de una persona nueva es ejecutar las pruebas de integración en su máquina, sin solicitar ningún acceso.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Impacto en Developer Experience',
+        paragraphs: [
+          'No hay datos públicos e independientes que cuantifiquen el impacto de Floci en la productividad, y este artículo no los inventa. Lo que sí puede hacerse es identificar dónde debería notarse y cómo medirlo antes y después de adoptarlo.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Dónde debería notarse el cambio y cómo medirlo',
+            head: ['Dimensión', 'Hipótesis', 'Cómo medirla'],
+            rows: [
+              ['Tiempo hasta el primer entorno funcional', 'Baja, porque no requiere solicitar accesos', 'Tiempo desde el alta hasta la primera ejecución verde de las pruebas de integración'],
+              ['Tiempo de feedback', 'Baja, porque las pruebas corren en la máquina', 'Duración de la suite de integración en local y en CI'],
+              ['Dependencia de ambientes compartidos', 'Disminuye', 'Cantidad de reservas o conflictos en el ambiente de integración'],
+              ['Reproducibilidad', 'Mejora, con versiones fijas', 'Tasa de pruebas inestables (flaky) en CI'],
+              ['Autonomía', 'Aumenta', 'Tickets a plataforma por accesos o recursos de desarrollo'],
+              ['Costo cloud de desarrollo y testing', 'Puede bajar', 'Gasto de las cuentas de desarrollo y CI, por servicio'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Estas métricas se conectan con las de [DORA](https://dora.dev/): el tiempo de entrega de cambios incluye el tiempo que un cambio espera a ser validado, y la tasa de fallas de cambio es la contracara que hay que vigilar. Si la emulación acelera el feedback pero deja pasar más errores a producción, el resultado neto es negativo. Por eso conviene medir las dos cosas a la vez, junto con una encuesta breve de experiencia de desarrollo.',
+          },
+        ],
+      },
+      {
+        title: 'Floci frente a LocalStack y otras alternativas',
+        paragraphs: [
+          'La comparación más inmediata es con LocalStack, el emulador de AWS más difundido. En marzo de 2026, LocalStack [anunció](https://blog.localstack.cloud/the-road-ahead-for-localstack/) que su emulador pasaba a distribuirse como una imagen unificada que requiere un token de autenticación, y que ya no podía comprometerse a actualizar con regularidad la edición Community. Floci se presenta explícitamente como reemplazo directo de esa edición: usa el mismo puerto, traduce variables de entorno de LocalStack y ejecuta sus scripts de inicialización sin cambios.',
+          'Ese origen explica parte de su crecimiento, pero también obliga a leer sus comparaciones con cuidado. La tabla de su README contrasta Floci con LocalStack Community, no con las ediciones comerciales, y las cifras de arranque y memoria son del propio proyecto. Además del emulador de AWS, existen alternativas consolidadas para otros contextos.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Alternativas de emulación local, sin un ganador universal',
+            head: ['Criterio', 'Floci', 'LocalStack', 'Moto', 'Azurite', 'Emuladores de gcloud'],
+            rows: [
+              ['Alcance', 'AWS, Azure, GCP y OCI; más de cien servicios de AWS declarados', 'AWS, con una larga trayectoria', 'AWS, como biblioteca de Python o servidor', 'Azure Storage: Blob, Queue y Table', 'Pub/Sub, Firestore, Datastore, Bigtable, Spanner'],
+              ['Fidelidad', 'Protocolo en proceso y contenedores reales para motores', 'A evaluar por servicio', 'Mocks del protocolo; menor fidelidad en servicios complejos', 'Alta para el alcance que cubre', 'Oficial, para cada servicio'],
+              ['Licencia', 'MIT', 'Imagen unificada que requiere token desde marzo de 2026', 'Apache 2.0', 'MIT', 'Parte del SDK de Google Cloud'],
+              ['Integración con SDK', 'SDK estándar con endpoint configurable', 'SDK estándar con endpoint configurable', 'Decoradores en Python o modo servidor', 'Connection strings de Azure', 'Variables de entorno del emulador'],
+              ['CI y Testcontainers', 'Módulos propios en cinco lenguajes', 'Módulo oficial de Testcontainers', 'Sin contenedor en modo biblioteca', 'Módulo de Testcontainers', 'Módulos de Testcontainers para varios servicios'],
+              ['Madurez', 'Proyecto de nueve meses, con ritmo de cambios muy alto', 'Producto establecido', 'Proyecto maduro', 'Mantenido por Microsoft', 'Mantenidos por Google'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Los indicadores de madurez de Floci son llamativos y ambiguos a la vez. El repositorio principal se creó el 18 de febrero de 2026 y, al 15 de noviembre, tenía más de 31.000 estrellas, unos 170 contribuidores, más de 5.300 pull requests fusionados, más de 2.400 issues cerrados y alrededor de 170 abiertos, con 63 versiones publicadas y un tren de releases los días 15 y último de cada mes. El directorio de compatibilidad declara 2.576 pruebas automatizadas sobre cinco SDKs y tres herramientas de infraestructura como código. Es evidencia de actividad y de una comunidad amplia, pero un proyecto de nueve meses no tiene todavía un historial de estabilidad a largo plazo, y la cadencia de cambios exige fijar versiones.',
+          },
+        ],
+      },
+      {
+        title: 'Los límites de la emulación',
+        paragraphs: [
+          'La emulación local reduce dependencias, pero no reproduce la nube. Algunas diferencias son de diseño y la propia documentación las declara; otras son inherentes a cualquier emulador.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**IAM y seguridad.** Por defecto, Floci no verifica firmas SigV4 y acepta cualquier credencial no vacía. La evaluación de políticas IAM existe, pero se activa de forma explícita con `FLOCI_SERVICES_IAM_ENFORCEMENT_ENABLED`, y la documentación recomienda dejarla desactivada en la mayoría de los escenarios locales. Una prueba verde en local no demuestra que los permisos de producción sean correctos.',
+              '**Networking.** VPC, grupos de seguridad, endpoints privados, DNS y TLS de producción no se reproducen con fidelidad. En el emulador de Azure, la mayoría de los servicios corre por HTTP plano salvo que se habilite TLS.',
+              '**Latencia, cuotas y límites.** El emulador responde en milisegundos y su catálogo de cuotas usa valores estáticos generosos. Un sistema que funciona en local puede encontrar throttling, límites de tamaño o latencias reales que cambian su comportamiento.',
+              '**Consistencia y fallas.** Las fallas parciales, los reintentos del lado del proveedor y los comportamientos de consistencia de un servicio distribuido no aparecen en un proceso local. Incluso la emulación de AWS FIS es, según su documentación, una simulación del plano de control que no inyecta fallas en otros servicios.',
+              '**Servicios administrados y stubs.** Varios servicios están implementados como stubs: Bedrock Runtime devuelve respuestas ficticias y Textract o Transcribe completan trabajos sin procesar contenido real. Sirven para probar el flujo de integración, no el resultado.',
+              '**Performance.** Ninguna medición hecha contra un emulador local es representativa del rendimiento en la nube.',
+            ],
+          },
+          { type: 'h3', text: 'Una estrategia de pruebas por capas' },
+          {
+            type: 'table',
+            caption: 'Qué valida cada capa y dónde conviene ejecutarla',
+            head: ['Capa', 'Qué valida', 'Dónde corre'],
+            rows: [
+              ['Unit tests', 'Lógica de negocio sin dependencias externas', 'Local y CI, en cada cambio'],
+              ['Integración con emulación local', 'Uso correcto del SDK, serialización, flujos entre servicios', 'Local y CI, en cada cambio, contra Floci'],
+              ['Contrato y compatibilidad', 'Formato de eventos y APIs entre productores y consumidores', 'CI, en cada cambio'],
+              ['Smoke tests en la nube real', 'Permisos IAM, networking, configuración real', 'Ambiente de staging, en cada despliegue'],
+              ['Resiliencia y performance', 'Cuotas, latencias, comportamiento ante fallas', 'Ambientes dedicados, de forma periódica'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La emulación mueve hacia la izquierda la mayor parte de las pruebas de integración, que son las más frecuentes, y deja en la nube real las que dependen de lo que solo la nube real tiene. El error de adopción más probable no es técnico: es eliminar las pruebas en la nube porque las pruebas locales pasan.',
+          },
+        ],
+      },
+      {
+        title: 'Cloud local y desarrollo asistido por agentes',
+        paragraphs: [
+          'Los agentes de programación necesitan lo mismo que las personas para trabajar con autonomía: un entorno aislado, reproducible y con feedback automático. En términos de [harness engineering](/blog/harness-engineering-agentes-codigo-guias-sensores/), una suite de integración contra un emulador local es un sensor computacional: determinista, barato y ejecutable en cada cambio. En términos de [Loop Engineering](/blog/loop-engineering-agentic-loops/), es el verificador que cierra cada iteración del ciclo.',
+          'Un flujo posible: el agente recibe una especificación, implementa la funcionalidad, ejecuta las pruebas contra Floci, lee los errores, corrige el código y repite hasta que las pruebas pasan o se agota un límite de iteraciones; recién entonces propone un pull request para revisión humana. El aislamiento tiene además un beneficio de seguridad: el agente trabaja sin credenciales reales, de modo que un error no puede crear ni borrar recursos de una cuenta. La CLI de Floci incluye una skill para agentes, compatible con herramientas como Claude Code, Codex o Cursor, que les indica cómo configurar los clientes contra los emuladores en lugar de la nube real.',
+        ],
+        blocks: [
+          {
+            type: 'note',
+            label: 'El límite de este ciclo',
+            text: 'Un agente que valida contra un emulador comprueba que su código usa bien las APIs, no que el sistema funcione en la nube. Los permisos, la red, las cuotas y las fallas reales quedan fuera de su verificación, y por eso la revisión humana y las pruebas en un ambiente real siguen siendo parte del ciclo.',
+          },
+        ],
+      },
+      {
+        title: 'Conclusión: plataformas que eliminan fricción',
+        paragraphs: [
+          'Desde la gestión de ingeniería, la pregunta no es si Floci es mejor que otra herramienta, sino qué dependencia elimina y qué responsabilidad nueva introduce. Elimina la necesidad de una cuenta cloud y de un ambiente compartido para la mayoría de las pruebas de integración. Introduce la responsabilidad de gestionar la versión del emulador, de conocer qué servicios se emulan con fidelidad suficiente y de mantener las pruebas en la nube real donde la emulación no alcanza.',
+          'La adopción conviene hacerla de forma gradual: empezar por un servicio con dependencias simples, como S3, SQS o DynamoDB; medir el tiempo de feedback y la tasa de pruebas inestables antes y después; fijar la versión del emulador en la plataforma; y recién entonces incorporarlo a la plantilla de servicios. Si las métricas no mejoran o aparecen más fallas en producción, la decisión correcta es revisar el alcance, no extenderlo.',
+          'La lección transferible va más allá de esta herramienta. La velocidad del feedback no depende solo de la disciplina de cada equipo: es una propiedad que la plataforma habilita o impide. Una plataforma que logra que probar contra dependencias realistas sea más fácil que no probar está haciendo, en la práctica, que el camino correcto sea el más fácil.',
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'Floci. [floci-io en GitHub](https://github.com/floci-io): [floci](https://github.com/floci-io/floci), [floci-az](https://github.com/floci-io/floci-az), [floci-gcp](https://github.com/floci-io/floci-gcp), [floci-oci](https://github.com/floci-io/floci-oci), [floci-cli](https://github.com/floci-io/floci-cli), [floci-ui](https://github.com/floci-io/floci-ui) y [testcontainers-floci](https://github.com/floci-io/testcontainers-floci). Consultados el 15 de noviembre de 2026.',
+              'Floci. [Documentación oficial](https://floci.io/).',
+              'LocalStack. [The Road Ahead for LocalStack](https://blog.localstack.cloud/the-road-ahead-for-localstack/).',
+              'Moto. [Mock AWS Services](https://github.com/getmoto/moto).',
+              'Microsoft. [Azurite](https://github.com/Azure/Azurite).',
+              'Google Cloud. [Emuladores locales de gcloud](https://cloud.google.com/sdk/gcloud/reference/beta/emulators).',
+              'Testcontainers. [Documentación para Java](https://java.testcontainers.org/).',
+              'DORA. [dora.dev](https://dora.dev/).',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: Floci reduce la dependencia de cuentas y ambientes compartidos para la mayoría de las pruebas de integración, y lo hace con un enfoque que combina emulación en proceso y contenedores reales. No reemplaza la nube: IAM, networking, cuotas y fallas siguen requiriendo pruebas en un ambiente real. Su valor depende de integrarlo en la plataforma con versiones fijas, una estrategia de pruebas por capas y métricas que confirmen que el feedback más rápido no se paga con más fallas en producción.',
+  },
+  {
+    slug: 'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia',
+    seoTitle: 'Tooling para equipos de alto desempeño: sistemas con IA',
+    seoDescription: 'Cómo pasar de herramientas aisladas a un sistema de trabajo integrado con IA: capas, skills y MCP, gobernanza, métricas y una hoja de ruta de 90 días.',
+    title: 'Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA',
+    description: 'Un análisis desde Engineering Management sobre cómo diseñar el sistema de trabajo de un equipo de ingeniería: un modelo de seis capas, el plugin de ingeniería de Anthropic como caso de estudio, la diferencia entre tools, skills, MCP, workflows, agentes y harness, un caso práctico de extremo a extremo, métricas de impacto, riesgos y una hoja de ruta de adopción de 90 días.',
+    category: 'Liderazgo y producto',
+    tags: ['Liderazgo', 'IA', 'Platform Engineering'],
+    date: '2026-11-14',
+    readingTime: '15 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['developer-experience-ia-friccion-plataforma', 'harness-engineering-agentes-codigo-guias-sensores', 'ia-no-cambia-solo-herramienta-liderazgo-operacion'],
+    contextLabel: 'Análisis · Engineering Management y Developer Experience',
+    sourceUrl: 'https://github.com/anthropics/knowledge-work-plugins/tree/e91a134584eb798bac7fb0379358006a2b63b965/engineering',
+    sourceLabel: 'Anthropic: plugin de ingeniería de knowledge-work-plugins',
+    lead: 'Un equipo trabaja con GitHub, Jira, Slack, Confluence, dashboards de observabilidad y pipelines de CI/CD. Tiene todas las herramientas que se esperan de un equipo moderno y, aun así, las decisiones quedan dispersas en hilos de chat, el standup consiste en reconstruir de memoria lo que pasó ayer, las revisiones de código dependen de dos personas que conocen el sistema y cada incidente produce información que rara vez se convierte en aprendizaje. Este artículo sostiene una tesis: un equipo de alto desempeño no es el que tiene más herramientas ni el que usa más inteligencia artificial, sino el que logra reducir el costo de coordinación, preservar el conocimiento, automatizar el trabajo repetitivo y mejorar la calidad de sus decisiones. Para desarrollarla, usa como caso de estudio el plugin de ingeniería que Anthropic publicó en su repositorio knowledge-work-plugins.',
+    sections: [
+      {
+        title: 'El problema no es la falta de herramientas',
+        paragraphs: [
+          'Cada herramienta de ese equipo resuelve bien su parte: GitHub guarda el código, Jira el estado del trabajo, Slack las conversaciones, el sistema de monitoreo las métricas. El problema aparece entre ellas. La información necesaria para tomar una decisión casi nunca vive en un solo lugar, y alguien tiene que recorrer varias fuentes, reconstruir el contexto e interpretarlo. Ese trabajo de integración lo hacen las personas, a mano y de forma repetida.',
+          'Dos conceptos ayudan a nombrarlo. La **carga cognitiva**, que Team Topologies propone como una restricción de diseño de los equipos: cuanto más contexto ajeno a su tarea principal debe sostener un equipo, menos capacidad le queda para esa tarea. Y el **costo de coordinación**: el tiempo que se dedica a sincronizar, buscar información, esperar respuestas y reconstruir decisiones. Agregar herramientas sin integrarlas suele aumentar ambos, porque multiplica los lugares donde puede estar la información.',
+          'Por eso la cantidad de herramientas no predice el desempeño. Lo que importa es si el conjunto funciona como un sistema: si la información fluye entre las fuentes, si las prácticas del equipo están incorporadas en la forma de trabajar y si cada ciclo deja al equipo mejor preparado para el siguiente.',
+        ],
+      },
+      {
+        title: 'Del tooling individual al sistema de trabajo del equipo',
+        paragraphs: [
+          'Para pasar de herramientas a sistema, resulta útil pensar en capas, cada una con una responsabilidad distinta. El modelo que sigue es una propuesta propia, no un estándar.',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Fuentes de verdad:** el código, los tickets, la documentación, las decisiones registradas y las métricas. Son los sistemas de registro.',
+              '**Integraciones:** APIs, conectores y servidores MCP que exponen esas fuentes a otras herramientas, incluidas las de IA.',
+              '**Capacidades reutilizables:** skills, comandos, reglas y automatizaciones que codifican cómo el equipo hace una tarea.',
+              '**Workflows:** secuencias orientadas a un resultado, como revisar un cambio, depurar un error, desplegar o gestionar un incidente.',
+              '**Gobernanza:** permisos, aprobaciones humanas, controles deterministas y trazabilidad.',
+              '**Aprendizaje:** feedback, métricas y revisión que modifican las capas anteriores.',
+            ],
+          },
+          {
+            type: 'mermaid',
+            caption: 'Arquitectura de un sistema de trabajo de ingeniería con IA',
+            description: 'Seis capas apiladas. Las fuentes de verdad (código, tickets, documentación, métricas) se exponen mediante integraciones y MCP. Sobre ellas, las capacidades reutilizables (skills, comandos, reglas) alimentan los workflows (revisión, debugging, despliegue, incidentes, decisiones). La gobernanza envuelve a los workflows con permisos, aprobaciones y auditoría. El aprendizaje toma los resultados y actualiza las capacidades y las fuentes.',
+            text: `flowchart TB
+  subgraph L1["1 · Fuentes de verdad"]
+    A1["Código"] --- A2["Tickets"] --- A3["Docs y ADR"] --- A4["Métricas y logs"]
+  end
+  subgraph L2["2 · Integraciones"]
+    B["APIs · conectores · servidores MCP"]
+  end
+  subgraph L3["3 · Capacidades reutilizables"]
+    C["Skills · comandos · reglas · automatizaciones"]
+  end
+  subgraph L4["4 · Workflows"]
+    D["Revisión · debugging · despliegue · incidentes · decisiones"]
+  end
+  subgraph L5["5 · Gobernanza"]
+    E["Menor privilegio · aprobación humana · controles deterministas · auditoría"]
+  end
+  subgraph L6["6 · Aprendizaje"]
+    F["Feedback · métricas · postmortems · revisión de estándares"]
+  end
+  L1 --> L2 --> L3 --> L4
+  L5 -. controla .-> L4
+  L4 --> L6
+  L6 -->|"actualiza"| L3
+  L6 -->|"registra"| L1`,
+          },
+          {
+            type: 'p',
+            text: 'Las capas interactúan en dos direcciones. Hacia arriba, cada workflow consume capacidades, que a su vez dependen de integraciones con las fuentes de verdad. Hacia abajo, el aprendizaje modifica las capacidades y deja registro en las fuentes. Un equipo que solo invierte en las capas 2 y 3, conectores y prompts, obtiene velocidad sin dirección; uno que descuida la capa 5 obtiene velocidad sin control.',
+          },
+        ],
+      },
+      {
+        title: 'El plugin de ingeniería de Anthropic como caso de estudio',
+        paragraphs: [
+          'El repositorio [knowledge-work-plugins](https://github.com/anthropics/knowledge-work-plugins), con licencia Apache 2.0, contiene plugins para distintos tipos de trabajo. El de ingeniería, en su versión 1.2.0 al commit `e91a134`, se describe como diseñado principalmente para Cowork, la aplicación de escritorio de Anthropic, aunque también funciona en Claude Code. Su contenido es deliberadamente simple: diez skills escritas en Markdown, un archivo de conectores y una configuración de servidores MCP.',
+          'Seis de esas skills se invocan como comandos (`/standup`, revisión de código, `/architecture`, `/debug`, gestión de incidentes y `/deploy-checklist`) y cuatro se activan automáticamente cuando el tema es relevante: diseño de sistemas, deuda técnica, estrategia de testing y documentación. Cada skill tiene una descripción que indica cuándo usarla, un procedimiento, un formato de salida y una sección que explica qué hacer si hay conectores disponibles. Hay un detalle menor pero ilustrativo: el README presenta los comandos como `/review` e `/incident`, mientras que las skills se llaman `code-review` e `incident-response`. Incluso un catálogo pequeño necesita mantenimiento.',
+          'Dos decisiones de diseño son más interesantes que los comandos en sí. La primera es la **independencia de herramientas**: las skills no nombran productos, sino categorías mediante marcadores como `~~source control` o `~~monitoring`, y el archivo de conectores mapea cada categoría a servidores concretos. La configuración `.mcp.json` incluye servidores HTTP para Slack, Linear, Asana, Atlassian, Notion, GitHub, PagerDuty y Datadog, y no incluye ninguno para CI/CD. La segunda es el modo **standalone o supercharged**: cada comando funciona con lo que la persona describe o pega, y mejora cuando hay conectores. La práctica queda separada de la integración.',
+          'Lo que el plugin no hace también importa. No ejecuta controles deterministas ni impone aprobaciones: el checklist de despliegue es un documento que la persona completa, no un gate del pipeline. La gobernanza queda a cargo del entorno que lo ejecuta y del sistema de CI/CD del equipo. Es razonable que así sea, pero significa que adoptar el plugin no equivale a tener un proceso controlado.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Workflows manuales frente a asistidos, a partir de las skills del plugin (el beneficio y la métrica son propuestas propias)',
+            head: ['Workflow', 'Problema original', 'Qué aporta la skill', 'Responsabilidad humana', 'Riesgo principal', 'Métrica útil'],
+            rows: [
+              ['Standup', 'Reconstruir de memoria commits, PRs y tickets', 'Formato ayer/hoy/bloqueos; con conectores, toma commits, PRs, tickets y conversaciones', 'Agregar matices, prioridades y bloqueos reales', 'Confundir actividad con progreso; uso como vigilancia', 'Tiempo de preparación; bloqueos detectados antes'],
+              ['Revisión de código', 'Dependencia de pocos revisores', 'Revisión estructurada en seguridad, performance, corrección y mantenibilidad, con veredicto', 'Aprobar o rechazar; juzgar diseño y contexto', 'Reviews superficiales que se aprueban por confianza', 'Defectos encontrados después del merge; tiempo de revisión'],
+              ['Decisiones de arquitectura', 'Decisiones sin registro ni alternativas', 'ADR con contexto, opciones, trade-offs, consecuencias y tareas', 'Elegir, firmar y asumir la decisión', 'ADR plausibles pero sin restricciones reales', 'Decisiones revisadas con su ADR; retrabajo por decisiones'],
+              ['Incidentes', 'Comunicación desordenada y postmortems que no se escriben', 'Severidad SEV1–4, roles, actualizaciones de estado y postmortem blameless con 5 porqués', 'Comandar el incidente y decidir mitigaciones', 'Diagnóstico confiado con contexto incompleto', 'Tiempo hasta el postmortem; incidentes recurrentes'],
+              ['Despliegue', 'Pasos olvidados y criterios de rollback improvisados', 'Checklist antes, durante y después, con disparadores de rollback definidos de antemano', 'Ejecutar el despliegue y decidir el rollback', 'Tratar un checklist como un control', 'Tasa de fallas de cambio; tiempo de recuperación'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Tools, skills, MCP, workflows, agentes y harness',
+        paragraphs: [
+          'Estos términos se usan como sinónimos y no lo son. Distinguirlos ayuda a decidir en qué invertir.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Tool:** una capacidad para ejecutar o consultar una acción concreta, como leer un pull request o consultar una métrica.',
+              '**Skill:** conocimiento e instrucciones reutilizables para hacer bien una tarea. Una skill no ejecuta nada por sí misma; orienta cómo se usan las tools.',
+              '**MCP:** el [Model Context Protocol](https://modelcontextprotocol.io/), un protocolo abierto para conectar aplicaciones de IA con sistemas externos. Estandariza cómo se exponen las tools, no qué se hace con ellas.',
+              '**Workflow:** una secuencia coordinada de pasos orientada a un resultado, con puntos de decisión.',
+              '**Agente:** un sistema que razona sobre un objetivo y usa las capacidades disponibles dentro de límites definidos.',
+              '**Harness:** el entorno que rodea al agente con contexto, herramientas, restricciones, evaluación y mecanismos de control, como se analiza en [este artículo sobre harness engineering](/blog/harness-engineering-agentes-codigo-guias-sensores/).',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'En una revisión de pull request, las piezas se combinan así: el servidor MCP de GitHub expone la tool que obtiene el diff; la skill de revisión indica qué dimensiones evaluar y qué formato entregar; el agente ejecuta el procedimiento; el workflow define que la revisión asistida ocurre después de que el pipeline pasa y antes de la revisión humana; y el harness aporta los controles deterministas, como tests, análisis estático y reglas de arquitectura, además de los permisos que impiden que el agente apruebe o fusione el cambio. Ninguna pieza sustituye a las otras.',
+          },
+        ],
+      },
+      {
+        title: 'Golden paths para el trabajo diario',
+        paragraphs: [
+          'En Platform Engineering, un golden path es el camino recomendado y soportado para una tarea frecuente, normalmente crear un servicio o aprovisionar infraestructura. La idea se puede extender al trabajo diario: incorporar a una persona nueva, abrir y revisar un pull request, documentar una decisión, resolver un incidente, preparar un despliegue o gestionar deuda técnica. En cada caso, el estándar del equipo debería estar incorporado en la herramienta, no en una página de wiki que nadie consulta.',
+          'Las skills son un vehículo natural para esto, porque convierten una práctica implícita en una capacidad explícita y versionada. La skill de deuda técnica del plugin, por ejemplo, propone una fórmula de priorización explícita: impacto más riesgo, multiplicado por seis menos el esfuerzo. Se puede discutir la fórmula, pero tenerla escrita permite discutirla. Bajo el enfoque de Platform as a Product, estas capacidades deberían tratarse como un producto interno: con usuarios, feedback, versiones y la libertad de no usarlas cuando no aplican. Un golden path que se impone por obligación deja de ser un camino fácil y se convierte en burocracia.',
+        ],
+      },
+      {
+        title: 'Alto desempeño sin burocracia',
+        paragraphs: [
+          'Buena parte del valor inmediato está en reducir trabajo administrativo: standups escritos y asíncronos que parten de un borrador generado a partir de la actividad real, reportes que se arman solos, documentación generada y luego revisada, y una conexión directa entre tickets, código y resultados que permite detectar bloqueos antes de la reunión semanal.',
+          'Conviene separar dos cosas que suelen mezclarse: automatizar la **recopilación** de información y automatizar la **interpretación** del trabajo humano. La primera es útil y de bajo riesgo. La segunda, como resumir el desempeño de una persona a partir de sus commits, es peligrosa: confunde actividad con aporte y convierte la herramienta en un mecanismo de vigilancia. Un standup generado debería ser un borrador para la persona, no un informe sobre ella. Si el equipo percibe que la herramienta lo observa, dejará de usarla o empezará a optimizar lo que mide.',
+        ],
+      },
+      {
+        title: 'La IA como acelerador del aprendizaje organizacional',
+        paragraphs: [
+          'El aporte más duradero no es hacer más rápido una tarea, sino reducir el costo de convertir experiencia en conocimiento reutilizable. Dos ciclos lo muestran. En el primero, un incidente se investiga, se documenta en un postmortem, el aprendizaje se traduce en un runbook o una skill actualizada y eso previene o acorta el siguiente incidente. En el segundo, una decisión de arquitectura se registra en un ADR, se implementa, se observa con métricas y se revisa, y la revisión ajusta el estándar del equipo.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Dos ciclos de aprendizaje organizacional',
+            description: 'Ciclo de incidentes: incidente, investigación, postmortem, aprendizaje, skill o runbook actualizado y prevención, que vuelve a reducir la probabilidad del incidente. Ciclo de decisiones: decisión arquitectónica, ADR, implementación, métricas, revisión y evolución del estándar, que vuelve a orientar la próxima decisión.',
+            text: `flowchart LR
+  subgraph I["Ciclo de incidentes"]
+    I1["Incidente"] --> I2["Investigación"] --> I3["Postmortem"] --> I4["Aprendizaje"] --> I5["Skill o runbook actualizado"] --> I6["Prevención"]
+    I6 -.-> I1
+  end
+  subgraph D["Ciclo de decisiones"]
+    D1["Decisión"] --> D2["ADR"] --> D3["Implementación"] --> D4["Métricas"] --> D5["Revisión"] --> D6["Estándar actualizado"]
+    D6 -.-> D1
+  end`,
+          },
+          {
+            type: 'p',
+            text: 'La IA reduce el costo de cada paso: reconstruir la línea de tiempo, redactar el primer borrador del postmortem, proponer alternativas para un ADR. Lo que no puede hacer es decidir qué se aprendió. Es la misma lógica de [Loop Engineering](/blog/loop-engineering-agentic-loops/) aplicada a la organización: un ciclo solo mejora si tiene una señal de salida y alguien que la evalúe. Y es una cuestión de context engineering: el aprendizaje que no queda registrado en una fuente de verdad no está disponible para el próximo ciclo, ni para las personas ni para los agentes.',
+          },
+        ],
+      },
+      {
+        title: 'Caso práctico: una alerta de latencia de extremo a extremo',
+        paragraphs: [
+          'El escenario es ficticio e ilustrativo. Nexo Logística, una empresa inventada, tiene un equipo de plataforma de cinco personas que mantiene servicios Java con Spring Boot desplegados en Kubernetes sobre AWS. Usa GitHub, Jira, GitHub Actions, SonarQube, New Relic y Backstage como portal interno, y Claude Code con servidores MCP para GitHub, Jira y su herramienta de monitoreo. Un martes a las 10:40, una alerta indica que la latencia p95 del servicio `order-pricing` subió de forma sostenida.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Qué se asiste con IA, qué verifican los controles automáticos y qué decide una persona (escenario ficticio)',
+            head: ['Paso', 'Asistido con IA', 'Verificación automática', 'Responsabilidad humana'],
+            rows: [
+              ['Triage', 'Resume la alerta, las métricas del servicio y propone una severidad con la skill de incidentes', 'Umbrales de alerta y SLO definidos en el monitoreo', 'La persona de guardia confirma la severidad y asume el rol de incident commander'],
+              ['Contexto', 'Cruza despliegues recientes, PRs fusionados y tickets: un cambio de ayer agregó una consulta por cada ítem del pedido', 'Registro de despliegues de GitHub Actions y catálogo de Backstage', 'Validar que la correlación tiene sentido'],
+              ['Diagnóstico', 'Con la skill de debug, formula hipótesis y señala un patrón N+1', 'Trazas distribuidas que confirman el aumento de llamadas a la base', 'Aceptar o descartar la causa raíz'],
+              ['Mitigación', 'Redacta las actualizaciones de estado', 'Rollback automatizado del despliegue', 'Decidir el rollback y comunicar'],
+              ['Decisión técnica', 'Borrador de ADR: consulta agregada frente a caché', 'Prueba de carga comparativa en staging', 'Elegir la opción y registrar el ADR'],
+              ['Corrección y revisión', 'Implementa el cambio y hace una primera revisión estructurada', 'Tests, cobertura y quality gate de SonarQube en el pipeline', 'Revisar y aprobar el pull request'],
+              ['Despliegue', 'Genera el checklist con disparadores de rollback a partir de las métricas actuales', 'Canary con análisis automático de error y latencia', 'Autorizar la promoción a producción'],
+              ['Aprendizaje', 'Redacta el postmortem y propone una regla nueva de revisión para consultas en bucles', 'Una regla de análisis estático que detecta el patrón', 'Aprobar el postmortem y la actualización del estándar'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El caso muestra el reparto que conviene diseñar. La IA reduce el tiempo de recopilar y redactar; los controles deterministas, como tests, quality gates y el análisis del canary, verifican; y las personas deciden en los puntos donde hay responsabilidad: la severidad, la causa, la mitigación, la decisión técnica y la aprobación. El último paso es el más valioso, porque convierte el incidente en un control nuevo.',
+          },
+        ],
+      },
+      {
+        title: 'Medir el impacto del tooling',
+        paragraphs: [
+          'Las métricas fáciles de obtener son las menos útiles. La cantidad de prompts, los tokens consumidos, las líneas generadas o el número de pull requests miden actividad, no resultado, y pueden subir mientras la calidad baja. Las métricas relevantes provienen de marcos establecidos: [DORA](https://dora.dev/) para el flujo de entrega y [SPACE](https://queue.acm.org/detail.cfm?id=3454124) para recordar que la productividad tiene varias dimensiones, entre ellas la satisfacción y la colaboración.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Matriz de métricas para evaluar un sistema de trabajo',
+            head: ['Dimensión', 'Indicadores', 'Fuente'],
+            rows: [
+              ['Flujo de entrega', 'Lead time for changes, frecuencia de despliegue, tasa de fallas de cambio, tiempo de recuperación de despliegues fallidos', 'CI/CD y control de versiones'],
+              ['Developer Experience', 'Tiempo dedicado a buscar información, carga cognitiva percibida, tiempo de onboarding, fricción en tareas frecuentes, satisfacción con herramientas internas', 'Encuestas breves y recurrentes'],
+              ['Calidad y operación', 'Defectos en producción, incidentes recurrentes, tiempo de recuperación, actualización de la documentación, retrabajo por requisitos ambiguos', 'Tracker, monitoreo y postmortems'],
+              ['Adopción', 'Uso efectivo de los workflows, tareas completadas sin asistencia manual innecesaria, utilidad percibida', 'Telemetría de uso y encuestas'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Para que la medición sirva, hace falta una línea de base antes del cambio, comparar períodos equivalentes y desconfiar de las atribuciones causales simples. Si el lead time baja en el trimestre en que se adoptó una herramienta, también pudo influir un cambio de prioridades, una contratación o una estacionalidad. Las métricas de adopción y las de resultado deben leerse juntas: una herramienta muy usada que no mejora ningún resultado es un costo.',
+          },
+        ],
+      },
+      {
+        title: 'Los riesgos de automatizar prácticas de ingeniería',
+        paragraphs: [
+          'Automatizar una práctica no la mejora si la práctica es deficiente; la vuelve más rápida. Los riesgos más concretos son la dependencia excesiva de agentes y la pérdida gradual de conocimiento humano; las revisiones superficiales que se aprueban porque «ya lo revisó la IA»; las alucinaciones y el contexto incompleto; los conectores con permisos excesivos; la exposición de información sensible a través de integraciones; el prompt injection, especialmente cuando un agente lee contenido no confiable como issues, comentarios o logs; el aumento de la complejidad operativa y la dependencia de proveedores.',
+          'Los controles son conocidos, aunque se apliquen poco: **menor privilegio** en cada conector, empezando por accesos de solo lectura; **auditoría** de lo que hace cada agente; **evaluación continua** de la calidad de las salidas; preferencia por **acciones reversibles**; **controles deterministas** en los puntos críticos, en lugar de instrucciones; y **human-in-the-loop** en toda acción con efectos externos, como fusionar, desplegar, paginar a alguien o comunicar a clientes.',
+        ],
+      },
+      {
+        title: 'Cómo implementarlo: una hoja de ruta de 90 días',
+        paragraphs: [
+          'La hoja de ruta que sigue es una propuesta. Su premisa es empezar por la fricción real del equipo, no por la herramienta.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Días 1–30, discovery.** Entrevistas breves, observación de tareas frecuentes y una línea de base de métricas. Se eligen dos workflows de alto impacto y bajo riesgo; el standup asíncrono y la revisión asistida de pull requests suelen ser buenos candidatos, porque son frecuentes y la decisión final sigue siendo humana.',
+              '**Días 31–60, piloto.** Se configuran las integraciones con permisos de solo lectura, se adaptan las skills a las prácticas del equipo, se definen los controles y se mide la adopción con usuarios reales, recogiendo feedback cada semana.',
+              '**Días 61–90, evolución.** Se comparan los resultados con la línea de base, se corrigen los problemas, se documentan los aprendizajes y se decide qué capacidades escalar, cuáles ajustar y cuáles abandonar.',
+            ],
+          },
+          {
+            type: 'table',
+            caption: 'Matriz de priorización de workflows candidatos (valoraciones ilustrativas)',
+            head: ['Workflow', 'Impacto', 'Frecuencia', 'Riesgo', 'Esfuerzo', 'Prioridad sugerida'],
+            rows: [
+              ['Standup asíncrono', 'Medio', 'Diaria', 'Bajo', 'Bajo', 'Alta: piloto'],
+              ['Revisión asistida de PR', 'Alto', 'Diaria', 'Medio', 'Medio', 'Alta: piloto'],
+              ['ADR asistido', 'Alto', 'Mensual', 'Bajo', 'Bajo', 'Media'],
+              ['Postmortem asistido', 'Alto', 'Ocasional', 'Bajo', 'Bajo', 'Media'],
+              ['Checklist de despliegue', 'Medio', 'Semanal', 'Alto si reemplaza gates', 'Medio', 'Media, solo como complemento del pipeline'],
+              ['Respuesta a incidentes con acciones', 'Alto', 'Ocasional', 'Alto', 'Alto', 'Baja hasta tener controles maduros'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'El nuevo rol del Engineering Manager',
+        paragraphs: [
+          'Cuando una parte del trabajo de coordinación se automatiza, el rol del Engineering Manager no desaparece: se desplaza. Pasa de organizar y supervisar tareas a diseñar el sistema de trabajo en el que esas tareas ocurren. Eso implica identificar las fricciones antes de que se normalicen, crear condiciones para la autonomía, promover estándares útiles en lugar de procesos, reducir dependencias entre equipos, facilitar el aprendizaje continuo, proteger la calidad de las decisiones y asegurar que la adopción de IA sea responsable, con permisos acotados y criterios explícitos.',
+          'La IA no elimina la necesidad de liderazgo ni de coordinación humana. Cambia dónde se ejerce: menos en el seguimiento de tareas y más en las decisiones sobre qué automatizar, qué controlar y qué conocimiento preservar.',
+        ],
+      },
+      {
+        title: 'Conclusión',
+        paragraphs: [
+          'El plugin de ingeniería de Anthropic es útil como caso de estudio precisamente por su simplicidad: muestra que una práctica de ingeniería puede escribirse como una capacidad explícita, reutilizable e independiente de la herramienta concreta, y que su valor crece cuando se conecta con las fuentes de verdad del equipo. También muestra sus límites: una skill orienta, pero no controla, y la gobernanza sigue siendo responsabilidad del sistema que la ejecuta.',
+          'El objetivo no es que la IA haga más cosas por el equipo, sino diseñar un entorno en el que el equipo pueda concentrar su capacidad en los problemas que requieren inteligencia, creatividad y criterio profesional. Un equipo de alto desempeño, en ese sentido, es sostenible: reduce su costo de coordinación, conserva lo que aprende y mejora sus decisiones con cada ciclo.',
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'Anthropic. [knowledge-work-plugins: engineering](https://github.com/anthropics/knowledge-work-plugins/tree/e91a134584eb798bac7fb0379358006a2b63b965/engineering), commit `e91a134`, versión 1.2.0 del plugin. Incluye [README](https://github.com/anthropics/knowledge-work-plugins/blob/e91a134584eb798bac7fb0379358006a2b63b965/engineering/README.md), [CONNECTORS.md](https://github.com/anthropics/knowledge-work-plugins/blob/e91a134584eb798bac7fb0379358006a2b63b965/engineering/CONNECTORS.md) y `.mcp.json`.',
+              'Model Context Protocol. [Especificación y documentación](https://modelcontextprotocol.io/).',
+              'DORA. [dora.dev](https://dora.dev/).',
+              'Forsgren, N., Storey, M.-A., Maddila, C., Zimmermann, T., Houck, B. y Butler, J. (2021). [The SPACE of Developer Productivity](https://queue.acm.org/detail.cfm?id=3454124). ACM Queue.',
+              'Skelton, M. y Pais, M. [Team Topologies](https://teamtopologies.com/).',
+              'CNCF TAG App Delivery. [Platforms White Paper](https://tag-app-delivery.cncf.io/whitepapers/platforms/).',
+              'Backstage. [backstage.io](https://backstage.io/).',
+              'Nygard, M. (2011). [Documenting Architecture Decisions](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions).',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: el desempeño de un equipo depende menos de la cantidad de herramientas que del sistema que forman. Convertir prácticas en capacidades explícitas, como hace el plugin de ingeniería de Anthropic, reduce el costo de coordinación y preserva conocimiento, pero solo genera valor si se integra con las fuentes de verdad, se gobierna con controles deterministas y aprobación humana, y se mide por resultados de entrega, calidad y experiencia, no por actividad.',
+  },
+  {
+    slug: 'harness-engineering-agentes-codigo-guias-sensores',
+    seoTitle: 'Harness engineering: guías y sensores para agentes de código',
+    seoDescription: 'Qué es harness engineering según Birgitta Böckeler: guías y sensores, controles computacionales e inferenciales y cómo aplicarlo a un sistema multiagente.',
+    title: 'Harness engineering: cómo dar confianza al trabajo de un agente de código',
+    description: 'Una lectura técnica del modelo que Birgitta Böckeler publicó en martinfowler.com para quienes usan agentes de código: guías y sensores, controles computacionales e inferenciales, el momento en que conviene ejecutar cada uno, las tres dimensiones que un harness puede regular y sus límites. Incluye la aplicación del modelo a Website Factory, un sistema multiagente propio, y lo que ese ejercicio deja ver.',
+    category: 'IA y agentes',
+    tags: ['IA', 'Agentes', 'Arquitectura'],
+    date: '2026-11-14',
+    readingTime: '12 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['loop-engineering-agentic-loops', 'orquestacion-multiagente-website-factory', 'agentes-ia-salidas-verificables'],
+    contextLabel: 'Análisis técnico · martinfowler.com, abril de 2026',
+    sourceUrl: 'https://martinfowler.com/articles/harness-engineering.html',
+    sourceLabel: 'Birgitta Böckeler: Harness engineering for coding agent users',
+    lead: 'Un agente de código puede producir en minutos un cambio que a una persona le llevaría horas. La dificultad aparece después: decidir si ese cambio es correcto, mantenible y coherente con la arquitectura exige una revisión que consume buena parte del tiempo ahorrado. En «Harness engineering for coding agent users», publicado el 2 de abril de 2026 en martinfowler.com, Birgitta Böckeler, Distinguished Engineer de Thoughtworks, propone un modelo para reducir esa dependencia de la revisión manual: rodear al agente de controles que aumenten la probabilidad de que acierte en el primer intento y que le permitan corregirse antes de que intervenga una persona. Este artículo resume el modelo, lo contrasta con otras prácticas y lo aplica a un sistema multiagente propio.',
+    sections: [
+      {
+        title: 'Qué es un harness y qué parte le corresponde al usuario',
+        paragraphs: [
+          'El término *harness* se usa con frecuencia para designar todo lo que rodea al modelo en un agente de IA. Böckeler parte de esa definición, tomada de una publicación de LangChain que resume la idea como «agente = modelo + harness», pero la considera demasiado amplia y la acota a un contexto específico: el de quien usa un agente de código, no el de quien lo construye.',
+          'La distinción se entiende como tres anillos concéntricos. En el centro está el modelo. Alrededor, el harness que arma el proveedor del agente: el prompt de sistema, la recuperación de contexto y la orquestación interna. En el anillo exterior está el harness del usuario, el conjunto de reglas, herramientas y verificaciones que un equipo agrega para su propio código. El artículo trata ese último anillo, que es el único que el equipo controla.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Los tres contextos de un agente de código, según Böckeler',
+            description: 'El modelo está en el centro. Lo rodea el harness del proveedor del agente, con prompt de sistema, recuperación de contexto y orquestación. El anillo exterior es el harness del usuario: guías y sensores que el equipo define para su propio código.',
+            text: `flowchart LR
+  subgraph U["Harness del usuario (lo define el equipo)"]
+    direction LR
+    subgraph P["Harness del proveedor del agente"]
+      M(("Modelo"))
+      SP["Prompt de sistema, recuperación, orquestación"]
+    end
+    G["Guías: convenciones, skills, documentación"]
+    S["Sensores: tests, linters, revisiones"]
+  end
+  G --> P
+  P --> S
+  S -->|feedback| P`,
+          },
+          {
+            type: 'p',
+            text: 'El objetivo de ese harness exterior es doble: aumentar la probabilidad de que el agente produzca un resultado correcto en el primer intento y agregar un ciclo de feedback que corrija problemas antes de la revisión humana. Según Böckeler, el beneficio se mide en menos trabajo de revisión, mejor calidad del sistema y menos tokens desperdiciados en intentos fallidos.',
+          },
+          { type: 'h3', text: 'Relación con context engineering y loop engineering' },
+          {
+            type: 'p',
+            text: 'Böckeler describe la construcción de un harness de usuario como «una forma específica de context engineering»: el contexto es el medio por el cual las guías y los sensores llegan al agente. La relación con [Loop Engineering](/blog/loop-engineering-agentic-loops/), otra práctica que se discute en 2026, es complementaria. Loop engineering se ocupa del ciclo de trabajo: qué lo dispara, dónde se guarda su estado y cuándo se detiene. Harness engineering se ocupa de qué controles alimentan ese ciclo y qué tan confiables son. Un loop sin un buen harness itera contra señales débiles; un harness sin un loop produce señales que nadie consume.',
+          },
+        ],
+      },
+      {
+        title: 'Guías y sensores',
+        paragraphs: [
+          'El modelo organiza los controles según el momento en que actúan. Las **guías** (*feedforward*) orientan al agente antes de que actúe: convenciones de código, documentación de arquitectura, instrucciones para un tipo de tarea. Los **sensores** (*feedback*) observan el resultado después de que el agente actúa y le permiten corregirse: tests, linters, revisiones.',
+          'Ninguno de los dos alcanza por separado. Un harness hecho solo de sensores produce, en palabras de Böckeler, un agente que repite los mismos errores, porque nada le indica cómo evitarlos. Uno hecho solo de guías codifica reglas que nunca se comprueban. Una observación práctica del artículo es que los sensores rinden más cuando su salida está escrita para un modelo de lenguaje: un mensaje de linter que explica cómo corregir el problema funciona, según Böckeler, como una forma positiva de inyección de instrucciones.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Ejemplos de controles del artículo, clasificados por dirección y tipo',
+            head: ['Control', 'Dirección', 'Tipo', 'Implementación de ejemplo'],
+            rows: [
+              ['Convenciones de código', 'Guía', 'Inferencial', '`AGENTS.md`, skills'],
+              ['Instrucciones para iniciar un proyecto', 'Guía', 'Ambos', 'Una skill con un script de inicialización'],
+              ['Transformaciones de código', 'Guía', 'Computacional', 'Recetas de OpenRewrite'],
+              ['Tests estructurales', 'Sensor', 'Computacional', 'Hook de pre-commit con ArchUnit para límites entre módulos'],
+              ['Instrucciones de revisión', 'Sensor', 'Inferencial', 'Skills de revisión'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Controles computacionales e inferenciales',
+        paragraphs: [
+          'La segunda dimensión del modelo es el tipo de control. Los **computacionales** son deterministas: tests, linters, verificadores de tipos, análisis estructural. Corren en CPU, tardan entre milisegundos y segundos y dan siempre el mismo resultado ante la misma entrada. Los **inferenciales** usan un modelo para hacer análisis semántico: revisión de código con IA o un modelo que actúa como juez. Son más lentos, más caros y no deterministas, pero pueden evaluar aspectos que un linter no ve.',
+          'La consecuencia práctica es una división del trabajo. Los controles computacionales son lo bastante baratos para ejecutarse en cada cambio. Los inferenciales conviene reservarlos para momentos en que su costo se justifica y, según Böckeler, aumentan la confianza cuando se usan con un modelo capaz.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Diferencias entre los dos tipos de control',
+            head: ['Criterio', 'Computacional', 'Inferencial'],
+            rows: [
+              ['Ejemplos', 'Tests, linters, type checking, ArchUnit, mutation testing', 'Revisión con IA, LLM como juez, skills de revisión'],
+              ['Determinismo', 'Sí', 'No'],
+              ['Costo y latencia', 'Bajos: milisegundos a segundos', 'Altos: requieren inferencia en GPU'],
+              ['Frecuencia razonable', 'En cada cambio', 'En momentos seleccionados'],
+              ['Fortaleza', 'Reglas explícitas y verificables', 'Juicio semántico: duplicación conceptual, sobreingeniería'],
+            ],
+          },
+        ],
+      },
+      {
+        title: 'El ciclo de dirección y el momento de cada control',
+        paragraphs: [
+          'El modelo asigna a las personas un rol que Böckeler llama *steering loop*, el ciclo de dirección: cuando un problema se repite, la tarea no es corregirlo una vez más, sino mejorar una guía o un sensor para que sea menos probable o directamente imposible. El propio agente puede ayudar a construir el harness: escribir tests estructurales, redactar reglas a partir de patrones observados, generar linters personalizados o documentar cómo funciona una parte del código.',
+          'El segundo principio retoma ideas de integración y entrega continuas: los controles deben ejecutarse lo más temprano posible, porque un error detectado antes es más barato de corregir. El artículo distribuye los sensores a lo largo del ciclo de vida de un cambio.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Dónde ubica cada sensor el modelo de Böckeler',
+            description: 'Antes del commit corren controles rápidos: linters, tests rápidos y una revisión básica. Después de la integración, el pipeline repite esos controles y agrega otros más costosos, como revisión de arquitectura y mutation testing. En forma continua, sensores de deriva del código y de salud en producción generan nuevas sugerencias que vuelven al inicio del ciclo.',
+            text: `flowchart LR
+  A["Guías: AGENTS.md, skills, LSP, documentación"] --> B["Cambio del agente"]
+  B --> C["Antes del commit: linters, tests rápidos, revisión básica"]
+  C -->|falla| B
+  C --> D["Pipeline: controles rápidos + revisión de arquitectura + mutation testing"]
+  D -->|falla| B
+  D --> E["Producción"]
+  E --> F["Continuo: código muerto, dependencias, SLO, anomalías en logs"]
+  F -->|nueva tarea| B`,
+          },
+          {
+            type: 'p',
+            text: 'Los sensores continuos cubren dos tipos de problema que un pipeline no ve. La deriva del código, como código muerto, dependencias desactualizadas o cobertura que se degrada, y la salud en tiempo de ejecución: degradación de latencia o disponibilidad, o un modelo que muestrea respuestas para evaluar su calidad.',
+          },
+        ],
+      },
+      {
+        title: 'Tres dimensiones que un harness puede regular',
+        paragraphs: [
+          'Böckeler propone agrupar los controles según lo que regulan, y aclara que la clasificación le resulta útil «por ahora». Las tres dimensiones tienen un grado de madurez muy distinto.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Mantenibilidad.** Es la dimensión más accesible, porque existen muchas herramientas. Los sensores computacionales detectan con confiabilidad código duplicado, complejidad ciclomática, falta de cobertura, deriva arquitectónica y violaciones de estilo. Los modelos abordan problemas semánticos, como duplicación conceptual, tests redundantes o sobreingeniería, pero de forma costosa y probabilística, no en cada commit. Ninguno de los dos detecta con confiabilidad un diagnóstico equivocado, funcionalidades innecesarias o instrucciones mal interpretadas.',
+              '**Aptitud arquitectónica.** Agrupa guías y sensores para características de la arquitectura, lo que Thoughtworks llama *fitness functions*. Un ejemplo del artículo combina una skill que describe requisitos de rendimiento con tests de rendimiento que devuelven el resultado al agente.',
+              '**Comportamiento.** Böckeler lo llama el problema central. La práctica habitual combina una especificación funcional como guía con una suite de tests generada por IA, su cobertura y pruebas manuales como sensores. El diagnóstico del artículo es explícito: ese enfoque deposita demasiada confianza en tests que escribió el mismo tipo de sistema que escribió el código, y todavía no alcanza. Algunos equipos usan [fixtures aprobados](https://lexler.github.io/augmented-coding-patterns/patterns/approved-fixtures/) de forma selectiva, pero no hay una respuesta general.',
+            ],
+          },
+          {
+            type: 'note',
+            label: 'El punto más débil',
+            text: 'La dimensión de comportamiento es la que más importa al usuario final y la menos resuelta. Un harness puede garantizar que el código sea mantenible y respete la arquitectura, y aun así aceptar una funcionalidad que no hace lo que se pidió. Por eso el modelo no propone eliminar la revisión humana, sino dirigirla hacia donde los sensores no llegan.',
+          },
+        ],
+      },
+      {
+        title: 'Harnessability: no todo código se deja controlar igual',
+        paragraphs: [
+          'El modelo introduce una propiedad del código: la facilidad con que admite un harness. Un lenguaje con tipado fuerte ofrece el verificador de tipos como sensor gratuito. Módulos con límites claros permiten escribir reglas de arquitectura. Frameworks como Spring ocultan detalles y, de forma implícita, aumentan la tasa de éxito del agente. El artículo recoge además el concepto de *ambient affordances*, de Ned Letcher: propiedades estructurales del entorno que lo vuelven legible y navegable para un agente.',
+          'Esto tiene una consecuencia incómoda que Böckeler formula con precisión: el harness es más necesario donde es más difícil de construir. Un proyecto nuevo puede diseñarse para ser controlable desde el inicio; un sistema heredado, sin tests ni límites claros, es el que más necesita controles y el que menos los admite.',
+          'Para organizaciones con muchos servicios, el artículo sugiere *harness templates*: si unas pocas topologías, como APIs de negocio, procesadores de eventos o dashboards, cubren la mayor parte de las necesidades, cada una puede tener su paquete de guías y sensores. La justificación proviene de la cibernética, en particular de la ley de la variedad requerida de Ashby: un regulador solo puede controlar la variedad que es capaz de modelar, y comprometerse con una topología reduce el espacio de resultados posibles. El costo, advierte Böckeler, es el mismo que el de las plantillas de servicio: versionado y deriva, quizá agravados por controles no deterministas.',
+        ],
+      },
+      {
+        title: 'El rol de las personas',
+        paragraphs: [
+          'Una persona que desarrolla software trae consigo un harness implícito: convenciones absorbidas con el tiempo, la incomodidad de trabajar con código complejo, responsabilidad ante el equipo, alineación con la organización y un ritmo que deja espacio para aplicar la experiencia. Un agente carece de responsabilidad social, de criterio estético, de intuición sobre el equipo y de memoria organizacional.',
+          'Un harness intenta externalizar parte de ese conocimiento, pero tiene límites, y construirlo es costoso, de modo que conviene priorizar. La conclusión de Böckeler es que un buen harness no debería apuntar a eliminar la intervención humana, sino a orientarla hacia las decisiones donde aporta más.',
+        ],
+      },
+      {
+        title: 'El modelo aplicado a un caso: Website Factory',
+        paragraphs: [
+          'Para evaluar la utilidad del modelo, conviene aplicarlo a un sistema concreto. [Website Factory](/blog/orquestacion-multiagente-website-factory/) es un sistema propio en el que un orquestador de Claude Code coordina subagentes especializados para convertir un brief en un sitio Astro. Sus controles no se diseñaron con este modelo en mente, lo que hace el ejercicio más informativo: muestra qué cubre un harness construido por intuición y qué deja afuera.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Controles de Website Factory clasificados con el modelo de guías y sensores',
+            head: ['Control', 'Dirección', 'Tipo', 'Dimensión'],
+            rows: [
+              ['`CLAUDE.md` con reglas de orquestación y definiciones de subagentes en `.claude/agents/`', 'Guía', 'Inferencial', 'Mantenibilidad y comportamiento'],
+              ['Especificación, plan y tareas de Spec Kit', 'Guía', 'Inferencial', 'Comportamiento'],
+              ['`/speckit.analyze` antes de implementar', 'Sensor', 'Inferencial', 'Comportamiento (consistencia de la especificación)'],
+              ['`astro check` y `astro build`', 'Sensor', 'Computacional', 'Mantenibilidad'],
+              ['`validate_content.py` contra el contrato de contenido', 'Sensor', 'Computacional', 'Comportamiento'],
+              ['`qa-reviewer` independiente, con hallazgos por severidad', 'Sensor', 'Inferencial', 'Las tres'],
+              ['`/speckit.converge` al final', 'Sensor', 'Inferencial', 'Comportamiento (especificación frente a código)'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La clasificación deja ver tres cosas. Primero, el sistema depende más de controles inferenciales que computacionales, la combinación más costosa y menos determinista. Segundo, no hay ningún sensor de aptitud arquitectónica: ninguna regla verifica de forma automática los límites entre componentes ni el rendimiento del sitio generado. Tercero, la dimensión de comportamiento se apoya en un validador escrito por el propio agente de frontend, y en una ejecución el `qa-reviewer` detectó que ese validador cubría menos casos que el contrato que debía controlar. Es exactamente el riesgo que Böckeler señala para la dimensión de comportamiento.',
+          },
+          {
+            type: 'p',
+            text: 'Según el modelo, las mejoras con mejor relación costo-beneficio serían sensores computacionales baratos: un presupuesto de rendimiento con Lighthouse, controles de accesibilidad automatizados y tests estructurales sobre la organización de componentes. También ayudaría que el validador de contenido se derive del contrato y no lo escriba el mismo agente que implementa.',
+          },
+        ],
+      },
+      {
+        title: 'Preguntas abiertas y un punto de partida',
+        paragraphs: [
+          'El artículo no presenta datos cuantitativos ni experimentos controlados; describe un modelo mental de técnicas que ya se usan. Entre los ejemplos que cita figuran el relato de OpenAI sobre un equipo que construyó un producto con código escrito por agentes, con arquitectura en capas impuesta mediante linters y tests estructurales, y el de Stripe sobre sus agentes *minions*, con hooks de pre-push y la idea de llevar el feedback lo más temprano posible.',
+          'Böckeler deja varias preguntas sin resolver: cómo mantener la coherencia entre guías y sensores a medida que el harness crece, cuánto confiar en las decisiones del agente cuando las instrucciones y el feedback se contradicen, si un sensor que nunca se activa indica alta calidad o baja capacidad de detección, y cómo medir la cobertura del propio harness, de forma análoga a la cobertura de código o al mutation testing.',
+        ],
+        blocks: [
+          { type: 'h3', text: 'Cómo empezar' },
+          {
+            type: 'ol',
+            items: [
+              '**Inventariar los controles existentes** y clasificarlos por dirección (guía o sensor), tipo (computacional o inferencial) y dimensión. El inventario suele mostrar dónde no hay nada.',
+              '**Priorizar sensores computacionales baratos** que corran en cada cambio: verificador de tipos, linters y tests estructurales. Escribir sus mensajes de error pensando en que los leerá un agente.',
+              '**Registrar los errores que se repiten** en la revisión humana y convertir cada uno en una guía o un sensor nuevo. Ese es el ciclo de dirección.',
+              '**Reservar los controles inferenciales** para momentos de mayor costo, como la integración o la revisión de arquitectura, en lugar de cada commit.',
+              '**Tratar la dimensión de comportamiento con cautela:** separar quién escribe los tests de quién escribe el código y mantener la revisión humana donde los sensores no alcanzan.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'Böckeler, B. (2026). [Harness engineering for coding agent users](https://martinfowler.com/articles/harness-engineering.html). martinfowler.com, 2 de abril de 2026.',
+              'Böckeler, B. [Context engineering for coding agents](https://martinfowler.com/articles/exploring-gen-ai/context-engineering-coding-agents.html). martinfowler.com.',
+              'LangChain. [The anatomy of an agent harness](https://blog.langchain.com/the-anatomy-of-an-agent-harness/).',
+              'Anthropic. [Effective harnesses for long-running agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents).',
+              'OpenAI. [Harness engineering: leveraging Codex in an agent-first world](https://openai.com/index/harness-engineering/).',
+              'Stripe. [Minions: Stripe’s one-shot, end-to-end coding agents](https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents).',
+              'Thoughtworks Technology Radar. [Architectural fitness function](https://www.thoughtworks.com/en-de/radar/techniques/architectural-fitness-function).',
+              'Augmented Coding Patterns. [Approved fixtures](https://lexler.github.io/augmented-coding-patterns/patterns/approved-fixtures/).',
+              'Fowler, M. [Continuous Integration](https://martinfowler.com/articles/continuousIntegration.html).',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: harness engineering es el trabajo de rodear a un agente de código de guías que orienten su resultado y sensores que le permitan corregirse antes de la revisión humana. El modelo de Böckeler ordena esos controles por momento, tipo y dimensión, y deja claro su límite principal: la corrección funcional todavía no tiene sensores confiables. Un buen harness no elimina la revisión humana; la dirige hacia donde los controles no llegan.',
+  },
+  {
     slug: 'uber-h3-soluciones-optimas-ingenieria-arquitectura',
     seoTitle: 'Uber H3: soluciones óptimas en ingeniería y arquitectura',
     seoDescription: 'Caso práctico de Uber H3: qué hace óptima una solución de arquitectura, qué criterios la definen, qué costos acepta y un método para buscarla.',
