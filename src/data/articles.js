@@ -512,6 +512,359 @@ jobs:
     takeaway: 'En síntesis: Floci reduce la dependencia de cuentas y ambientes compartidos para la mayoría de las pruebas de integración, y lo hace con un enfoque que combina emulación en proceso y contenedores reales. No reemplaza la nube: IAM, networking, cuotas y fallas siguen requiriendo pruebas en un ambiente real. Su valor depende de integrarlo en la plataforma con versiones fijas, una estrategia de pruebas por capas y métricas que confirmen que el feedback más rápido no se paga con más fallas en producción.',
   },
   {
+    slug: 'opensandbox-agentes-ia-engineering-management',
+    seoTitle: 'OpenSandbox: agentes de IA aislados para equipos de ingeniería',
+    seoDescription: 'Qué es OpenSandbox y cómo usarlo para delegar trabajo a agentes de IA con aislamiento, red controlada y credenciales protegidas. Una guía para Engineering Managers.',
+    title: 'OpenSandbox: dónde corren los agentes de IA y por qué es una decisión de Engineering Management',
+    description: 'Un análisis de OpenSandbox, el runtime open source de sandboxes para agentes de IA, desde la perspectiva de quien lidera equipos de ingeniería: qué resuelve, cómo funciona, casos de uso en equipos de alto desempeño, un ejemplo en Python con red denegada por defecto y Credential Vault, niveles de autonomía, métricas, organización del equipo, riesgos de madurez y una hoja de ruta de adopción de 90 días.',
+    category: 'Liderazgo y producto',
+    tags: ['Liderazgo', 'IA', 'Platform Engineering'],
+    date: '2026-11-16',
+    readingTime: '15 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['tooling-equipos-alto-desempeno-sistemas-ingenieria-ia', 'harness-engineering-agentes-codigo-guias-sensores', 'ingenieria-agentes-ia-empresa-arquitectura-controles'],
+    contextLabel: 'Análisis técnico · Engineering Management y agentes de IA',
+    sourceUrl: 'https://github.com/opensandbox-group/OpenSandbox',
+    sourceLabel: 'OpenSandbox en GitHub',
+    lead: 'Cuando un equipo empieza a delegar tareas a agentes de IA, la conversación suele centrarse en qué modelo usar y cómo escribir buenas instrucciones. Hay una pregunta previa que recibe menos atención: dónde se ejecuta lo que el agente hace. Un agente de código instala dependencias, corre pruebas, clona repositorios y llama a APIs. Si lo hace en la laptop de un desarrollador o en un runner compartido, hereda sus permisos, sus credenciales y su acceso a la red. OpenSandbox es un proyecto open source que propone una respuesta: un sandbox aislado, efímero y con políticas explícitas para cada tarea. Este artículo lo analiza desde la perspectiva de un Engineering Manager, porque elegir dónde corren los agentes define cuánto se puede delegar, con qué riesgo, a qué costo y con qué capacidad de aprender de los resultados.',
+    sections: [
+      {
+        title: 'El problema: delegar sin heredar todos los permisos',
+        paragraphs: [
+          'En la mayoría de los equipos, la adopción de agentes empieza de forma individual. Cada persona prueba una herramienta en su máquina, con su sesión de GitHub, sus variables de entorno y su acceso a la VPN. Funciona bien para explorar, pero tiene tres consecuencias que un Engineering Manager no puede ignorar.',
+          'La primera es el **riesgo**: el agente opera con todos los permisos de la persona, incluidos los que no necesita para la tarea. Una dependencia comprometida o una instrucción inyectada en un archivo del repositorio puede usar esas credenciales. La segunda es la **escala**: si cada tarea delegada ocupa la máquina de alguien, la cantidad de trabajo en paralelo queda limitada por la cantidad de laptops. La tercera es la **falta de evidencia**: cuando el trabajo de los agentes ocurre en entornos personales, el equipo no puede medir qué funciona, cuánto cuesta ni dónde falla.',
+          'La tesis de este artículo es que **el sandbox es la unidad de delegación**. Así como un ticket define qué se pide, un sandbox define con qué recursos, permisos y acceso a la red se ejecuta. Cuando esa unidad es explícita, se puede razonar sobre el riesgo, presupuestar la capacidad y medir los resultados.',
+        ],
+      },
+      {
+        title: 'Qué es OpenSandbox',
+        paragraphs: [
+          '[OpenSandbox](https://github.com/opensandbox-group/OpenSandbox) se define como un runtime de sandboxes para agentes de IA: entornos aislados donde una aplicación o un agente puede ejecutar comandos, manejar archivos, correr código y operar navegadores o escritorios. Se instala en infraestructura propia, empieza con Docker en una máquina local y escala a Kubernetes con la misma API.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'OpenSandbox en datos (verificado en el repositorio el 16 de noviembre de 2026, commit 44e79a2)',
+            head: ['Aspecto', 'Situación'],
+            rows: [
+              ['Licencia y gobernanza', 'Apache 2.0. Proyecto de la Agentic AI Foundation (AAIF), con un Technical Charter bajo LF Projects adoptado el 20 de octubre de 2026'],
+              ['Origen', 'Iniciado en el ecosistema de Alibaba: los paquetes de Java y .NET y uno de los registros de imágenes conservan ese nombre'],
+              ['Actividad', 'Repositorio creado en diciembre de 2025; unas 17.000 estrellas y cerca de 200 contribuidores. Última versión estable: 1.2.1 (13 de noviembre de 2026); 1.3.0 en release candidate'],
+              ['Clientes', 'SDK para Python, Java/Kotlin, TypeScript, C# y Go; CLI `osb`; servidor MCP para Claude Code, Cursor y otros clientes'],
+              ['Runtimes', 'Docker para desarrollo local; Kubernetes con contenedores, runtimes seguros (gVisor, Kata, Firecracker) y microVMs basadas en templates (Fast Sandbox)'],
+              ['Controles', 'Políticas de salida de red por sandbox, Credential Vault, multi-tenancy por namespace, límites de recursos, expiración automática'],
+              ['Integraciones documentadas', 'Claude Code, Codex CLI, Gemini CLI, LangGraph, Google ADK, Playwright, Chrome, Harbor para evaluaciones, entre otras'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Las cifras de actividad describen interés y ritmo de desarrollo, no adopción en producción. Para una decisión de plataforma importan más otros datos que aparecen más adelante: la estabilidad de la API, el estado de las funciones experimentales y las limitaciones documentadas.',
+          },
+        ],
+      },
+      {
+        title: 'Cómo funciona, en lo que importa para decidir',
+        paragraphs: [
+          'La arquitectura separa tres caminos. El **ciclo de vida** (crear, pausar, renovar, eliminar sandboxes) pasa por un servidor en FastAPI que delega en el runtime configurado. La **ejecución** de comandos y operaciones sobre archivos va directo al sandbox, a través de un daemon llamado `execd`. Y el **tráfico de salida** del sandbox pasa por un componente de egress que aplica la política de red y, si está habilitado, inyecta credenciales.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Los tres caminos de OpenSandbox, simplificados',
+            description: 'Una aplicación, un pipeline o un agente usa el SDK, la CLI o el servidor MCP. Las operaciones de ciclo de vida van al servidor, que crea el sandbox en Docker o Kubernetes. Los comandos y archivos van directo al daemon execd dentro del sandbox. Todo el tráfico de salida del sandbox pasa por el componente de egress, que aplica la política de red y puede inyectar credenciales guardadas en el Credential Vault antes de llegar a servicios externos como la API del modelo o el repositorio.',
+            text: `flowchart LR
+  C["Pipeline, app o agente<br/>SDK · CLI osb · MCP"] -->|ciclo de vida| S["Servidor de ciclo de vida"]
+  S --> R["Runtime: Docker o Kubernetes"]
+  R --> SB
+  C -->|comandos y archivos| X
+  subgraph SB["Sandbox"]
+    X["execd"] --> W["Agente y código de la tarea"]
+  end
+  W -->|todo el tráfico de salida| E["Egress: política de red + Credential Vault"]
+  E -->|solo destinos permitidos| EXT["API del modelo, repositorio, registros de paquetes"]`,
+          },
+          {
+            type: 'p',
+            text: 'Para un Engineering Manager, el componente más relevante es el último. El egress permite declarar, por sandbox, a qué destinos puede conectarse el agente, con la opción de denegar todo lo demás. El **Credential Vault** agrega algo menos habitual: las credenciales reales se guardan en el componente de egress y se inyectan en las solicitudes salientes que coinciden con una regla. El proceso dentro del sandbox solo ve un valor de relleno. Un agente puede llamar a la API del modelo o clonar un repositorio privado sin tener nunca el token en su entorno.',
+          },
+        ],
+      },
+      {
+        title: 'Casos de uso en equipos de alto desempeño',
+        paragraphs: [
+          'Los ejemplos del repositorio cubren muchos escenarios. Desde la perspectiva de un equipo de producto, cinco tienen impacto directo en cómo se trabaja.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Casos de uso y su efecto en el equipo (análisis propio)',
+            head: ['Caso', 'Qué cambia en el equipo', 'Qué decide el Engineering Manager'],
+            rows: [
+              ['Agentes de código por ticket, en paralelo', 'Las tareas acotadas (actualizar dependencias, migraciones mecánicas, pruebas faltantes) avanzan sin ocupar la máquina de nadie', 'Qué tipos de tareas se delegan y cuánta revisión requiere cada uno'],
+              ['Evaluación de agentes antes de adoptarlos', 'Comparar modelos, prompts o herramientas con un conjunto fijo de tareas, un sandbox limpio por intento (por ejemplo, con Harbor)', 'Qué evidencia se exige antes de cambiar de herramienta o de modelo'],
+              ['Ejecución de código generado en el producto', 'Funciones como un intérprete de código o análisis de datos para usuarios corren aisladas del resto del sistema', 'Qué nivel de aislamiento exige el producto (contenedor o microVM)'],
+              ['Entornos efímeros con navegador', 'Agentes que prueban flujos de UI con Playwright o Chrome en un entorno descartable', 'Qué pruebas exploratorias se automatizan y quién revisa los hallazgos'],
+              ['Entornos reproducibles para incidentes y onboarding', 'Reproducir un problema o preparar un entorno de práctica sin tocar ambientes compartidos', 'Qué imágenes base mantiene la plataforma'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El caso de la **evaluación** merece atención especial. La mayoría de los equipos adopta herramientas de IA por impresiones: alguien prueba un modelo nuevo, le parece mejor y el cambio se difunde. Con un sandbox limpio por intento y un conjunto de tareas representativas del propio código, la comparación se vuelve un experimento repetible. Para un Engineering Manager es la diferencia entre decidir por anécdotas y decidir con datos.',
+          },
+        ],
+      },
+      {
+        title: 'Un ejemplo: una tarea delegada con permisos mínimos',
+        paragraphs: [
+          'El ejemplo ejecuta una tarea de un agente de código asociada a un ticket. Crea un sandbox con red denegada por defecto, guarda la clave del modelo y el token del repositorio en el Credential Vault, clona el repositorio, ejecuta Claude Code en modo no interactivo, corre las pruebas y devuelve un informe. Al final destruye el sandbox, haya salido bien o no.',
+        ],
+        blocks: [
+          {
+            type: 'note',
+            label: 'Qué se verificó',
+            text: 'El código usa el SDK de Python de OpenSandbox 1.2.1. Las políticas de red y las credenciales se construyeron con los modelos del SDK, que validan sus campos, y la orquestación se probó con un sandbox simulado: tres pruebas automáticas verifican que ningún secreto llega al entorno ni a los comandos del sandbox, que el informe registra el resultado y que el sandbox se destruye incluso si fallan las pruebas. No se ejecutó contra un servidor real porque el entorno no tenía Docker. El Credential Vault además requiere que el servidor tenga configurado el egress en modo `dns+nft`.',
+          },
+          {
+            type: 'code',
+            lang: 'python',
+            caption: 'tarea_agente.py: política de red y credenciales',
+            text: `from opensandbox.models.sandboxes import (
+    Credential, CredentialBinding, CredentialProxyConfig, NetworkPolicy, NetworkRule,
+)
+
+ANTHROPIC = "api.anthropic.com"
+GIT_HOST = "github.com"
+
+
+def politica_red() -> NetworkPolicy:
+    # Todo lo que no está en la lista queda bloqueado.
+    return NetworkPolicy(defaultAction="deny", egress=[
+        NetworkRule(action="allow", target=ANTHROPIC),
+        NetworkRule(action="allow", target="registry.npmjs.org"),
+        NetworkRule(action="allow", target=GIT_HOST),
+    ])
+
+
+def boveda(repo: str, anthropic_key: str, git_user: str, git_token: str):
+    basic = base64.b64encode(f"{git_user}:{git_token}".encode()).decode()
+    credenciales = [
+        Credential(name="anthropic", source={"value": anthropic_key}),
+        Credential(name="git", source={"value": basic}),
+    ]
+    vinculos = [
+        CredentialBinding(name="anthropic-api",
+                          match={"schemes": ["https"], "hosts": [ANTHROPIC], "paths": ["/v1/*"]},
+                          auth={"type": "apiKey", "name": "x-api-key", "credential": "anthropic"}),
+        CredentialBinding(name="git-repo",                       # solo este repositorio
+                          match={"schemes": ["https"], "hosts": [GIT_HOST], "paths": [f"/{repo}.git*"]},
+                          auth={"type": "basic", "credential": "git"}),
+    ]
+    return credenciales, vinculos`,
+          },
+          {
+            type: 'code',
+            lang: 'python',
+            caption: 'tarea_agente.py: el ciclo de la tarea (se omiten los imports y la función auxiliar ejecutar, que corre un comando y devuelve su código de salida)',
+            text: `async def correr_tarea(ticket: str, repo: str, instruccion: str, equipo: str) -> dict:
+    sb = await Sandbox.create(
+        os.getenv("SANDBOX_IMAGE", "opensandbox/code-interpreter:latest"),
+        timeout=timedelta(minutes=30),                      # el sandbox expira solo
+        resource={"cpu": "2", "memory": "4Gi"},
+        env={"ANTHROPIC_API_KEY": "placeholder", "GIT_TERMINAL_PROMPT": "0"},  # sin secretos reales
+        metadata={"equipo": equipo, "ticket": ticket},      # trazabilidad y costos por equipo
+        network_policy=politica_red(),
+        credential_proxy=CredentialProxyConfig(enabled=True),
+    )
+    informe = {"ticket": ticket, "sandbox": sb.id, "pasos": []}
+    try:
+        cred, vinc = boveda(repo, os.environ["ANTHROPIC_API_KEY"],
+                            os.environ["GIT_USER"], os.environ["GIT_TOKEN"])
+        await sb.credential_vault.create(credentials=cred, bindings=vinc)
+        await sb.commands.run(f"git clone https://{GIT_HOST}/{repo}.git /workspace/repo")
+        await sb.commands.run("npm install -g @anthropic-ai/claude-code --no-audit --no-fund")
+        for cmd in (f"claude -p {shlex.quote(instruccion)} --output-format json",
+                    "make test",
+                    "git diff --stat"):
+            paso = await ejecutar(sb, cmd)
+            informe["pasos"].append(paso)
+            if paso["exit_code"] not in (0, None):
+                break
+        informe["resultado"] = "ok" if all(p["exit_code"] in (0, None) for p in informe["pasos"]) else "falló"
+        return informe
+    finally:
+        await sb.kill()                                     # nada queda corriendo`,
+          },
+          {
+            type: 'p',
+            text: 'Cada decisión del código tiene una lectura de gestión. El **timeout** convierte un olvido en un costo acotado. Los **recursos** explícitos permiten estimar capacidad. La **metadata** con equipo y ticket vincula cada sandbox con una unidad de trabajo y un centro de costo. La **red denegada por defecto** reduce lo que un agente comprometido puede hacer. Y el **vínculo del token de Git limitado a un repositorio** aplica el principio de mínimo privilegio a nivel de ruta: aunque el agente intente clonar otro repositorio, la credencial no se inyecta.',
+          },
+          {
+            type: 'p',
+            text: 'Vale una observación sobre los ejemplos oficiales. El ejemplo básico de Claude Code del repositorio pasa el token del modelo como variable de entorno del sandbox, lo que es práctico para una prueba local. La guía del Credential Vault muestra la alternativa que conviene adoptar como estándar del equipo: un valor de relleno en el entorno y la credencial real en la bóveda.',
+          },
+          {
+            type: 'note',
+            label: 'Riesgo residual',
+            text: 'Los destinos permitidos siguen siendo canales posibles. Si el agente puede escribir en github.com, puede publicar información en cualquier lugar donde tenga permisos. Por eso conviene que el token tenga solo los permisos de la tarea (lectura, o escritura en una rama) y que la entrega del resultado, como abrir un pull request, la haga el pipeline fuera del sandbox y no el agente.',
+          },
+        ],
+      },
+      {
+        title: 'Niveles de autonomía: una política explícita',
+        paragraphs: [
+          'Un error frecuente es aplicar la misma configuración a todo el trabajo delegado. Una tarea que lee código para generar documentación no tiene el mismo riesgo que una que modifica la lógica de pagos. La tabla propone cuatro niveles. Es un modelo propio para que cada equipo lo adapte, no una función del proyecto.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Niveles de autonomía para trabajo delegado a agentes (propuesta)',
+            head: ['Nivel', 'Ejemplos', 'Configuración del sandbox', 'Revisión humana'],
+            rows: [
+              ['0 · Solo lectura', 'Explicar código, generar documentación, analizar un incidente', 'Sin credenciales de escritura; red limitada al modelo', 'Opcional'],
+              ['1 · Cambios acotados', 'Pruebas faltantes, actualización de dependencias, refactors mecánicos', 'Repositorio con token de lectura; resultado como parche que el pipeline convierte en PR', 'Revisión de PR estándar'],
+              ['2 · Cambios de lógica', 'Funcionalidades pequeñas, corrección de bugs', 'Igual que el nivel 1, con runtime seguro (gVisor o microVM) y ejecución de la suite completa', 'Revisión por una persona dueña del área'],
+              ['3 · Áreas críticas', 'Pagos, autenticación, datos personales', 'Igual que el nivel 2, con datos sintéticos y sin acceso a ambientes reales', 'Dos revisores y criterio explícito de aceptación'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Escribir esta tabla tiene un efecto organizacional más importante que la configuración en sí: obliga a acordar con el equipo qué se delega y bajo qué condiciones. Esa conversación, que en muchos equipos nunca ocurre, es la que evita tanto el uso descontrolado como la prohibición generalizada.',
+          },
+        ],
+      },
+      {
+        title: 'Métricas: qué mirar y qué no',
+        paragraphs: [
+          'La métrica más tentadora, cantidad de tareas ejecutadas por agentes, es la menos útil: crece aunque el trabajo no sirva. Las métricas de la tabla miden resultados y costo. Son hipótesis para observar durante la adopción, no valores de referencia.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Métricas para la adopción de agentes en sandboxes (propuesta)',
+            head: ['Métrica', 'Qué indica', 'Fuente'],
+            rows: [
+              ['Tasa de aceptación de los cambios propuestos por agentes', 'Si el trabajo delegado es útil', 'PRs etiquetados por origen'],
+              ['Costo por cambio aceptado', 'Tokens más cómputo del sandbox, dividido por cambios que llegan a main', 'Facturación del modelo y metadata del sandbox'],
+              ['Tiempo de revisión de cambios de agentes', 'Si la delegación traslada carga a quienes revisan', 'Datos del repositorio'],
+              ['Tasa de fallas por tipo de tarea', 'Qué tareas conviene dejar de delegar o especificar mejor', 'Informes de cada ejecución'],
+              ['Conexiones bloqueadas por la política de red', 'Imágenes mal preparadas o comportamientos inesperados', 'Logs del egress'],
+              ['Tiempo hasta tener un sandbox listo', 'Fricción de la plataforma', 'Instrumentación del pipeline'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Estas métricas se conectan con marcos conocidos. El tiempo de revisión y la tasa de aceptación son indicadores de flujo, en la línea de DORA. La percepción del equipo sobre la utilidad de los agentes, relevada con una encuesta breve, completa el cuadro del lado de la satisfacción, como propone SPACE. Ninguna métrica aislada alcanza.',
+          },
+        ],
+      },
+      {
+        title: 'Quién es dueño de qué',
+        paragraphs: [
+          'OpenSandbox es infraestructura compartida y necesita un dueño. Con la terminología de Team Topologies, la distribución natural es la siguiente.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Equipo de plataforma:** opera el servidor y el runtime, mantiene las imágenes base, define las reglas de red que ningún equipo puede sobrescribir (`deny.always`, como el endpoint de metadatos de la nube), gestiona los tenants y publica la plantilla de tarea delegada. Lo trata como un producto, con documentación y métricas de uso.',
+              '**Equipos de producto:** deciden qué tareas delegan dentro de los niveles acordados, escriben las instrucciones y revisan los resultados. Son dueños de la calidad de lo que entra a su código.',
+              '**Equipo habilitador o referentes técnicos:** acompañan a los equipos en los primeros usos, recogen patrones que funcionan y los convierten en plantillas.',
+              '**Seguridad:** revisa la configuración de aislamiento, las reglas de red y el manejo de credenciales, y participa en la definición de los niveles 2 y 3.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La función de multi-tenancy de OpenSandbox acompaña esta división: cada equipo puede tener su propia clave de API y su namespace de Kubernetes, con lo que el uso y los costos quedan separados sin desplegar una instancia por equipo.',
+          },
+        ],
+      },
+      {
+        title: 'Madurez y riesgos: lo que hay que saber antes de adoptarlo',
+        paragraphs: [
+          'Un proyecto con menos de un año de vida y crecimiento rápido requiere una evaluación cuidadosa. El propio repositorio documenta con claridad varias limitaciones, lo que es una buena señal, pero hay que leerlas.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**API sin versión estable.** El roadmap indica de forma explícita que no está previsto declarar una API v1 estable hasta que la semántica del ciclo de vida y la compatibilidad de los SDK maduren. Conviene fijar versiones y aislar el uso detrás de una capa propia.',
+              '**Funciones experimentales.** El pool de sandboxes precalentados del lado del cliente está marcado como experimental y puede cambiar entre versiones menores.',
+              '**Cadena de suministro.** El README advierte que las versiones unificadas actuales tienen una brecha conocida de firma y procedencia de imágenes, y recomienda fijar imágenes por digest.',
+              '**Credential Vault con requisitos.** Necesita el modo de egress `dns+nft`, no es compatible con un service mesh que intercepte el tráfico en el mismo pod (como Istio con inyección de sidecar) y, en Kubernetes, la bóveda se vacía al pausar y reanudar un sandbox.',
+              '**Alta disponibilidad parcial.** La alta disponibilidad completa del plano de control figura como trabajo planificado.',
+              '**Benchmarks propios.** Los tiempos de creación publicados para Firecracker, del orden de decenas de milisegundos, se midieron en un entorno específico del proyecto con artefactos en caché. Son una referencia, no una garantía para otra infraestructura.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Las alternativas también merecen consideración. Los servicios gestionados de sandboxes para agentes, como E2B o Daytona, reducen el trabajo operativo a cambio de ejecutar fuera de la infraestructura propia. Proyectos como `kubernetes-sigs/agent-sandbox`, que OpenSandbox puede usar como proveedor, ofrecen una primitiva de Kubernetes más acotada. Y para casos simples, un contenedor efímero en el CI existente con una política de red estricta puede ser suficiente. La elección depende de dónde deben quedar los datos, cuánto volumen se espera y qué capacidad operativa tiene el equipo de plataforma.',
+          },
+        ],
+      },
+      {
+        title: 'Una hoja de ruta de 90 días',
+        paragraphs: [
+          'La siguiente secuencia está pensada para que cada etapa termine con una decisión basada en evidencia. Es una propuesta; los plazos dependen del punto de partida.',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Días 1 a 30: piloto acotado.** Un equipo voluntario, un tipo de tarea de nivel 1 (por ejemplo, agregar pruebas faltantes) y OpenSandbox con Docker en un runner dedicado. Definir las métricas y medir la línea de base. Decisión al cierre: ¿la tasa de aceptación justifica seguir?',
+              '**Días 31 a 60: estándar del equipo.** Escribir la política de niveles con el equipo y seguridad, publicar la plantilla de tarea delegada con red denegada por defecto y Credential Vault, y armar un conjunto de evaluación con 20 o 30 tareas reales para comparar modelos o instrucciones. Decisión: ¿qué tareas se delegan de forma habitual?',
+              '**Días 61 a 90: plataforma compartida.** Si los resultados lo justifican, desplegar en Kubernetes con multi-tenancy, runtime seguro para los niveles 2 y 3 y un tablero con las métricas por equipo. Decisión: ¿se extiende a otros equipos, se mantiene el alcance o se evalúa una alternativa gestionada?',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Preguntas para la decisión',
+        paragraphs: [
+          'Antes de adoptar OpenSandbox o cualquier alternativa, conviene que el liderazgo técnico pueda responder estas preguntas:',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '¿Qué tareas queremos delegar y cuál es el peor resultado posible de cada una?',
+              '¿Qué credenciales necesita cada tipo de tarea y cómo evitamos que lleguen al entorno del agente?',
+              '¿Quién opera la plataforma y con qué capacidad, sabiendo que la API todavía puede cambiar?',
+              '¿Dónde deben quedar el código y los datos que procesa el agente?',
+              '¿Cómo vamos a saber, dentro de tres meses, si la delegación mejoró el flujo del equipo o solo trasladó trabajo a la revisión?',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Conclusión',
+        paragraphs: [
+          'OpenSandbox resuelve un problema concreto, ejecutar el trabajo de los agentes en entornos aislados, efímeros y con políticas explícitas, y lo hace con un diseño que toma en serio la red y las credenciales. Es un proyecto joven, con una API que todavía evoluciona y limitaciones documentadas que hay que considerar antes de llevarlo a producción.',
+          'Más allá de la herramienta, la idea que deja es útil para cualquier equipo: decidir dónde corren los agentes es decidir cuánto se puede delegar. Un Engineering Manager que convierte esa decisión en una política explícita, con niveles de autonomía, permisos mínimos y métricas de resultado, le da al equipo la posibilidad de aprovechar los agentes sin depender de la confianza individual ni de la prohibición.',
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'OpenSandbox. [Repositorio](https://github.com/opensandbox-group/OpenSandbox), [sitio y documentación](https://open-sandbox.ai) y [roadmap](https://github.com/opensandbox-group/OpenSandbox/blob/main/ROADMAP.md).',
+              'OpenSandbox. [Credential Vault](https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/credential-vault.md) y [seguridad de red](https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/network-security.md).',
+              'OpenSandbox. [Runtimes seguros](https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/secure-container.md) y [multi-tenancy](https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/multi-tenancy.md).',
+              'Agentic AI Foundation. [OpenSandbox](https://aaif.io/projects/opensandbox).',
+              'Harbor. [Framework de evaluación de agentes](https://github.com/harbor-framework/harbor).',
+              'Kubernetes SIGs. [agent-sandbox](https://github.com/kubernetes-sigs/agent-sandbox).',
+              'Skelton, M. y Pais, M. [Team Topologies](https://teamtopologies.com/).',
+              'DORA. [Investigación sobre desempeño de equipos de software](https://dora.dev/).',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: el sandbox es la unidad de delegación del trabajo con agentes. OpenSandbox ofrece entornos aislados y efímeros con red denegada por defecto y credenciales que nunca llegan al agente, sobre Docker o Kubernetes. Es un proyecto joven, con API todavía no estable, que conviene adoptar con un piloto acotado, niveles de autonomía explícitos, permisos mínimos y métricas de resultado, no de volumen.',
+  },
+  {
     slug: 'ingenieria-agentes-ia-empresa-arquitectura-controles',
     seoTitle: 'Agentes de IA en la empresa: arquitectura y controles',
     seoDescription: 'Cómo diseñar asistentes y agentes de IA para sistemas empresariales: RAG, MCP, orquestación, controles, evals, observabilidad y un ejemplo con FastAPI.',
@@ -882,6 +1235,575 @@ async def consultar(consulta: Consulta) -> Respuesta:
       },
     ],
     takeaway: 'En síntesis: un asistente o agente empresarial es, ante todo, un sistema de software. Su calidad depende de decidir cuánta autonomía darle, de encapsular todo acceso a sistemas en herramientas con contratos y permisos, de separar consultas de acciones, de aplicar límites en el código y de verificar cada cambio con evals y trazas. Los frameworks ayudan a construirlo; el criterio de diseño sigue siendo responsabilidad del equipo.',
+  },
+  {
+    slug: 'plataforma-mlops-modelos-bayesianos-mlflow',
+    seoTitle: 'Plataforma MLOps para modelos bayesianos con MLflow',
+    seoDescription: 'Cómo construir una plataforma self-service para modelos bayesianos: templates, gates de validación, promoción con MLflow, CLI de deploy y rollback, monitoreo y soporte.',
+    title: 'Plataforma MLOps para modelos bayesianos: del notebook a producción con autonomía y control',
+    description: 'Una guía técnica para equipos de plataforma que dan soporte a Data Scientists: qué cambia al llevar modelos bayesianos a producción, templates de repositorio, suites de validación, promoción dev → staging → prod con MLflow, herramientas ml-deploy y ml-rollback, serving de modelos complejos, monitoreo, gobernanza automatizada, documentación, formación y respuesta a incidentes. Incluye un ejemplo con PyMC y MLflow verificado con pruebas automáticas.',
+    category: 'Arquitectura y plataforma',
+    tags: ['MLOps', 'Platform Engineering', 'Python'],
+    date: '2026-11-16',
+    readingTime: '17 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['floci-emulacion-cloud-local-platform-engineering', 'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia', 'developer-experience-ia-friccion-plataforma'],
+    contextLabel: 'Guía técnica · MLOps y plataformas para Data Science',
+    sourceUrl: 'https://mlflow.org/docs/latest/ml/model-registry/',
+    sourceLabel: 'MLflow: documentación del Model Registry',
+    lead: 'Un modelo bayesiano bien construido no responde solo «cuánto», sino también «con qué incertidumbre». Esa propiedad, que es su principal valor para el negocio, es también lo que lo vuelve más difícil de operar: el entrenamiento depende de un muestreo que puede no converger, el artefacto es una distribución y no un vector de pesos, y una predicción puntual correcta puede esconder intervalos mal calibrados. Este artículo recorre el trabajo de un equipo de plataforma que da soporte a Data Scientists que construyen este tipo de modelos: templates, validación automática, promoción entre entornos con MLflow, herramientas de despliegue y reversión, serving, monitoreo, gobernanza y formación. El objetivo es concreto: que la mayoría de los despliegues ocurran sin intervención del equipo de plataforma y sin perder control.',
+    sections: [
+      {
+        title: 'El problema: autonomía sin perder control',
+        paragraphs: [
+          'En muchas organizaciones, llevar un modelo a producción sigue siendo un proyecto en sí mismo. El Data Scientist termina un notebook, abre un ticket y espera a que alguien de ingeniería empaquete el modelo, escriba una API, configure el despliegue y agregue algo de monitoreo. Cada paso se negocia de nuevo, el conocimiento queda en pocas personas y los modelos llegan tarde o no llegan.',
+          'La respuesta habitual es una plataforma de ML: un conjunto de herramientas, templates y procesos que permiten a los Data Scientists desplegar por su cuenta. Un objetivo frecuente es que al menos el 80% de los despliegues se completen sin intervención del equipo de plataforma. La cifra sirve como meta solo si se define cómo se mide: por ejemplo, la proporción de promociones a producción que no requirieron un ticket ni una sesión de soporte en los últimos 90 días. Sin esa definición, la autonomía se vuelve una percepción.',
+          'Autonomía no significa ausencia de controles. Significa que los controles están automatizados, son visibles y se ejecutan siempre igual, de modo que un Data Scientist puede saber de antemano qué tiene que cumplir su modelo para llegar a producción y por qué fue rechazado si no lo cumple.',
+        ],
+      },
+      {
+        title: 'Qué cambia con un modelo bayesiano',
+        paragraphs: [
+          'La mayor parte de las prácticas de MLOps se pensaron para modelos que se entrenan con optimización y producen un conjunto de parámetros. Un modelo bayesiano ajustado con MCMC (Markov Chain Monte Carlo) produce otra cosa: muestras de la distribución posterior de sus parámetros. Esa diferencia afecta a cada etapa del ciclo.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Diferencias operativas entre un modelo entrenado por optimización y uno bayesiano ajustado con MCMC',
+            head: ['Etapa', 'Modelo por optimización', 'Modelo bayesiano con MCMC', 'Consecuencia para la plataforma'],
+            rows: [
+              ['Entrenamiento', 'Converge a un óptimo; la pérdida indica progreso', 'Las cadenas pueden no converger aunque el proceso termine sin error', 'Los diagnósticos de convergencia son un gate obligatorio'],
+              ['Artefacto', 'Pesos del modelo', 'Miles de muestras de la posterior, a veces de cientos de MB', 'Hay que decidir qué se guarda para diagnóstico y qué se sirve'],
+              ['Predicción', 'Una pasada por el modelo', 'Una predicción por muestra, luego se resume', 'La latencia depende de cuántas muestras se usan'],
+              ['Calidad', 'Error de la predicción puntual', 'Error y calibración de los intervalos', 'Las métricas de monitoreo incluyen cobertura'],
+              ['Costo', 'Entrenamiento relativamente predecible', 'Depende de la geometría de la posterior', 'Conviene medir muestras efectivas por segundo'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Hay un punto que suele sorprender a equipos que vienen de otros tipos de modelos: **un muestreo que termina sin error puede producir resultados inválidos**. Cadenas que no se mezclaron, transiciones divergentes o pocas muestras efectivas generan una posterior que no representa al modelo. Por eso los diagnósticos no son una buena práctica opcional, sino una condición para registrar una versión.',
+          },
+        ],
+      },
+      {
+        title: 'Una arquitectura de referencia',
+        paragraphs: [
+          'La arquitectura que sigue es una propuesta propia. Separa cuatro responsabilidades: el código del modelo, que pertenece al Data Scientist; la validación, que la plataforma define y ejecuta; el registro y la promoción, que usan MLflow como fuente de verdad; y el serving y el monitoreo, que la plataforma opera.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Ciclo de vida de un modelo en la plataforma',
+            description: 'Un Data Scientist crea un repositorio desde el template de modelo. Cada cambio dispara el CI, que ejecuta la suite de validación: pruebas unitarias, recuperación de parámetros, diagnósticos de convergencia, calibración y latencia. Si pasa, la versión se registra en MLflow con sus métricas y etiquetas. La herramienta ml-deploy mueve los aliases dev, staging y prod tras verificar los gates; prod además requiere aprobación. El servicio de inferencia carga el modelo por alias, y el monitoreo mide exactitud, calibración, latencia y diagnósticos. Ante un problema, ml-rollback devuelve el alias a la versión anterior.',
+            text: `flowchart LR
+  T["Template de modelo"] --> R["Repositorio del modelo"]
+  R --> CI["CI: suite de validación"]
+  CI -->|aprobada| REG["MLflow Model Registry"]
+  CI -->|rechazada| R
+  REG --> D["ml-deploy: dev → staging → prod"]
+  G["Gates: validación, orden, aprobación"] -. controla .-> D
+  D --> S["Serving: carga models:/nombre@prod"]
+  S --> MON["Monitoreo: exactitud, calibración, latencia"]
+  MON -. alerta .-> RB["ml-rollback"]
+  RB --> REG`,
+          },
+          {
+            type: 'p',
+            text: 'Dos decisiones importan más que el resto. La primera es que **el registro es la única fuente de verdad sobre qué versión corre en cada entorno**: el servicio no conoce números de versión, solo aliases. La segunda es que **promover y revertir son operaciones sobre el registro, no despliegues de infraestructura**: mover un alias es rápido, auditable y reversible, y el servicio toma la nueva versión al recargar el modelo.',
+          },
+        ],
+      },
+      {
+        title: 'Templates: el camino más corto debe ser el correcto',
+        paragraphs: [
+          'Un template de repositorio es la forma más eficaz de difundir buenas prácticas, porque las incorpora antes de que alguien tenga que recordarlas. Conviene mantener al menos dos: uno para el modelo y otro para la API que lo sirve cuando el caso necesita lógica propia. Herramientas como [Copier](https://copier.readthedocs.io/) o [Cookiecutter](https://cookiecutter.readthedocs.io/) generan el repositorio; Copier además permite actualizar proyectos existentes cuando el template evoluciona, algo valioso cuando hay decenas de modelos.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Contenido mínimo de los templates (propuesta)',
+            head: ['Template', 'Incluye', 'Por qué'],
+            rows: [
+              ['Modelo', 'Estructura `src/` con `modelo.py`, `entrenar.py` y `serving.py`; datos simulados para pruebas; suite de validación de la plataforma; pipeline de CI; `MODEL_CARD.md`', 'El Data Scientist escribe el modelo; todo lo demás ya está resuelto'],
+              ['Modelo', 'Configuración de muestreo con semilla, cadenas y umbrales declarados en un archivo', 'Los gates son explícitos y revisables en el código'],
+              ['API', 'FastAPI con contrato de entrada y salida, health checks, carga por alias, métricas y trazas', 'Cada servicio expone las mismas señales al monitoreo'],
+              ['Ambos', 'Dependencias fijadas, `pre-commit`, documentación con MkDocs', 'Reproducibilidad y documentación desde el primer commit'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El template no debería esconder el modelo detrás de abstracciones propias. Un Data Scientist que usa PyMC tiene que poder escribir PyMC. La plataforma aporta la estructura alrededor, no un lenguaje nuevo.',
+          },
+        ],
+      },
+      {
+        title: 'Un ejemplo verificado: de PyMC a producción con MLflow',
+        paragraphs: [
+          'El ejemplo implementa un modelo jerárquico de demanda por tienda, la suite de validación, el registro en MLflow y las herramientas `ml-deploy` y `ml-rollback`. Usa PyMC 6.4, ArviZ 1.3, MLflow 3.18 y Typer, con Python 3.12.',
+        ],
+        blocks: [
+          {
+            type: 'note',
+            label: 'Qué se verificó',
+            text: 'El código se ejecutó con esas versiones contra un registro de MLflow local sobre SQLite. Cuatro pruebas automáticas pasan: recuperación de parámetros con datos simulados, promoción y reversión con la CLI, rechazo de una versión no validada y carga del modelo por alias para predecir. Los tiempos que se mencionan corresponden a una laptop y sirven solo como orden de magnitud.',
+          },
+          { type: 'h3', text: 'El modelo' },
+          {
+            type: 'code',
+            lang: 'python',
+            caption: 'modelo.py: modelo jerárquico con parametrización no centrada',
+            text: `import pymc as pm
+
+
+def construir(tienda, precio, y, n_tiendas):
+    with pm.Model() as m:
+        mu_a = pm.Normal("mu_a", 40, 20)
+        sigma_a = pm.HalfNormal("sigma_a", 10)
+        z = pm.Normal("z", 0, 1, shape=n_tiendas)          # no centrada
+        a = pm.Deterministic("a", mu_a + z * sigma_a)
+        beta = pm.Normal("beta", 0, 5)
+        sigma = pm.HalfNormal("sigma", 10)
+        pm.Normal("y", a[tienda] + beta * precio, sigma, observed=y)
+    return m
+
+
+def ajustar(datos, draws=1000, tune=1000, chains=4, seed=42, target_accept=0.95):
+    m = construir(datos["tienda"], datos["precio"], datos["y"], datos["n_tiendas"])
+    with m:
+        return pm.sample(draws=draws, tune=tune, chains=chains, random_seed=seed,
+                         target_accept=target_accept, progressbar=False, quiet=True)`,
+          },
+          {
+            type: 'p',
+            text: 'Cada tienda tiene su propio nivel de demanda, pero los niveles comparten una distribución común. Así, una tienda con pocos datos toma información de las demás. La **parametrización no centrada** (`a = mu_a + z * sigma_a`) es una práctica estándar en modelos jerárquicos: evita una geometría de la posterior que dificulta el muestreo y suele reducir las divergencias.',
+          },
+          { type: 'h3', text: 'Los gates de validación' },
+          {
+            type: 'code',
+            lang: 'python',
+            caption: 'validacion.py: convergencia, calibración y latencia como condiciones explícitas',
+            text: `import arviz as az
+
+UMBRALES = {"rhat_max": 1.01, "ess_bulk_min": 400, "divergencias_max": 0,
+            "cobertura_90_min": 0.85, "cobertura_90_max": 0.95, "latencia_p95_ms_max": 50}
+
+
+def convergencia(idata, var_names=("mu_a", "sigma_a", "beta", "sigma", "a")):
+    rhat = az.rhat(idata, var_names=list(var_names))
+    ess = az.ess(idata, var_names=list(var_names), method="bulk")
+    return {
+        "rhat_max": float(max(rhat[v].max() for v in var_names)),
+        "ess_bulk_min": float(min(ess[v].min() for v in var_names)),
+        "divergencias": int(idata.sample_stats["diverging"].sum()),
+    }
+
+
+def evaluar(metricas, u=UMBRALES):
+    fallas = []
+    if metricas["rhat_max"] > u["rhat_max"]: fallas.append("rhat")
+    if metricas["ess_bulk_min"] < u["ess_bulk_min"]: fallas.append("ess")
+    if metricas["divergencias"] > u["divergencias_max"]: fallas.append("divergencias")
+    if not u["cobertura_90_min"] <= metricas["cobertura_90"] <= u["cobertura_90_max"]:
+        fallas.append("cobertura")
+    if metricas["latencia_p95_ms"] > u["latencia_p95_ms_max"]: fallas.append("latencia")
+    return fallas`,
+          },
+          {
+            type: 'p',
+            text: 'Los umbrales de R-hat (1,01) y de tamaño efectivo de muestra (400 en total entre cadenas) siguen las recomendaciones de Vehtari y colegas en su revisión del diagnóstico R-hat. La **cobertura** mide qué proporción de observaciones nuevas cae dentro del intervalo del 90%: si el modelo está bien calibrado, debería rondar ese valor. Un intervalo demasiado estrecho subestima el riesgo; uno demasiado ancho no aporta información.',
+          },
+          {
+            type: 'p',
+            text: 'Los gates detectaron problemas reales durante la preparación del ejemplo. Con menos datos y la configuración por defecto, la primera versión registró una transición divergente y una cobertura del 83,6% sobre 67 observaciones de prueba, y fue rechazada. Con más datos y `target_accept=0.95`, las siguientes versiones tuvieron cero divergencias y una cobertura del 90,3%. En las pruebas automáticas, una corrida con 500 muestras por cadena quedó por debajo del mínimo de ESS y también fue rechazada. Además de los umbrales, este episodio muestra un detalle: la banda de cobertura tiene que contemplar el tamaño del conjunto de prueba, porque con pocas observaciones la variación es grande.',
+          },
+          { type: 'h3', text: 'Servir la posterior sin PyMC en runtime' },
+          {
+            type: 'code',
+            lang: 'python',
+            caption: 'serving.py: predictor liviano a partir de muestras guardadas',
+            text: `import numpy as np
+import mlflow
+
+
+class Predictor:
+    def __init__(self, a, beta, sigma, seed=0):
+        self.a, self.beta, self.sigma = a, beta, sigma      # (S, T), (S,), (S,)
+        self.rng = np.random.default_rng(seed)
+
+    @classmethod
+    def desde_idata(cls, idata, max_draws=500, seed=0):
+        post = idata.posterior.ds.stack(s=("chain", "draw"))
+        idx = np.linspace(0, post.sizes["s"] - 1, max_draws).astype(int)   # thinning
+        return cls(post["a"].values.T[idx], post["beta"].values[idx], post["sigma"].values[idx], seed)
+
+    def muestras(self, tienda, precio):
+        mu = self.a[:, tienda] + self.beta[:, None] * precio[None, :]      # (S, N) vectorizado
+        return mu + self.sigma[:, None] * self.rng.standard_normal(mu.shape)
+
+
+class ModeloDemanda(mlflow.pyfunc.PythonModel):
+    def load_context(self, context):
+        d = np.load(context.artifacts["draws"])
+        self.p = Predictor(d["a"], d["beta"], d["sigma"])
+
+    def predict(self, context, model_input, params=None):
+        s = self.p.muestras(model_input["tienda"].to_numpy(),
+                            model_input["precio"].to_numpy(dtype=float))
+        out = model_input.copy()
+        out["media"] = s.mean(axis=0)
+        out["p05"], out["p95"] = np.quantile(s, [0.05, 0.95], axis=0)
+        return out`,
+          },
+          {
+            type: 'p',
+            text: 'Esta es una de las decisiones de diseño más útiles para modelos bayesianos en producción: **separar el ajuste del serving**. El ajuste corre con PyMC en un job de entrenamiento; el servicio solo necesita las muestras de los parámetros y una función vectorizada en NumPy que genera la predictiva posterior. Se guardan 500 muestras de las 4.000 disponibles, elegidas a intervalos regulares, y el servicio responde con la media y un intervalo del 90%. En el ejemplo, la latencia p95 para 154 predicciones fue de alrededor de 2 ms. La posterior completa se guarda aparte, en formato NetCDF, para diagnóstico y auditoría.',
+          },
+          {
+            type: 'p',
+            text: 'El trade-off es explícito: menos muestras implica menos latencia y más error de Monte Carlo en los cuantiles. Para cuantiles extremos, como un percentil 99 usado en decisiones de stock, 500 muestras pueden no alcanzar. La cantidad debería decidirse con el Data Scientist y quedar registrada como parámetro del modelo.',
+          },
+          { type: 'h3', text: 'Registrar la versión con su evidencia' },
+          {
+            type: 'code',
+            lang: 'python',
+            caption: 'entrenar.py (fragmento): cada versión queda registrada con métricas y resultado de validación',
+            text: `with mlflow.start_run():
+    mlflow.log_params({"draws": draws, "chains": 4, "seed": seed, "parametrizacion": "no_centrada"})
+    idata = modelo.ajustar(entreno, draws=draws, seed=seed)
+    pred = Predictor.desde_idata(idata)
+    m = validacion.convergencia(idata)
+    m["cobertura_90"] = validacion.cobertura(pred, tienda_test, precio_test, y_test)
+    m["latencia_p95_ms"] = validacion.latencia_p95_ms(pred, tienda_test, precio_test)
+    mlflow.log_metrics(m)
+    fallas = validacion.evaluar(m)
+    # ... guardar draws.npz y posterior.nc ...
+    info = mlflow.pyfunc.log_model(name="modelo", python_model=ModeloDemanda(),
+                                   artifacts={"draws": ruta_draws}, code_paths=["serving.py"],
+                                   input_example=ejemplo, registered_model_name=NOMBRE)
+
+version = str(info.registered_model_version)
+cliente = mlflow.MlflowClient()
+cliente.set_model_version_tag(NOMBRE, version, "validacion", "rechazada" if fallas else "aprobada")
+cliente.set_model_version_tag(NOMBRE, version, "validacion.fallas", ",".join(fallas) or "-")`,
+          },
+          {
+            type: 'p',
+            text: 'Registrar también las versiones rechazadas puede parecer innecesario, pero aporta trazabilidad: el historial muestra qué se intentó, por qué no pasó y qué cambió después. La etiqueta `validacion` es lo que la CLI consulta para permitir o rechazar una promoción.',
+          },
+        ],
+      },
+      {
+        title: 'Promoción dev → staging → prod con aliases',
+        paragraphs: [
+          'Las versiones anteriores de MLflow usaban *stages* fijos (Staging, Production, Archived). Desde la versión 2.9 están deprecados en favor de **aliases**: nombres mutables que apuntan a una versión, como `dev`, `staging` o `prod`. El servicio carga `models:/demanda-tiendas@prod` y la promoción consiste en mover el alias.',
+          'Cuando los entornos están en workspaces o registros separados, como suele ocurrir en organizaciones con requisitos de aislamiento, `MlflowClient.copy_model_version` copia una versión de un modelo registrado a otro. El principio es el mismo: la versión que llega a producción es exactamente la que se validó, no un reentrenamiento.',
+        ],
+        blocks: [
+          {
+            type: 'code',
+            lang: 'python',
+            caption: 'ml_cli.py (fragmento): ml-deploy verifica los gates antes de mover el alias',
+            text: `ENTORNOS = ["dev", "staging", "prod"]
+
+
+@deploy_app.command()
+def deploy(modelo: str, version: str, entorno: str = typer.Option(..., "--to"),
+           ticket: str = typer.Option("", help="Cambio aprobado; obligatorio para prod"),
+           dry_run: bool = False):
+    """Promueve una versión al entorno indicado si pasa los gates."""
+    c = MlflowClient()
+    mv = c.get_model_version(modelo, version)
+    errores = []
+    if mv.tags.get("validacion") != "aprobada":
+        errores.append(f"validación: {mv.tags.get('validacion', 'sin ejecutar')}")
+    previo = ENTORNOS[ENTORNOS.index(entorno) - 1] if entorno != "dev" else None
+    if previo and _version_de(c, modelo, previo) != str(version):
+        errores.append(f"la versión {version} no está en {previo}")
+    if entorno == "prod" and not ticket:
+        errores.append("prod requiere --ticket")
+    if errores:
+        typer.echo("RECHAZADO: " + "; ".join(errores), err=True)
+        raise typer.Exit(code=2)
+    actual = _version_de(c, modelo, entorno)
+    typer.echo(f"{modelo}@{entorno}: {actual or '-'} -> {version}")
+    if dry_run:
+        return
+    if actual and actual != str(version):
+        c.set_registered_model_tag(modelo, f"{entorno}.anterior", actual)
+    c.set_registered_model_alias(modelo, entorno, version)
+    c.set_model_version_tag(modelo, version, f"desplegado.{entorno}",
+                            f"{datetime.now(timezone.utc).isoformat()} ticket={ticket or '-'}")
+
+
+@rollback_app.command()
+def rollback(modelo: str, entorno: str = typer.Option(..., "--env"), motivo: str = typer.Option(...)):
+    """Vuelve el alias del entorno a la versión anterior registrada."""
+    c = MlflowClient()
+    anterior = c.get_registered_model(modelo).tags.get(f"{entorno}.anterior")
+    if not anterior:
+        typer.echo(f"no hay versión anterior registrada para {entorno}", err=True)
+        raise typer.Exit(code=2)
+    actual = _version_de(c, modelo, entorno)
+    c.set_registered_model_alias(modelo, entorno, anterior)
+    c.set_registered_model_tag(modelo, f"{entorno}.anterior", actual)
+    c.set_model_version_tag(modelo, actual, f"revertido.{entorno}",
+                            f"{datetime.now(timezone.utc).isoformat()} motivo={motivo}")`,
+          },
+          {
+            type: 'p',
+            text: 'Las dos funciones se publican como comandos con `[project.scripts]` en `pyproject.toml` (`ml-deploy = "ml_cli:deploy_app"` y `ml-rollback = "ml_cli:rollback_app"`). Una sesión típica se ve así:',
+          },
+          {
+            type: 'code',
+            lang: 'bash',
+            caption: 'Salida real de la CLI contra el registro local',
+            text: `$ ml-deploy demanda-tiendas 2 --to prod --ticket CHG-9
+RECHAZADO: la versión 2 no está en staging
+$ ml-deploy demanda-tiendas 2 --to dev
+demanda-tiendas@dev: - -> 2
+$ ml-deploy demanda-tiendas 2 --to staging
+demanda-tiendas@staging: - -> 2
+$ ml-deploy demanda-tiendas 2 --to prod --ticket CHG-9
+demanda-tiendas@prod: - -> 2
+# ... la versión 3 recorre dev y staging ...
+$ ml-deploy demanda-tiendas 3 --to prod --ticket CHG-10
+demanda-tiendas@prod: 2 -> 3
+$ ml-rollback demanda-tiendas --env prod --motivo "latencia p95"
+demanda-tiendas@prod: 3 -> 2`,
+          },
+          {
+            type: 'p',
+            text: 'Algunos principios de diseño para estas herramientas: deben ser **idempotentes**, de modo que repetir un comando no produzca efectos distintos; deben ofrecer `--dry-run`; deben dejar **evidencia en el registro** (quién, cuándo, con qué ticket), y deben devolver códigos de salida distintos para un rechazo por política y para un error técnico, para que el CI pueda tratarlos de forma diferente. El rollback tiene que ser la operación más simple de todas, porque se usa bajo presión.',
+          },
+          {
+            type: 'note',
+            label: 'Límites del ejemplo',
+            text: 'El ticket se acepta como texto; en una implementación real, la aprobación para prod debería venir de un mecanismo con identidad verificable, como los entornos protegidos con revisores obligatorios de GitHub Actions o GitLab, y la CLI debería ejecutarse desde el pipeline con credenciales de servicio, no desde la laptop de cada persona. El rollback guarda una sola versión anterior; un historial completo es una extensión directa.',
+          },
+        ],
+      },
+      {
+        title: 'Suites de testing: qué validar en un modelo bayesiano',
+        paragraphs: [
+          'Las pruebas de un modelo bayesiano combinan las de cualquier software con otras propias del enfoque. Conviene organizarlas por costo, para que las rápidas corran en cada commit y las más caras en la integración o antes de una promoción.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Capas de prueba para un modelo bayesiano (propuesta)',
+            head: ['Prueba', 'Qué detecta', 'Cuándo corre'],
+            rows: [
+              ['Unitarias y de contrato', 'Errores en transformaciones y en el esquema de entrada y salida', 'Cada commit, segundos'],
+              ['Chequeo predictivo a priori', 'Priors que generan valores imposibles, como demandas negativas enormes', 'Cada commit, segundos'],
+              ['Recuperación de parámetros', 'Un modelo que no puede recuperar los valores con los que se simularon los datos', 'Cada PR, minutos'],
+              ['Diagnósticos de convergencia', 'R-hat alto, ESS bajo, divergencias', 'Cada entrenamiento'],
+              ['Calibración y error en holdout', 'Intervalos mal calibrados, peor exactitud que la versión actual', 'Antes de registrar'],
+              ['Performance', 'Latencia p95 y memoria fuera del presupuesto', 'Antes de promover'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La **recuperación de parámetros** es la prueba más característica: se simulan datos con valores conocidos, se ajusta el modelo y se comprueba que esos valores caen dentro de los intervalos de la posterior. Si un modelo no recupera parámetros de datos que cumplen sus propios supuestos, difícilmente funcione con datos reales. En el ejemplo, la prueba verifica `mu_a`, `beta` y `sigma` dentro del intervalo del 94%. Para una validación más rigurosa del procedimiento de inferencia existe *simulation-based calibration*, que repite este ejercicio muchas veces; es costosa y suele reservarse para modelos críticos o cambios estructurales.',
+          },
+        ],
+      },
+      {
+        title: 'Rendimiento: MCMC, inferencia y MLflow',
+        paragraphs: [],
+        blocks: [
+          { type: 'h3', text: 'Eficiencia del muestreo' },
+          {
+            type: 'p',
+            text: 'La métrica útil no es el tiempo de entrenamiento sino las **muestras efectivas por segundo**: un muestreador más rápido que produce cadenas muy correlacionadas puede ser peor que uno lento con buena mezcla. Las palancas, en orden aproximado de impacto: reparametrizar el modelo (como la forma no centrada del ejemplo), escalar y centrar predictores, usar priors informativos razonables, y probar otros backends de NUTS. `pm.sample` acepta `nuts_sampler` con las opciones `pymc`, `nutpie`, `numpyro` y `blackjax`; los dos últimos se basan en JAX y pueden aprovechar GPU. Cuál conviene depende del modelo, así que la plataforma debería facilitar la comparación, por ejemplo registrando ESS por segundo como métrica de cada corrida.',
+          },
+          {
+            type: 'p',
+            text: 'Para modelos que se reentrenan con frecuencia y no toleran el costo de MCMC, existen aproximaciones como la inferencia variacional (ADVI) o Pathfinder. Son más rápidas, pero tienden a subestimar la incertidumbre. Si se usan, la validación de calibración se vuelve aún más importante.',
+          },
+          { type: 'h3', text: 'Velocidad de inferencia' },
+          {
+            type: 'p',
+            text: 'Las técnicas principales ya aparecen en el ejemplo: servir desde muestras guardadas en lugar de recompilar el modelo, reducir el número de muestras, vectorizar el cálculo sobre muestras y observaciones a la vez, y cargar el modelo una sola vez al iniciar el servicio. Para cargas por lotes, la predicción se puede ejecutar como job sobre todo el conjunto, con lo que la latencia por solicitud deja de importar.',
+          },
+          { type: 'h3', text: 'MLflow a escala' },
+          {
+            type: 'p',
+            text: 'Con muchos equipos y miles de corridas, MLflow también necesita atención. Un backend en base de datos (PostgreSQL o MySQL) en lugar de archivos locales, con la base dimensionada y mantenida como cualquier otra; artifacts en almacenamiento de objetos, con `mlflow server --artifacts-destination` cuando se quiere que el servidor actúe como proxy y los clientes no necesiten credenciales del bucket; búsquedas con filtros y paginación (`search_model_versions` acepta `filter_string`, `max_results` y `page_token`) en lugar de traer todo; logging asíncrono (`mlflow.config.enable_async_logging()`) para que el entrenamiento no espere al servidor, y caché de las resoluciones de alias en los servicios, con un tiempo de expiración corto, para no consultar el registro en cada solicitud.',
+          },
+        ],
+      },
+      {
+        title: 'Serving de modelos complejos',
+        paragraphs: [
+          'Los modelos bayesianos y los ensembles comparten un problema de serving: una predicción implica muchos cálculos que después se resumen. Algunas pautas de arquitectura ayudan a mantenerlo manejable.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Separar ajuste, preparación y serving.** El ajuste corre como job; un paso intermedio prepara el artefacto de serving (muestras reducidas, componentes precalculados); el servicio solo carga y calcula.',
+              '**Un contrato de salida que incluya incertidumbre.** Media e intervalo, no solo un número. Si los consumidores ignoran el intervalo, el modelo pierde su principal ventaja.',
+              '**Ensembles como un solo artefacto versionado.** Los modelos que componen un ensemble se registran juntos o con referencias fijas a versiones, nunca a aliases que puedan moverse por separado.',
+              '**Elegir entre online y batch según el uso.** Muchas decisiones de negocio, como planificación de stock o precios, funcionan mejor con predicciones calculadas por lotes y guardadas, que con un servicio en línea.',
+              '**Despliegue gradual para cambios relevantes.** Un modelo nuevo puede correr en modo sombra junto al actual, comparando predicciones antes de recibir tráfico real.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Monitoreo de la salud del modelo',
+        paragraphs: [
+          'Un dashboard de salud de modelos combina métricas de servicio, de calidad y de proceso de entrenamiento. La tabla propone un conjunto mínimo; los umbrales dependen de cada caso.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Métricas de salud de un modelo bayesiano en producción (propuesta)',
+            head: ['Dimensión', 'Métrica', 'Cuándo se conoce', 'Señal de alerta'],
+            rows: [
+              ['Servicio', 'Latencia p95, tasa de error, throughput', 'En tiempo real', 'Supera el presupuesto acordado'],
+              ['Datos', 'Distribución de las variables de entrada', 'En tiempo real', 'Valores fuera del rango de entrenamiento'],
+              ['Exactitud', 'Error absoluto medio, error porcentual', 'Cuando llegan los valores reales', 'Peor que la versión anterior o que un baseline simple'],
+              ['Calibración', 'Cobertura de los intervalos del 50% y del 90%', 'Cuando llegan los valores reales', 'Desvío sostenido respecto de la cobertura nominal'],
+              ['Entrenamiento', 'R-hat máximo, ESS mínimo, divergencias, ESS por segundo', 'En cada reentrenamiento', 'Degradación respecto de corridas anteriores'],
+              ['Uso', 'Versión activa por entorno, fecha del último reentrenamiento', 'Siempre', 'Modelo sin reentrenar más allá de lo previsto'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La **cobertura en producción** es la métrica que más información aporta y la que menos se mide. Si el 90% de las ventas reales cae dentro del intervalo del 90%, el modelo cuantifica bien su incertidumbre. Si cae el 70%, el modelo es demasiado confiado y las decisiones que usan el intervalo, como el stock de seguridad, están subestimando el riesgo, aunque el error de la media sea bueno.',
+          },
+        ],
+      },
+      {
+        title: 'Gobernanza automatizada',
+        paragraphs: [
+          'La gobernanza manual, con planillas y reuniones de aprobación, no escala y suele convertirse en un trámite. La alternativa es expresar las políticas como chequeos que se ejecutan en el pipeline y dejan evidencia en el registro.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Gates técnicos:** validación aprobada, orden de entornos respetado, dependencias sin vulnerabilidades conocidas.',
+              '**Gates de documentación:** `MODEL_CARD.md` con propósito, datos de entrenamiento, limitaciones y responsable; sin él, la versión no se promueve.',
+              '**Gates de linaje:** la versión tiene etiquetas con el commit del código, la versión de los datos y la imagen de entrenamiento.',
+              '**Aprobación humana donde aporta:** para producción y para modelos que afectan decisiones sobre personas, con revisores definidos por política y no por disponibilidad.',
+              '**Auditoría como subproducto:** cada promoción y reversión queda registrada con fecha, autor y motivo, sin que nadie tenga que escribir un informe.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El objetivo es que el camino aprobado sea también el más fácil. Si cumplir con la política exige más trabajo que saltearla, la gente encuentra cómo saltearla.',
+          },
+        ],
+      },
+      {
+        title: 'Autonomía: documentación, formación y feedback',
+        paragraphs: [
+          'Las herramientas no generan autonomía por sí solas. La autonomía depende de que los Data Scientists entiendan la plataforma, confíen en ella y puedan resolver problemas sin escalar.',
+        ],
+        blocks: [
+          { type: 'h3', text: 'Documentación como producto' },
+          {
+            type: 'p',
+            text: 'El esquema [Diátaxis](https://diataxis.fr/) ayuda a ordenarla en cuatro tipos con propósitos distintos: tutoriales para aprender (el primer modelo de punta a punta), guías prácticas para tareas concretas (cómo hacer un rollback), referencia (la API del SDK, generada desde el código con [MkDocs](https://www.mkdocs.org/) y mkdocstrings, o con [Sphinx](https://www.sphinx-doc.org/)) y explicaciones (por qué existen los gates). Los ejemplos de la documentación deberían ejecutarse en el CI, para que no queden desactualizados.',
+          },
+          { type: 'h3', text: 'Formación y certificación' },
+          {
+            type: 'p',
+            text: 'Una certificación de uso de la plataforma funciona mejor como un ejercicio práctico que como un examen: llevar un modelo provisto desde el template hasta staging, provocar un rechazo de validación, corregirlo y ejecutar un rollback. Quien lo completó ya hizo todo lo que va a necesitar en el día a día. Las sesiones de formación también son una fuente de feedback: cada pregunta repetida señala un hueco en la documentación o en la herramienta.',
+          },
+          { type: 'h3', text: 'El SDK como producto' },
+          {
+            type: 'p',
+            text: 'El SDK y las herramientas evolucionan con versionado semántico, notas de cambio y avisos de deprecación con plazo. El feedback se recoge de forma sistemática: entrevistas breves después de cada primer despliegue, análisis de tickets de soporte por categoría y una métrica de autonomía revisada cada trimestre. Cada ticket que se repite es candidato a convertirse en una mejora de la herramienta, en una guía o en un mensaje de error más claro.',
+          },
+        ],
+      },
+      {
+        title: 'Incidentes y runbooks',
+        paragraphs: [
+          'Los incidentes con modelos tienen causas propias: datos de entrada que cambian, un reentrenamiento que no convergió pero pasó por un gate mal configurado, una dependencia actualizada que cambia resultados numéricos. Un runbook breve por tipo de síntoma reduce el tiempo de respuesta y la dependencia de quien conoce el sistema.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Fragmento de runbook (propuesta)',
+            head: ['Síntoma', 'Primeras verificaciones', 'Acción inmediata', 'Seguimiento'],
+            rows: [
+              ['Latencia p95 alta tras una promoción', 'Versión activa, cantidad de muestras del artefacto, recursos del servicio', '`ml-rollback --env prod`', 'Revisar el gate de latencia y su presupuesto'],
+              ['Cobertura en caída sostenida', 'Distribución de entradas, eventos de negocio recientes', 'Avisar a los consumidores del intervalo; evaluar reentrenamiento', 'Analizar con el Data Scientist si cambió el proceso subyacente'],
+              ['Reentrenamiento rechazado por divergencias', 'Cambios en los datos o en el modelo, diagnósticos guardados', 'Mantener la versión actual', 'Revisar parametrización y priors con el Data Scientist'],
+              ['Error al cargar el modelo', 'Alias apuntando a una versión existente, dependencias del artefacto', 'Rollback y reinicio del servicio', 'Agregar prueba de carga del artefacto al gate'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Después de cada incidente, la pregunta útil no es quién se equivocó, sino qué control hubiera detectado el problema antes. La respuesta suele terminar como un nuevo gate, una alerta o una línea en el template.',
+          },
+        ],
+      },
+      {
+        title: 'Una hoja de ruta de 90 días',
+        paragraphs: [
+          'Para un equipo que parte de despliegues manuales, un orden posible es el siguiente. Es una propuesta; el punto de partida de cada organización cambia las prioridades.',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Días 1 a 30: registro y medición.** Instalar MLflow con backend en base de datos y almacenamiento de objetos, registrar los modelos existentes, definir la métrica de autonomía y medir la línea de base. Acordar con los Data Scientists los umbrales de convergencia y calibración.',
+              '**Días 31 a 60: el camino dorado.** Publicar el template de modelo con la suite de validación, `ml-deploy` y `ml-rollback`, y migrar un modelo piloto de punta a punta con su Data Scientist. Escribir el tutorial a partir de esa migración.',
+              '**Días 61 a 90: escala y operación.** Dashboard de salud, runbooks, gates de gobernanza, primera cohorte de certificación y revisión de la métrica de autonomía. Priorizar el backlog del trimestre siguiente según los tickets de soporte.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Mapa de aprendizaje',
+        paragraphs: [
+          'Para quien quiere trabajar en este tipo de plataforma, las competencias se agrupan en cuatro áreas.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Estadística bayesiana aplicada:** modelos jerárquicos, diagnósticos de MCMC, chequeos predictivos y calibración. *Statistical Rethinking* de Richard McElreath y la documentación de PyMC y ArviZ son buenos puntos de partida.',
+              '**MLOps:** registro de modelos, empaquetado, serving, monitoreo y reentrenamiento, con MLflow como herramienta concreta.',
+              '**Ingeniería de software y plataforma:** Python empaquetable, CLIs, testing, CI/CD, contenedores y templates de repositorio.',
+              '**Producto interno:** documentación, formación, medición de adopción y gestión del feedback. Es la parte que más determina si la plataforma se usa.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Conclusión',
+        paragraphs: [
+          'Una plataforma para modelos bayesianos no se diferencia de otras plataformas de ML por las herramientas, sino por lo que valida. La convergencia del muestreo y la calibración de la incertidumbre son propiedades que no se ven en una predicción puntual y que, si no se controlan, se descubren tarde y en producción.',
+          'El trabajo del equipo de plataforma es convertir ese conocimiento en controles automáticos y caminos simples: un template que ya incluye las pruebas, una CLI que explica por qué rechaza una promoción, un rollback de un solo comando y una documentación que alcanza para no tener que preguntar. La autonomía de los Data Scientists es el resultado de ese diseño, no una concesión de control.',
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'MLflow. [Model Registry](https://mlflow.org/docs/latest/ml/model-registry/) y [documentación general](https://mlflow.org/docs/latest/).',
+              'PyMC. [Documentación](https://www.pymc.io/projects/docs/en/stable/).',
+              'ArviZ. [Documentación](https://python.arviz.org/).',
+              'Vehtari, A., Gelman, A., Simpson, D., Carpenter, B. y Bürkner, P.-C. (2021). [Rank-normalization, folding, and localization: An improved R-hat for assessing convergence of MCMC](https://arxiv.org/abs/1903.08008). *Bayesian Analysis*.',
+              'Gelman, A. et al. (2020). [Bayesian Workflow](https://arxiv.org/abs/2011.01808).',
+              'Talts, S., Betancourt, M., Simpson, D., Vehtari, A. y Gelman, A. (2018). [Validating Bayesian Inference Algorithms with Simulation-Based Calibration](https://arxiv.org/abs/1804.06788).',
+              'Typer. [Documentación](https://typer.tiangolo.com/).',
+              'Diátaxis. [A systematic approach to technical documentation](https://diataxis.fr/).',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: llevar modelos bayesianos a producción exige validar lo que una predicción puntual no muestra, la convergencia del muestreo y la calibración de los intervalos. Una plataforma eficaz convierte esos criterios en gates automáticos, usa el registro de MLflow como fuente de verdad con aliases por entorno, separa el ajuste del serving y ofrece herramientas simples para promover y revertir. La autonomía de los Data Scientists se construye con ese diseño, con documentación y con formación, y se mide.',
   },
   {
     slug: 'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia',

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plataforma MLOps para modelos bayesianos con MLflow | Julián Cardozo</title>
+<meta name="description" content="Cómo construir una plataforma self-service para modelos bayesianos: templates, gates de validación, promoción con MLflow, CLI de deploy y rollback, monitoreo y soporte." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/plataforma-mlops-modelos-bayesianos-mlflow/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Plataforma MLOps para modelos bayesianos con MLflow | Julián Cardozo" />
+<meta property="og:description" content="Cómo construir una plataforma self-service para modelos bayesianos: templates, gates de validación, promoción con MLflow, CLI de deploy y rollback, monitoreo y soporte." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Plataforma MLOps para modelos bayesianos con MLflow | Julián Cardozo" />
+<meta name="twitter:description" content="Cómo construir una plataforma self-service para modelos bayesianos: templates, gates de validación, promoción con MLflow, CLI de deploy y rollback, monitoreo y soporte." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/#article","headline":"Plataforma MLOps para modelos bayesianos: del notebook a producción con autonomía y control","description":"Una guía técnica para equipos de plataforma que dan soporte a Data Scientists: qué cambia al llevar modelos bayesianos a producción, templates de repositorio, suites de validación, promoción dev → staging → prod con MLflow, herramientas ml-deploy y ml-rollback, serving de modelos complejos, monitoreo, gobernanza automatizada, documentación, formación y respuesta a incidentes. Incluye un ejemplo con PyMC y MLflow verificado con pruebas automáticas.","datePublished":"2026-11-16","dateModified":"2026-11-16","inLanguage":"es","url":"https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/","mainEntityOfPage":"https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/","articleSection":"Arquitectura y plataforma","keywords":"MLOps, Platform Engineering, Python","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://mlflow.org/docs/latest/ml/model-registry/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/"},{"@type":"ListItem","position":2,"name":"Blog de tecnología y producto","item":"https://juliancardozo.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Plataforma MLOps para modelos bayesianos: del notebook a producción con autonomía y control","item":"https://juliancardozo.github.io/blog/plataforma-mlops-modelos-bayesianos-mlflow/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#fortalezas">Fortalezas</a></li><li><a href="/#recorrido">Trayectoria</a></li><li><a href="/#productos">Proyectos</a></li><li><a href="/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/en/blog/plataforma-mlops-modelos-bayesianos-mlflow/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="arquitectura-plataforma" href="/blog/?categoria=arquitectura-plataforma#articulos">Arquitectura y plataforma</a><time datetime="2026-11-16">16 de noviembre de 2026</time><span>17 min de lectura</span></p>
+    <h1 class="article__title">Plataforma MLOps para modelos bayesianos: del notebook a producción con autonomía y control</h1>
+    <p class="article__lead">Un modelo bayesiano bien construido no responde solo «cuánto», sino también «con qué incertidumbre». Esa propiedad, que es su principal valor para el negocio, es también lo que lo vuelve más difícil de operar: el entrenamiento depende de un muestreo que puede no converger, el artefacto es una distribución y no un vector de pesos, y una predicción puntual correcta puede esconder intervalos mal calibrados. Este artículo recorre el trabajo de un equipo de plataforma que da soporte a Data Scientists que construyen este tipo de modelos: templates, validación automática, promoción entre entornos con MLflow, herramientas de despliegue y reversión, serving, monitoreo, gobernanza y formación. El objetivo es concreto: que la mayoría de los despliegues ocurran sin intervención del equipo de plataforma y sin perder control.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pilar</p><a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Platform Engineering y arquitectura <span aria-hidden="true">→</span></a></div>
+      <div><p>Contexto</p>
+      <span>Guía técnica · MLOps y plataformas para Data Science</span>
+      <a href="https://mlflow.org/docs/latest/ml/model-registry/" target="_blank" rel="noopener noreferrer">MLflow: documentación del Model Registry <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>El problema: autonomía sin perder control</h2>
+          <p>En muchas organizaciones, llevar un modelo a producción sigue siendo un proyecto en sí mismo. El Data Scientist termina un notebook, abre un ticket y espera a que alguien de ingeniería empaquete el modelo, escriba una API, configure el despliegue y agregue algo de monitoreo. Cada paso se negocia de nuevo, el conocimiento queda en pocas personas y los modelos llegan tarde o no llegan.</p><p>La respuesta habitual es una plataforma de ML: un conjunto de herramientas, templates y procesos que permiten a los Data Scientists desplegar por su cuenta. Un objetivo frecuente es que al menos el 80% de los despliegues se completen sin intervención del equipo de plataforma. La cifra sirve como meta solo si se define cómo se mide: por ejemplo, la proporción de promociones a producción que no requirieron un ticket ni una sesión de soporte en los últimos 90 días. Sin esa definición, la autonomía se vuelve una percepción.</p><p>Autonomía no significa ausencia de controles. Significa que los controles están automatizados, son visibles y se ejecutan siempre igual, de modo que un Data Scientist puede saber de antemano qué tiene que cumplir su modelo para llegar a producción y por qué fue rechazado si no lo cumple.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Qué cambia con un modelo bayesiano</h2>
+          <p>La mayor parte de las prácticas de MLOps se pensaron para modelos que se entrenan con optimización y producen un conjunto de parámetros. Un modelo bayesiano ajustado con MCMC (Markov Chain Monte Carlo) produce otra cosa: muestras de la distribución posterior de sus parámetros. Esa diferencia afecta a cada etapa del ciclo.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Diferencias operativas entre un modelo entrenado por optimización y uno bayesiano ajustado con MCMC</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Diferencias operativas entre un modelo entrenado por optimización y uno bayesiano ajustado con MCMC"><table>
+              <thead><tr><th scope="col">Etapa</th><th scope="col">Modelo por optimización</th><th scope="col">Modelo bayesiano con MCMC</th><th scope="col">Consecuencia para la plataforma</th></tr></thead>
+              <tbody><tr><th scope="row">Entrenamiento</th><td>Converge a un óptimo; la pérdida indica progreso</td><td>Las cadenas pueden no converger aunque el proceso termine sin error</td><td>Los diagnósticos de convergencia son un gate obligatorio</td></tr><tr><th scope="row">Artefacto</th><td>Pesos del modelo</td><td>Miles de muestras de la posterior, a veces de cientos de MB</td><td>Hay que decidir qué se guarda para diagnóstico y qué se sirve</td></tr><tr><th scope="row">Predicción</th><td>Una pasada por el modelo</td><td>Una predicción por muestra, luego se resume</td><td>La latencia depende de cuántas muestras se usan</td></tr><tr><th scope="row">Calidad</th><td>Error de la predicción puntual</td><td>Error y calibración de los intervalos</td><td>Las métricas de monitoreo incluyen cobertura</td></tr><tr><th scope="row">Costo</th><td>Entrenamiento relativamente predecible</td><td>Depende de la geometría de la posterior</td><td>Conviene medir muestras efectivas por segundo</td></tr></tbody>
+            </table></div>
+          </figure><p>Hay un punto que suele sorprender a equipos que vienen de otros tipos de modelos: <strong>un muestreo que termina sin error puede producir resultados inválidos</strong>. Cadenas que no se mezclaron, transiciones divergentes o pocas muestras efectivas generan una posterior que no representa al modelo. Por eso los diagnósticos no son una buena práctica opcional, sino una condición para registrar una versión.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Una arquitectura de referencia</h2>
+          <p>La arquitectura que sigue es una propuesta propia. Separa cuatro responsabilidades: el código del modelo, que pertenece al Data Scientist; la validación, que la plataforma define y ejecuta; el registro y la promoción, que usan MLflow como fuente de verdad; y el serving y el monitoreo, que la plataforma opera.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Ciclo de vida de un modelo en la plataforma</figcaption>
+            <pre class="mermaid" aria-label="Un Data Scientist crea un repositorio desde el template de modelo. Cada cambio dispara el CI, que ejecuta la suite de validación: pruebas unitarias, recuperación de parámetros, diagnósticos de convergencia, calibración y latencia. Si pasa, la versión se registra en MLflow con sus métricas y etiquetas. La herramienta ml-deploy mueve los aliases dev, staging y prod tras verificar los gates; prod además requiere aprobación. El servicio de inferencia carga el modelo por alias, y el monitoreo mide exactitud, calibración, latencia y diagnósticos. Ante un problema, ml-rollback devuelve el alias a la versión anterior.">flowchart LR
+  T[&quot;Template de modelo&quot;] --&gt; R[&quot;Repositorio del modelo&quot;]
+  R --&gt; CI[&quot;CI: suite de validación&quot;]
+  CI --&gt;|aprobada| REG[&quot;MLflow Model Registry&quot;]
+  CI --&gt;|rechazada| R
+  REG --&gt; D[&quot;ml-deploy: dev → staging → prod&quot;]
+  G[&quot;Gates: validación, orden, aprobación&quot;] -. controla .-&gt; D
+  D --&gt; S[&quot;Serving: carga models:/nombre@prod&quot;]
+  S --&gt; MON[&quot;Monitoreo: exactitud, calibración, latencia&quot;]
+  MON -. alerta .-&gt; RB[&quot;ml-rollback&quot;]
+  RB --&gt; REG</pre>
+            <p class="architecture__description">Un Data Scientist crea un repositorio desde el template de modelo. Cada cambio dispara el CI, que ejecuta la suite de validación: pruebas unitarias, recuperación de parámetros, diagnósticos de convergencia, calibración y latencia. Si pasa, la versión se registra en MLflow con sus métricas y etiquetas. La herramienta ml-deploy mueve los aliases dev, staging y prod tras verificar los gates; prod además requiere aprobación. El servicio de inferencia carga el modelo por alias, y el monitoreo mide exactitud, calibración, latencia y diagnósticos. Ante un problema, ml-rollback devuelve el alias a la versión anterior.</p>
+          </figure><p>Dos decisiones importan más que el resto. La primera es que <strong>el registro es la única fuente de verdad sobre qué versión corre en cada entorno</strong>: el servicio no conoce números de versión, solo aliases. La segunda es que <strong>promover y revertir son operaciones sobre el registro, no despliegues de infraestructura</strong>: mover un alias es rápido, auditable y reversible, y el servicio toma la nueva versión al recargar el modelo.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Templates: el camino más corto debe ser el correcto</h2>
+          <p>Un template de repositorio es la forma más eficaz de difundir buenas prácticas, porque las incorpora antes de que alguien tenga que recordarlas. Conviene mantener al menos dos: uno para el modelo y otro para la API que lo sirve cuando el caso necesita lógica propia. Herramientas como <a href="https://copier.readthedocs.io/" target="_blank" rel="noopener noreferrer">Copier</a> o <a href="https://cookiecutter.readthedocs.io/" target="_blank" rel="noopener noreferrer">Cookiecutter</a> generan el repositorio; Copier además permite actualizar proyectos existentes cuando el template evoluciona, algo valioso cuando hay decenas de modelos.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Contenido mínimo de los templates (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Contenido mínimo de los templates (propuesta)"><table>
+              <thead><tr><th scope="col">Template</th><th scope="col">Incluye</th><th scope="col">Por qué</th></tr></thead>
+              <tbody><tr><th scope="row">Modelo</th><td>Estructura <code>src/</code> con <code>modelo.py</code>, <code>entrenar.py</code> y <code>serving.py</code>; datos simulados para pruebas; suite de validación de la plataforma; pipeline de CI; <code>MODEL_CARD.md</code></td><td>El Data Scientist escribe el modelo; todo lo demás ya está resuelto</td></tr><tr><th scope="row">Modelo</th><td>Configuración de muestreo con semilla, cadenas y umbrales declarados en un archivo</td><td>Los gates son explícitos y revisables en el código</td></tr><tr><th scope="row">API</th><td>FastAPI con contrato de entrada y salida, health checks, carga por alias, métricas y trazas</td><td>Cada servicio expone las mismas señales al monitoreo</td></tr><tr><th scope="row">Ambos</th><td>Dependencias fijadas, <code>pre-commit</code>, documentación con MkDocs</td><td>Reproducibilidad y documentación desde el primer commit</td></tr></tbody>
+            </table></div>
+          </figure><p>El template no debería esconder el modelo detrás de abstracciones propias. Un Data Scientist que usa PyMC tiene que poder escribir PyMC. La plataforma aporta la estructura alrededor, no un lenguaje nuevo.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Un ejemplo verificado: de PyMC a producción con MLflow</h2>
+          <p>El ejemplo implementa un modelo jerárquico de demanda por tienda, la suite de validación, el registro en MLflow y las herramientas <code>ml-deploy</code> y <code>ml-rollback</code>. Usa PyMC 6.4, ArviZ 1.3, MLflow 3.18 y Typer, con Python 3.12.</p>
+          
+          
+          
+          <p class="article__note"><span>Qué se verificó</span>El código se ejecutó con esas versiones contra un registro de MLflow local sobre SQLite. Cuatro pruebas automáticas pasan: recuperación de parámetros con datos simulados, promoción y reversión con la CLI, rechazo de una versión no validada y carga del modelo por alias para predecir. Los tiempos que se mencionan corresponden a una laptop y sirven solo como orden de magnitud.</p><h3>El modelo</h3><figure class="article__code">
+            <figcaption>modelo.py: modelo jerárquico con parametrización no centrada</figcaption>
+            <pre tabindex="0"><code class="language-python">import pymc as pm
+
+
+def construir(tienda, precio, y, n_tiendas):
+    with pm.Model() as m:
+        mu_a = pm.Normal(&quot;mu_a&quot;, 40, 20)
+        sigma_a = pm.HalfNormal(&quot;sigma_a&quot;, 10)
+        z = pm.Normal(&quot;z&quot;, 0, 1, shape=n_tiendas)          # no centrada
+        a = pm.Deterministic(&quot;a&quot;, mu_a + z * sigma_a)
+        beta = pm.Normal(&quot;beta&quot;, 0, 5)
+        sigma = pm.HalfNormal(&quot;sigma&quot;, 10)
+        pm.Normal(&quot;y&quot;, a[tienda] + beta * precio, sigma, observed=y)
+    return m
+
+
+def ajustar(datos, draws=1000, tune=1000, chains=4, seed=42, target_accept=0.95):
+    m = construir(datos[&quot;tienda&quot;], datos[&quot;precio&quot;], datos[&quot;y&quot;], datos[&quot;n_tiendas&quot;])
+    with m:
+        return pm.sample(draws=draws, tune=tune, chains=chains, random_seed=seed,
+                         target_accept=target_accept, progressbar=False, quiet=True)</code></pre>
+          </figure><p>Cada tienda tiene su propio nivel de demanda, pero los niveles comparten una distribución común. Así, una tienda con pocos datos toma información de las demás. La <strong>parametrización no centrada</strong> (<code>a = mu_a + z * sigma_a</code>) es una práctica estándar en modelos jerárquicos: evita una geometría de la posterior que dificulta el muestreo y suele reducir las divergencias.</p><h3>Los gates de validación</h3><figure class="article__code">
+            <figcaption>validacion.py: convergencia, calibración y latencia como condiciones explícitas</figcaption>
+            <pre tabindex="0"><code class="language-python">import arviz as az
+
+UMBRALES = {&quot;rhat_max&quot;: 1.01, &quot;ess_bulk_min&quot;: 400, &quot;divergencias_max&quot;: 0,
+            &quot;cobertura_90_min&quot;: 0.85, &quot;cobertura_90_max&quot;: 0.95, &quot;latencia_p95_ms_max&quot;: 50}
+
+
+def convergencia(idata, var_names=(&quot;mu_a&quot;, &quot;sigma_a&quot;, &quot;beta&quot;, &quot;sigma&quot;, &quot;a&quot;)):
+    rhat = az.rhat(idata, var_names=list(var_names))
+    ess = az.ess(idata, var_names=list(var_names), method=&quot;bulk&quot;)
+    return {
+        &quot;rhat_max&quot;: float(max(rhat[v].max() for v in var_names)),
+        &quot;ess_bulk_min&quot;: float(min(ess[v].min() for v in var_names)),
+        &quot;divergencias&quot;: int(idata.sample_stats[&quot;diverging&quot;].sum()),
+    }
+
+
+def evaluar(metricas, u=UMBRALES):
+    fallas = []
+    if metricas[&quot;rhat_max&quot;] &gt; u[&quot;rhat_max&quot;]: fallas.append(&quot;rhat&quot;)
+    if metricas[&quot;ess_bulk_min&quot;] &lt; u[&quot;ess_bulk_min&quot;]: fallas.append(&quot;ess&quot;)
+    if metricas[&quot;divergencias&quot;] &gt; u[&quot;divergencias_max&quot;]: fallas.append(&quot;divergencias&quot;)
+    if not u[&quot;cobertura_90_min&quot;] &lt;= metricas[&quot;cobertura_90&quot;] &lt;= u[&quot;cobertura_90_max&quot;]:
+        fallas.append(&quot;cobertura&quot;)
+    if metricas[&quot;latencia_p95_ms&quot;] &gt; u[&quot;latencia_p95_ms_max&quot;]: fallas.append(&quot;latencia&quot;)
+    return fallas</code></pre>
+          </figure><p>Los umbrales de R-hat (1,01) y de tamaño efectivo de muestra (400 en total entre cadenas) siguen las recomendaciones de Vehtari y colegas en su revisión del diagnóstico R-hat. La <strong>cobertura</strong> mide qué proporción de observaciones nuevas cae dentro del intervalo del 90%: si el modelo está bien calibrado, debería rondar ese valor. Un intervalo demasiado estrecho subestima el riesgo; uno demasiado ancho no aporta información.</p><p>Los gates detectaron problemas reales durante la preparación del ejemplo. Con menos datos y la configuración por defecto, la primera versión registró una transición divergente y una cobertura del 83,6% sobre 67 observaciones de prueba, y fue rechazada. Con más datos y <code>target_accept=0.95</code>, las siguientes versiones tuvieron cero divergencias y una cobertura del 90,3%. En las pruebas automáticas, una corrida con 500 muestras por cadena quedó por debajo del mínimo de ESS y también fue rechazada. Además de los umbrales, este episodio muestra un detalle: la banda de cobertura tiene que contemplar el tamaño del conjunto de prueba, porque con pocas observaciones la variación es grande.</p><h3>Servir la posterior sin PyMC en runtime</h3><figure class="article__code">
+            <figcaption>serving.py: predictor liviano a partir de muestras guardadas</figcaption>
+            <pre tabindex="0"><code class="language-python">import numpy as np
+import mlflow
+
+
+class Predictor:
+    def __init__(self, a, beta, sigma, seed=0):
+        self.a, self.beta, self.sigma = a, beta, sigma      # (S, T), (S,), (S,)
+        self.rng = np.random.default_rng(seed)
+
+    @classmethod
+    def desde_idata(cls, idata, max_draws=500, seed=0):
+        post = idata.posterior.ds.stack(s=(&quot;chain&quot;, &quot;draw&quot;))
+        idx = np.linspace(0, post.sizes[&quot;s&quot;] - 1, max_draws).astype(int)   # thinning
+        return cls(post[&quot;a&quot;].values.T[idx], post[&quot;beta&quot;].values[idx], post[&quot;sigma&quot;].values[idx], seed)
+
+    def muestras(self, tienda, precio):
+        mu = self.a[:, tienda] + self.beta[:, None] * precio[None, :]      # (S, N) vectorizado
+        return mu + self.sigma[:, None] * self.rng.standard_normal(mu.shape)
+
+
+class ModeloDemanda(mlflow.pyfunc.PythonModel):
+    def load_context(self, context):
+        d = np.load(context.artifacts[&quot;draws&quot;])
+        self.p = Predictor(d[&quot;a&quot;], d[&quot;beta&quot;], d[&quot;sigma&quot;])
+
+    def predict(self, context, model_input, params=None):
+        s = self.p.muestras(model_input[&quot;tienda&quot;].to_numpy(),
+                            model_input[&quot;precio&quot;].to_numpy(dtype=float))
+        out = model_input.copy()
+        out[&quot;media&quot;] = s.mean(axis=0)
+        out[&quot;p05&quot;], out[&quot;p95&quot;] = np.quantile(s, [0.05, 0.95], axis=0)
+        return out</code></pre>
+          </figure><p>Esta es una de las decisiones de diseño más útiles para modelos bayesianos en producción: <strong>separar el ajuste del serving</strong>. El ajuste corre con PyMC en un job de entrenamiento; el servicio solo necesita las muestras de los parámetros y una función vectorizada en NumPy que genera la predictiva posterior. Se guardan 500 muestras de las 4.000 disponibles, elegidas a intervalos regulares, y el servicio responde con la media y un intervalo del 90%. En el ejemplo, la latencia p95 para 154 predicciones fue de alrededor de 2 ms. La posterior completa se guarda aparte, en formato NetCDF, para diagnóstico y auditoría.</p><p>El trade-off es explícito: menos muestras implica menos latencia y más error de Monte Carlo en los cuantiles. Para cuantiles extremos, como un percentil 99 usado en decisiones de stock, 500 muestras pueden no alcanzar. La cantidad debería decidirse con el Data Scientist y quedar registrada como parámetro del modelo.</p><h3>Registrar la versión con su evidencia</h3><figure class="article__code">
+            <figcaption>entrenar.py (fragmento): cada versión queda registrada con métricas y resultado de validación</figcaption>
+            <pre tabindex="0"><code class="language-python">with mlflow.start_run():
+    mlflow.log_params({&quot;draws&quot;: draws, &quot;chains&quot;: 4, &quot;seed&quot;: seed, &quot;parametrizacion&quot;: &quot;no_centrada&quot;})
+    idata = modelo.ajustar(entreno, draws=draws, seed=seed)
+    pred = Predictor.desde_idata(idata)
+    m = validacion.convergencia(idata)
+    m[&quot;cobertura_90&quot;] = validacion.cobertura(pred, tienda_test, precio_test, y_test)
+    m[&quot;latencia_p95_ms&quot;] = validacion.latencia_p95_ms(pred, tienda_test, precio_test)
+    mlflow.log_metrics(m)
+    fallas = validacion.evaluar(m)
+    # ... guardar draws.npz y posterior.nc ...
+    info = mlflow.pyfunc.log_model(name=&quot;modelo&quot;, python_model=ModeloDemanda(),
+                                   artifacts={&quot;draws&quot;: ruta_draws}, code_paths=[&quot;serving.py&quot;],
+                                   input_example=ejemplo, registered_model_name=NOMBRE)
+
+version = str(info.registered_model_version)
+cliente = mlflow.MlflowClient()
+cliente.set_model_version_tag(NOMBRE, version, &quot;validacion&quot;, &quot;rechazada&quot; if fallas else &quot;aprobada&quot;)
+cliente.set_model_version_tag(NOMBRE, version, &quot;validacion.fallas&quot;, &quot;,&quot;.join(fallas) or &quot;-&quot;)</code></pre>
+          </figure><p>Registrar también las versiones rechazadas puede parecer innecesario, pero aporta trazabilidad: el historial muestra qué se intentó, por qué no pasó y qué cambió después. La etiqueta <code>validacion</code> es lo que la CLI consulta para permitir o rechazar una promoción.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Promoción dev → staging → prod con aliases</h2>
+          <p>Las versiones anteriores de MLflow usaban <em>stages</em> fijos (Staging, Production, Archived). Desde la versión 2.9 están deprecados en favor de <strong>aliases</strong>: nombres mutables que apuntan a una versión, como <code>dev</code>, <code>staging</code> o <code>prod</code>. El servicio carga <code>models:/demanda-tiendas@prod</code> y la promoción consiste en mover el alias.</p><p>Cuando los entornos están en workspaces o registros separados, como suele ocurrir en organizaciones con requisitos de aislamiento, <code>MlflowClient.copy_model_version</code> copia una versión de un modelo registrado a otro. El principio es el mismo: la versión que llega a producción es exactamente la que se validó, no un reentrenamiento.</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>ml_cli.py (fragmento): ml-deploy verifica los gates antes de mover el alias</figcaption>
+            <pre tabindex="0"><code class="language-python">ENTORNOS = [&quot;dev&quot;, &quot;staging&quot;, &quot;prod&quot;]
+
+
+@deploy_app.command()
+def deploy(modelo: str, version: str, entorno: str = typer.Option(..., &quot;--to&quot;),
+           ticket: str = typer.Option(&quot;&quot;, help=&quot;Cambio aprobado; obligatorio para prod&quot;),
+           dry_run: bool = False):
+    &quot;&quot;&quot;Promueve una versión al entorno indicado si pasa los gates.&quot;&quot;&quot;
+    c = MlflowClient()
+    mv = c.get_model_version(modelo, version)
+    errores = []
+    if mv.tags.get(&quot;validacion&quot;) != &quot;aprobada&quot;:
+        errores.append(f&quot;validación: {mv.tags.get('validacion', 'sin ejecutar')}&quot;)
+    previo = ENTORNOS[ENTORNOS.index(entorno) - 1] if entorno != &quot;dev&quot; else None
+    if previo and _version_de(c, modelo, previo) != str(version):
+        errores.append(f&quot;la versión {version} no está en {previo}&quot;)
+    if entorno == &quot;prod&quot; and not ticket:
+        errores.append(&quot;prod requiere --ticket&quot;)
+    if errores:
+        typer.echo(&quot;RECHAZADO: &quot; + &quot;; &quot;.join(errores), err=True)
+        raise typer.Exit(code=2)
+    actual = _version_de(c, modelo, entorno)
+    typer.echo(f&quot;{modelo}@{entorno}: {actual or '-'} -&gt; {version}&quot;)
+    if dry_run:
+        return
+    if actual and actual != str(version):
+        c.set_registered_model_tag(modelo, f&quot;{entorno}.anterior&quot;, actual)
+    c.set_registered_model_alias(modelo, entorno, version)
+    c.set_model_version_tag(modelo, version, f&quot;desplegado.{entorno}&quot;,
+                            f&quot;{datetime.now(timezone.utc).isoformat()} ticket={ticket or '-'}&quot;)
+
+
+@rollback_app.command()
+def rollback(modelo: str, entorno: str = typer.Option(..., &quot;--env&quot;), motivo: str = typer.Option(...)):
+    &quot;&quot;&quot;Vuelve el alias del entorno a la versión anterior registrada.&quot;&quot;&quot;
+    c = MlflowClient()
+    anterior = c.get_registered_model(modelo).tags.get(f&quot;{entorno}.anterior&quot;)
+    if not anterior:
+        typer.echo(f&quot;no hay versión anterior registrada para {entorno}&quot;, err=True)
+        raise typer.Exit(code=2)
+    actual = _version_de(c, modelo, entorno)
+    c.set_registered_model_alias(modelo, entorno, anterior)
+    c.set_registered_model_tag(modelo, f&quot;{entorno}.anterior&quot;, actual)
+    c.set_model_version_tag(modelo, actual, f&quot;revertido.{entorno}&quot;,
+                            f&quot;{datetime.now(timezone.utc).isoformat()} motivo={motivo}&quot;)</code></pre>
+          </figure><p>Las dos funciones se publican como comandos con <code>[project.scripts]</code> en <code>pyproject.toml</code> (<code>ml-deploy = &quot;ml_cli:deploy_app&quot;</code> y <code>ml-rollback = &quot;ml_cli:rollback_app&quot;</code>). Una sesión típica se ve así:</p><figure class="article__code">
+            <figcaption>Salida real de la CLI contra el registro local</figcaption>
+            <pre tabindex="0"><code class="language-bash">$ ml-deploy demanda-tiendas 2 --to prod --ticket CHG-9
+RECHAZADO: la versión 2 no está en staging
+$ ml-deploy demanda-tiendas 2 --to dev
+demanda-tiendas@dev: - -&gt; 2
+$ ml-deploy demanda-tiendas 2 --to staging
+demanda-tiendas@staging: - -&gt; 2
+$ ml-deploy demanda-tiendas 2 --to prod --ticket CHG-9
+demanda-tiendas@prod: - -&gt; 2
+# ... la versión 3 recorre dev y staging ...
+$ ml-deploy demanda-tiendas 3 --to prod --ticket CHG-10
+demanda-tiendas@prod: 2 -&gt; 3
+$ ml-rollback demanda-tiendas --env prod --motivo &quot;latencia p95&quot;
+demanda-tiendas@prod: 3 -&gt; 2</code></pre>
+          </figure><p>Algunos principios de diseño para estas herramientas: deben ser <strong>idempotentes</strong>, de modo que repetir un comando no produzca efectos distintos; deben ofrecer <code>--dry-run</code>; deben dejar <strong>evidencia en el registro</strong> (quién, cuándo, con qué ticket), y deben devolver códigos de salida distintos para un rechazo por política y para un error técnico, para que el CI pueda tratarlos de forma diferente. El rollback tiene que ser la operación más simple de todas, porque se usa bajo presión.</p><p class="article__note"><span>Límites del ejemplo</span>El ticket se acepta como texto; en una implementación real, la aprobación para prod debería venir de un mecanismo con identidad verificable, como los entornos protegidos con revisores obligatorios de GitHub Actions o GitLab, y la CLI debería ejecutarse desde el pipeline con credenciales de servicio, no desde la laptop de cada persona. El rollback guarda una sola versión anterior; un historial completo es una extensión directa.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Suites de testing: qué validar en un modelo bayesiano</h2>
+          <p>Las pruebas de un modelo bayesiano combinan las de cualquier software con otras propias del enfoque. Conviene organizarlas por costo, para que las rápidas corran en cada commit y las más caras en la integración o antes de una promoción.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Capas de prueba para un modelo bayesiano (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Capas de prueba para un modelo bayesiano (propuesta)"><table>
+              <thead><tr><th scope="col">Prueba</th><th scope="col">Qué detecta</th><th scope="col">Cuándo corre</th></tr></thead>
+              <tbody><tr><th scope="row">Unitarias y de contrato</th><td>Errores en transformaciones y en el esquema de entrada y salida</td><td>Cada commit, segundos</td></tr><tr><th scope="row">Chequeo predictivo a priori</th><td>Priors que generan valores imposibles, como demandas negativas enormes</td><td>Cada commit, segundos</td></tr><tr><th scope="row">Recuperación de parámetros</th><td>Un modelo que no puede recuperar los valores con los que se simularon los datos</td><td>Cada PR, minutos</td></tr><tr><th scope="row">Diagnósticos de convergencia</th><td>R-hat alto, ESS bajo, divergencias</td><td>Cada entrenamiento</td></tr><tr><th scope="row">Calibración y error en holdout</th><td>Intervalos mal calibrados, peor exactitud que la versión actual</td><td>Antes de registrar</td></tr><tr><th scope="row">Performance</th><td>Latencia p95 y memoria fuera del presupuesto</td><td>Antes de promover</td></tr></tbody>
+            </table></div>
+          </figure><p>La <strong>recuperación de parámetros</strong> es la prueba más característica: se simulan datos con valores conocidos, se ajusta el modelo y se comprueba que esos valores caen dentro de los intervalos de la posterior. Si un modelo no recupera parámetros de datos que cumplen sus propios supuestos, difícilmente funcione con datos reales. En el ejemplo, la prueba verifica <code>mu_a</code>, <code>beta</code> y <code>sigma</code> dentro del intervalo del 94%. Para una validación más rigurosa del procedimiento de inferencia existe <em>simulation-based calibration</em>, que repite este ejercicio muchas veces; es costosa y suele reservarse para modelos críticos o cambios estructurales.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Rendimiento: MCMC, inferencia y MLflow</h2>
+          
+          
+          
+          
+          <h3>Eficiencia del muestreo</h3><p>La métrica útil no es el tiempo de entrenamiento sino las <strong>muestras efectivas por segundo</strong>: un muestreador más rápido que produce cadenas muy correlacionadas puede ser peor que uno lento con buena mezcla. Las palancas, en orden aproximado de impacto: reparametrizar el modelo (como la forma no centrada del ejemplo), escalar y centrar predictores, usar priors informativos razonables, y probar otros backends de NUTS. <code>pm.sample</code> acepta <code>nuts_sampler</code> con las opciones <code>pymc</code>, <code>nutpie</code>, <code>numpyro</code> y <code>blackjax</code>; los dos últimos se basan en JAX y pueden aprovechar GPU. Cuál conviene depende del modelo, así que la plataforma debería facilitar la comparación, por ejemplo registrando ESS por segundo como métrica de cada corrida.</p><p>Para modelos que se reentrenan con frecuencia y no toleran el costo de MCMC, existen aproximaciones como la inferencia variacional (ADVI) o Pathfinder. Son más rápidas, pero tienden a subestimar la incertidumbre. Si se usan, la validación de calibración se vuelve aún más importante.</p><h3>Velocidad de inferencia</h3><p>Las técnicas principales ya aparecen en el ejemplo: servir desde muestras guardadas en lugar de recompilar el modelo, reducir el número de muestras, vectorizar el cálculo sobre muestras y observaciones a la vez, y cargar el modelo una sola vez al iniciar el servicio. Para cargas por lotes, la predicción se puede ejecutar como job sobre todo el conjunto, con lo que la latencia por solicitud deja de importar.</p><h3>MLflow a escala</h3><p>Con muchos equipos y miles de corridas, MLflow también necesita atención. Un backend en base de datos (PostgreSQL o MySQL) en lugar de archivos locales, con la base dimensionada y mantenida como cualquier otra; artifacts en almacenamiento de objetos, con <code>mlflow server --artifacts-destination</code> cuando se quiere que el servidor actúe como proxy y los clientes no necesiten credenciales del bucket; búsquedas con filtros y paginación (<code>search_model_versions</code> acepta <code>filter_string</code>, <code>max_results</code> y <code>page_token</code>) en lugar de traer todo; logging asíncrono (<code>mlflow.config.enable_async_logging()</code>) para que el entrenamiento no espere al servidor, y caché de las resoluciones de alias en los servicios, con un tiempo de expiración corto, para no consultar el registro en cada solicitud.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Serving de modelos complejos</h2>
+          <p>Los modelos bayesianos y los ensembles comparten un problema de serving: una predicción implica muchos cálculos que después se resumen. Algunas pautas de arquitectura ayudan a mantenerlo manejable.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Separar ajuste, preparación y serving.</strong> El ajuste corre como job; un paso intermedio prepara el artefacto de serving (muestras reducidas, componentes precalculados); el servicio solo carga y calcula.</li><li><strong>Un contrato de salida que incluya incertidumbre.</strong> Media e intervalo, no solo un número. Si los consumidores ignoran el intervalo, el modelo pierde su principal ventaja.</li><li><strong>Ensembles como un solo artefacto versionado.</strong> Los modelos que componen un ensemble se registran juntos o con referencias fijas a versiones, nunca a aliases que puedan moverse por separado.</li><li><strong>Elegir entre online y batch según el uso.</strong> Muchas decisiones de negocio, como planificación de stock o precios, funcionan mejor con predicciones calculadas por lotes y guardadas, que con un servicio en línea.</li><li><strong>Despliegue gradual para cambios relevantes.</strong> Un modelo nuevo puede correr en modo sombra junto al actual, comparando predicciones antes de recibir tráfico real.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Monitoreo de la salud del modelo</h2>
+          <p>Un dashboard de salud de modelos combina métricas de servicio, de calidad y de proceso de entrenamiento. La tabla propone un conjunto mínimo; los umbrales dependen de cada caso.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Métricas de salud de un modelo bayesiano en producción (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Métricas de salud de un modelo bayesiano en producción (propuesta)"><table>
+              <thead><tr><th scope="col">Dimensión</th><th scope="col">Métrica</th><th scope="col">Cuándo se conoce</th><th scope="col">Señal de alerta</th></tr></thead>
+              <tbody><tr><th scope="row">Servicio</th><td>Latencia p95, tasa de error, throughput</td><td>En tiempo real</td><td>Supera el presupuesto acordado</td></tr><tr><th scope="row">Datos</th><td>Distribución de las variables de entrada</td><td>En tiempo real</td><td>Valores fuera del rango de entrenamiento</td></tr><tr><th scope="row">Exactitud</th><td>Error absoluto medio, error porcentual</td><td>Cuando llegan los valores reales</td><td>Peor que la versión anterior o que un baseline simple</td></tr><tr><th scope="row">Calibración</th><td>Cobertura de los intervalos del 50% y del 90%</td><td>Cuando llegan los valores reales</td><td>Desvío sostenido respecto de la cobertura nominal</td></tr><tr><th scope="row">Entrenamiento</th><td>R-hat máximo, ESS mínimo, divergencias, ESS por segundo</td><td>En cada reentrenamiento</td><td>Degradación respecto de corridas anteriores</td></tr><tr><th scope="row">Uso</th><td>Versión activa por entorno, fecha del último reentrenamiento</td><td>Siempre</td><td>Modelo sin reentrenar más allá de lo previsto</td></tr></tbody>
+            </table></div>
+          </figure><p>La <strong>cobertura en producción</strong> es la métrica que más información aporta y la que menos se mide. Si el 90% de las ventas reales cae dentro del intervalo del 90%, el modelo cuantifica bien su incertidumbre. Si cae el 70%, el modelo es demasiado confiado y las decisiones que usan el intervalo, como el stock de seguridad, están subestimando el riesgo, aunque el error de la media sea bueno.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Gobernanza automatizada</h2>
+          <p>La gobernanza manual, con planillas y reuniones de aprobación, no escala y suele convertirse en un trámite. La alternativa es expresar las políticas como chequeos que se ejecutan en el pipeline y dejan evidencia en el registro.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Gates técnicos:</strong> validación aprobada, orden de entornos respetado, dependencias sin vulnerabilidades conocidas.</li><li><strong>Gates de documentación:</strong> <code>MODEL_CARD.md</code> con propósito, datos de entrenamiento, limitaciones y responsable; sin él, la versión no se promueve.</li><li><strong>Gates de linaje:</strong> la versión tiene etiquetas con el commit del código, la versión de los datos y la imagen de entrenamiento.</li><li><strong>Aprobación humana donde aporta:</strong> para producción y para modelos que afectan decisiones sobre personas, con revisores definidos por política y no por disponibilidad.</li><li><strong>Auditoría como subproducto:</strong> cada promoción y reversión queda registrada con fecha, autor y motivo, sin que nadie tenga que escribir un informe.</li></ul><p>El objetivo es que el camino aprobado sea también el más fácil. Si cumplir con la política exige más trabajo que saltearla, la gente encuentra cómo saltearla.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Autonomía: documentación, formación y feedback</h2>
+          <p>Las herramientas no generan autonomía por sí solas. La autonomía depende de que los Data Scientists entiendan la plataforma, confíen en ella y puedan resolver problemas sin escalar.</p>
+          
+          
+          
+          <h3>Documentación como producto</h3><p>El esquema <a href="https://diataxis.fr/" target="_blank" rel="noopener noreferrer">Diátaxis</a> ayuda a ordenarla en cuatro tipos con propósitos distintos: tutoriales para aprender (el primer modelo de punta a punta), guías prácticas para tareas concretas (cómo hacer un rollback), referencia (la API del SDK, generada desde el código con <a href="https://www.mkdocs.org/" target="_blank" rel="noopener noreferrer">MkDocs</a> y mkdocstrings, o con <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener noreferrer">Sphinx</a>) y explicaciones (por qué existen los gates). Los ejemplos de la documentación deberían ejecutarse en el CI, para que no queden desactualizados.</p><h3>Formación y certificación</h3><p>Una certificación de uso de la plataforma funciona mejor como un ejercicio práctico que como un examen: llevar un modelo provisto desde el template hasta staging, provocar un rechazo de validación, corregirlo y ejecutar un rollback. Quien lo completó ya hizo todo lo que va a necesitar en el día a día. Las sesiones de formación también son una fuente de feedback: cada pregunta repetida señala un hueco en la documentación o en la herramienta.</p><h3>El SDK como producto</h3><p>El SDK y las herramientas evolucionan con versionado semántico, notas de cambio y avisos de deprecación con plazo. El feedback se recoge de forma sistemática: entrevistas breves después de cada primer despliegue, análisis de tickets de soporte por categoría y una métrica de autonomía revisada cada trimestre. Cada ticket que se repite es candidato a convertirse en una mejora de la herramienta, en una guía o en un mensaje de error más claro.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Incidentes y runbooks</h2>
+          <p>Los incidentes con modelos tienen causas propias: datos de entrada que cambian, un reentrenamiento que no convergió pero pasó por un gate mal configurado, una dependencia actualizada que cambia resultados numéricos. Un runbook breve por tipo de síntoma reduce el tiempo de respuesta y la dependencia de quien conoce el sistema.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Fragmento de runbook (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Fragmento de runbook (propuesta)"><table>
+              <thead><tr><th scope="col">Síntoma</th><th scope="col">Primeras verificaciones</th><th scope="col">Acción inmediata</th><th scope="col">Seguimiento</th></tr></thead>
+              <tbody><tr><th scope="row">Latencia p95 alta tras una promoción</th><td>Versión activa, cantidad de muestras del artefacto, recursos del servicio</td><td><code>ml-rollback --env prod</code></td><td>Revisar el gate de latencia y su presupuesto</td></tr><tr><th scope="row">Cobertura en caída sostenida</th><td>Distribución de entradas, eventos de negocio recientes</td><td>Avisar a los consumidores del intervalo; evaluar reentrenamiento</td><td>Analizar con el Data Scientist si cambió el proceso subyacente</td></tr><tr><th scope="row">Reentrenamiento rechazado por divergencias</th><td>Cambios en los datos o en el modelo, diagnósticos guardados</td><td>Mantener la versión actual</td><td>Revisar parametrización y priors con el Data Scientist</td></tr><tr><th scope="row">Error al cargar el modelo</th><td>Alias apuntando a una versión existente, dependencias del artefacto</td><td>Rollback y reinicio del servicio</td><td>Agregar prueba de carga del artefacto al gate</td></tr></tbody>
+            </table></div>
+          </figure><p>Después de cada incidente, la pregunta útil no es quién se equivocó, sino qué control hubiera detectado el problema antes. La respuesta suele terminar como un nuevo gate, una alerta o una línea en el template.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Una hoja de ruta de 90 días</h2>
+          <p>Para un equipo que parte de despliegues manuales, un orden posible es el siguiente. Es una propuesta; el punto de partida de cada organización cambia las prioridades.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Días 1 a 30: registro y medición.</strong> Instalar MLflow con backend en base de datos y almacenamiento de objetos, registrar los modelos existentes, definir la métrica de autonomía y medir la línea de base. Acordar con los Data Scientists los umbrales de convergencia y calibración.</li><li><strong>Días 31 a 60: el camino dorado.</strong> Publicar el template de modelo con la suite de validación, <code>ml-deploy</code> y <code>ml-rollback</code>, y migrar un modelo piloto de punta a punta con su Data Scientist. Escribir el tutorial a partir de esa migración.</li><li><strong>Días 61 a 90: escala y operación.</strong> Dashboard de salud, runbooks, gates de gobernanza, primera cohorte de certificación y revisión de la métrica de autonomía. Priorizar el backlog del trimestre siguiente según los tickets de soporte.</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Mapa de aprendizaje</h2>
+          <p>Para quien quiere trabajar en este tipo de plataforma, las competencias se agrupan en cuatro áreas.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Estadística bayesiana aplicada:</strong> modelos jerárquicos, diagnósticos de MCMC, chequeos predictivos y calibración. <em>Statistical Rethinking</em> de Richard McElreath y la documentación de PyMC y ArviZ son buenos puntos de partida.</li><li><strong>MLOps:</strong> registro de modelos, empaquetado, serving, monitoreo y reentrenamiento, con MLflow como herramienta concreta.</li><li><strong>Ingeniería de software y plataforma:</strong> Python empaquetable, CLIs, testing, CI/CD, contenedores y templates de repositorio.</li><li><strong>Producto interno:</strong> documentación, formación, medición de adopción y gestión del feedback. Es la parte que más determina si la plataforma se usa.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Conclusión</h2>
+          <p>Una plataforma para modelos bayesianos no se diferencia de otras plataformas de ML por las herramientas, sino por lo que valida. La convergencia del muestreo y la calibración de la incertidumbre son propiedades que no se ven en una predicción puntual y que, si no se controlan, se descubren tarde y en producción.</p><p>El trabajo del equipo de plataforma es convertir ese conocimiento en controles automáticos y caminos simples: un template que ya incluye las pruebas, una CLI que explica por qué rechaza una promoción, un rollback de un solo comando y una documentación que alcanza para no tener que preguntar. La autonomía de los Data Scientists es el resultado de ese diseño, no una concesión de control.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Referencias</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li>MLflow. <a href="https://mlflow.org/docs/latest/ml/model-registry/" target="_blank" rel="noopener noreferrer">Model Registry</a> y <a href="https://mlflow.org/docs/latest/" target="_blank" rel="noopener noreferrer">documentación general</a>.</li><li>PyMC. <a href="https://www.pymc.io/projects/docs/en/stable/" target="_blank" rel="noopener noreferrer">Documentación</a>.</li><li>ArviZ. <a href="https://python.arviz.org/" target="_blank" rel="noopener noreferrer">Documentación</a>.</li><li>Vehtari, A., Gelman, A., Simpson, D., Carpenter, B. y Bürkner, P.-C. (2021). <a href="https://arxiv.org/abs/1903.08008" target="_blank" rel="noopener noreferrer">Rank-normalization, folding, and localization: An improved R-hat for assessing convergence of MCMC</a>. <em>Bayesian Analysis</em>.</li><li>Gelman, A. et al. (2020). <a href="https://arxiv.org/abs/2011.01808" target="_blank" rel="noopener noreferrer">Bayesian Workflow</a>.</li><li>Talts, S., Betancourt, M., Simpson, D., Vehtari, A. y Gelman, A. (2018). <a href="https://arxiv.org/abs/1804.06788" target="_blank" rel="noopener noreferrer">Validating Bayesian Inference Algorithms with Simulation-Based Calibration</a>.</li><li>Typer. <a href="https://typer.tiangolo.com/" target="_blank" rel="noopener noreferrer">Documentación</a>.</li><li>Diátaxis. <a href="https://diataxis.fr/" target="_blank" rel="noopener noreferrer">A systematic approach to technical documentation</a>.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: llevar modelos bayesianos a producción exige validar lo que una predicción puntual no muestra, la convergencia del muestreo y la calibración de los intervalos. Una plataforma eficaz convierte esos criterios en gates automáticos, usa el registro de MLflow como fuente de verdad con aliases por entorno, separa el ajuste del serving y ofrece herramientas simples para promover y revertir. La autonomía de los Data Scientists se construye con ese diseño, con documentación y con formación, y se mide.</p>
+      
+      <aside class="article__linkedin" aria-labelledby="article-linkedin-title">
+      <svg class="article__linkedin-icon" aria-hidden="true" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      <div>
+        <p class="article__conversation-label">Sigamos en LinkedIn</p>
+        <h2 id="article-linkedin-title">¿Te sirvió este artículo? Conectemos en LinkedIn</h2>
+        <p>Ahí comparto cada artículo nuevo, notas cortas sobre arquitectura, IA aplicada y liderazgo de equipos, y las conversaciones que surgen a partir de ellos.</p>
+        <a class="btn btn--primary js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">Seguir en LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás trabajando en un desafío parecido? Me interesa conocer el contexto y comparar experiencias.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Plataforma%20MLOps%20para%20modelos%20bayesianos%3A%20del%20notebook%20a%20producci%C3%B3n%20con%20autonom%C3%ADa%20y%20control&amp;body=%C2%BFEst%C3%A1s%20trabajando%20en%20un%20desaf%C3%ADo%20parecido%3F%20Me%20interesa%20conocer%20el%20contexto%20y%20comparar%20experiencias.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Plataforma%20MLOps%20para%20modelos%20bayesianos%3A%20del%20notebook%20a%20producci%C3%B3n%20con%20autonom%C3%ADa%20y%20control%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fplataforma-mlops-modelos-bayesianos-mlflow%2F">Escribirme sobre este tema</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li data-cat="arquitectura-plataforma"><a href="/blog/floci-emulacion-cloud-local-platform-engineering/" class="js-track-related-article">
+        <span class="cat-label" data-cat="arquitectura-plataforma">Arquitectura y plataforma</span>
+        <strong>Floci: llevar la nube al entorno local sin perder el control arquitectónico</strong>
+        <small>Un análisis de Floci, el ecosistema open source que emula AWS, Azure, GCP y OCI en local, desde la perspectiva de Platform Engineering: qué problema resuelve, cómo está construido, un ejemplo reproducible con Spring Boot, S3, SQS y Testcontainers, su lugar en un golden path, la comparación con LocalStack y otras alternativas, y por qué la emulación no reemplaza las pruebas en la nube real.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Liderazgo y producto</span>
+        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
+        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Liderazgo y producto</span>
+        <strong>Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA</strong>
+        <small>Un análisis desde Engineering Management sobre cómo diseñar el sistema de trabajo de un equipo de ingeniería: un modelo de seis capas, el plugin de ingeniería de Anthropic como caso de estudio, la diferencia entre tools, skills, MCP, workflows, agentes y harness, un caso práctico de extremo a extremo, métricas de impacto, riesgos y una hoja de ruta de adopción de 90 días.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/blog/?categoria=arquitectura-plataforma#articulos" class="js-track-related-category">Más artículos de Arquitectura y plataforma <span aria-hidden="true">→</span></a>
+      <a href="/temas/plataforma-arquitectura/" class="js-track-pillar-hub">Ruta de lectura: Platform Engineering y arquitectura <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

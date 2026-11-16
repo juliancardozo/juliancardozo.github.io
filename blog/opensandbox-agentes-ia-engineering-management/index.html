@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>OpenSandbox: agentes de IA aislados para equipos de ingeniería | Julián Cardozo</title>
+<meta name="description" content="Qué es OpenSandbox y cómo usarlo para delegar trabajo a agentes de IA con aislamiento, red controlada y credenciales protegidas. Una guía para Engineering Managers." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/opensandbox-agentes-ia-engineering-management/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="OpenSandbox: agentes de IA aislados para equipos de ingeniería | Julián Cardozo" />
+<meta property="og:description" content="Qué es OpenSandbox y cómo usarlo para delegar trabajo a agentes de IA con aislamiento, red controlada y credenciales protegidas. Una guía para Engineering Managers." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="OpenSandbox: agentes de IA aislados para equipos de ingeniería | Julián Cardozo" />
+<meta name="twitter:description" content="Qué es OpenSandbox y cómo usarlo para delegar trabajo a agentes de IA con aislamiento, red controlada y credenciales protegidas. Una guía para Engineering Managers." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/#article","headline":"OpenSandbox: dónde corren los agentes de IA y por qué es una decisión de Engineering Management","description":"Un análisis de OpenSandbox, el runtime open source de sandboxes para agentes de IA, desde la perspectiva de quien lidera equipos de ingeniería: qué resuelve, cómo funciona, casos de uso en equipos de alto desempeño, un ejemplo en Python con red denegada por defecto y Credential Vault, niveles de autonomía, métricas, organización del equipo, riesgos de madurez y una hoja de ruta de adopción de 90 días.","datePublished":"2026-11-16","dateModified":"2026-11-16","inLanguage":"es","url":"https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/","mainEntityOfPage":"https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/","articleSection":"Liderazgo y producto","keywords":"Liderazgo, IA, Platform Engineering","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://github.com/opensandbox-group/OpenSandbox"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/"},{"@type":"ListItem","position":2,"name":"Blog de tecnología y producto","item":"https://juliancardozo.github.io/blog/"},{"@type":"ListItem","position":3,"name":"OpenSandbox: dónde corren los agentes de IA y por qué es una decisión de Engineering Management","item":"https://juliancardozo.github.io/blog/opensandbox-agentes-ia-engineering-management/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#fortalezas">Fortalezas</a></li><li><a href="/#recorrido">Trayectoria</a></li><li><a href="/#productos">Proyectos</a></li><li><a href="/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/en/blog/opensandbox-agentes-ia-engineering-management/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/blog/?categoria=liderazgo-producto#articulos">Liderazgo y producto</a><time datetime="2026-11-16">16 de noviembre de 2026</time><span>15 min de lectura</span></p>
+    <h1 class="article__title">OpenSandbox: dónde corren los agentes de IA y por qué es una decisión de Engineering Management</h1>
+    <p class="article__lead">Cuando un equipo empieza a delegar tareas a agentes de IA, la conversación suele centrarse en qué modelo usar y cómo escribir buenas instrucciones. Hay una pregunta previa que recibe menos atención: dónde se ejecuta lo que el agente hace. Un agente de código instala dependencias, corre pruebas, clona repositorios y llama a APIs. Si lo hace en la laptop de un desarrollador o en un runner compartido, hereda sus permisos, sus credenciales y su acceso a la red. OpenSandbox es un proyecto open source que propone una respuesta: un sandbox aislado, efímero y con políticas explícitas para cada tarea. Este artículo lo analiza desde la perspectiva de un Engineering Manager, porque elegir dónde corren los agentes define cuánto se puede delegar, con qué riesgo, a qué costo y con qué capacidad de aprender de los resultados.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pilar</p><a href="/temas/liderazgo-tecnico/" class="js-track-pillar-hub">Liderazgo técnico y equipos <span aria-hidden="true">→</span></a></div>
+      <div><p>Contexto</p>
+      <span>Análisis técnico · Engineering Management y agentes de IA</span>
+      <a href="https://github.com/opensandbox-group/OpenSandbox" target="_blank" rel="noopener noreferrer">OpenSandbox en GitHub <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>El problema: delegar sin heredar todos los permisos</h2>
+          <p>En la mayoría de los equipos, la adopción de agentes empieza de forma individual. Cada persona prueba una herramienta en su máquina, con su sesión de GitHub, sus variables de entorno y su acceso a la VPN. Funciona bien para explorar, pero tiene tres consecuencias que un Engineering Manager no puede ignorar.</p><p>La primera es el <strong>riesgo</strong>: el agente opera con todos los permisos de la persona, incluidos los que no necesita para la tarea. Una dependencia comprometida o una instrucción inyectada en un archivo del repositorio puede usar esas credenciales. La segunda es la <strong>escala</strong>: si cada tarea delegada ocupa la máquina de alguien, la cantidad de trabajo en paralelo queda limitada por la cantidad de laptops. La tercera es la <strong>falta de evidencia</strong>: cuando el trabajo de los agentes ocurre en entornos personales, el equipo no puede medir qué funciona, cuánto cuesta ni dónde falla.</p><p>La tesis de este artículo es que <strong>el sandbox es la unidad de delegación</strong>. Así como un ticket define qué se pide, un sandbox define con qué recursos, permisos y acceso a la red se ejecuta. Cuando esa unidad es explícita, se puede razonar sobre el riesgo, presupuestar la capacidad y medir los resultados.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Qué es OpenSandbox</h2>
+          <p><a href="https://github.com/opensandbox-group/OpenSandbox" target="_blank" rel="noopener noreferrer">OpenSandbox</a> se define como un runtime de sandboxes para agentes de IA: entornos aislados donde una aplicación o un agente puede ejecutar comandos, manejar archivos, correr código y operar navegadores o escritorios. Se instala en infraestructura propia, empieza con Docker en una máquina local y escala a Kubernetes con la misma API.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>OpenSandbox en datos (verificado en el repositorio el 16 de noviembre de 2026, commit 44e79a2)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="OpenSandbox en datos (verificado en el repositorio el 16 de noviembre de 2026, commit 44e79a2)"><table>
+              <thead><tr><th scope="col">Aspecto</th><th scope="col">Situación</th></tr></thead>
+              <tbody><tr><th scope="row">Licencia y gobernanza</th><td>Apache 2.0. Proyecto de la Agentic AI Foundation (AAIF), con un Technical Charter bajo LF Projects adoptado el 20 de octubre de 2026</td></tr><tr><th scope="row">Origen</th><td>Iniciado en el ecosistema de Alibaba: los paquetes de Java y .NET y uno de los registros de imágenes conservan ese nombre</td></tr><tr><th scope="row">Actividad</th><td>Repositorio creado en diciembre de 2025; unas 17.000 estrellas y cerca de 200 contribuidores. Última versión estable: 1.2.1 (13 de noviembre de 2026); 1.3.0 en release candidate</td></tr><tr><th scope="row">Clientes</th><td>SDK para Python, Java/Kotlin, TypeScript, C# y Go; CLI <code>osb</code>; servidor MCP para Claude Code, Cursor y otros clientes</td></tr><tr><th scope="row">Runtimes</th><td>Docker para desarrollo local; Kubernetes con contenedores, runtimes seguros (gVisor, Kata, Firecracker) y microVMs basadas en templates (Fast Sandbox)</td></tr><tr><th scope="row">Controles</th><td>Políticas de salida de red por sandbox, Credential Vault, multi-tenancy por namespace, límites de recursos, expiración automática</td></tr><tr><th scope="row">Integraciones documentadas</th><td>Claude Code, Codex CLI, Gemini CLI, LangGraph, Google ADK, Playwright, Chrome, Harbor para evaluaciones, entre otras</td></tr></tbody>
+            </table></div>
+          </figure><p>Las cifras de actividad describen interés y ritmo de desarrollo, no adopción en producción. Para una decisión de plataforma importan más otros datos que aparecen más adelante: la estabilidad de la API, el estado de las funciones experimentales y las limitaciones documentadas.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Cómo funciona, en lo que importa para decidir</h2>
+          <p>La arquitectura separa tres caminos. El <strong>ciclo de vida</strong> (crear, pausar, renovar, eliminar sandboxes) pasa por un servidor en FastAPI que delega en el runtime configurado. La <strong>ejecución</strong> de comandos y operaciones sobre archivos va directo al sandbox, a través de un daemon llamado <code>execd</code>. Y el <strong>tráfico de salida</strong> del sandbox pasa por un componente de egress que aplica la política de red y, si está habilitado, inyecta credenciales.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Los tres caminos de OpenSandbox, simplificados</figcaption>
+            <pre class="mermaid" aria-label="Una aplicación, un pipeline o un agente usa el SDK, la CLI o el servidor MCP. Las operaciones de ciclo de vida van al servidor, que crea el sandbox en Docker o Kubernetes. Los comandos y archivos van directo al daemon execd dentro del sandbox. Todo el tráfico de salida del sandbox pasa por el componente de egress, que aplica la política de red y puede inyectar credenciales guardadas en el Credential Vault antes de llegar a servicios externos como la API del modelo o el repositorio.">flowchart LR
+  C[&quot;Pipeline, app o agente&lt;br/&gt;SDK · CLI osb · MCP&quot;] --&gt;|ciclo de vida| S[&quot;Servidor de ciclo de vida&quot;]
+  S --&gt; R[&quot;Runtime: Docker o Kubernetes&quot;]
+  R --&gt; SB
+  C --&gt;|comandos y archivos| X
+  subgraph SB[&quot;Sandbox&quot;]
+    X[&quot;execd&quot;] --&gt; W[&quot;Agente y código de la tarea&quot;]
+  end
+  W --&gt;|todo el tráfico de salida| E[&quot;Egress: política de red + Credential Vault&quot;]
+  E --&gt;|solo destinos permitidos| EXT[&quot;API del modelo, repositorio, registros de paquetes&quot;]</pre>
+            <p class="architecture__description">Una aplicación, un pipeline o un agente usa el SDK, la CLI o el servidor MCP. Las operaciones de ciclo de vida van al servidor, que crea el sandbox en Docker o Kubernetes. Los comandos y archivos van directo al daemon execd dentro del sandbox. Todo el tráfico de salida del sandbox pasa por el componente de egress, que aplica la política de red y puede inyectar credenciales guardadas en el Credential Vault antes de llegar a servicios externos como la API del modelo o el repositorio.</p>
+          </figure><p>Para un Engineering Manager, el componente más relevante es el último. El egress permite declarar, por sandbox, a qué destinos puede conectarse el agente, con la opción de denegar todo lo demás. El <strong>Credential Vault</strong> agrega algo menos habitual: las credenciales reales se guardan en el componente de egress y se inyectan en las solicitudes salientes que coinciden con una regla. El proceso dentro del sandbox solo ve un valor de relleno. Un agente puede llamar a la API del modelo o clonar un repositorio privado sin tener nunca el token en su entorno.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Casos de uso en equipos de alto desempeño</h2>
+          <p>Los ejemplos del repositorio cubren muchos escenarios. Desde la perspectiva de un equipo de producto, cinco tienen impacto directo en cómo se trabaja.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Casos de uso y su efecto en el equipo (análisis propio)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Casos de uso y su efecto en el equipo (análisis propio)"><table>
+              <thead><tr><th scope="col">Caso</th><th scope="col">Qué cambia en el equipo</th><th scope="col">Qué decide el Engineering Manager</th></tr></thead>
+              <tbody><tr><th scope="row">Agentes de código por ticket, en paralelo</th><td>Las tareas acotadas (actualizar dependencias, migraciones mecánicas, pruebas faltantes) avanzan sin ocupar la máquina de nadie</td><td>Qué tipos de tareas se delegan y cuánta revisión requiere cada uno</td></tr><tr><th scope="row">Evaluación de agentes antes de adoptarlos</th><td>Comparar modelos, prompts o herramientas con un conjunto fijo de tareas, un sandbox limpio por intento (por ejemplo, con Harbor)</td><td>Qué evidencia se exige antes de cambiar de herramienta o de modelo</td></tr><tr><th scope="row">Ejecución de código generado en el producto</th><td>Funciones como un intérprete de código o análisis de datos para usuarios corren aisladas del resto del sistema</td><td>Qué nivel de aislamiento exige el producto (contenedor o microVM)</td></tr><tr><th scope="row">Entornos efímeros con navegador</th><td>Agentes que prueban flujos de UI con Playwright o Chrome en un entorno descartable</td><td>Qué pruebas exploratorias se automatizan y quién revisa los hallazgos</td></tr><tr><th scope="row">Entornos reproducibles para incidentes y onboarding</th><td>Reproducir un problema o preparar un entorno de práctica sin tocar ambientes compartidos</td><td>Qué imágenes base mantiene la plataforma</td></tr></tbody>
+            </table></div>
+          </figure><p>El caso de la <strong>evaluación</strong> merece atención especial. La mayoría de los equipos adopta herramientas de IA por impresiones: alguien prueba un modelo nuevo, le parece mejor y el cambio se difunde. Con un sandbox limpio por intento y un conjunto de tareas representativas del propio código, la comparación se vuelve un experimento repetible. Para un Engineering Manager es la diferencia entre decidir por anécdotas y decidir con datos.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Un ejemplo: una tarea delegada con permisos mínimos</h2>
+          <p>El ejemplo ejecuta una tarea de un agente de código asociada a un ticket. Crea un sandbox con red denegada por defecto, guarda la clave del modelo y el token del repositorio en el Credential Vault, clona el repositorio, ejecuta Claude Code en modo no interactivo, corre las pruebas y devuelve un informe. Al final destruye el sandbox, haya salido bien o no.</p>
+          
+          
+          
+          <p class="article__note"><span>Qué se verificó</span>El código usa el SDK de Python de OpenSandbox 1.2.1. Las políticas de red y las credenciales se construyeron con los modelos del SDK, que validan sus campos, y la orquestación se probó con un sandbox simulado: tres pruebas automáticas verifican que ningún secreto llega al entorno ni a los comandos del sandbox, que el informe registra el resultado y que el sandbox se destruye incluso si fallan las pruebas. No se ejecutó contra un servidor real porque el entorno no tenía Docker. El Credential Vault además requiere que el servidor tenga configurado el egress en modo <code>dns+nft</code>.</p><figure class="article__code">
+            <figcaption>tarea_agente.py: política de red y credenciales</figcaption>
+            <pre tabindex="0"><code class="language-python">from opensandbox.models.sandboxes import (
+    Credential, CredentialBinding, CredentialProxyConfig, NetworkPolicy, NetworkRule,
+)
+
+ANTHROPIC = &quot;api.anthropic.com&quot;
+GIT_HOST = &quot;github.com&quot;
+
+
+def politica_red() -&gt; NetworkPolicy:
+    # Todo lo que no está en la lista queda bloqueado.
+    return NetworkPolicy(defaultAction=&quot;deny&quot;, egress=[
+        NetworkRule(action=&quot;allow&quot;, target=ANTHROPIC),
+        NetworkRule(action=&quot;allow&quot;, target=&quot;registry.npmjs.org&quot;),
+        NetworkRule(action=&quot;allow&quot;, target=GIT_HOST),
+    ])
+
+
+def boveda(repo: str, anthropic_key: str, git_user: str, git_token: str):
+    basic = base64.b64encode(f&quot;{git_user}:{git_token}&quot;.encode()).decode()
+    credenciales = [
+        Credential(name=&quot;anthropic&quot;, source={&quot;value&quot;: anthropic_key}),
+        Credential(name=&quot;git&quot;, source={&quot;value&quot;: basic}),
+    ]
+    vinculos = [
+        CredentialBinding(name=&quot;anthropic-api&quot;,
+                          match={&quot;schemes&quot;: [&quot;https&quot;], &quot;hosts&quot;: [ANTHROPIC], &quot;paths&quot;: [&quot;/v1/*&quot;]},
+                          auth={&quot;type&quot;: &quot;apiKey&quot;, &quot;name&quot;: &quot;x-api-key&quot;, &quot;credential&quot;: &quot;anthropic&quot;}),
+        CredentialBinding(name=&quot;git-repo&quot;,                       # solo este repositorio
+                          match={&quot;schemes&quot;: [&quot;https&quot;], &quot;hosts&quot;: [GIT_HOST], &quot;paths&quot;: [f&quot;/{repo}.git*&quot;]},
+                          auth={&quot;type&quot;: &quot;basic&quot;, &quot;credential&quot;: &quot;git&quot;}),
+    ]
+    return credenciales, vinculos</code></pre>
+          </figure><figure class="article__code">
+            <figcaption>tarea_agente.py: el ciclo de la tarea (se omiten los imports y la función auxiliar ejecutar, que corre un comando y devuelve su código de salida)</figcaption>
+            <pre tabindex="0"><code class="language-python">async def correr_tarea(ticket: str, repo: str, instruccion: str, equipo: str) -&gt; dict:
+    sb = await Sandbox.create(
+        os.getenv(&quot;SANDBOX_IMAGE&quot;, &quot;opensandbox/code-interpreter:latest&quot;),
+        timeout=timedelta(minutes=30),                      # el sandbox expira solo
+        resource={&quot;cpu&quot;: &quot;2&quot;, &quot;memory&quot;: &quot;4Gi&quot;},
+        env={&quot;ANTHROPIC_API_KEY&quot;: &quot;placeholder&quot;, &quot;GIT_TERMINAL_PROMPT&quot;: &quot;0&quot;},  # sin secretos reales
+        metadata={&quot;equipo&quot;: equipo, &quot;ticket&quot;: ticket},      # trazabilidad y costos por equipo
+        network_policy=politica_red(),
+        credential_proxy=CredentialProxyConfig(enabled=True),
+    )
+    informe = {&quot;ticket&quot;: ticket, &quot;sandbox&quot;: sb.id, &quot;pasos&quot;: []}
+    try:
+        cred, vinc = boveda(repo, os.environ[&quot;ANTHROPIC_API_KEY&quot;],
+                            os.environ[&quot;GIT_USER&quot;], os.environ[&quot;GIT_TOKEN&quot;])
+        await sb.credential_vault.create(credentials=cred, bindings=vinc)
+        await sb.commands.run(f&quot;git clone https://{GIT_HOST}/{repo}.git /workspace/repo&quot;)
+        await sb.commands.run(&quot;npm install -g @anthropic-ai/claude-code --no-audit --no-fund&quot;)
+        for cmd in (f&quot;claude -p {shlex.quote(instruccion)} --output-format json&quot;,
+                    &quot;make test&quot;,
+                    &quot;git diff --stat&quot;):
+            paso = await ejecutar(sb, cmd)
+            informe[&quot;pasos&quot;].append(paso)
+            if paso[&quot;exit_code&quot;] not in (0, None):
+                break
+        informe[&quot;resultado&quot;] = &quot;ok&quot; if all(p[&quot;exit_code&quot;] in (0, None) for p in informe[&quot;pasos&quot;]) else &quot;falló&quot;
+        return informe
+    finally:
+        await sb.kill()                                     # nada queda corriendo</code></pre>
+          </figure><p>Cada decisión del código tiene una lectura de gestión. El <strong>timeout</strong> convierte un olvido en un costo acotado. Los <strong>recursos</strong> explícitos permiten estimar capacidad. La <strong>metadata</strong> con equipo y ticket vincula cada sandbox con una unidad de trabajo y un centro de costo. La <strong>red denegada por defecto</strong> reduce lo que un agente comprometido puede hacer. Y el <strong>vínculo del token de Git limitado a un repositorio</strong> aplica el principio de mínimo privilegio a nivel de ruta: aunque el agente intente clonar otro repositorio, la credencial no se inyecta.</p><p>Vale una observación sobre los ejemplos oficiales. El ejemplo básico de Claude Code del repositorio pasa el token del modelo como variable de entorno del sandbox, lo que es práctico para una prueba local. La guía del Credential Vault muestra la alternativa que conviene adoptar como estándar del equipo: un valor de relleno en el entorno y la credencial real en la bóveda.</p><p class="article__note"><span>Riesgo residual</span>Los destinos permitidos siguen siendo canales posibles. Si el agente puede escribir en github.com, puede publicar información en cualquier lugar donde tenga permisos. Por eso conviene que el token tenga solo los permisos de la tarea (lectura, o escritura en una rama) y que la entrega del resultado, como abrir un pull request, la haga el pipeline fuera del sandbox y no el agente.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Niveles de autonomía: una política explícita</h2>
+          <p>Un error frecuente es aplicar la misma configuración a todo el trabajo delegado. Una tarea que lee código para generar documentación no tiene el mismo riesgo que una que modifica la lógica de pagos. La tabla propone cuatro niveles. Es un modelo propio para que cada equipo lo adapte, no una función del proyecto.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Niveles de autonomía para trabajo delegado a agentes (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Niveles de autonomía para trabajo delegado a agentes (propuesta)"><table>
+              <thead><tr><th scope="col">Nivel</th><th scope="col">Ejemplos</th><th scope="col">Configuración del sandbox</th><th scope="col">Revisión humana</th></tr></thead>
+              <tbody><tr><th scope="row">0 · Solo lectura</th><td>Explicar código, generar documentación, analizar un incidente</td><td>Sin credenciales de escritura; red limitada al modelo</td><td>Opcional</td></tr><tr><th scope="row">1 · Cambios acotados</th><td>Pruebas faltantes, actualización de dependencias, refactors mecánicos</td><td>Repositorio con token de lectura; resultado como parche que el pipeline convierte en PR</td><td>Revisión de PR estándar</td></tr><tr><th scope="row">2 · Cambios de lógica</th><td>Funcionalidades pequeñas, corrección de bugs</td><td>Igual que el nivel 1, con runtime seguro (gVisor o microVM) y ejecución de la suite completa</td><td>Revisión por una persona dueña del área</td></tr><tr><th scope="row">3 · Áreas críticas</th><td>Pagos, autenticación, datos personales</td><td>Igual que el nivel 2, con datos sintéticos y sin acceso a ambientes reales</td><td>Dos revisores y criterio explícito de aceptación</td></tr></tbody>
+            </table></div>
+          </figure><p>Escribir esta tabla tiene un efecto organizacional más importante que la configuración en sí: obliga a acordar con el equipo qué se delega y bajo qué condiciones. Esa conversación, que en muchos equipos nunca ocurre, es la que evita tanto el uso descontrolado como la prohibición generalizada.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Métricas: qué mirar y qué no</h2>
+          <p>La métrica más tentadora, cantidad de tareas ejecutadas por agentes, es la menos útil: crece aunque el trabajo no sirva. Las métricas de la tabla miden resultados y costo. Son hipótesis para observar durante la adopción, no valores de referencia.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Métricas para la adopción de agentes en sandboxes (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Métricas para la adopción de agentes en sandboxes (propuesta)"><table>
+              <thead><tr><th scope="col">Métrica</th><th scope="col">Qué indica</th><th scope="col">Fuente</th></tr></thead>
+              <tbody><tr><th scope="row">Tasa de aceptación de los cambios propuestos por agentes</th><td>Si el trabajo delegado es útil</td><td>PRs etiquetados por origen</td></tr><tr><th scope="row">Costo por cambio aceptado</th><td>Tokens más cómputo del sandbox, dividido por cambios que llegan a main</td><td>Facturación del modelo y metadata del sandbox</td></tr><tr><th scope="row">Tiempo de revisión de cambios de agentes</th><td>Si la delegación traslada carga a quienes revisan</td><td>Datos del repositorio</td></tr><tr><th scope="row">Tasa de fallas por tipo de tarea</th><td>Qué tareas conviene dejar de delegar o especificar mejor</td><td>Informes de cada ejecución</td></tr><tr><th scope="row">Conexiones bloqueadas por la política de red</th><td>Imágenes mal preparadas o comportamientos inesperados</td><td>Logs del egress</td></tr><tr><th scope="row">Tiempo hasta tener un sandbox listo</th><td>Fricción de la plataforma</td><td>Instrumentación del pipeline</td></tr></tbody>
+            </table></div>
+          </figure><p>Estas métricas se conectan con marcos conocidos. El tiempo de revisión y la tasa de aceptación son indicadores de flujo, en la línea de DORA. La percepción del equipo sobre la utilidad de los agentes, relevada con una encuesta breve, completa el cuadro del lado de la satisfacción, como propone SPACE. Ninguna métrica aislada alcanza.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Quién es dueño de qué</h2>
+          <p>OpenSandbox es infraestructura compartida y necesita un dueño. Con la terminología de Team Topologies, la distribución natural es la siguiente.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Equipo de plataforma:</strong> opera el servidor y el runtime, mantiene las imágenes base, define las reglas de red que ningún equipo puede sobrescribir (<code>deny.always</code>, como el endpoint de metadatos de la nube), gestiona los tenants y publica la plantilla de tarea delegada. Lo trata como un producto, con documentación y métricas de uso.</li><li><strong>Equipos de producto:</strong> deciden qué tareas delegan dentro de los niveles acordados, escriben las instrucciones y revisan los resultados. Son dueños de la calidad de lo que entra a su código.</li><li><strong>Equipo habilitador o referentes técnicos:</strong> acompañan a los equipos en los primeros usos, recogen patrones que funcionan y los convierten en plantillas.</li><li><strong>Seguridad:</strong> revisa la configuración de aislamiento, las reglas de red y el manejo de credenciales, y participa en la definición de los niveles 2 y 3.</li></ul><p>La función de multi-tenancy de OpenSandbox acompaña esta división: cada equipo puede tener su propia clave de API y su namespace de Kubernetes, con lo que el uso y los costos quedan separados sin desplegar una instancia por equipo.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Madurez y riesgos: lo que hay que saber antes de adoptarlo</h2>
+          <p>Un proyecto con menos de un año de vida y crecimiento rápido requiere una evaluación cuidadosa. El propio repositorio documenta con claridad varias limitaciones, lo que es una buena señal, pero hay que leerlas.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>API sin versión estable.</strong> El roadmap indica de forma explícita que no está previsto declarar una API v1 estable hasta que la semántica del ciclo de vida y la compatibilidad de los SDK maduren. Conviene fijar versiones y aislar el uso detrás de una capa propia.</li><li><strong>Funciones experimentales.</strong> El pool de sandboxes precalentados del lado del cliente está marcado como experimental y puede cambiar entre versiones menores.</li><li><strong>Cadena de suministro.</strong> El README advierte que las versiones unificadas actuales tienen una brecha conocida de firma y procedencia de imágenes, y recomienda fijar imágenes por digest.</li><li><strong>Credential Vault con requisitos.</strong> Necesita el modo de egress <code>dns+nft</code>, no es compatible con un service mesh que intercepte el tráfico en el mismo pod (como Istio con inyección de sidecar) y, en Kubernetes, la bóveda se vacía al pausar y reanudar un sandbox.</li><li><strong>Alta disponibilidad parcial.</strong> La alta disponibilidad completa del plano de control figura como trabajo planificado.</li><li><strong>Benchmarks propios.</strong> Los tiempos de creación publicados para Firecracker, del orden de decenas de milisegundos, se midieron en un entorno específico del proyecto con artefactos en caché. Son una referencia, no una garantía para otra infraestructura.</li></ul><p>Las alternativas también merecen consideración. Los servicios gestionados de sandboxes para agentes, como E2B o Daytona, reducen el trabajo operativo a cambio de ejecutar fuera de la infraestructura propia. Proyectos como <code>kubernetes-sigs/agent-sandbox</code>, que OpenSandbox puede usar como proveedor, ofrecen una primitiva de Kubernetes más acotada. Y para casos simples, un contenedor efímero en el CI existente con una política de red estricta puede ser suficiente. La elección depende de dónde deben quedar los datos, cuánto volumen se espera y qué capacidad operativa tiene el equipo de plataforma.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Una hoja de ruta de 90 días</h2>
+          <p>La siguiente secuencia está pensada para que cada etapa termine con una decisión basada en evidencia. Es una propuesta; los plazos dependen del punto de partida.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Días 1 a 30: piloto acotado.</strong> Un equipo voluntario, un tipo de tarea de nivel 1 (por ejemplo, agregar pruebas faltantes) y OpenSandbox con Docker en un runner dedicado. Definir las métricas y medir la línea de base. Decisión al cierre: ¿la tasa de aceptación justifica seguir?</li><li><strong>Días 31 a 60: estándar del equipo.</strong> Escribir la política de niveles con el equipo y seguridad, publicar la plantilla de tarea delegada con red denegada por defecto y Credential Vault, y armar un conjunto de evaluación con 20 o 30 tareas reales para comparar modelos o instrucciones. Decisión: ¿qué tareas se delegan de forma habitual?</li><li><strong>Días 61 a 90: plataforma compartida.</strong> Si los resultados lo justifican, desplegar en Kubernetes con multi-tenancy, runtime seguro para los niveles 2 y 3 y un tablero con las métricas por equipo. Decisión: ¿se extiende a otros equipos, se mantiene el alcance o se evalúa una alternativa gestionada?</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Preguntas para la decisión</h2>
+          <p>Antes de adoptar OpenSandbox o cualquier alternativa, conviene que el liderazgo técnico pueda responder estas preguntas:</p>
+          
+          
+          
+          <ul class="article__list"><li>¿Qué tareas queremos delegar y cuál es el peor resultado posible de cada una?</li><li>¿Qué credenciales necesita cada tipo de tarea y cómo evitamos que lleguen al entorno del agente?</li><li>¿Quién opera la plataforma y con qué capacidad, sabiendo que la API todavía puede cambiar?</li><li>¿Dónde deben quedar el código y los datos que procesa el agente?</li><li>¿Cómo vamos a saber, dentro de tres meses, si la delegación mejoró el flujo del equipo o solo trasladó trabajo a la revisión?</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Conclusión</h2>
+          <p>OpenSandbox resuelve un problema concreto, ejecutar el trabajo de los agentes en entornos aislados, efímeros y con políticas explícitas, y lo hace con un diseño que toma en serio la red y las credenciales. Es un proyecto joven, con una API que todavía evoluciona y limitaciones documentadas que hay que considerar antes de llevarlo a producción.</p><p>Más allá de la herramienta, la idea que deja es útil para cualquier equipo: decidir dónde corren los agentes es decidir cuánto se puede delegar. Un Engineering Manager que convierte esa decisión en una política explícita, con niveles de autonomía, permisos mínimos y métricas de resultado, le da al equipo la posibilidad de aprovechar los agentes sin depender de la confianza individual ni de la prohibición.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Referencias</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li>OpenSandbox. <a href="https://github.com/opensandbox-group/OpenSandbox" target="_blank" rel="noopener noreferrer">Repositorio</a>, <a href="https://open-sandbox.ai" target="_blank" rel="noopener noreferrer">sitio y documentación</a> y <a href="https://github.com/opensandbox-group/OpenSandbox/blob/main/ROADMAP.md" target="_blank" rel="noopener noreferrer">roadmap</a>.</li><li>OpenSandbox. <a href="https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/credential-vault.md" target="_blank" rel="noopener noreferrer">Credential Vault</a> y <a href="https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/network-security.md" target="_blank" rel="noopener noreferrer">seguridad de red</a>.</li><li>OpenSandbox. <a href="https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/secure-container.md" target="_blank" rel="noopener noreferrer">Runtimes seguros</a> y <a href="https://github.com/opensandbox-group/OpenSandbox/blob/main/docs/guides/multi-tenancy.md" target="_blank" rel="noopener noreferrer">multi-tenancy</a>.</li><li>Agentic AI Foundation. <a href="https://aaif.io/projects/opensandbox" target="_blank" rel="noopener noreferrer">OpenSandbox</a>.</li><li>Harbor. <a href="https://github.com/harbor-framework/harbor" target="_blank" rel="noopener noreferrer">Framework de evaluación de agentes</a>.</li><li>Kubernetes SIGs. <a href="https://github.com/kubernetes-sigs/agent-sandbox" target="_blank" rel="noopener noreferrer">agent-sandbox</a>.</li><li>Skelton, M. y Pais, M. <a href="https://teamtopologies.com/" target="_blank" rel="noopener noreferrer">Team Topologies</a>.</li><li>DORA. <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">Investigación sobre desempeño de equipos de software</a>.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: el sandbox es la unidad de delegación del trabajo con agentes. OpenSandbox ofrece entornos aislados y efímeros con red denegada por defecto y credenciales que nunca llegan al agente, sobre Docker o Kubernetes. Es un proyecto joven, con API todavía no estable, que conviene adoptar con un piloto acotado, niveles de autonomía explícitos, permisos mínimos y métricas de resultado, no de volumen.</p>
+      
+      <aside class="article__linkedin" aria-labelledby="article-linkedin-title">
+      <svg class="article__linkedin-icon" aria-hidden="true" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      <div>
+        <p class="article__conversation-label">Sigamos en LinkedIn</p>
+        <h2 id="article-linkedin-title">¿Te sirvió este artículo? Conectemos en LinkedIn</h2>
+        <p>Ahí comparto cada artículo nuevo, notas cortas sobre arquitectura, IA aplicada y liderazgo de equipos, y las conversaciones que surgen a partir de ellos.</p>
+        <a class="btn btn--primary js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">Seguir en LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás liderando un equipo de ingeniería? Me interesa conversar sobre los desafíos que están atravesando.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20OpenSandbox%3A%20d%C3%B3nde%20corren%20los%20agentes%20de%20IA%20y%20por%20qu%C3%A9%20es%20una%20decisi%C3%B3n%20de%20Engineering%20Management&amp;body=%C2%BFEst%C3%A1s%20liderando%20un%20equipo%20de%20ingenier%C3%ADa%3F%20Me%20interesa%20conversar%20sobre%20los%20desaf%C3%ADos%20que%20est%C3%A1n%20atravesando.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20OpenSandbox%3A%20d%C3%B3nde%20corren%20los%20agentes%20de%20IA%20y%20por%20qu%C3%A9%20es%20una%20decisi%C3%B3n%20de%20Engineering%20Management%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fopensandbox-agentes-ia-engineering-management%2F">Escribirme sobre este tema</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li data-cat="liderazgo-producto"><a href="/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Liderazgo y producto</span>
+        <strong>Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA</strong>
+        <small>Un análisis desde Engineering Management sobre cómo diseñar el sistema de trabajo de un equipo de ingeniería: un modelo de seis capas, el plugin de ingeniería de Anthropic como caso de estudio, la diferencia entre tools, skills, MCP, workflows, agentes y harness, un caso práctico de extremo a extremo, métricas de impacto, riesgos y una hoja de ruta de adopción de 90 días.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/blog/harness-engineering-agentes-codigo-guias-sensores/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">IA y agentes</span>
+        <strong>Harness engineering: cómo dar confianza al trabajo de un agente de código</strong>
+        <small>Una lectura técnica del modelo que Birgitta Böckeler publicó en martinfowler.com para quienes usan agentes de código: guías y sensores, controles computacionales e inferenciales, el momento en que conviene ejecutar cada uno, las tres dimensiones que un harness puede regular y sus límites. Incluye la aplicación del modelo a Website Factory, un sistema multiagente propio, y lo que ese ejercicio deja ver.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/blog/ingenieria-agentes-ia-empresa-arquitectura-controles/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">IA y agentes</span>
+        <strong>Ingeniería de agentes de IA en la empresa: de la demo al sistema en producción</strong>
+        <small>Una guía técnica para diseñar asistentes y arquitecturas agénticas que interactúan con sistemas empresariales: cuándo conviene un agente, una arquitectura de referencia, RAG, gestión de contexto, MCP, la elección entre LangGraph, Strands, LangChain, LlamaIndex o el SDK directo, un ejemplo verificado con Python y FastAPI, controles, testing, observabilidad, trabajo con otros equipos y un mapa de aprendizaje.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/blog/?categoria=liderazgo-producto#articulos" class="js-track-related-category">Más artículos de Liderazgo y producto <span aria-hidden="true">→</span></a>
+      <a href="/temas/liderazgo-tecnico/" class="js-track-pillar-hub">Ruta de lectura: Liderazgo técnico y equipos <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

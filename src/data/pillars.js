@@ -44,6 +44,7 @@ export const pillars = [
       '¿Cómo conectar producto, delivery y criterio técnico sin microgestión?',
     ],
     articleSlugs: [
+      'opensandbox-agentes-ia-engineering-management',
       'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia',
       'technical-product-manager-developer-platform',
       'loop-engineering-agentic-loops',
@@ -73,6 +74,7 @@ export const pillars = [
       '¿Qué responsabilidades siguen siendo del equipo aunque la infraestructura esté en cloud?',
     ],
     articleSlugs: [
+      'plataforma-mlops-modelos-bayesianos-mlflow',
       'floci-emulacion-cloud-local-platform-engineering',
       'uber-h3-soluciones-optimas-ingenieria-arquitectura',
       'quarkus-java-cloud-native-equipos-spring',
