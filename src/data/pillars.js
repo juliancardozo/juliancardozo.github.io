@@ -14,6 +14,7 @@ export const pillars = [
       '¿Qué controles necesita cada tarea según su riesgo, y en qué decisiones no se delega?',
     ],
     articleSlugs: [
+      'ingenieria-agentes-ia-empresa-arquitectura-controles',
       'harness-engineering-agentes-codigo-guias-sensores',
       'loop-engineering-agentic-loops',
       'orquestacion-multiagente-website-factory',
