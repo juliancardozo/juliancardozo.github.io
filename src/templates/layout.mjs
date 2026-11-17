@@ -60,6 +60,7 @@ ${
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(description)}" />
 <meta name="twitter:image" content="${esc(ogImage)}" />
+<link rel="alternate" type="application/rss+xml" title="Blog de Julián Cardozo" href="/feed.xml" />
 <link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="/assets/css/main.css" />
 <!-- Google Tag Manager -->

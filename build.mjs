@@ -23,6 +23,7 @@ import { pillarPage } from './src/templates/pillar.mjs';
 import { newsletterIndex, newsletterIssuePage } from './src/templates/newsletter.mjs';
 import { prosePage } from './src/templates/prose-page.mjs';
 import { href } from './src/templates/components.mjs';
+import { articles as articlesEs } from './src/data/articles.js';
 
 const root = path.dirname(fileURLToPath(import.meta.url));
 const out = (...parts) => path.join(root, ...parts);
@@ -423,6 +424,23 @@ const build = async () => {
       `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">\n${urls
         .map(sitemapEntry)
         .join('\n')}\n</urlset>\n`,
+    ),
+  );
+
+  // feed.xml (RSS 2.0) con los últimos artículos en español
+  const xml = (value) => String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const feedItems = [...articlesEs]
+    .sort((a, b) => b.date.localeCompare(a.date))
+    .slice(0, 20)
+    .map((a) => {
+      const link = `${site.baseUrl}${href(content.es, 'blog', a.slug)}`;
+      const pubDate = new Date(`${a.date}T12:00:00Z`).toUTCString();
+      return `  <item><title>${xml(a.title)}</title><link>${link}</link><guid isPermaLink="true">${link}</guid><pubDate>${pubDate}</pubDate><category>${xml(a.category)}</category><description>${xml(a.description)}</description></item>`;
+    });
+  written.push(
+    await write(
+      'feed.xml',
+      `<?xml version="1.0" encoding="UTF-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n<channel>\n  <title>${xml(`${site.author} · ${content.es.pages.blogTitle}`)}</title>\n  <link>${site.baseUrl}/blog/</link>\n  <atom:link href="${site.baseUrl}/feed.xml" rel="self" type="application/rss+xml"/>\n  <description>${xml(content.es.pages.blogDescription)}</description>\n  <language>es</language>\n${feedItems.join('\n')}\n</channel>\n</rss>\n`,
     ),
   );
 

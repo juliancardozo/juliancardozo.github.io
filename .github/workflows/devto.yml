@@ -1,0 +1,30 @@
+name: devto
+# Publica en dev.to los artículos nuevos del blog, con la URL canónica apuntando al sitio.
+on:
+  push:
+    branches: [master]
+    paths: ['src/data/articles.js']
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: 'Publicar (true) o crear borradores (false)'
+        default: 'true'
+      since:
+        description: 'Solo artículos desde esta fecha (AAAA-MM-DD)'
+        default: ''
+concurrency:
+  group: devto
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node tools/devto-sync.mjs
+        env:
+          DEVTO_API_KEY: ${{ secrets.DEVTO_API_KEY }}
+          DEVTO_PUBLISH: ${{ inputs.publish || vars.DEVTO_PUBLISH || 'true' }}
+          DEVTO_SINCE: ${{ inputs.since || vars.DEVTO_SINCE || '2026-11-16' }}
