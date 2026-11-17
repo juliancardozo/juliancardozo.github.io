@@ -45,6 +45,7 @@ export const pillars = [
     ],
     articleSlugs: [
       'opensandbox-agentes-ia-engineering-management',
+      'documentacion-viva-repositorios-archify-engineering-management',
       'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia',
       'technical-product-manager-developer-platform',
       'loop-engineering-agentic-loops',

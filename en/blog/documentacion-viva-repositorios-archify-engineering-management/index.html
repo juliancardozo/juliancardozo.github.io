@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Documentación viva de repositorios con Archify | Julián Cardozo</title>
+<meta name="description" content="Cómo mantener diagramas de arquitectura verificados contra el código en los repositorios de equipos de ingeniería y plataforma: Archify, CI, deltas en PRs y rituales de equipo." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/documentacion-viva-repositorios-archify-engineering-management/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/documentacion-viva-repositorios-archify-engineering-management/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/documentacion-viva-repositorios-archify-engineering-management/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/documentacion-viva-repositorios-archify-engineering-management/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Documentación viva de repositorios con Archify | Julián Cardozo" />
+<meta property="og:description" content="Cómo mantener diagramas de arquitectura verificados contra el código en los repositorios de equipos de ingeniería y plataforma: Archify, CI, deltas en PRs y rituales de equipo." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/documentacion-viva-repositorios-archify-engineering-management/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Documentación viva de repositorios con Archify | Julián Cardozo" />
+<meta name="twitter:description" content="Cómo mantener diagramas de arquitectura verificados contra el código en los repositorios de equipos de ingeniería y plataforma: Archify, CI, deltas en PRs y rituales de equipo." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/documentacion-viva-repositorios-archify-engineering-management/#article","headline":"Documentación viva: cómo mantener la arquitectura de los repositorios de mis equipos verificada contra el código","description":"El enfoque que aplico como Engineering Manager para que la documentación de arquitectura de los equipos de ingeniería y plataforma no quede obsoleta: diagramas como código, generados con un agente y Archify, anclados a un commit, revalidados en cada cambio y revisados en los pull requests. Incluye un ejemplo verificado sobre un repositorio público, los scripts de CI, sus límites y los rituales de equipo que lo sostienen.","datePublished":"2026-11-16","dateModified":"2026-11-16","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/documentacion-viva-repositorios-archify-engineering-management/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/documentacion-viva-repositorios-archify-engineering-management/","articleSection":"Leadership and product","keywords":"Leadership, Documentación, Platform Engineering","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://github.com/tt-a1i/archify"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Documentación viva: cómo mantener la arquitectura de los repositorios de mis equipos verificada contra el código","item":"https://juliancardozo.github.io/en/blog/documentacion-viva-repositorios-archify-engineering-management/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#fortalezas">Strengths</a></li><li><a href="/en/#recorrido">Career</a></li><li><a href="/en/#productos">Projects</a></li><li><a href="/en/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/documentacion-viva-repositorios-archify-engineering-management/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/en/blog/?categoria=liderazgo-producto#articulos">Leadership and product</a><time datetime="2026-11-16">November 16, 2026</time><span>14 min de lectura</span></p>
+    <h1 class="article__title">Documentación viva: cómo mantener la arquitectura de los repositorios de mis equipos verificada contra el código</h1>
+    <p class="article__lead">Todo equipo de ingeniería tiene un diagrama de arquitectura que alguna vez fue correcto. Se dibujó para una revisión de diseño o para un onboarding, quedó en una wiki y, unos meses después, nadie sabe si todavía representa al sistema. Desde el rol de Engineering Manager, ese problema tiene costos concretos: onboardings más lentos, revisiones de diseño que discuten sobre supuestos desactualizados y dependencias entre equipos que se descubren durante un incidente. Este artículo describe el enfoque que aplico para que la documentación de arquitectura de los repositorios de mis equipos de ingeniería y plataforma se mantenga viva: diagramas como código, generados con un agente, anclados a un commit, revalidados en cada cambio y revisados en los pull requests. La herramienta central es Archify, un proyecto open source que convierte descripciones y repositorios en diagramas interactivos verificados.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/liderazgo-tecnico/" class="js-track-pillar-hub">Technical leadership and teams <span aria-hidden="true">→</span></a></div>
+      <div><p>Context</p>
+      <span>Engineering Management · Documentación de arquitectura</span>
+      <a href="https://github.com/tt-a1i/archify" target="_blank" rel="noopener noreferrer">Archify en GitHub <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>Por qué la documentación de arquitectura se muere</h2>
+          <p>La documentación no se vuelve obsoleta por falta de voluntad, sino por diseño. Vive lejos del código, no tiene dueño claro y nada avisa cuando deja de ser cierta. Un diagrama en una herramienta de dibujo no se rompe cuando alguien renombra un módulo; simplemente queda mal, sin que nadie lo note hasta que alguien lo usa para tomar una decisión.</p><p>Mi conclusión, como responsable de equipos que mantienen decenas de repositorios, es que el problema no se resuelve pidiendo más disciplina. Se resuelve cambiando tres propiedades de la documentación: que <strong>viva en el repositorio</strong>, junto al código que describe; que <strong>sea verificable</strong>, de modo que un cambio en el código pueda romperla de forma visible; y que <strong>forme parte del flujo de trabajo</strong>, es decir, que se revise en los mismos pull requests que el código.</p><p>Durante años, la tercera propiedad era la difícil: generar y actualizar diagramas a mano tenía un costo que nadie quería pagar en cada PR. Los agentes de código cambiaron esa ecuación. Un agente puede leer un repositorio y producir un primer diagrama en minutos. El riesgo pasa a ser otro: que ese diagrama sea plausible pero incorrecto. Por eso la verificación importa más que la generación.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Qué es Archify</h2>
+          <p><a href="https://github.com/tt-a1i/archify" target="_blank" rel="noopener noreferrer">Archify</a> es una skill para agentes de código (Claude Code, Codex, Cursor, OpenCode y otros) acompañada de una CLI sin dependencias externas. El agente no dibuja: escribe una representación intermedia en JSON con tipos y esquema, y la CLI la valida, la renderiza y produce un único archivo HTML interactivo que se puede abrir sin instalar nada.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Archify en datos (verificado en el repositorio el 16 de noviembre de 2026, commit a7ed6fd)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Archify en datos (verificado en el repositorio el 16 de noviembre de 2026, commit a7ed6fd)"><table>
+              <thead><tr><th scope="col">Aspecto</th><th scope="col">Situación</th></tr></thead>
+              <tbody><tr><th scope="row">Licencia</th><td>Apache 2.0</td></tr><tr><th scope="row">Actividad</th><td>Repositorio creado en abril de 2026; unas 97.000 estrellas y alrededor de 90 contribuidores. Versión estable 3.2.0 (18 de octubre de 2026)</td></tr><tr><th scope="row">Tipos de diagrama</th><td>Arquitectura, workflow, secuencia, flujo de datos, ciclo de vida, ERD, clases, árbol, timeline y waterfall, más páginas explicativas</td></tr><tr><th scope="row">Representación</th><td>JSON con esquema por tipo; la misma fuente produce siempre el mismo diagrama</td></tr><tr><th scope="row">Verificación</th><td>Validación de esquema y de layout antes de entregar; los errores devuelven un código, el elemento afectado y las correcciones admitidas</td></tr><tr><th scope="row">Evidencia de código</th><td>Cada componente puede citar hasta tres archivos con rangos de líneas, anclados a un commit y verificados con Git</td></tr><tr><th scope="row">Comparación</th><td><code>compare architecture</code> produce un delta entre dos versiones del diagrama, con un recibo en JSON</td></tr></tbody>
+            </table></div>
+          </figure><p>Para la documentación viva, las dos últimas filas son las que importan. La primera permite que un diagrama afirme «este componente está implementado aquí» y que esa afirmación se pueda comprobar. La segunda permite revisar un cambio de arquitectura como se revisa un cambio de código.</p>
+          
+        </section>
+        <section>
+          
+          <h2>El flujo completo</h2>
+          <p>El proceso que propongo a los equipos tiene cinco pasos. Los dos primeros ocurren una vez por repositorio; los tres últimos, en cada cambio.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>Ciclo de la documentación viva de un repositorio</figcaption>
+            <pre class="mermaid" aria-label="Un agente lee el repositorio y genera la representación JSON del diagrama con evidencia de código. Una persona del equipo la revisa y la versiona en docs/arquitectura. En cada pull request, el CI revalida el diagrama contra el commit nuevo y lista los archivos citados que cambiaron; si hubo cambios de arquitectura, se genera un delta para la revisión. Al fusionar en main, el HTML se publica en el portal interno.">flowchart LR
+  A[&quot;Agente lee el repositorio&quot;] --&gt; IR[&quot;JSON del diagrama&lt;br/&gt;con evidencia&quot;]
+  IR --&gt; H[&quot;Revisión humana&quot;]
+  H --&gt; R[&quot;docs/arquitectura/ en el repo&quot;]
+  R --&gt; CI[&quot;CI en cada PR&quot;]
+  CI --&gt; V[&quot;Revalidar contra el commit&quot;]
+  CI --&gt; C[&quot;Archivos citados que cambiaron&quot;]
+  CI --&gt; D[&quot;Delta de arquitectura&quot;]
+  V &amp; C &amp; D --&gt; PR[&quot;Revisión del PR&quot;]
+  PR --&gt;|merge| P[&quot;Portal: HTML publicado&quot;]
+  PR -. ajustes .-&gt; IR</pre>
+            <p class="architecture__description">Un agente lee el repositorio y genera la representación JSON del diagrama con evidencia de código. Una persona del equipo la revisa y la versiona en docs/arquitectura. En cada pull request, el CI revalida el diagrama contra el commit nuevo y lista los archivos citados que cambiaron; si hubo cambios de arquitectura, se genera un delta para la revisión. Al fusionar en main, el HTML se publica en el portal interno.</p>
+          </figure><ol class="article__list"><li><strong>Generar.</strong> Con la skill instalada, se le pide al agente un diagrama de arquitectura del repositorio con un alcance acotado: entre 8 y 12 componentes, el camino principal, dependencias externas y límites de confianza, con evidencia de código en cada componente.</li><li><strong>Revisar y versionar.</strong> Una persona que conoce el sistema revisa el resultado, corrige lo que el agente interpretó mal y lo guarda en <code>docs/arquitectura/</code>. Se versiona el JSON, no el HTML.</li><li><strong>Revalidar en cada cambio.</strong> El CI ancla el diagrama al commit del PR y lo valida. Si un archivo citado desapareció o las líneas citadas ya no existen, falla.</li><li><strong>Señalar lo que la validación no ve.</strong> El CI lista los archivos citados por el diagrama que el PR modificó, para que alguien confirme que el diagrama sigue siendo correcto.</li><li><strong>Publicar.</strong> Al fusionar, el CI genera el HTML y lo publica en el portal interno, sea GitHub Pages, Backstage TechDocs u otro.</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Un ejemplo verificado sobre un repositorio real</h2>
+          <p>Para mostrar el flujo con resultados reales, lo apliqué sobre <a href="https://github.com/juliancardozo/mlops-bayesiano-poc" target="_blank" rel="noopener noreferrer">mlops-bayesiano-poc</a>, un repositorio público que acompaña <a href="/blog/plataforma-mlops-modelos-bayesianos-mlflow/">otro artículo de este blog</a>. La fuente del diagrama es la siguiente (resumida):</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>docs/arquitectura/plataforma.architecture.json (fragmento)</figcaption>
+            <pre tabindex="0"><code class="language-json">{
+  &quot;schema_version&quot;: 1,
+  &quot;diagram_type&quot;: &quot;architecture&quot;,
+  &quot;meta&quot;: {
+    &quot;title&quot;: &quot;Plataforma MLOps para modelos bayesianos&quot;,
+    &quot;locale&quot;: &quot;es&quot;,
+    &quot;repository&quot;: {
+      &quot;url&quot;: &quot;https://github.com/juliancardozo/mlops-bayesiano-poc&quot;,
+      &quot;revision&quot;: &quot;bfb84a7b100c06b496890cb0856d1833cf5d58b4&quot;
+    }
+  },
+  &quot;layout&quot;: { &quot;mode&quot;: &quot;grid&quot;, &quot;cols&quot;: 6, &quot;cellW&quot;: 150, &quot;cellH&quot;: 64 },
+  &quot;components&quot;: [
+    { &quot;id&quot;: &quot;gates&quot;, &quot;type&quot;: &quot;security&quot;, &quot;label&quot;: &quot;Gates de validación&quot;,
+      &quot;sublabel&quot;: &quot;R-hat · ESS · cobertura&quot;, &quot;row&quot;: 1, &quot;col&quot;: 2,
+      &quot;sources&quot;: [{ &quot;path&quot;: &quot;src/validacion.py&quot;, &quot;line&quot;: 34, &quot;end_line&quot;: 41, &quot;label&quot;: &quot;evaluar&quot; }] },
+    { &quot;id&quot;: &quot;registro&quot;, &quot;type&quot;: &quot;database&quot;, &quot;label&quot;: &quot;MLflow Registry&quot;,
+      &quot;sublabel&quot;: &quot;versiones + aliases&quot;, &quot;row&quot;: 1, &quot;col&quot;: 3 },
+    { &quot;id&quot;: &quot;cli&quot;, &quot;type&quot;: &quot;security&quot;, &quot;label&quot;: &quot;CLI de despliegue&quot;,
+      &quot;sublabel&quot;: &quot;ml-deploy · rollback&quot;, &quot;row&quot;: 0, &quot;col&quot;: 3,
+      &quot;sources&quot;: [{ &quot;path&quot;: &quot;src/ml_cli.py&quot;, &quot;line&quot;: 19, &quot;end_line&quot;: 63, &quot;label&quot;: &quot;deploy y rollback&quot; }] }
+  ],
+  &quot;connections&quot;: [
+    { &quot;id&quot;: &quot;gates-registro&quot;, &quot;from&quot;: &quot;gates&quot;, &quot;to&quot;: &quot;registro&quot;,
+      &quot;label&quot;: &quot;versión + etiqueta&quot;, &quot;variant&quot;: &quot;emphasis&quot; },
+    { &quot;id&quot;: &quot;cli-registro&quot;, &quot;from&quot;: &quot;cli&quot;, &quot;to&quot;: &quot;registro&quot;, &quot;variant&quot;: &quot;security&quot; }
+  ],
+  &quot;boundaries&quot;: [
+    { &quot;kind&quot;: &quot;region&quot;, &quot;label&quot;: &quot;Responsabilidad de la plataforma&quot;,
+      &quot;wraps&quot;: [&quot;gates&quot;, &quot;registro&quot;, &quot;cli&quot;, &quot;serving&quot;] }
+  ]
+}</code></pre>
+          </figure><p>El resultado es un HTML de unos 845 KB con ocho componentes, una región que marca la responsabilidad del equipo de plataforma y, en cada componente con evidencia, un enlace al archivo y las líneas exactas en el commit indicado. El diagrama permite enfocar un nodo, seguir sus dependencias hacia arriba o hacia abajo, trazar un camino y cambiar entre tema claro y oscuro.</p><h3>Lo que la validación detectó</h3><p>La primera versión no pasó. En el primer borrador cité rangos de líneas aproximados, y Archify rechazó cuatro de ellos con mensajes como este: <code>src/modelo.py</code> tiene 33 líneas en ese commit, pero el diagrama pide la línea 34. Después aparecieron dos problemas de presentación: una etiqueta más ancha que su componente y un texto que se superponía a una caja. Cada error indicaba el elemento afectado y qué correcciones eran válidas. Con cuatro ajustes, el diagrama pasó la validación con el perfil de calidad más estricto.</p><p>Ese comportamiento es exactamente el que se necesita para documentación viva: <strong>un diagrama que no coincide con el código no se entrega</strong>. Cuando el agente o una persona se equivoca, el error aparece antes de que alguien lo use para decidir.</p>
+          
+        </section>
+        <section>
+          
+          <h2>La verificación en el CI</h2>
+          <p>La pieza que convierte un diagrama correcto en documentación viva es un script que, en cada cambio, ancla el diagrama al commit nuevo y lo vuelve a validar.</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>scripts/verificar-docs.sh: revalida cada diagrama contra el commit actual</figcaption>
+            <pre tabindex="0"><code class="language-bash">#!/usr/bin/env bash
+set -euo pipefail
+ARCHIFY=&quot;${ARCHIFY:-node archify/archify/bin/archify.mjs}&quot;
+HEAD_SHA=&quot;$(git rev-parse HEAD)&quot;
+tmp=&quot;$(mktemp -d)&quot;; trap 'rm -rf &quot;$tmp&quot;' EXIT
+status=0
+for ir in docs/arquitectura/*.architecture.json; do
+  # Misma fuente, anclada al commit que se está revisando.
+  jq --arg sha &quot;$HEAD_SHA&quot; '.meta.repository.revision = $sha' &quot;$ir&quot; &gt; &quot;$tmp/$(basename &quot;$ir&quot;)&quot;
+  if $ARCHIFY validate architecture &quot;$tmp/$(basename &quot;$ir&quot;)&quot; --repo-root . --quality showcase --json &gt; &quot;$tmp/out.json&quot;; then
+    echo &quot;ok    $ir&quot;
+  else
+    echo &quot;DRIFT $ir&quot;; jq -r '.diagnostics[] | &quot;      \(.code): \(.message)&quot;' &quot;$tmp/out.json&quot;; status=1
+  fi
+done
+exit $status</code></pre>
+          </figure><p>Para comprobar qué detecta, simulé tres cambios sobre el repositorio de ejemplo. Los resultados fueron estos:</p><figure class="article__table">
+            <figcaption>Qué detecta la revalidación (pruebas sobre el repositorio de ejemplo)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Qué detecta la revalidación (pruebas sobre el repositorio de ejemplo)"><table>
+              <thead><tr><th scope="col">Cambio simulado</th><th scope="col">Resultado</th><th scope="col">Diagnóstico</th></tr></thead>
+              <tbody><tr><th scope="row">Un refactor que elimina la clase de serving citada</th><td>Falla</td><td><code>line-out-of-range</code>: el archivo tiene 27 líneas y el diagrama pide la 42</td></tr><tr><th scope="row">Renombrar <code>validacion.py</code> a <code>gates.py</code></th><td>Falla</td><td><code>file-missing</code>: la ruta citada no existe en ese commit</td></tr><tr><th scope="row">Relajar el umbral de R-hat de 1,01 a 1,05 dentro de las líneas citadas</th><td><strong>Pasa</strong></td><td>La validación comprueba que el archivo y las líneas existan, no qué dicen</td></tr></tbody>
+            </table></div>
+          </figure><p>El tercer caso es la limitación más importante: <strong>la validación detecta que la estructura citada se movió o desapareció, pero no que cambió su significado</strong>. Por eso agrego un segundo paso que no valida nada, sino que señala: lista los archivos citados por algún diagrama que el PR modificó.</p><figure class="article__code">
+            <figcaption>scripts/archivos-citados.sh: archivos documentados que cambiaron en el PR</figcaption>
+            <pre tabindex="0"><code class="language-bash">#!/usr/bin/env bash
+set -euo pipefail
+BASE=&quot;${1:?uso: archivos-citados.sh &lt;base-ref&gt;}&quot;
+citados=&quot;$(jq -r '.components[].sources[]?.path' docs/arquitectura/*.architecture.json | sort -u)&quot;
+cambiados=&quot;$(git diff --name-only &quot;$BASE&quot;...HEAD | sort -u)&quot;
+comm -12 &lt;(echo &quot;$citados&quot;) &lt;(echo &quot;$cambiados&quot;)</code></pre>
+          </figure><p>En la prueba del umbral, el script devolvió <code>src/validacion.py</code>. Esa salida, publicada como comentario o resumen del PR, le pide a quien revisa una sola cosa: confirmar que el diagrama sigue siendo correcto. Combinado con un archivo CODEOWNERS que asigne <code>docs/arquitectura/</code> a las personas responsables de la arquitectura del repositorio, el control queda completo.</p><figure class="article__code">
+            <figcaption>.github/workflows/documentacion-viva.yml (en el repositorio de ejemplo)</figcaption>
+            <pre tabindex="0"><code class="language-yaml">name: documentacion-viva
+on:
+  pull_request:
+  push:
+    branches: [main]
+jobs:
+  diagramas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/checkout@v4
+        with:
+          repository: tt-a1i/archify
+          ref: v3.2.0                       # versión fija de la herramienta
+          path: archify
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: ./scripts/verificar-docs.sh
+      - if: github.event_name == 'pull_request'
+        run: |
+          echo &quot;### Archivos documentados que cambiaron&quot; &gt;&gt; &quot;$GITHUB_STEP_SUMMARY&quot;
+          ./scripts/archivos-citados.sh origin/${{ github.base_ref }} &gt;&gt; &quot;$GITHUB_STEP_SUMMARY&quot;</code></pre>
+          </figure><p class="article__note"><span>Qué se verificó</span>Los dos scripts se ejecutaron localmente con Archify 3.2.0 sobre una copia del repositorio de ejemplo, con los resultados de la tabla. El workflow está en el repositorio de ejemplo y pasa en GitHub Actions con cada push; el paso que lista archivos citados solo corre en pull requests y no se ejercitó allí.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Revisar cambios de arquitectura como cambios de código</h2>
+          <p>Cuando un PR modifica la arquitectura, por ejemplo al agregar un componente de monitoreo, el diagrama se actualiza en el mismo PR. Archify puede comparar la versión anterior y la nueva:</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>Delta entre dos versiones del diagrama</figcaption>
+            <pre tabindex="0"><code class="language-bash">node archify/archify/bin/archify.mjs compare architecture \
+  base.architecture.json head.architecture.json delta.html \
+  --receipt delta.receipt.json --repo-root . --json</code></pre>
+          </figure><p>En el ejemplo, agregar un componente de monitoreo y su conexión, y cambiar la descripción de los gates, produjo un recibo con un componente agregado, uno modificado y una conexión agregada, además de un HTML que muestra las versiones anterior, delta y posterior. La comparación exige que cada conexión tenga un identificador estable; la primera vez falló justamente por eso. Es un requisito razonable: sin identificadores, un cambio de etiqueta parece una conexión borrada y otra nueva.</p><p>El recibo declara sus propios límites: compara solo lo que el diagrama afirma y no infiere impacto en ejecución, riesgo ni si es seguro fusionar. Para una revisión de diseño es suficiente: la discusión deja de ser «¿qué cambió?» y pasa a ser «¿está bien que cambie así?».</p>
+          
+        </section>
+        <section>
+          
+          <h2>Equipos de plataforma: propiedad y despliegue explícitos</h2>
+          <p>En los repositorios de plataforma, la pregunta más frecuente no es cómo funciona un componente, sino de quién es y dónde corre. Archify tiene un perfil opcional, <code>deployment-ownership</code>, pensado para eso. Cuando se activa, el diagrama falla si algún componente no declara un dueño, si no pertenece a exactamente una región, si una base de datos no está dentro de un grupo de seguridad o si una conexión que cruza regiones o grupos no nombra el mecanismo que usa para cruzarlos.</p><p>El perfil valida lo que el diagrama declara, no la infraestructura real: no descubre recursos ni infiere dueños. Aun así, obliga a escribir información que muchas veces solo existe en la cabeza de algunas personas. Para un Engineering Manager, que el diagrama no se pueda publicar sin dueños declarados es una forma concreta de hacer visible la propiedad de cada componente.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Qué documentar: pocos diagramas, bien mantenidos</h2>
+          <p>El error más común al adoptar una herramienta así es generar demasiado. Cada diagrama es algo que hay que mantener. Lo que propongo a los equipos es un conjunto mínimo por repositorio, y agregar más solo cuando aparece una necesidad concreta.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Conjunto mínimo de documentación por repositorio (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Conjunto mínimo de documentación por repositorio (propuesta)"><table>
+              <thead><tr><th scope="col">Diagrama</th><th scope="col">Tipo en Archify</th><th scope="col">Pregunta que responde</th><th scope="col">Cuándo se usa</th></tr></thead>
+              <tbody><tr><th scope="row">Arquitectura en ejecución</th><td>Architecture, con evidencia</td><td>¿Qué componentes hay, cómo se conectan y dónde está el código?</td><td>Onboarding, revisiones de diseño, incidentes</td></tr><tr><th scope="row">Flujo crítico</th><td>Sequence o Workflow</td><td>¿Qué pasa en la operación más importante, paso a paso?</td><td>Debugging, cambios en ese flujo</td></tr><tr><th scope="row">Datos sensibles</th><td>Data Flow</td><td>¿Por dónde pasan los datos personales y quién los consume?</td><td>Revisiones de seguridad y cumplimiento</td></tr><tr><th scope="row">Propiedad y despliegue (plataforma)</th><td>Architecture con <code>deployment-ownership</code></td><td>¿De quién es cada componente y dónde corre?</td><td>Dependencias entre equipos, guardias</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>Los rituales que la sostienen</h2>
+          <p>Las herramientas y el CI evitan que la documentación quede mal sin que nadie lo note. Que se use depende de los hábitos del equipo. Estos son los que, desde el rol de Engineering Manager, conviene instalar:</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Onboarding desde el diagrama.</strong> La primera sesión de una persona nueva recorre el diagrama de arquitectura con alguien del equipo. Si algo no coincide con lo que se explica, se corrige en ese momento.</li><li><strong>Revisiones de diseño con delta.</strong> Las propuestas de cambio de arquitectura llegan con el delta del diagrama, no con una imagen nueva.</li><li><strong>Incidentes con contexto.</strong> El postmortem enlaza el diagrama en el commit del incidente, y el timeline puede documentarse con el tipo Timeline, marcando qué horarios son observados.</li><li><strong>Revisión trimestral breve.</strong> Una vez por trimestre, cada equipo dedica media hora a revisar si sus diagramas siguen siendo útiles. Los que nadie usó se borran.</li><li><strong>Propiedad explícita.</strong> <code>docs/arquitectura/</code> tiene dueños en CODEOWNERS, igual que el código.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Cómo saber si funciona</h2>
+          <p>Las métricas de la tabla son las que sigo para evaluar si la documentación está viva y si aporta. Son indicadores para observar, no metas con valores de referencia.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Indicadores de documentación viva (propuesta)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Indicadores de documentación viva (propuesta)"><table>
+              <thead><tr><th scope="col">Indicador</th><th scope="col">Qué muestra</th></tr></thead>
+              <tbody><tr><th scope="row">Repositorios con al menos un diagrama validado en CI</th><td>Cobertura de la práctica</td></tr><tr><th scope="row">Fallas de revalidación y tiempo hasta corregirlas</th><td>Si el control detecta desvíos y si el equipo los atiende</td></tr><tr><th scope="row">PRs que tocaron archivos documentados sin actualizar el diagrama</th><td>Riesgo de desvío semántico que la validación no ve</td></tr><tr><th scope="row">Preguntas repetidas en onboarding o en canales de soporte</th><td>Si la documentación responde lo que la gente necesita</td></tr><tr><th scope="row">Uso del diagrama en revisiones de diseño y postmortems</th><td>Si la documentación forma parte de las decisiones</td></tr></tbody>
+            </table></div>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>Límites y precauciones</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li><strong>La validación es estructural.</strong> Comprueba que archivos y líneas existan en el commit, no que el código siga haciendo lo que el diagrama dice. El listado de archivos citados y la revisión humana cubren esa brecha.</li><li><strong>El agente puede equivocarse.</strong> Un diagrama generado puede ser plausible e incorrecto. La primera versión siempre la revisa alguien que conoce el sistema.</li><li><strong>El HTML es pesado.</strong> El diagrama del ejemplo pesa unos 845 KB y el delta, unos 2,3 MB. Conviene versionar el JSON y generar el HTML en el CI para publicarlo, no guardarlo en el repositorio.</li><li><strong>La evidencia incluye código.</strong> El HTML con evidencia contiene extractos del repositorio. En repositorios privados, hay que tratarlo con la misma confidencialidad que el código y publicarlo solo en portales internos.</li><li><strong>Servicios de terceros.</strong> El README del proyecto incluye patrocinadores que ofrecen acceso a modelos a través de intermediarios, y aclara que no representan a Archify. Para el código de la empresa, el agente debe usar el proveedor de modelos aprobado por la organización.</li><li><strong>Actualizaciones.</strong> La skill puede consultar un manifiesto público para avisar que hay una versión nueva, sin instalar nada. En el CI conviene fijar la versión, como en el workflow propuesto.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Cómo empezar en 90 días</h2>
+          
+          
+          
+          
+          <ol class="article__list"><li><strong>Días 1 a 30.</strong> Elegir dos repositorios críticos, uno de producto y uno de plataforma. Generar el diagrama de arquitectura con evidencia, revisarlo con el equipo y agregar la revalidación al CI.</li><li><strong>Días 31 a 60.</strong> Sumar el listado de archivos citados a los PRs, asignar dueños en CODEOWNERS, publicar los HTML en el portal interno y usar los diagramas en el próximo onboarding y en la próxima revisión de diseño.</li><li><strong>Días 61 a 90.</strong> Extender al resto de los repositorios con una plantilla común, activar <code>deployment-ownership</code> en los repositorios de plataforma y hacer la primera revisión de indicadores para decidir qué ajustar.</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Conclusión</h2>
+          <p>La documentación de arquitectura no se mantiene viva con buenas intenciones. Se mantiene cuando vive junto al código, cuando un cambio puede romperla de forma visible y cuando su revisión forma parte del trabajo de todos los días. Los agentes de código redujeron el costo de generarla; herramientas como Archify agregan lo que faltaba: verificación contra el código, comparación entre versiones y un resultado que cualquiera puede abrir.</p><p>Para un Engineering Manager, el valor no está en tener diagramas más lindos, sino en que el equipo comparta un modelo del sistema que se puede comprobar. Eso acelera los onboardings, mejora las revisiones de diseño y hace visibles la propiedad y las dependencias entre equipos, que son justamente las cosas que más cuesta sostener cuando una organización crece.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Referencias</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li>Archify. <a href="https://github.com/tt-a1i/archify" target="_blank" rel="noopener noreferrer">Repositorio</a>, <a href="https://archify.si/" target="_blank" rel="noopener noreferrer">sitio y galería</a> y <a href="https://github.com/tt-a1i/archify/blob/main/archify/schemas/README.md" target="_blank" rel="noopener noreferrer">referencia de esquemas</a>.</li><li>Repositorio del ejemplo: <a href="https://github.com/juliancardozo/mlops-bayesiano-poc" target="_blank" rel="noopener noreferrer">mlops-bayesiano-poc</a>.</li><li>Write the Docs. <a href="https://www.writethedocs.org/guide/docs-as-code/" target="_blank" rel="noopener noreferrer">Docs as Code</a>.</li><li>Backstage. <a href="https://backstage.io/docs/features/techdocs/" target="_blank" rel="noopener noreferrer">TechDocs</a>.</li><li>GitHub. <a href="https://docs.github.com/es/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners" target="_blank" rel="noopener noreferrer">Acerca de los propietarios de código (CODEOWNERS)</a>.</li><li>Brown, S. <a href="https://c4model.com/" target="_blank" rel="noopener noreferrer">The C4 model for visualising software architecture</a>.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: la documentación de arquitectura se mantiene viva cuando vive en el repositorio, se verifica contra el código y se revisa en los pull requests. Archify permite generar diagramas con un agente, anclarlos a un commit, revalidarlos en el CI y comparar versiones. La validación es estructural, así que se complementa con el listado de archivos documentados que cambiaron, dueños explícitos y rituales de equipo que usan los diagramas para decidir.</p>
+      
+      <aside class="article__linkedin" aria-labelledby="article-linkedin-title">
+      <svg class="article__linkedin-icon" aria-hidden="true" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      <div>
+        <p class="article__conversation-label">Let's connect on LinkedIn</p>
+        <h2 id="article-linkedin-title">Found this useful? Connect with me on LinkedIn</h2>
+        <p>I share every new article there, along with short notes on architecture, applied AI and engineering leadership, and the conversations they spark.</p>
+        <a class="btn btn--primary js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">Follow me on LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Leading an engineering team? I'd like to talk about the challenges you're facing.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Documentaci%C3%B3n%20viva%3A%20c%C3%B3mo%20mantener%20la%20arquitectura%20de%20los%20repositorios%20de%20mis%20equipos%20verificada%20contra%20el%20c%C3%B3digo&amp;body=Leading%20an%20engineering%20team%3F%20I'd%20like%20to%20talk%20about%20the%20challenges%20you're%20facing.%0A%0AI%20came%20from%20the%20article%3A%20Documentaci%C3%B3n%20viva%3A%20c%C3%B3mo%20mantener%20la%20arquitectura%20de%20los%20repositorios%20de%20mis%20equipos%20verificada%20contra%20el%20c%C3%B3digo%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fdocumentacion-viva-repositorios-archify-engineering-management%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li data-cat="liderazgo-producto"><a href="/en/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Leadership and product</span>
+        <strong>Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA</strong>
+        <small>Un análisis desde Engineering Management sobre cómo diseñar el sistema de trabajo de un equipo de ingeniería: un modelo de seis capas, el plugin de ingeniería de Anthropic como caso de estudio, la diferencia entre tools, skills, MCP, workflows, agentes y harness, un caso práctico de extremo a extremo, métricas de impacto, riesgos y una hoja de ruta de adopción de 90 días.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/en/blog/opensandbox-agentes-ia-engineering-management/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Leadership and product</span>
+        <strong>OpenSandbox: dónde corren los agentes de IA y por qué es una decisión de Engineering Management</strong>
+        <small>Un análisis de OpenSandbox, el runtime open source de sandboxes para agentes de IA, desde la perspectiva de quien lidera equipos de ingeniería: qué resuelve, cómo funciona, casos de uso en equipos de alto desempeño, un ejemplo en Python con red denegada por defecto y Credential Vault, niveles de autonomía, métricas, organización del equipo, riesgos de madurez y una hoja de ruta de adopción de 90 días.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/en/blog/developer-experience-ia-friccion-plataforma/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Leadership and product</span>
+        <strong>Escribimos código más rápido. ¿Desarrollamos mejor software? DevEx, IA y Platform Engineering</strong>
+        <small>El State of Developer Experience 2026 de Atlassian muestra una brecha entre velocidad y fricción. Qué dicen los datos, qué no dicen, y cómo una plataforma interna gestionada como producto, ahora también para agentes, puede cerrarla. Con las novedades de noviembre de 2026.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=liderazgo-producto#articulos" class="js-track-related-category">More in Leadership and product <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/liderazgo-tecnico/" class="js-track-pillar-hub">Reading path: Technical leadership and teams <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>
