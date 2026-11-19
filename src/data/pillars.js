@@ -44,6 +44,7 @@ export const pillars = [
       '¿Cómo conectar producto, delivery y criterio técnico sin microgestión?',
     ],
     articleSlugs: [
+      'knowledge-centric-delivery-despues-de-agile-equipos-ia',
       'opensandbox-agentes-ia-engineering-management',
       'documentacion-viva-repositorios-archify-engineering-management',
       'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia',

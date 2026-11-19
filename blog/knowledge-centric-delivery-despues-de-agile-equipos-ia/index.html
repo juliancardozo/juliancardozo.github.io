@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Knowledge-Centric Delivery: cómo trabajar después de Scrum con agentes de IA | Julián Cardozo</title>
+<meta name="description" content="Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para dejar atrás sprints y story points: Ground Truth, gates de verificación, nuevos roles, métricas y una hoja de ruta de 90 días." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="es_UY" />
+<meta property="og:title" content="Knowledge-Centric Delivery: cómo trabajar después de Scrum con agentes de IA | Julián Cardozo" />
+<meta property="og:description" content="Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para dejar atrás sprints y story points: Ground Truth, gates de verificación, nuevos roles, métricas y una hoja de ruta de 90 días." />
+<meta property="og:url" content="https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Knowledge-Centric Delivery: cómo trabajar después de Scrum con agentes de IA | Julián Cardozo" />
+<meta name="twitter:description" content="Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para dejar atrás sprints y story points: Ground Truth, gates de verificación, nuevos roles, métricas y una hoja de ruta de 90 días." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="alternate" type="application/rss+xml" title="Blog de Julián Cardozo" href="/feed.xml" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/#article","headline":"Agile nos trajo hasta acá: Knowledge-Centric Delivery y las nuevas formas de trabajo con agentes de IA","description":"Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para organizar la entrega de software alrededor del conocimiento y no del código: qué problema resuelve, cómo funcionan Ground Truth y los gates de verificación, un ejemplo de punta a punta, las nuevas formas de trabajo que habilita, cómo cambian los roles y las métricas, y una hoja de ruta de 90 días para empezar la transformación sin un big bang.","datePublished":"2026-11-19","dateModified":"2026-11-19","inLanguage":"es","url":"https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/","mainEntityOfPage":"https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/","articleSection":"Liderazgo y producto","keywords":"Liderazgo, IA, Agentes","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://www.rootstrap.com/blog/agile-got-us-here-now-we-do-knowledge-centric-delivery/"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/"},{"@type":"ListItem","position":2,"name":"Blog de tecnología y producto","item":"https://juliancardozo.github.io/blog/"},{"@type":"ListItem","position":3,"name":"Agile nos trajo hasta acá: Knowledge-Centric Delivery y las nuevas formas de trabajo con agentes de IA","item":"https://juliancardozo.github.io/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Ir al contenido</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Secciones del sitio">
+      <ul>
+        <li><a href="/#fortalezas">Fortalezas</a></li><li><a href="/#recorrido">Trayectoria</a></li><li><a href="/#productos">Proyectos</a></li><li><a href="/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/#contacto" class="site-nav__cta">Contacto</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/en/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/blog/"><span aria-hidden="true">←</span> Volver al blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="liderazgo-producto" href="/blog/?categoria=liderazgo-producto#articulos">Liderazgo y producto</a><time datetime="2026-11-19">19 de noviembre de 2026</time><span>14 min de lectura</span></p>
+    <h1 class="article__title">Agile nos trajo hasta acá: Knowledge-Centric Delivery y las nuevas formas de trabajo con agentes de IA</h1>
+    <p class="article__lead">Sprints, story points, velocity y daily standups forman un sistema de gestión diseñado para coordinar personas que escriben código. Durante veinte años funcionó, porque la hora de ingeniería era el recurso escaso y había que repartirla bien. Anthony Figueroa, CTO y cofundador de Rootstrap, sostiene que esa premisa ya no se cumple: los agentes de IA abarataron la implementación y el cuello de botella pasó al conocimiento, al contexto, a las decisiones y a la verificación. Su respuesta es Knowledge-Centric Delivery, una forma de trabajo en la que el conocimiento compartido es la fuente y el código es el artefacto que se construye a partir de ella. Este artículo analiza la propuesta desde la perspectiva de quien lidera equipos de ingeniería. Mi lectura es positiva: no se trata de abandonar Agile, sino de completar lo que Agile empezó. Al final propongo prácticas, roles, métricas y una hoja de ruta para llevarla a un equipo real. Lo que describe Rootstrap viene de su artículo; las propuestas de implementación son propias y se señalan como tales.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pilar</p><a href="/temas/liderazgo-tecnico/" class="js-track-pillar-hub">Liderazgo técnico y equipos <span aria-hidden="true">→</span></a></div>
+      <div><p>Contexto</p>
+      <span>Análisis · artículo de Anthony Figueroa (Rootstrap), 16 de noviembre de 2026</span>
+      <a href="https://www.rootstrap.com/blog/agile-got-us-here-now-we-do-knowledge-centric-delivery/" target="_blank" rel="noopener noreferrer">Agile Got Us Here. Now We Do Knowledge-Centric Delivery (Rootstrap) <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>Agile cumplió su misión</h2>
+          <p>Conviene empezar por lo que Agile resolvió, porque la propuesta de Rootstrap no lo niega. Antes de los métodos ágiles, los proyectos se planificaban durante meses y se entregaban de una vez, con la mayoría de los errores descubiertos al final. Agile acortó los ciclos, puso al usuario en el centro y convirtió el cambio en algo esperable en lugar de una excepción. Esos valores siguen siendo correctos.</p><p>Lo que Figueroa señala es otra cosa: los <strong>rituales</strong> con los que se implementó Agile respondían a una economía concreta. El sprint racionaba el esfuerzo, el story point lo estimaba y la daily sincronizaba a las personas. Todo eso protegía un recurso caro, las horas de ingeniería. Además, muchos de esos rituales funcionaban como un sistema de transmisión de información con pérdidas: cada traspaso de una persona a otra agregaba ruido, y quien llegaba tarde al proyecto recibía el contexto de segunda o tercera mano.</p><p>Si la implementación deja de ser escasa, los rituales diseñados para racionarla pierden su razón de ser. Los valores, en cambio, se fortalecen: con agentes, iterar en ciclos cortos y responder al cambio es más barato que nunca. Por eso el título del artículo original me parece acertado. Agile no fracasó; nos trajo hasta un punto en el que el próximo paso es posible.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>El cuello de botella se movió</h2>
+          <p>Cualquier sistema de entrega avanza al ritmo de su restricción más lenta. Durante décadas esa restricción fue escribir código. Hoy un agente puede escribir el código, generar las pruebas y revisar los cambios en paralelo, de modo que la implementación ya no marca el ritmo.</p><p>La restricción pasó a otro lugar: <strong>saber qué es verdad y qué quiere el negocio</strong>. Una regla de facturación ambigua, una decisión de arquitectura que nadie escribió, un contrato con el cliente que solo conoce una persona. Con un equipo humano, esas ambigüedades se resolvían sobre la marcha, en una conversación. Con agentes que trabajan en paralelo y a gran velocidad, una ambigüedad se multiplica: diez agentes construyen rápido sobre una premisa equivocada.</p><p>Figueroa es honesto sobre un punto que me parece central: la entrega no es gratis. La revisión, la integración y los intentos fallidos siguen costando tiempo. Si revisar lo que producen los agentes consume todo el tiempo que ahorraron, el cuello de botella simplemente se movió de nuevo. Knowledge-Centric Delivery es, ante todo, una forma de atacar esa nueva restricción de manera explícita.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Qué es Knowledge-Centric Delivery</h2>
+          <p>La idea central es una inversión: <strong>el conocimiento es el código fuente y el software es el artefacto compilado</strong>. Agile organizaba a las personas alrededor del código; Knowledge-Centric Delivery organiza el conocimiento, y los agentes construyen el software a partir de él. En Rootstrap el método se llama <strong>Rootshift</strong>.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Los componentes de la propuesta, según el artículo de Rootstrap</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Los componentes de la propuesta, según el artículo de Rootstrap"><table>
+              <thead><tr><th scope="col">Componente</th><th scope="col">Qué es</th><th scope="col">Para qué sirve</th></tr></thead>
+              <tbody><tr><th scope="row">Ground Truth</th><td>Base de conocimiento compartida que leen y escriben personas y agentes: visión, decisiones, contratos aprobados y reglas de negocio</td><td>Cada entrada tiene un dueño, y cambiar una regla dispara el trabajo que depende de ella</td></tr><tr><th scope="row">Readiness gate</th><td>Control previo a la construcción</td><td>Verifica que el trabajo se apoye en conocimiento aprobado; si falta una regla, el trabajo vuelve a una persona</td></tr><tr><th scope="row">Merge gate</th><td>Control previo a integrar un cambio</td><td>Rechaza cambios sin evidencia de verificación, por ejemplo una prueba que demuestre que la regla se cumple</td></tr><tr><th scope="row">Vision gate</th><td>Aprobación humana obligatoria</td><td>Retiene cambios que tocan secretos, seguridad, datos del cliente, contratos, la visión acordada o acciones destructivas</td></tr><tr><th scope="row">La verdad vuelve a la fuente</th><td>Circuito de aprendizaje</td><td>Las pruebas que fallan y el comportamiento real de los usuarios muestran dónde el conocimiento estaba mal, y esa lección se escribe en Ground Truth</td></tr></tbody>
+            </table></div>
+          </figure><p>El reparto de trabajo es claro. Las <strong>personas</strong> deciden qué es verdad, resuelven ambigüedades, juzgan si un resultado que parece correcto en realidad está mal, aprueban lo que encaja con la visión y escriben lo aprendido. Los <strong>agentes</strong> escriben, prueban y revisan código en paralelo; producen y verifican, pero no deciden qué es verdad. La responsabilidad sobre las decisiones queda siempre en una persona.</p>
+          
+        </section>
+        <section>
+          
+          <h2>El ciclo completo</h2>
+          <p>Puesto en secuencia, el flujo reemplaza el ciclo sprint, review y retro por un circuito continuo que empieza y termina en el conocimiento.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>El ciclo de Knowledge-Centric Delivery, simplificado</figcaption>
+            <pre class="mermaid" aria-label="Una persona aprueba una regla en Ground Truth. El readiness gate verifica que el trabajo se apoye en conocimiento aprobado; si falta algo, vuelve a una persona. Varios agentes construyen y revisan en paralelo. El merge gate exige evidencia de verificación. Si el cambio toca contratos, seguridad o datos del cliente, el vision gate pide aprobación humana. Lo que se aprende en producción y en las pruebas vuelve a Ground Truth.">flowchart LR
+  GT[&quot;Ground Truth&lt;br/&gt;reglas con dueño&quot;] --&gt; RG{&quot;Readiness gate&lt;br/&gt;¿conocimiento aprobado?&quot;}
+  RG --&gt;|falta una regla| P[&quot;Una persona decide&quot;]
+  P --&gt; GT
+  RG --&gt;|sí| A[&quot;Agentes en paralelo&lt;br/&gt;construyen, prueban, revisan&quot;]
+  A --&gt; MG{&quot;Merge gate&lt;br/&gt;¿hay evidencia?&quot;}
+  MG --&gt;|no| A
+  MG --&gt;|sí| VG{&quot;Vision gate&lt;br/&gt;¿toca contrato o riesgo?&quot;}
+  VG --&gt;|sí| H[&quot;Aprobación humana&quot;]
+  VG --&gt;|no| PR[&quot;Producción&quot;]
+  H --&gt; PR
+  PR --&gt;|lo aprendido| GT</pre>
+            <p class="architecture__description">Una persona aprueba una regla en Ground Truth. El readiness gate verifica que el trabajo se apoye en conocimiento aprobado; si falta algo, vuelve a una persona. Varios agentes construyen y revisan en paralelo. El merge gate exige evidencia de verificación. Si el cambio toca contratos, seguridad o datos del cliente, el vision gate pide aprobación humana. Lo que se aprende en producción y en las pruebas vuelve a Ground Truth.</p>
+          </figure><p>Hay una consecuencia que vale la pena destacar: <strong>el progreso se mide por verificación, no por actividad</strong>. Un cambio no avanza porque alguien trabajó en él, sino porque hay evidencia de que cumple una regla aprobada. Es una definición de terminado mucho más exigente que la de la mayoría de los equipos Scrum, y es posible justamente porque producir esa evidencia ya no es caro.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Un ejemplo: la regla de cancelación</h2>
+          <p>El artículo de Rootstrap usa un caso simple. La regla dice que, al cancelar, el cliente mantiene el acceso hasta el fin del período facturado, pero el código lo corta en el momento. La primera pregunta no es cómo arreglar el código, sino <strong>si la regla estaba escrita</strong>. Si estaba, se corrige el código. Si no estaba, primero se escribe la regla, después se agrega una prueba y recién entonces se corrige el código.</p><p>Para hacerlo tangible, así podría verse esa regla en un equipo que empieza con algo tan simple como archivos versionados en el repositorio. El formato es una propuesta mía; Rootstrap no publica el suyo.</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>ground-truth/reglas/facturacion/cancelacion-acceso.yaml (formato ilustrativo)</figcaption>
+            <pre tabindex="0"><code class="language-yaml">id: FACT-012
+titulo: El acceso se mantiene hasta el fin del período pagado
+dueño: producto-facturacion        # quién decide si la regla cambia
+estado: aprobada                   # borrador | aprobada | deprecada
+aprobada_por: maria.gomez
+fecha: 2026-11-19
+regla: &gt;
+  Cuando un cliente cancela su suscripción, conserva el acceso a las
+  funciones pagas hasta la fecha de fin del período ya facturado.
+  No hay reintegros proporcionales.
+motivo: &gt;
+  Evita reclamos por pérdida de acceso a un servicio ya pagado.
+  Decisión de producto del 2026-03, ver DEC-031.
+gates:
+  vision: true                     # toca un contrato con el cliente
+verificacion:
+  - tests/facturacion/test_cancelacion.py::test_acceso_hasta_fin_de_periodo
+  - tests/facturacion/test_cancelacion.py::test_sin_acceso_despues_del_periodo</code></pre>
+          </figure><figure class="article__code">
+            <figcaption>tests/facturacion/test_cancelacion.py: la evidencia que exige el merge gate</figcaption>
+            <pre tabindex="0"><code class="language-python">from datetime import date
+
+from facturacion.suscripciones import Suscripcion
+
+# Regla: FACT-012 (ground-truth/reglas/facturacion/cancelacion-acceso.yaml)
+
+
+def test_acceso_hasta_fin_de_periodo():
+    s = Suscripcion(inicio_periodo=date(2026, 11, 1), fin_periodo=date(2026, 11, 30))
+    s.cancelar(el=date(2026, 11, 10))
+    assert s.tiene_acceso(el=date(2026, 11, 29))
+
+
+def test_sin_acceso_despues_del_periodo():
+    s = Suscripcion(inicio_periodo=date(2026, 11, 1), fin_periodo=date(2026, 11, 30))
+    s.cancelar(el=date(2026, 11, 10))
+    assert not s.tiene_acceso(el=date(2026, 12, 1))</code></pre>
+          </figure><p>El pull request que corrige el código enlaza <code>FACT-012</code>. Así, la pregunta de por qué existe este código tiene una respuesta permanente, y la regla, la prueba y el cambio quedan conectados. Como la regla toca un contrato, el vision gate la deriva a una persona antes de llegar a producción. Nada de esto requiere una reunión de planificación ni una estimación en story points.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Por qué es una buena dirección</h2>
+          <p>Más allá del entusiasmo que genera cualquier cambio de paradigma, hay razones concretas para apoyar esta transformación.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Ataca el error donde es más barato.</strong> Tratar el conocimiento ambiguo, contradictorio o no aprobado como algo sobre lo que no se construye mueve la detección de errores al punto más barato del ciclo: antes de escribir una línea de código.</li><li><strong>Trazabilidad real.</strong> Cada cambio se conecta con la regla que implementa. Para auditorías, sistemas regulados o simplemente para entender un código heredado, eso vale más que cualquier documento de arquitectura desactualizado.</li><li><strong>Onboarding sin teléfono descompuesto.</strong> Quien se suma al equipo consulta la misma fuente que los agentes, en lugar de recibir el contexto de segunda mano en una serie de reuniones.</li><li><strong>Gobernanza explícita y liviana.</strong> Rootstrap pide que cada gate nombre el riesgo que controla y justifique su costo, y que se eliminen las aprobaciones que nadie usa. Es una lección aprendida de cómo las ceremonias ágiles se volvieron teatro en muchas organizaciones.</li><li><strong>Reuniones con propósito.</strong> Las conversaciones que construyen confianza, permiten debatir o resuelven decisiones difíciles se mantienen. Las que solo transfieren información pasan a leerse como un síntoma: algo falta en la base de conocimiento.</li><li><strong>El trabajo humano gana valor.</strong> El tiempo deja de ir a estimar y reportar estado, y pasa a decidir qué es verdad, revisarlo y refinarlo. Es la parte del trabajo que siempre fue la más difícil y la más interesante.</li><li><strong>El cliente conserva lo suyo.</strong> Según el artículo, el código y la propiedad intelectual quedan en manos del cliente, sin una plataforma alquilada ni un runtime propietario de por medio.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Nuevas formas de trabajo AI-driven</h2>
+          <p>A partir de la propuesta de Rootstrap se pueden derivar prácticas concretas que cualquier equipo puede empezar a probar, tenga o no un método formal. Algunas están en el artículo original; otras son extensiones propias.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Todo bug empieza con una pregunta sobre el conocimiento.</strong> Antes de arreglar, preguntar si la regla estaba escrita. Si no estaba, escribirla, agregar la prueba y después corregir. Cada bug deja la base de conocimiento un poco mejor.</li><li><strong>Pull requests anclados a reglas.</strong> Ningún PR sin la regla o decisión que implementa. Es un cambio pequeño en la plantilla de PR con un efecto grande en la trazabilidad.</li><li><strong>Revisión adversarial con agentes de contexto fresco.</strong> Varios agentes revisan y prueban en paralelo contra las mismas reglas, cada uno sin el historial del agente que escribió el código. Así se evita que el revisor herede los supuestos del autor.</li><li><strong>La reunión como reporte de bug.</strong> Cuando una reunión solo sirvió para pasar información, la acción de salida es escribir en la base de conocimiento lo que faltaba, no agendar la siguiente.</li><li><strong>Retrospectiva continua desde el registro de fricción.</strong> Si cada acción y cada gate quedan registrados, la fricción se vuelve visible sin esperar a la retro del viernes. El aprendizaje sigue existiendo; lo que desaparece es la invitación recurrente en el calendario.</li><li><strong>Gates con dueño y fecha de revisión.</strong> Cada control declara qué riesgo cubre, quién lo mantiene y cuándo se revisa si sigue siendo necesario. Lo que no se usa, se elimina.</li><li><strong>Bots que enrutan, personas que deciden.</strong> En Rootstrap, un bot gestor conversa con las personas en Slack y les acerca las decisiones que necesitan un humano: puede llevar un cambio de contrato a la persona correcta, pero no aprobarlo. Es un patrón aplicable mucho antes de tener equipos de bots especializados.</li><li><strong>Planificar por conocimiento listo, no por capacidad.</strong> En lugar de preguntar cuántos puntos entran en el sprint, preguntar qué reglas están aprobadas y listas para construir. El backlog se convierte en una cola de decisiones pendientes.</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Cómo cambian los roles</h2>
+          <p>Ningún rol desaparece, pero casi todos cambian de centro de gravedad. La siguiente tabla es mi lectura de cómo se traducen los roles habituales de un equipo Scrum a este modelo.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>De los roles de Scrum a las responsabilidades en Knowledge-Centric Delivery (análisis propio)</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="De los roles de Scrum a las responsabilidades en Knowledge-Centric Delivery (análisis propio)"><table>
+              <thead><tr><th scope="col">Rol</th><th scope="col">Antes</th><th scope="col">Ahora</th></tr></thead>
+              <tbody><tr><th scope="row">Product Owner</th><td>Prioriza un backlog de historias</td><td>Es dueño de reglas de negocio y de la visión; aprueba en el vision gate</td></tr><tr><th scope="row">Scrum Master</th><td>Facilita ceremonias y remueve impedimentos</td><td>Diseña y mantiene los gates, mide la fricción y elimina controles que no aportan</td></tr><tr><th scope="row">Desarrollador senior</th><td>Implementa las historias más complejas</td><td>Resuelve ambigüedades, supervisa agentes, juzga resultados que parecen correctos y no lo son</td></tr><tr><th scope="row">QA</th><td>Prueba al final del sprint</td><td>Diseña la evidencia que exige el merge gate y las evaluaciones de los agentes</td></tr><tr><th scope="row">Engineering Manager</th><td>Gestiona capacidad, velocity y personas</td><td>Diseña el sistema de entrega, cuida la calidad de Ground Truth y el crecimiento de las personas</td></tr></tbody>
+            </table></div>
+          </figure><p>Rootstrap lleva esto un paso más allá con <strong>Rootshift Teams</strong>: bots especializados por rol (hoy desarrollo, con QA y otros en camino) que supervisan a los agentes de código, señalan fricción y escriben lo aprendido en Ground Truth, bajo los mismos gates que las personas. Cada equipo lo lidera un ingeniero senior que es dueño del criterio y custodio de la visión.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Qué medir en lugar de velocity</h2>
+          <p>El artículo de Rootstrap no publica métricas, y esa es una de las preguntas que cualquier equipo de liderazgo hará primero. Si velocity medía cuánto esfuerzo se gastó, las nuevas métricas tienen que medir cuánto conocimiento se convirtió en resultados verificados. Propongo estas, junto con las cuatro métricas clásicas de DORA, que siguen siendo válidas:</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Tiempo de decisión a producción:</strong> desde que una regla se aprueba hasta que su implementación verificada está en producción.</li><li><strong>Tasa de rebote en el readiness gate:</strong> qué proporción del trabajo vuelve a una persona por conocimiento faltante. Al principio será alta; que baje es la mejor señal de que Ground Truth madura.</li><li><strong>Tasa de aprobación en el primer intento del merge gate:</strong> mide la calidad de las reglas y de las instrucciones, no solo la de los agentes.</li><li><strong>Tiempo de revisión humana por cambio:</strong> la métrica que avisa si el cuello de botella se está moviendo de nuevo hacia las personas.</li><li><strong>Bugs con regla ausente:</strong> qué proporción de los defectos en producción se debió a conocimiento que no estaba escrito. Debería bajar con el tiempo.</li><li><strong>Antigüedad del conocimiento:</strong> cuántas reglas activas no se revisaron en el último período. Una base sin mantenimiento es documentación con otro nombre.</li></ul><p class="article__note"><span>Una advertencia</span>Toda métrica que se convierte en objetivo deja de medir bien. Estas sirven para que el equipo entienda su sistema y lo mejore, no para comparar personas ni equipos entre sí. Es el mismo error que convirtió a velocity en un número a inflar.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Una hoja de ruta de 90 días</h2>
+          <p>La transformación no requiere abandonar Scrum de un día para el otro. La siguiente secuencia es una propuesta para que cada etapa termine con una decisión basada en evidencia.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Días 1 a 30: la fuente primero.</strong> Elegir un dominio acotado (facturación, permisos, notificaciones) y escribir sus reglas con dueño en el repositorio. Introducir la pregunta de si la regla estaba escrita en cada bug y exigir que los PR enlacen una regla. Medir la línea de base. Decisión al cierre: ¿el equipo encuentra respuestas en la base antes que en una persona?</li><li><strong>Días 31 a 60: los gates.</strong> Agregar un readiness gate liviano (una regla aprobada como requisito para empezar) y un merge gate en el CI que exija la prueba enlazada. Sumar agentes en paralelo para construir y revisar sobre ese dominio. Reemplazar la daily por consultas a la base y un canal de decisiones pendientes. Decisión: ¿la tasa de rebote y el tiempo de revisión justifican ampliar?</li><li><strong>Días 61 a 90: el sistema.</strong> Definir con seguridad y producto qué cambios pasan por el vision gate, conectar lo aprendido en producción con la actualización de reglas y dejar de estimar en story points en el dominio piloto. Decisión: ¿se extiende a otros dominios y equipos, y con qué ajustes?</li></ol>
+          
+        </section>
+        <section>
+          
+          <h2>Las condiciones del éxito</h2>
+          <p>Apoyar una transformación no significa ignorar dónde puede fallar. Las condiciones que siguen no son objeciones, sino lo que hay que cuidar para que funcione.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Ground Truth necesita mantenimiento activo.</strong> El propio Figueroa lo advierte: sin cuidado, la base de conocimiento se degrada como cualquier documentación. Mantenerla tiene que ser parte del trabajo, no una tarea extra.</li><li><strong>La revisión no puede comerse el ahorro.</strong> Si las personas pasan todo el día revisando lo que producen los agentes, el sistema no mejoró. Por eso importa invertir en buena evidencia automática y medir el tiempo de revisión.</li><li><strong>La gobernanza puede volverse teatro.</strong> Los gates corren el mismo riesgo que las ceremonias ágiles. La regla de que cada control justifique su costo es la defensa.</li><li><strong>Hay que diseñar cómo aprenden los perfiles junior.</strong> Si los agentes escriben la mayor parte del código, la experiencia que antes formaba criterio tiene que llegar por otro camino: resolver ambigüedades, escribir reglas y revisar con un senior.</li><li><strong>El cambio cultural pesa más que el técnico.</strong> Dejar de medir esfuerzo y empezar a medir resultados verificados cambia cómo se evalúa a las personas. Requiere conversaciones explícitas, no solo una herramienta nueva.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Conclusión</h2>
+          <p>Knowledge-Centric Delivery parte de una observación difícil de discutir: cuando el código se vuelve barato, lo valioso es el entendimiento compartido y con dueño de qué es verdad y qué se quiere construir. Rootstrap convirtió esa observación en un método concreto, con una base de conocimiento compartida, gates que exigen evidencia y una división clara entre lo que deciden las personas y lo que producen los agentes.</p><p>Para quien lidera equipos, la invitación es a dejar de optimizar un sistema cuyas premisas ya no se cumplen. No hace falta un big bang: alcanza con empezar por un dominio, escribir sus reglas y exigir que cada cambio demuestre que las cumple. Figueroa cierra con una idea que comparto: ningún agente puede hacerse cargo de decidir qué debe hacer el software ni de quién responde por él. Por eso este puede ser el mejor momento de la ingeniería de software, porque la parte más difícil del trabajo, decidir qué construir, pasa a ser el centro.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Referencias</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li>Figueroa, A. <a href="https://www.rootstrap.com/blog/agile-got-us-here-now-we-do-knowledge-centric-delivery/" target="_blank" rel="noopener noreferrer">Agile Got Us Here. Now We Do Knowledge-Centric Delivery</a>. Rootstrap, 16 de noviembre de 2026.</li><li>Rootstrap. <a href="https://www.rootstrap.com/blog/" target="_blank" rel="noopener noreferrer">Blog</a>: artículos relacionados sobre Ground Truth compartido, human in the loop para agentes y el futuro de Agile en el desarrollo AI-native.</li><li>Beck, K. et al. <a href="https://agilemanifesto.org/iso/es/manifesto.html" target="_blank" rel="noopener noreferrer">Manifiesto por el Desarrollo Ágil de Software</a>, 2001.</li><li>DORA. <a href="https://dora.dev/" target="_blank" rel="noopener noreferrer">Investigación sobre desempeño de equipos de software</a>.</li><li>Goldratt, E. M. <em>La meta</em>. Sobre la teoría de restricciones y el ritmo de un sistema marcado por su cuello de botella.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: con agentes de IA, el cuello de botella dejó de ser escribir código y pasó a ser saber qué es verdad. Knowledge-Centric Delivery organiza el trabajo alrededor de una base de conocimiento con dueño, gates que exigen evidencia y personas que deciden mientras los agentes producen. No reemplaza los valores de Agile, sino los rituales pensados para racionar horas de ingeniería. Se puede empezar en 90 días con un dominio, sus reglas escritas y PRs que demuestren cumplirlas.</p>
+      
+      <aside class="article__linkedin" aria-labelledby="article-linkedin-title">
+      <svg class="article__linkedin-icon" aria-hidden="true" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      <div>
+        <p class="article__conversation-label">Sigamos en LinkedIn</p>
+        <h2 id="article-linkedin-title">¿Te sirvió este artículo? Conectemos en LinkedIn</h2>
+        <p>Ahí comparto cada artículo nuevo, notas cortas sobre arquitectura, IA aplicada y liderazgo de equipos, y las conversaciones que surgen a partir de ellos.</p>
+        <a class="btn btn--primary js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">Seguir en LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Continuemos la conversación</p>
+      <h2>¿Estás liderando un equipo de ingeniería? Me interesa conversar sobre los desafíos que están atravesando.</h2>
+      <p>Si este tema se relaciona con tu producto, equipo o investigación, escribime. Respondo personalmente y sin compromiso comercial.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversaci%C3%B3n%20sobre%3A%20Agile%20nos%20trajo%20hasta%20ac%C3%A1%3A%20Knowledge-Centric%20Delivery%20y%20las%20nuevas%20formas%20de%20trabajo%20con%20agentes%20de%20IA&amp;body=%C2%BFEst%C3%A1s%20liderando%20un%20equipo%20de%20ingenier%C3%ADa%3F%20Me%20interesa%20conversar%20sobre%20los%20desaf%C3%ADos%20que%20est%C3%A1n%20atravesando.%0A%0ALlegu%C3%A9%20desde%20el%20art%C3%ADculo%3A%20Agile%20nos%20trajo%20hasta%20ac%C3%A1%3A%20Knowledge-Centric%20Delivery%20y%20las%20nuevas%20formas%20de%20trabajo%20con%20agentes%20de%20IA%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fblog%2Fknowledge-centric-delivery-despues-de-agile-equipos-ia%2F">Escribirme sobre este tema</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Seguir leyendo</p>
+    <h2 id="related-articles-title">Artículos relacionados</h2>
+    <ul>
+      <li data-cat="liderazgo-producto"><a href="/blog/tooling-equipos-alto-desempeno-sistemas-ingenieria-ia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Liderazgo y producto</span>
+        <strong>Tooling para equipos de alto desempeño: de herramientas aisladas a sistemas de ingeniería aumentados por IA</strong>
+        <small>Un análisis desde Engineering Management sobre cómo diseñar el sistema de trabajo de un equipo de ingeniería: un modelo de seis capas, el plugin de ingeniería de Anthropic como caso de estudio, la diferencia entre tools, skills, MCP, workflows, agentes y harness, un caso práctico de extremo a extremo, métricas de impacto, riesgos y una hoja de ruta de adopción de 90 días.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/blog/ia-especificacion-antes-codigo/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">IA y agentes</span>
+        <strong>IA asistida: la especificación es el sistema de control de la ambigüedad</strong>
+        <small>Cómo una secuencia de artefactos de producto transforma una idea en contexto operativo para equipos y agentes de código.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/blog/agentes-ia-salidas-verificables/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">IA y agentes</span>
+        <strong>IA para compliance: una respuesta sin evidencia es un riesgo operativo</strong>
+        <small>Diseño de agentes verificables para privacidad: evidencia rastreable, incertidumbre explícita y revisión humana.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/blog/?categoria=liderazgo-producto#articulos" class="js-track-related-category">Más artículos de Liderazgo y producto <span aria-hidden="true">→</span></a>
+      <a href="/temas/liderazgo-tecnico/" class="js-track-pillar-hub">Ruta de lectura: Liderazgo técnico y equipos <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Sitio estático sin frameworks ni dependencias: HTML, CSS y un generador propio en Node.</p>
+    <ul class="site-footer__links">
+      <li><a href="/newsletter/">Newsletter</a></li>
+      <li><a href="/privacidad/">Privacidad</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>
