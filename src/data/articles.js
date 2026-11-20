@@ -10,11 +10,11 @@ const articleEntries = [
     seoTitle: 'Knowledge-Centric Delivery: cómo trabajar después de Scrum con agentes de IA',
     seoDescription: 'Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para dejar atrás sprints y story points: Ground Truth, gates de verificación, nuevos roles, métricas y una hoja de ruta de 90 días.',
     title: 'Agile nos trajo hasta acá: Knowledge-Centric Delivery y las nuevas formas de trabajo con agentes de IA',
-    description: 'Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para organizar la entrega de software alrededor del conocimiento y no del código: qué problema resuelve, cómo funcionan Ground Truth y los gates de verificación, un ejemplo de punta a punta, las nuevas formas de trabajo que habilita, cómo cambian los roles y las métricas, y una hoja de ruta de 90 días para empezar la transformación sin un big bang.',
+    description: 'Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para organizar la entrega de software alrededor del conocimiento y no del código: qué problema resuelve, cómo funcionan Ground Truth y los gates de verificación, un ejemplo de punta a punta, cómo sumar las skills de Matt Pocock (grilling, specs, TDD, code review y retro) a cada fase de una regla, las nuevas formas de trabajo que habilita, cómo cambian los roles y las métricas, y una hoja de ruta de 90 días para empezar la transformación sin un big bang.',
     category: 'Liderazgo y producto',
     tags: ['Liderazgo', 'IA', 'Agentes'],
     date: '2026-11-19',
-    readingTime: '14 min de lectura',
+    readingTime: '17 min de lectura',
     projectSlug: '',
     relatedSlugs: ['agentes-ia-salidas-verificables', 'ia-especificacion-antes-codigo', 'tooling-equipos-alto-desempeno-sistemas-ingenieria-ia'],
     contextLabel: 'Análisis · artículo de Anthony Figueroa (Rootstrap), 16 de noviembre de 2026',
@@ -150,6 +150,84 @@ def test_sin_acceso_despues_del_periodo():
         ],
       },
       {
+        title: 'Skills para cada fase de una regla: el kit de Matt Pocock',
+        paragraphs: [
+          'Un método como este necesita herramientas concretas para que los agentes participen desde el principio, no solo en la implementación. El repositorio [mattpocock/skills](https://github.com/mattpocock/skills) reúne skills pequeñas y combinables que funcionan con Claude Code, Codex, GitHub Copilot, Gemini CLI y otros agentes. Su autor las describe como una alternativa a los frameworks que se adueñan de todo el proceso. Encajan muy bien con Knowledge-Centric Delivery porque su flujo principal hace lo mismo que el ciclo de Rootstrap: empieza por entender, sigue con especificar, construir y verificar, y termina devolviendo lo aprendido al entorno del agente.',
+          'La skill de entrada es `/ask-matt`, un router: le describes tu situación y te dice qué skill o qué secuencia usar y dónde están las decisiones humanas, sin ejecutar nada. Es útil para que el equipo aprenda el flujo. La siguiente tabla es mi propuesta para conectar cada skill con una fase del ciclo de vida de una regla.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Skills de mattpocock/skills en el ciclo de vida de una regla (mapeo propio, verificado contra los SKILL.md del repositorio el 19 de noviembre de 2026)',
+            head: ['Fase de la regla', 'Skill', 'Qué aporta'],
+            rows: [
+              ['Llega un pedido o un bug de otra persona', '`/triage`', 'Clasifica el pedido, lo interroga si hace falta y lo deja como brief listo para un agente o para una persona'],
+              ['La idea es grande y difusa', '`/wayfinder`', 'Convierte un esfuerzo que no entra en una sesión en un mapa de tickets de decisión que se resuelven de a uno'],
+              ['Nace la regla: grilling', '`/grill-me` o `/grill-with-docs`', 'Una entrevista implacable, por rondas, en la que cada pregunta trae una respuesta recomendada; `grill-with-docs` además escribe el glosario y los ADR mientras avanza'],
+              ['El lenguaje del dominio', '`domain-modeling`', 'Detecta términos ambiguos, inventa casos límite y contrasta lo que se dice con lo que hace el código'],
+              ['Una duda que solo se resuelve con código', '`/prototype`', 'Un prototipo descartable para probar un modelo de estados o una lógica antes de aprobar la regla'],
+              ['De la regla aprobada al trabajo', '`/to-spec` y `/to-tickets`', 'Sintetizan la conversación en una especificación con sus puntos de prueba y la parten en tickets con sus dependencias'],
+              ['Construcción', '`/implement`, `/implement-spec` y `tdd`', 'Implementan ticket por ticket, o todo el grafo en paralelo, con prueba primero: la evidencia que exige el merge gate'],
+              ['Merge gate', '`code-review`', 'Revisa en paralelo dos ejes: si el código respeta los estándares del repositorio y si cumple lo que pidió la especificación'],
+              ['Algo se rompió en producción', '`diagnosing-bugs`', 'Un ciclo de diagnóstico para bugs difíciles; la causa raíz alimenta la pregunta de si la regla estaba escrita'],
+              ['La verdad vuelve a la fuente', '`/retro`', 'Revisa la sesión y propone mejoras al entorno del agente: navegación, controles automáticos, estándares e información disponible'],
+              ['Cambio de fase o de persona', '`/handoff`', 'Resume el contexto en un documento para que otra sesión, otro agente o un colega continúe'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El grilling merece un lugar especial al inicio del ciclo. La skill trabaja las decisiones como un árbol: en cada ronda pregunta todo lo que ya se puede decidir, propone una respuesta y espera. Termina cuando no queda ninguna rama sin visitar ni nada asumido en silencio, y no actúa hasta que la persona confirma que hay un entendimiento compartido. Es casi una definición operativa del readiness gate: **una regla está lista para construirse cuando el grilling ya no encuentra preguntas abiertas**. Además, la skill reparte bien los roles: buscar hechos en el código o en las herramientas es trabajo del agente, y las decisiones son siempre de la persona.',
+          },
+          {
+            type: 'code',
+            lang: 'bash',
+            caption: 'Instalación en Claude Code y configuración inicial del repositorio',
+            text: `# Claude Code (se actualiza solo)
+claude plugin install mattpocock-skills@claude-plugins-official
+
+# Otros agentes (Cursor, Windsurf, opencode…): archivos editables
+npx skills@latest add mattpocock/skills -a cursor
+
+# Una vez por repositorio, dentro del agente:
+/setup-matt-pocock-skills
+# pregunta qué issue tracker usar, qué etiquetas de triage
+# y dónde guardar los documentos que se generen`,
+          },
+          {
+            type: 'p',
+            text: 'Para que las skills trabajen sobre Ground Truth y no sobre una carpeta paralela, conviene declarar el ciclo en el `AGENTS.md` o `CLAUDE.md` del repositorio. La documentación del propio repositorio recomienda poner ahí el comportamiento permanente en lugar de editar los SKILL.md, porque una actualización los sobrescribe. Un ejemplo de cómo podría verse:',
+          },
+          {
+            type: 'code',
+            lang: 'markdown',
+            caption: 'AGENTS.md: el ciclo de vida de las reglas (ejemplo propio)',
+            text: `## Ciclo de vida de las reglas (Knowledge-Centric Delivery)
+
+- Ground Truth vive en \`ground-truth/reglas/\`. Las decisiones van a \`docs/adr/\`
+  y los términos del dominio a \`GLOSSARY.md\`.
+- Una regla nueva o ambigua empieza con \`/grill-with-docs\`. No se marca como
+  \`aprobada\` hasta que el grilling no tenga preguntas abiertas y su dueño
+  lo confirme.
+- Si una pregunta del grilling solo se responde con código, usar \`/prototype\`
+  y descartar el prototipo después de decidir.
+- Una regla aprobada pasa a \`/to-spec\` y \`/to-tickets\`. Cada ticket y cada PR
+  enlazan el id de la regla (por ejemplo, FACT-012).
+- Implementar con prueba primero (\`tdd\`). Sin una prueba enlazada a la regla,
+  el cambio no pasa el merge gate.
+- Antes de pedir revisión humana, correr \`code-review\` contra la especificación.
+- Ante un bug, \`diagnosing-bugs\` y después la pregunta: ¿la regla estaba
+  escrita? Si no, volver a \`/grill-with-docs\` antes de corregir.
+- Al cerrar una entrega, \`/retro\` y escribir lo aprendido en la regla o el ADR
+  correspondiente.`,
+          },
+          {
+            type: 'note',
+            label: 'Dos detalles prácticos',
+            text: 'La mayoría de estas skills están marcadas para no activarse solas: hay que invocarlas con su comando, como /grill-with-docs o /to-spec, y el agente no las va a elegir por iniciativa propia. Por la misma razón, el router /ask-matt a veces informa que faltan skills que sí están instaladas; el repositorio lo documenta como un problema conocido. Y lo que el router dice de otra skill es un resumen: la fuente de verdad es el SKILL.md de cada una.',
+          },
+        ],
+      },
+      {
         title: 'Por qué es una buena dirección',
         paragraphs: [
           'Más allá del entusiasmo que genera cualquier cambio de paradigma, hay razones concretas para apoyar esta transformación.',
@@ -179,6 +257,7 @@ def test_sin_acceso_despues_del_periodo():
             type: 'ol',
             items: [
               '**Todo bug empieza con una pregunta sobre el conocimiento.** Antes de arreglar, preguntar si la regla estaba escrita. Si no estaba, escribirla, agregar la prueba y después corregir. Cada bug deja la base de conocimiento un poco mejor.',
+              '**Grilling antes de aprobar.** Ninguna regla pasa a `aprobada` sin una sesión de grilling en la que el agente pregunte hasta agotar las ramas de decisión. Es la forma más barata de encontrar la ambigüedad antes de que diez agentes construyan sobre ella.',
               '**Pull requests anclados a reglas.** Ningún PR sin la regla o decisión que implementa. Es un cambio pequeño en la plantilla de PR con un efecto grande en la trazabilidad.',
               '**Revisión adversarial con agentes de contexto fresco.** Varios agentes revisan y prueban en paralelo contra las mismas reglas, cada uno sin el historial del agente que escribió el código. Así se evita que el revisor herede los supuestos del autor.',
               '**La reunión como reporte de bug.** Cuando una reunión solo sirvió para pasar información, la acción de salida es escribir en la base de conocimiento lo que faltaba, no agendar la siguiente.',
@@ -247,7 +326,7 @@ def test_sin_acceso_despues_del_periodo():
           {
             type: 'ol',
             items: [
-              '**Días 1 a 30: la fuente primero.** Elegir un dominio acotado (facturación, permisos, notificaciones) y escribir sus reglas con dueño en el repositorio. Introducir la pregunta de si la regla estaba escrita en cada bug y exigir que los PR enlacen una regla. Medir la línea de base. Decisión al cierre: ¿el equipo encuentra respuestas en la base antes que en una persona?',
+              '**Días 1 a 30: la fuente primero.** Instalar las skills de mattpocock/skills y correr `/setup-matt-pocock-skills`. Elegir un dominio acotado (facturación, permisos, notificaciones) y escribir sus reglas con dueño en el repositorio, cada una nacida de una sesión de `/grill-with-docs`. Introducir la pregunta de si la regla estaba escrita en cada bug y exigir que los PR enlacen una regla. Medir la línea de base. Decisión al cierre: ¿el equipo encuentra respuestas en la base antes que en una persona?',
               '**Días 31 a 60: los gates.** Agregar un readiness gate liviano (una regla aprobada como requisito para empezar) y un merge gate en el CI que exija la prueba enlazada. Sumar agentes en paralelo para construir y revisar sobre ese dominio. Reemplazar la daily por consultas a la base y un canal de decisiones pendientes. Decisión: ¿la tasa de rebote y el tiempo de revisión justifican ampliar?',
               '**Días 61 a 90: el sistema.** Definir con seguridad y producto qué cambios pasan por el vision gate, conectar lo aprendido en producción con la actualización de reglas y dejar de estimar en story points en el dominio piloto. Decisión: ¿se extiende a otros dominios y equipos, y con qué ajustes?',
             ],
@@ -290,13 +369,14 @@ def test_sin_acceso_despues_del_periodo():
               'Rootstrap. [Blog](https://www.rootstrap.com/blog/): artículos relacionados sobre Ground Truth compartido, human in the loop para agentes y el futuro de Agile en el desarrollo AI-native.',
               'Beck, K. et al. [Manifiesto por el Desarrollo Ágil de Software](https://agilemanifesto.org/iso/es/manifesto.html), 2001.',
               'DORA. [Investigación sobre desempeño de equipos de software](https://dora.dev/).',
+              'Pocock, M. [Skills For Real Engineers](https://github.com/mattpocock/skills), en especial la guía del router [ask-matt](https://github.com/mattpocock/skills/blob/main/docs/engineering/ask-matt.md) y las skills grilling, grill-with-docs, to-spec, code-review y retro.',
               'Goldratt, E. M. *La meta*. Sobre la teoría de restricciones y el ritmo de un sistema marcado por su cuello de botella.',
             ],
           },
         ],
       },
     ],
-    takeaway: 'En síntesis: con agentes de IA, el cuello de botella dejó de ser escribir código y pasó a ser saber qué es verdad. Knowledge-Centric Delivery organiza el trabajo alrededor de una base de conocimiento con dueño, gates que exigen evidencia y personas que deciden mientras los agentes producen. No reemplaza los valores de Agile, sino los rituales pensados para racionar horas de ingeniería. Se puede empezar en 90 días con un dominio, sus reglas escritas y PRs que demuestren cumplirlas.',
+    takeaway: 'En síntesis: con agentes de IA, el cuello de botella dejó de ser escribir código y pasó a ser saber qué es verdad. Knowledge-Centric Delivery organiza el trabajo alrededor de una base de conocimiento con dueño, gates que exigen evidencia y personas que deciden mientras los agentes producen. No reemplaza los valores de Agile, sino los rituales pensados para racionar horas de ingeniería. Se puede empezar en 90 días con un dominio, reglas que nacen de una sesión de grilling y PRs que demuestren cumplirlas, apoyándose en skills como las de Matt Pocock para cada fase.',
   },
   {
     slug: 'floci-emulacion-cloud-local-platform-engineering',
