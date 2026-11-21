@@ -22,6 +22,7 @@ export const pillars = [
       'spec-kit-1-especificaciones-agentes-adopcion',
       'kiro-acp-interoperabilidad-agentes-ide',
       'agentes-ia-salidas-verificables',
+      'artex-pentesting-autonomo-multiagente-impacto-2026',
       'ia-no-cambia-solo-herramienta-liderazgo-operacion',
       'rea-ingenieria-inversa-chordify-chordlocal',
     ],

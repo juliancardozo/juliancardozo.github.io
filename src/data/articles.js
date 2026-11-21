@@ -6,6 +6,238 @@ import { categories } from './categories.js';
 
 const articleEntries = [
   {
+    slug: 'artex-pentesting-autonomo-multiagente-impacto-2026',
+    seoTitle: 'ARTEX: pentesting autónomo con agentes de IA y su impacto en 2026',
+    seoDescription: 'Un análisis de ARTEX, el sistema multiagente de pentesting autónomo: cómo funciona, qué controles incorpora y qué dicen las noticias de 2026 sobre promesa, riesgo y doble uso.',
+    title: 'ARTEX y el pentesting autónomo: qué nos dice un repositorio sobre el año en que los agentes aprendieron a atacar',
+    description: 'Un análisis de ARTEX, el sistema open source de pentesting autónomo con agentes de IA: cómo se reparten el trabajo el planificador y los workers, qué controles incorpora (aprobaciones, alcance, trazabilidad, retest) y cómo se lee frente a las noticias de 2026: la consolidación del mercado, la caída de la confianza en la autonomía total, los primeros ataques agénticos reales y el dilema del doble uso. Con una guía para evaluar estas herramientas desde la gestión de equipos de ingeniería.',
+    category: 'IA y agentes',
+    tags: ['IA', 'Agentes', 'Seguridad'],
+    date: '2026-11-20',
+    readingTime: '13 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['agentes-ia-salidas-verificables', 'harness-engineering-agentes-codigo-guias-sensores', 'ingenieria-agentes-ia-empresa-arquitectura-controles'],
+    contextLabel: 'Análisis técnico · repositorio BaaRai/ARTEX y noticias de 2026, noviembre de 2026',
+    sourceUrl: 'https://github.com/BaaRai/ARTEX',
+    sourceLabel: 'ARTEX: pentesting autónomo con agentes de IA (GitHub)',
+    lead: 'Hace tres años, que un modelo de lenguaje sugiriera un comando de nmap era una demostración curiosa. En 2026 ya hay startups de pentesting autónomo valuadas por encima de los mil millones de dólares, informes de inteligencia de amenazas que documentan campañas donde los agentes toman decisiones y ejecutan comandos, y repositorios abiertos que permiten levantar en una tarde un sistema multiagente de seguridad ofensiva. ARTEX es uno de esos repositorios. Lo interesante no es que ataque, sino cómo está diseñado: con un planificador, workers, una puerta de aprobación humana y la obsesión de que cada hallazgo deje evidencia. Lo leí como lo haría alguien que gestiona equipos de ingeniería: qué decisiones de diseño muestra, qué resuelve, qué no, y cómo encaja con lo que ocurrió este año.',
+    sections: [
+      {
+        title: 'Qué es ARTEX y de dónde viene',
+        paragraphs: [
+          'ARTEX es una plataforma autohospedada de pentesting autónomo con varios agentes de IA. Su lema en el README promete una prueba de penetración autónoma "que guarda sus recibos": un planificador divide un objetivo en tareas, los workers ejecutan herramientas reales y cada hallazgo queda vinculado a los activos y al tráfico HTTP que lo respaldan. Se distribuye como un único binario escrito en Go con la interfaz web embebida, usa PostgreSQL y se conecta a un modelo propio, a un endpoint compatible con OpenAI o a Ollama en local.',
+          'Conviene ser preciso sobre su procedencia, porque el repositorio no es lo que parece a primera vista. El README explica que **BaaRai/ARTEX es la traducción al inglés y la continuación de un proyecto original de Autumn-27**, cuyo repositorio de origen ya no es público. Las capacidades de agentes se apoyan en un SDK del mismo autor, llamado norma, y la sincronización de activos viene de otra herramienta suya, ScopeSentry. El proyecto tiene una licencia AGPL-3.0, y al momento de escribir esto la página del repositorio mostraba unas 320 estrellas y 173 forks, con más de 600 commits en la rama principal. También advierte que el historial de git se reescribió el 23 de octubre de 2026, por lo que un clon anterior debe reiniciarse antes de actualizarse.',
+          'Nada de eso invalida el análisis, pero marca el nivel de confianza adecuado: es un proyecto comunitario, de mantenimiento reciente y con una cadena de custodia del código que hay que revisar antes de ponerlo cerca de nada importante. **No lo ejecuté contra ningún objetivo**: todo lo que sigue sale de leer el README y la documentación pública del repositorio.',
+        ],
+      },
+      {
+        title: 'Cómo funciona por dentro',
+        paragraphs: [
+          'La arquitectura es lo más instructivo del proyecto, porque aplica a la seguridad ofensiva el mismo patrón que se discute para cualquier sistema de agentes: separar quién decide de quién ejecuta, y dejar el estado compartido en una estructura explícita en lugar de en la memoria de un modelo.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'Flujo simplificado de ARTEX, según su README',
+            description: 'Un planificador lee el grafo de exploración de la tarea y decide qué direcciones faltan por cubrir. Despacha intents. Un worker toma un intent y pasa por la puerta de aprobación antes de ejecutar una herramienta. El tráfico pasa por un proxy con grabación. Los resultados vuelven a los grafos de exploración y de activos, lo que reactiva al planificador. Los hallazgos pueden pasar luego por un retest.',
+            text: `flowchart LR
+  P["Planificador<br/>lee el grafo y la todolist"] -->|despacha intents| W["Workers<br/>uno por intent"]
+  W --> G{"Puerta de aprobación<br/>regla, modelo o humano"}
+  G -->|aprobada| T["Herramientas reales<br/>nmap, curl, ripgrep..."]
+  G -->|rechazada| W
+  T --> X["Proxy MITM con grabación<br/>evidencia de request y response"]
+  X --> R["Grafo de exploración<br/>y grafo de activos"]
+  R -->|cada cambio reactiva| P
+  R --> F["Hallazgo con evidencia"]
+  F --> RT["Retest<br/>Still reproducible, Fixed o Cannot confirm"]`,
+          },
+          {
+            type: 'p',
+            text: 'Hay cuatro decisiones de diseño que me parecen las importantes.',
+          },
+          {
+            type: 'ul',
+            items: [
+              '**Planificador y workers separados.** El planificador evalúa los objetivos y solo despacha trabajo cuando queda una dirección sin cubrir; mantiene además una lista de tareas por objetivo que persiste entre activaciones, para encadenar ataques de varios pasos. Cada worker reclama un intent, lo ejecuta, escribe lo que encontró y se detiene. Es el patrón de orquestador con especialistas, con una ventaja: un worker acotado a un intent es más fácil de auditar que un agente que vaga libremente.',
+              '**Dos grafos en lugar de una conversación larga.** El grafo de activos (dominios, subdominios, IPs, servicios, aplicaciones y endpoints) se comparte entre tareas; el grafo de exploración es propio de cada tarea e incluye objetivos, intents, hechos, hallazgos y pistas. Unas anclas conectan ambos y alimentan la cobertura. Es memoria externa y estructurada, y no depende de que el modelo recuerde.',
+              '**Un motor dirigido por eventos.** Cada cambio en el grafo reactiva al planificador. Los workers pueden consultar las trazas de ejecución de otros, pero cada uno queda limitado a su intent.',
+              '**La evidencia como parte del producto.** El proxy intermedio traza las llamadas HTTP y de shell, y la petición y la respuesta pueden vincularse a un hallazgo. Un agente de retest vuelve a ejecutar un hallazgo y lo clasifica como todavía reproducible, corregido o no confirmable, conservando la evidencia original.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Para autenticar contra objetivos que requieren sesión, el proyecto incluye una extensión de navegador: la persona inicia sesión una sola vez, con captcha, código por correo o doble factor, y la extensión captura el tráfico de texto y lo envía a ARTEX. Es una forma pragmática de resolver lo que un agente puro no resuelve bien, y deja a un humano en el paso que más importa.',
+          },
+        ],
+      },
+      {
+        title: 'Los controles: lo que separa una herramienta de un arma',
+        paragraphs: [
+          'Un sistema que ejecuta comandos de seguridad ofensiva por su cuenta es peligroso por definición, y por eso lo más valioso del README no son las capacidades sino los frenos. Los resumo como los leería en una revisión de arquitectura.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Controles de ARTEX documentados en su README',
+            head: ['Control', 'Qué hace', 'Qué problema ataca'],
+            rows: [
+              ['Puerta de aprobación de herramientas', 'Cada llamada puede exigir aprobación humana; las reglas se definen por texto, expresión regular o prefijo exacto de comando. Cada decisión registra quién la tomó: persona, regla, modelo o sistema', 'Acciones no previstas y falta de responsabilidad sobre quién autorizó qué'],
+              ['Prefijo de comando estricto', 'Solo coincide con comandos simples de prefijo exacto; pipes, listas, redirecciones, subshells y sustituciones no coinciden', 'El clásico salto de una regla permisiva a una ejecución arbitraria'],
+              ['Puertas de alcance y de destino', 'Limitan a qué se puede apuntar', 'Salirse del alcance autorizado'],
+              ['Presupuestos de tokens y de turnos', 'Topes de consumo por tarea', 'Bucles descontrolados y costos inesperados'],
+              ['Regulador de ruido', 'Modera la carga hacia los objetivos', 'Degradar o tumbar un servicio durante la prueba'],
+              ['Salida de herramientas tratada como datos', 'Lo que devuelve una herramienta se enmarca como información, no como instrucciones', 'Inyección de prompts desde los propios objetivos que se están probando'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'El último punto merece subrayarse. Un agente de pentesting lee, por definición, contenido hostil: páginas, banners, respuestas de APIs. Si ese contenido puede darle órdenes, el sistema se vuelve contra su operador. Tratar la salida como dato es la defensa mínima, y es la misma lección que se repite en todos los harness de agentes que escribí en este blog.',
+          },
+          {
+            type: 'note',
+            label: 'Una distinción importante',
+            text: 'El README prohíbe el uso sin autorización y aclara que esas restricciones son términos adicionales de los mantenedores y no parte de la licencia abierta. Es una buena práctica, pero **es una cláusula, no un control técnico**: nada en el código impide apuntar la herramienta a un sistema ajeno. La protección real está en el alcance configurado, en las aprobaciones y en quién tiene acceso a la instalación.',
+          },
+        ],
+      },
+      {
+        title: 'El contexto de 2026: la promesa, el dinero y los primeros ataques',
+        paragraphs: [
+          'ARTEX aparece en un año en el que el pentesting autónomo dejó de ser un tema académico. Las noticias de 2026 se ordenan en tres movimientos: la industrialización de la defensa, el enfriamiento de las expectativas y la llegada de los agentes al lado atacante.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Hechos de 2026 que enmarcan a ARTEX',
+            head: ['Fecha', 'Hecho', 'Por qué importa'],
+            rows: [
+              ['Febrero', 'Simbian lanza un agente de pentesting continuo; la Cloud Security Alliance publica una guía sobre cómo se organizan los agentes en pentesting', 'La prueba bajo demanda y continua se vuelve oferta comercial'],
+              ['Marzo', 'XBOW, startup de pentesting autónomo, alcanza el estatus de unicornio tras una ronda de 120 millones de dólares; publica 1.060 ataques autónomos contra sistemas reales', 'La autonomía ofensiva pasa a ser un negocio con capital'],
+              ['Junio', 'Un informe de Cobalt indica que solo el 9% de las organizaciones confiaría en pentesting con IA para sus necesidades, frente al 29% del año anterior. Microsoft corrige un récord de 206 CVE en un solo Patch Tuesday, impulsado por el descubrimiento de fallas con IA', 'Más hallazgos, menos confianza: la autonomía total se enfría'],
+              ['Julio', 'Resecurity advierte que agentes como Strix, PentAGI, PentestGPT o XBOW reducen la barrera para encontrar y explotar vulnerabilidades, y que son de doble uso', 'El debate pasa de la eficacia al riesgo'],
+              ['Septiembre', 'Google Threat Intelligence Group describe en su Q3 AI Threat Tracker atacantes que encadenan sistemas de IA: una campaña de robo de credenciales ejecutada en menos de seis horas y un servidor con más de 23.800 secretos robados', 'Los agentes ya operan en incidentes reales'],
+              ['Octubre', 'CrowdStrike documenta campañas agénticas con arneses simples y sofisticados y estima un aumento de unas tres veces en intrusiones agénticas en el segundo semestre; Fortune recoge la advertencia de expertos sobre una ola creciente', 'La barrera deja de ser técnica'],
+              ['Noviembre', 'Picus lanza pentesting agéntico seguro para producción', 'La oferta se mueve hacia la ejecución real de cadenas de explotación'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Leídas en conjunto, estas noticias no cuentan una historia de triunfo ni de catástrofe. Cuentan una tecnología que funciona lo suficiente como para atraer inversión y atacantes, y que todavía necesita supervisión para que sus resultados sean confiables.',
+          },
+        ],
+      },
+      {
+        title: 'Entre el entusiasmo y la cautela: qué muestran los datos',
+        paragraphs: [
+          'El dato que más me llamó la atención es la caída de confianza. Según el informe de Cobalt citado por Dark Reading, el porcentaje de organizaciones dispuestas a depender de pentesting con IA bajó del 29% en 2025 al 9% en 2026. Después de un año de pruebas, el optimismo sobre la autonomía total se enfrió, y la conclusión para los responsables de seguridad es que estas herramientas no reemplazan a los pentesters humanos.',
+          'No hay contradicción con el crecimiento del mercado. El análisis de XBOW sobre el Informe Internacional de Seguridad de la IA 2026, presidido por Yoshua Bengio, recuerda que ese informe concluyó que los ataques totalmente autónomos todavía no son posibles, mientras la propia empresa sostiene que sí ejecuta pruebas autónomas contra sistemas reales todos los días. Y Google, por su parte, dice que todavía no observó atacantes con pipelines totalmente autónomos contra objetivos reales, aunque la adopción apunta en esa dirección.',
+          'Mi lectura es que el término autónomo se usa con tres significados distintos, y conviene separarlos antes de comprar o construir nada:',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Autonomía de tarea.** El agente completa un tramo acotado (reconocimiento, validación de un hallazgo, un retest) sin intervención. Funciona hoy y es donde está el valor.',
+              '**Autonomía de campaña.** El agente encadena tareas durante horas con decisiones propias. Ya se observa en incidentes, pero con errores básicos que, según CrowdStrike, la escala compensa.',
+              '**Autonomía de criterio.** El agente decide qué importa para el negocio, qué es explotable de forma creativa y qué riesgo es aceptable. Según Resecurity, eso sigue dependiendo de expertos humanos.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'ARTEX está diseñado, con acierto, para las dos primeras y deja la tercera a la persona: la puerta de aprobación, la extensión con inicio de sesión humano y el chat con humano en el bucle apuntan en esa dirección. Es coherente con la recomendación que se repite en los informes más sobrios: un modelo híbrido donde los agentes aportan amplitud y continuidad, y las personas validan, juzgan y firman.',
+          },
+        ],
+      },
+      {
+        title: 'El dilema del doble uso',
+        paragraphs: [
+          'Resecurity lo dice sin rodeos: los motores de reconocimiento, explotación y postexplotación creados para pruebas autorizadas pueden redirigirse contra infraestructura real con pocos cambios. Un repositorio como ARTEX no es la excepción, y su propia documentación lo reconoce al insistir en el uso autorizado.',
+          'Los incidentes de 2026 muestran por qué esto no es teórico. En el caso que describe Google, el atacante operaba desde la nube de la víctima, así que su tráfico parecía legítimo. SOCRadar atribuye a operaciones vinculadas a ransomware el uso de marcos con decenas de agentes en producción. Y CrowdStrike observa que dos de los cuatro actores analizados lograron intrusiones con arneses simples: el obstáculo para escalar fue el presupuesto de tokens, no la ingeniería. Si el costo de la inferencia baja, esa barrera también.',
+          'Esto cambia una suposición que muchos equipos tenían. Pensar que el atacante promedio no tiene la habilidad para encadenar una explotación de varios pasos ya no es una defensa. Las herramientas de código abierto le ponen esa habilidad en la mano, y lo que antes tomaba semanas se comprime a horas.',
+        ],
+        blocks: [
+          {
+            type: 'note',
+            label: 'Una posición propia',
+            text: 'Publicar este tipo de herramientas no es el problema; los atacantes ya las tienen, y los defensores las necesitan para probar sus propios sistemas al mismo ritmo. El problema aparece cuando un equipo las adopta sin los controles que el propio ARTEX documenta: alcance, aprobación, presupuesto y trazabilidad. Esos controles son lo que hay que exigir.',
+          },
+        ],
+      },
+      {
+        title: 'Qué significa para quien lidera equipos de ingeniería',
+        paragraphs: [
+          'Desde el rol de Engineering Manager, no veo a ARTEX como una herramienta para instalar mañana, sino como una especificación de lo que hay que pedirle a cualquier solución de este tipo, comercial o abierta. Estas son las preguntas que usaría para evaluar una.',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**¿Quién autoriza y dónde queda registrado?** Toda acción ofensiva debería poder atribuirse a una persona, una regla o un modelo, con registro inmutable. Si la herramienta no lo hace, no entra.',
+              '**¿Cómo se define el alcance y quién puede cambiarlo?** El alcance es el control más importante. Debe vivir fuera del modelo y ser difícil de ampliar por accidente.',
+              '**¿Qué pasa con la salida de las herramientas?** Si el contenido de un objetivo puede dar órdenes al agente, el sistema es vulnerable a la inyección de prompts desde lo que se prueba.',
+              '**¿Cada hallazgo trae evidencia reproducible?** Un reporte sin petición y respuesta asociadas es una opinión. Los falsos positivos son el costo oculto que más quema la confianza del equipo, como muestran las cifras de Cobalt.',
+              '**¿Hay retest?** Cerrar el ciclo, comprobar que lo corregido quedó corregido, es donde las herramientas ahorran tiempo real.',
+              '**¿Cuánto cuesta una tarea?** Los presupuestos de tokens y de turnos importan tanto para el gasto como para evitar bucles.',
+              '**¿Qué hay que revisar del proyecto?** Licencia, procedencia, historial, dependencias y quién mantiene el código. En el caso de ARTEX, la reescritura del historial de git y el hecho de que el origen ya no sea público son motivos para revisarlo con más cuidado.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Si el equipo decide probar algo así, la secuencia prudente me parece esta: entorno de laboratorio aislado y con datos sintéticos primero; luego un sistema propio de bajo riesgo, con aprobación humana en cada llamada; y recién después ampliar las reglas automáticas, midiendo cuántos hallazgos eran reales, cuántos hubo que descartar y cuánto tiempo de revisión consumieron. Es el mismo principio de verificación que defiendo para los agentes de código: la autonomía se gana con evidencia, no se concede por defecto.',
+          },
+        ],
+      },
+      {
+        title: 'Lo que este análisis no puede afirmar',
+        paragraphs: [
+          'Para mantener el estándar de este blog, conviene dejar claros los límites.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'No ejecuté ARTEX. No sé qué tan bien encuentra vulnerabilidades reales ni qué tasa de falsos positivos tiene; solo describo lo que su documentación dice que hace.',
+              'No hay una comparación con XBOW, NodeZero, Pentera u otras plataformas comerciales. Son categorías distintas: un proyecto comunitario frente a productos con soporte, validaciones y contratos.',
+              'Varias cifras vienen de empresas que venden estas herramientas o de informes de proveedores. Las traté como indicios y no como medición independiente.',
+              'Las cifras de estrellas y forks son un reflejo de interés, no de calidad ni de adopción en producción.',
+              'La nota de Dark Reading sobre Cobalt no pude leerla completa, por lo que cito sus cifras tal como aparecen en el resumen de la búsqueda.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Conclusión',
+        paragraphs: [
+          'ARTEX resume bien el momento: una arquitectura multiagente competente para la seguridad ofensiva, con un cuidado poco habitual por los controles y la evidencia, nacida en la comunidad y rodeada de preguntas legítimas sobre su procedencia. Las noticias de 2026 muestran dos verdades que conviven: estas herramientas ya cambian la economía de las pruebas de seguridad y ya aparecen en incidentes reales, y a la vez la confianza en la autonomía total bajó tras un año de uso.',
+          'La enseñanza para quienes lideramos equipos es la misma que con cualquier agente: no discutir si la autonomía es buena o mala, sino diseñar qué se delega, qué se aprueba y qué evidencia se exige. Los defensores que prueben sus sistemas con agentes bajo controles claros estarán mejor parados que quienes esperen a que otro lo haga primero desde el otro lado.',
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'BaaRai. [ARTEX: pentesting autónomo con agentes de IA](https://github.com/BaaRai/ARTEX). Repositorio y README, consultados el 20 de noviembre de 2026.',
+              'Google Threat Intelligence Group, *Q3 2026 AI Threat Tracker*, en [Help Net Security](https://www.helpnetsecurity.com/?p=383967), 8 de septiembre de 2026.',
+              'CrowdStrike, informe sobre campañas agénticas, en [CIO Dive](https://www.ciodive.com/news/agentic-ai-cyberattacks-harnesses-crowdstrike/833739/), octubre de 2026.',
+              'Resecurity, informe sobre agentes ofensivos de IA, en [Security Affairs](https://securityaffairs.com/196331/ai), 30 de julio de 2026.',
+              'Cobalt, informe sobre confianza en pentesting autónomo, en [Dark Reading](https://www.darkreading.com/cybersecurity-operations/ai-decline-confidence-autonomous-penetration-testing), junio de 2026.',
+              'XBOW. [We Ran 1,060 Autonomous Attacks](https://xbow.com/blog/we-ran-1060-autonomous-attacks), 2 de marzo de 2026.',
+              'The Next Web. [Intruder, AI pentesting y el mercado de pruebas de penetración](https://thenextweb.com/news/intruder-ai-pentesting-cybersecurity-knowbe4), 2026.',
+              'Simbian. [AI Pentest Agent](https://securitybrief.co.uk/story/simbian-unveils-ai-agent-for-continuous-pentesting), SecurityBrief UK, 19 de febrero de 2026.',
+              'Cloud Security Alliance. [AI Agents and How They Are Used in Pentesting](https://cloudsecurityalliance.org/articles/ai-agents-and-how-they-are-used-in-pentesting), 5 de febrero de 2026.',
+              'Fortune. [Powerful new AI models are powering a growing wave of cyber attacks](https://fortune.com/2026/10/21/powerful-new-ai-models-are-powering-a-growing-wave-of-cyber-attacks-experts-say/), 21 de octubre de 2026.',
+              'Happe, A. et al. [The Ethics of Autonomous AI Agents for Offensive Security](https://arxiv.org/pdf/2607.20255), arXiv, 2026.',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: ARTEX muestra cómo se ve un sistema multiagente de pentesting bien pensado, con planificador, workers, aprobaciones, alcance y evidencia por hallazgo. Las noticias de 2026 confirman que estas herramientas ya cambian la economía de la seguridad y ya aparecen en ataques reales, pero también que la confianza en la autonomía total bajó. La decisión no es usarlas o no, sino qué delegar, qué aprobar y qué evidencia exigir.',
+  },
+  {
     slug: 'knowledge-centric-delivery-despues-de-agile-equipos-ia',
     seoTitle: 'Knowledge-Centric Delivery: cómo trabajar después de Scrum con agentes de IA',
     seoDescription: 'Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para dejar atrás sprints y story points: Ground Truth, gates de verificación, nuevos roles, métricas y una hoja de ruta de 90 días.',
