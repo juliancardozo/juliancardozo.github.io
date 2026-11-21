@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Superpowers: la metodología de desarrollo para agentes de código, analizada | Julián Cardozo</title>
+<meta name="description" content="Un análisis de Superpowers (obra/superpowers), el plugin de skills para Claude Code, Codex, Cursor y otros agentes: flujo de trabajo, leyes de hierro, subagentes, costos y un plan de adopción para equipos." />
+<meta name="author" content="Julián Cardozo" />
+<meta name="keywords" content="Engineering Manager, Technical Leadership, Software Engineering, Product Builder, Java, Spring Boot, Fintech, Payment Platforms, APIs, Cloud, DevSecOps, AI-assisted development, Spec-driven development, Uruguay, LATAM" />
+<meta name="robots" content="index, follow" />
+<meta name="google-site-verification" content="_9BYvf-62uRivZ6uGYEifB2Gs6wYawZ0DcW4PvrZpRo" />
+<link rel="canonical" href="https://juliancardozo.github.io/en/blog/superpowers-metodologia-agentes-codigo-skills/" />
+<link rel="alternate" hreflang="es" href="https://juliancardozo.github.io/blog/superpowers-metodologia-agentes-codigo-skills/" />
+<link rel="alternate" hreflang="en" href="https://juliancardozo.github.io/en/blog/superpowers-metodologia-agentes-codigo-skills/" />
+<link rel="alternate" hreflang="x-default" href="https://juliancardozo.github.io/blog/superpowers-metodologia-agentes-codigo-skills/" />
+<meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0e1013" media="(prefers-color-scheme: dark)" />
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="Julián Cardozo" />
+<meta property="og:locale" content="en_US" />
+<meta property="og:title" content="Superpowers: la metodología de desarrollo para agentes de código, analizada | Julián Cardozo" />
+<meta property="og:description" content="Un análisis de Superpowers (obra/superpowers), el plugin de skills para Claude Code, Codex, Cursor y otros agentes: flujo de trabajo, leyes de hierro, subagentes, costos y un plan de adopción para equipos." />
+<meta property="og:url" content="https://juliancardozo.github.io/en/blog/superpowers-metodologia-agentes-codigo-skills/" />
+<meta property="og:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Superpowers: la metodología de desarrollo para agentes de código, analizada | Julián Cardozo" />
+<meta name="twitter:description" content="Un análisis de Superpowers (obra/superpowers), el plugin de skills para Claude Code, Codex, Cursor y otros agentes: flujo de trabajo, leyes de hierro, subagentes, costos y un plan de adopción para equipos." />
+<meta name="twitter:image" content="https://juliancardozo.github.io/assets/img/og-cover.png" />
+<link rel="alternate" type="application/rss+xml" title="Blog de Julián Cardozo" href="/feed.xml" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/main.css" />
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-KJ49CP7L');</script>
+<!-- End Google Tag Manager -->
+<!-- OpenAI Ads Measurement Pixel -->
+<script>
+(function (w, d, s, u) {
+  if (w.oaiq) return;
+  var q = function () { q.q.push(arguments); };
+  q.q = [];
+  w.oaiq = q;
+  var js = d.createElement(s); js.async = true; js.src = u;
+  var f = d.getElementsByTagName(s)[0]; f.parentNode.insertBefore(js, f);
+})(window, document, "script", "https://bzrcdn.openai.com/sdk/oaiq.min.js");
+oaiq("init", { pixelId: "N3bjU59DcWbZMaWFgpKk4j" });
+oaiq("measure", "page_viewed", { type: "contents", contents: [{ id: location.pathname, name: document.title, content_type: "page" }] });
+</script>
+<!-- End OpenAI Ads Measurement Pixel -->
+<script>/* Habilita las animaciones de entrada solo si hay JS. Si main.js no llega a correr, todo se muestra igual. */
+if('IntersectionObserver' in window){document.documentElement.classList.add('js');window.__revealFallback=setTimeout(function(){document.documentElement.classList.remove('js')},2500)}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BlogPosting","@id":"https://juliancardozo.github.io/en/blog/superpowers-metodologia-agentes-codigo-skills/#article","headline":"Superpowers: cuando la metodología de ingeniería se vuelve código que el agente ejecuta","description":"Un análisis de Superpowers, el proyecto open source de Jesse Vincent que convierte brainstorming, planificación, TDD, revisión de código y verificación en skills obligatorias para agentes de código. Qué flujo impone, cómo están escritas sus reglas, por qué cada tarea va a un subagente nuevo, cómo se prueban las skills con evidencia, qué cuesta adoptarlo y un plan concreto para incorporarlo en un equipo.","datePublished":"2026-11-21","dateModified":"2026-11-21","inLanguage":"en","url":"https://juliancardozo.github.io/en/blog/superpowers-metodologia-agentes-codigo-skills/","mainEntityOfPage":"https://juliancardozo.github.io/en/blog/superpowers-metodologia-agentes-codigo-skills/","articleSection":"AI and agents","keywords":"AI, Agents, Architecture","isPartOf":{"@type":"Blog","@id":"https://juliancardozo.github.io/en/blog/#blog"},"author":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"publisher":{"@id":"https://juliancardozo.github.io/#person","name":"Julián Cardozo","url":"https://juliancardozo.github.io"},"citation":"https://github.com/obra/superpowers"},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Julián Cardozo","item":"https://juliancardozo.github.io/en/"},{"@type":"ListItem","position":2,"name":"Technology and product blog","item":"https://juliancardozo.github.io/en/blog/"},{"@type":"ListItem","position":3,"name":"Superpowers: cuando la metodología de ingeniería se vuelve código que el agente ejecuta","item":"https://juliancardozo.github.io/en/blog/superpowers-metodologia-agentes-codigo-skills/"}]}]}</script>
+</head>
+<body class="page-article">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KJ49CP7L"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell site-header__inner">
+    <a class="site-header__brand" href="/en/">
+      <span class="site-header__mark" aria-hidden="true">JC</span>
+      <span class="site-header__name">Julián Cardozo</span>
+    </a>
+    <nav class="site-nav" aria-label="Site sections">
+      <ul>
+        <li><a href="/en/#fortalezas">Strengths</a></li><li><a href="/en/#recorrido">Career</a></li><li><a href="/en/#productos">Projects</a></li><li><a href="/en/blog/">Blog</a></li><li><a class="site-nav__github" href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer"><svg class="icon-github" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>GitHub</a></li><li><a href="/en/#contacto" class="site-nav__cta">Contact</a></li>
+      </ul>
+    </nav>
+    <a class="site-lang" href="/blog/superpowers-metodologia-agentes-codigo-skills/" hreflang="es" lang="es" aria-label="Leer esta página en español">ES</a>
+  </div>
+</header>
+<main id="main">
+
+<article class="article">
+  <header class="shell article__head">
+    <a class="case__back" href="/en/blog/"><span aria-hidden="true">←</span> Back to the blog</a>
+    <p class="article__meta"><a class="cat-label" data-cat="ia-agentes" href="/en/blog/?categoria=ia-agentes#articulos">AI and agents</a><time datetime="2026-11-21">November 21, 2026</time><span>15 min de lectura</span></p>
+    <h1 class="article__title">Superpowers: cuando la metodología de ingeniería se vuelve código que el agente ejecuta</h1>
+    <p class="article__lead">Cualquier equipo que trabaja con agentes de código conoce el patrón: el agente entiende la tarea a medias, empieza a escribir antes de preguntar, declara que los tests pasan sin haberlos corrido y entrega un cambio que nadie pidió. La respuesta habitual es escribir instrucciones más largas. Superpowers propone otra cosa: empaquetar una metodología completa de ingeniería en skills que el agente está obligado a usar, y probar esas skills con la misma disciplina con la que se prueba el código. Con más de 320.000 estrellas en GitHub es, probablemente, el intento más adoptado de responder una pregunta que hoy es de gestión y no solo técnica: cómo se le enseña un proceso a un agente.</p>
+  </header>
+  <div class="shell article__layout">
+    <aside class="article__aside">
+      <div><p>Pillar</p><a href="/en/topics/ingenieria-con-ia/" class="js-track-pillar-hub">Engineering with AI and agents <span aria-hidden="true">→</span></a></div>
+      <div><p>Context</p>
+      <span>Análisis técnico · repositorio obra/superpowers v7.0.2, noviembre de 2026</span>
+      <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener noreferrer">Superpowers: metodología de desarrollo para agentes de código (GitHub) <span aria-hidden="true">↗</span></a></div>
+    </aside>
+    <div class="article__content">
+      
+      
+      
+        <section>
+          
+          <h2>Qué es Superpowers</h2>
+          <p>El README lo define como una metodología completa de desarrollo de software para agentes de código, construida sobre un conjunto de skills componibles y unas instrucciones iniciales que garantizan que el agente las use. La frase que mejor resume la intención aparece unas líneas más abajo: son <strong>flujos de trabajo obligatorios, no sugerencias</strong>.</p><p>El autor es Jesse Vincent (obra en GitHub), con el equipo de Prime Radiant. Lo presentó el 9 de octubre de 2025 en su blog con una entrada titulada, en inglés, &quot;Superpowers: cómo uso agentes de código en octubre de 2025&quot;. Un año después el repositorio suma unas 323.000 estrellas, 28.700 forks y casi 700 commits, se distribuye con licencia MIT y la última versión publicada al momento de escribir esto es la 7.0.2, del 3 de noviembre de 2026.</p><p>Una skill es un directorio con un archivo SKILL.md: un nombre, una descripción que le indica al agente cuándo usarla y un cuerpo con el procedimiento. Superpowers trae 15. Lo que lo distingue de una colección de prompts es el mecanismo de arranque: un hook inyecta al inicio de cada sesión la skill <code>using-superpowers</code>, que obliga al agente a revisar qué skills aplican <strong>antes de cualquier respuesta</strong>, incluidas las preguntas de aclaración.</p><p>Empezó como un plugin de Claude Code y hoy se instala en una quincena de entornos: Claude Code, Codex (app y CLI), Cursor, Gemini CLI, GitHub Copilot CLI, OpenCode, Factory Droid, Devin CLI, Qwen Code, Kimi Code, Antigravity, Grok Build, Pi, Hermes Agent y Muse. Que una metodología escrita en Markdown funcione igual en herramientas de empresas distintas es, en sí mismo, un dato sobre hacia dónde va el ecosistema.</p>
+          
+          
+          
+          <figure class="article__code">
+            <figcaption>Instalación en Claude Code, según el README</figcaption>
+            <pre tabindex="0"><code class="language-text"># Desde el marketplace oficial de plugins
+/plugin install superpowers@claude-plugins-official
+
+# O desde el marketplace propio del proyecto
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace</code></pre>
+          </figure>
+          
+        </section>
+        <section>
+          
+          <h2>El flujo que impone</h2>
+          <p>Lo más valioso de Superpowers no es ninguna skill aislada sino el orden en que se encadenan. El README describe un flujo básico de siete pasos, y cada uno se activa solo cuando corresponde.</p>
+          
+          
+          
+          <figure class="article__mermaid">
+            <figcaption>El flujo básico de Superpowers, según su README</figcaption>
+            <pre class="mermaid" aria-label="El trabajo empieza con brainstorming, que termina en un diseño aprobado. Luego se crea un worktree de git con una línea base de tests limpia. Se escribe un plan de tareas de dos a cinco minutos. El plan se ejecuta con un subagente por tarea o en línea. Cada tarea sigue el ciclo de TDD rojo, verde y refactor y pasa por una revisión de código; los problemas críticos bloquean el avance. Al final se verifica todo y se decide entre merge, pull request, conservar o descartar la rama.">flowchart LR
+  B[&quot;brainstorming&lt;br/&gt;el porqué y un diseño aprobado&quot;] --&gt; W[&quot;using-git-worktrees&lt;br/&gt;rama aislada y tests en verde&quot;]
+  W --&gt; P[&quot;writing-plans&lt;br/&gt;tareas de 2 a 5 minutos&quot;]
+  P --&gt; E{&quot;¿Cómo se ejecuta?&quot;}
+  E --&gt;|un subagente por tarea| S[&quot;subagent-driven-development&quot;]
+  E --&gt;|en línea, un solo contexto| I[&quot;executing-plans&quot;]
+  S --&gt; T[&quot;test-driven-development&lt;br/&gt;rojo, verde, refactor&quot;]
+  I --&gt; T
+  T --&gt; R[&quot;requesting-code-review&lt;br/&gt;lo crítico bloquea&quot;]
+  R --&gt;|siguiente tarea| T
+  R --&gt; F[&quot;finishing-a-development-branch&lt;br/&gt;merge, PR, conservar o descartar&quot;]</pre>
+            <p class="architecture__description">El trabajo empieza con brainstorming, que termina en un diseño aprobado. Luego se crea un worktree de git con una línea base de tests limpia. Se escribe un plan de tareas de dos a cinco minutos. El plan se ejecuta con un subagente por tarea o en línea. Cada tarea sigue el ciclo de TDD rojo, verde y refactor y pasa por una revisión de código; los problemas críticos bloquean el avance. Al final se verifica todo y se decide entre merge, pull request, conservar o descartar la rama.</p>
+          </figure><figure class="article__table">
+            <figcaption>Las 15 skills de Superpowers v7.0.2</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Las 15 skills de Superpowers v7.0.2"><table>
+              <thead><tr><th scope="col">Grupo</th><th scope="col">Skill</th><th scope="col">Para qué sirve</th></tr></thead>
+              <tbody><tr><th scope="row">Colaboración</th><td><code>brainstorming</code></td><td>Descubrir qué se quiere construir y por qué, antes de construir</td></tr><tr><th scope="row">Colaboración</th><td><code>writing-plans</code></td><td>Planes con rutas de archivo exactas, código completo y pasos de verificación</td></tr><tr><th scope="row">Colaboración</th><td><code>executing-plans</code></td><td>Ejecutar el plan en un solo contexto, con una revisión final</td></tr><tr><th scope="row">Colaboración</th><td><code>subagent-driven-development</code></td><td>Un subagente nuevo por tarea, con revisión de especificación y de calidad</td></tr><tr><th scope="row">Colaboración</th><td><code>dispatching-parallel-agents</code></td><td>Trabajo concurrente con varios subagentes</td></tr><tr><th scope="row">Colaboración</th><td><code>using-git-worktrees</code></td><td>Ramas de desarrollo aisladas y en paralelo</td></tr><tr><th scope="row">Colaboración</th><td><code>requesting-code-review</code></td><td>Revisión contra el plan, con hallazgos por severidad</td></tr><tr><th scope="row">Colaboración</th><td><code>receiving-code-review</code></td><td>Cómo responder a la revisión sin aceptar todo por complacencia</td></tr><tr><th scope="row">Colaboración</th><td><code>finishing-a-development-branch</code></td><td>Verificar y decidir el destino de la rama</td></tr><tr><th scope="row">Testing</th><td><code>test-driven-development</code></td><td>El ciclo rojo, verde y refactor, con antipatrones de testing</td></tr><tr><th scope="row">Depuración</th><td><code>systematic-debugging</code></td><td>Causa raíz en cuatro fases, con rastreo y defensa en profundidad</td></tr><tr><th scope="row">Depuración</th><td><code>verification-before-completion</code></td><td>Ninguna afirmación de éxito sin evidencia fresca</td></tr><tr><th scope="row">Depuración</th><td><code>diagnosing-superpowers</code></td><td>Reconstruir con evidencia qué falló en una sesión</td></tr><tr><th scope="row">Meta</th><td><code>writing-skills</code></td><td>Escribir skills nuevas y probarlas</td></tr><tr><th scope="row">Meta</th><td><code>using-superpowers</code></td><td>El arranque: cómo encontrar y usar las skills</td></tr></tbody>
+            </table></div>
+          </figure><p>Leída como un proceso de equipo, la secuencia no tiene nada de nuevo: descubrimiento, diseño, plan, implementación con tests, revisión y cierre. Lo nuevo es que el proceso deja de vivir en una wiki que nadie consulta y pasa a ejecutarse en cada sesión, para cada tarea, sin depender de que alguien se acuerde. Según el README, con este andamiaje el agente puede trabajar de forma autónoma un par de horas seguidas sin apartarse del plan.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Las leyes de hierro: reglas escritas para un lector que busca atajos</h2>
+          <p>Al leer los SKILL.md se nota que están escritos para un lector muy particular: uno capaz, rápido y propenso a convencerse de que esta vez la regla no aplica. Por eso varias skills tienen una &quot;ley de hierro&quot; en mayúsculas y una tabla de racionalizaciones con su refutación.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Tres reglas centrales, traducidas de los SKILL.md</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Tres reglas centrales, traducidas de los SKILL.md"><table>
+              <thead><tr><th scope="col">Skill</th><th scope="col">Regla</th><th scope="col">Qué conducta corrige</th></tr></thead>
+              <tbody><tr><th scope="row"><code>using-superpowers</code></th><td>Si hay aunque sea un 1% de probabilidad de que una skill aplique, el agente debe invocarla. No es negociable</td><td>Saltear el proceso porque la tarea &quot;parece simple&quot;</td></tr><tr><th scope="row"><code>test-driven-development</code></th><td>Nada de código de producción sin un test que falle primero. El código escrito antes del test se borra: no se conserva &quot;como referencia&quot; ni se adapta</td><td>Tests escritos a posteriori que confirman lo que el código ya hace</td></tr><tr><th scope="row"><code>verification-before-completion</code></th><td>Ninguna afirmación de que algo está terminado sin evidencia de verificación fresca, corrida en ese mismo mensaje</td><td>El &quot;listo, los tests pasan&quot; sin haberlos corrido</td></tr></tbody>
+            </table></div>
+          </figure><p>La tabla de <code>using-superpowers</code> es casi un catálogo de excusas reconocibles: &quot;es solo una pregunta simple&quot;, &quot;primero necesito más contexto&quot;, &quot;déjame explorar el código antes&quot;, &quot;esta skill es excesiva&quot;. Cada una tiene su respuesta. La de <code>verification-before-completion</code> va más lejos: trata como señales de alarma las palabras &quot;debería&quot;, &quot;probablemente&quot; y &quot;parece&quot;, y expresar satisfacción (&quot;¡Perfecto!&quot;, &quot;¡Listo!&quot;) antes de verificar. También incluye una línea que cualquier Tech Lead debería enmarcar: el reporte de éxito de un agente no alcanza; lo que cuenta es el diff en el control de versiones.</p><p class="article__note"><span>Por qué este tono funciona</span>En su entrada de lanzamiento, Vincent cuenta que aplicó a las skills los principios de persuasión de Robert Cialdini (autoridad, compromiso, prueba social, entre otros) y cita un estudio de Wharton, en el que participó el propio Cialdini, sobre cómo esos principios influyen en los modelos de lenguaje. Se puede discutir la estética de escribir instrucciones en mayúsculas, pero la lógica es de ingeniería: si el lector tiende a racionalizar, la regla tiene que anticipar la racionalización.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Un subagente nuevo por tarea</h2>
+          <p>La skill <code>subagent-driven-development</code> resuelve un problema que cualquiera que haya tenido sesiones largas con un agente reconoce: el contexto se ensucia. Después de una hora de exploración, intentos fallidos y correcciones, el agente arrastra decisiones viejas y supuestos que ya no valen.</p><p>La solución es delegar cada tarea del plan a un subagente que <strong>no hereda el historial de la sesión</strong>: el coordinador le arma exactamente el contexto que necesita, el subagente implementa y después pasa por una revisión en dos etapas, primero de cumplimiento de la especificación y luego de calidad de código. Al final hay una revisión amplia de toda la rama. Es el mismo principio que aplicamos a las personas cuando un ticket bien escrito vale más que una charla de pasillo: el contexto explícito escala, el implícito no.</p><p>La parte más interesante para quien gestiona equipos es cómo la skill resuelve la tensión entre autonomía y control. Prohíbe las pausas para preguntar &quot;¿sigo?&quot; y pide que el agente tome decisiones y las registre en un libro de decisiones con el formato: qué decidió, por qué y cuánto cuesta si se equivocó. Su argumento es directo: una decisión equivocada cuesta un retrabajo visible y reversible, mientras que una sesión detenida esperando una respuesta le cuesta a la persona el día entero.</p>
+          
+          
+          
+          <p>Hay exactamente cuatro motivos por los que el agente sí debe detenerse y preguntar:</p><ol class="article__list"><li>Una operación irreversible o destructiva.</li><li>Una acción sensible para la seguridad.</li><li>Un efecto fuera del worktree que normalmente se consulta: un merge, un push a una rama compartida, una publicación.</li><li>Un plan tan roto que cualquier camino es una suposición.</li></ol><p>Es una política de escalamiento bien diseñada, y sirve tal cual para un equipo humano: decidir dentro de un perímetro, dejar registro y escalar solo lo irreversible. Pocas organizaciones la tienen escrita con esta claridad.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Skills probadas con evidencia, no con intuición</h2>
+          <p>La mayoría de las instrucciones para agentes se escriben a ojo: alguien nota un mal comportamiento, agrega una línea y sigue. Superpowers trata las skills como código. La skill <code>writing-skills</code> incluye una metodología de prueba, y en el lanzamiento Vincent la describe como TDD para skills: se arma un escenario de presión realista, se lo corre contra un subagente, se observa si la skill aguanta y se corrige cuando falla.</p><p>Cuenta también que los primeros escenarios fallaban por artificiales, porque los subagentes respondían como en un programa de preguntas. Los reemplazó por situaciones con presión real, como una caída en producción con el tiempo encima o el costo hundido de horas ya invertidas en un enfoque, con opciones cerradas para elegir.</p><p>Las notas de la versión 7.0.2 muestran que esa disciplina se sostiene. Para medir el cambio en <code>brainstorming</code> usaron conversaciones de prueba calificadas a ciegas, y reportan números concretos:</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Resultados reportados en las notas de la versión 7.0.2 para la skill de brainstorming</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Resultados reportados en las notas de la versión 7.0.2 para la skill de brainstorming"><table>
+              <thead><tr><th scope="col">Medición</th><th scope="col">Versión anterior</th><th scope="col">v7.0.2</th></tr></thead>
+              <tbody><tr><th scope="row">Preguntas de relleno en el conjunto de prueba</th><td>41 (v7.0.1)</td><td>23</td></tr><tr><th scope="row">Conversaciones donde surge el porqué antes que cualquier enfoque</th><td>28 de 33 (v7.0.1)</td><td>33 de 33</td></tr><tr><th scope="row">Ante un conflicto (un atajo de teclado asignado a dos funciones), presenta opciones con una recomendación</th><td>0 de 8 (v7.0.1 preguntaba solo &quot;¿cuál?&quot; en 8 de 8)</td><td>8 de 8</td></tr><tr><th scope="row">Contra la v6.4.2: el porqué aparece</th><td>19 de 33</td><td>33 de 33</td></tr></tbody>
+            </table></div>
+          </figure><p>Son métricas del propio proyecto, no una evaluación independiente, pero el método es el punto: cambios de comportamiento medidos contra un conjunto fijo de escenarios, con regresiones visibles. Es exactamente lo que un equipo debería exigir antes de cambiar el AGENTS.md o el CLAUDE.md que usan treinta personas.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Lo que cuesta adoptarlo</h2>
+          <p>Nada de esto es gratis, y una evaluación honesta tiene que poner los costos sobre la mesa.</p>
+          
+          
+          
+          <figure class="article__table">
+            <figcaption>Costos y riesgos a evaluar antes de adoptar Superpowers</figcaption>
+            <div class="article__table-scroll" tabindex="0" role="region" aria-label="Costos y riesgos a evaluar antes de adoptar Superpowers"><table>
+              <thead><tr><th scope="col">Costo o riesgo</th><th scope="col">De dónde viene</th><th scope="col">Cómo mitigarlo</th></tr></thead>
+              <tbody><tr><th scope="row">Más tokens y más tiempo por tarea</th><td>Un contexto nuevo por tarea y por revisión. La propia skill lo reconoce frente a la ejecución en línea, que cuesta un contexto y una revisión final</td><td>Usar <code>executing-plans</code> para cambios chicos y reservar los subagentes para trabajo con tareas independientes</td></tr><tr><th scope="row">Ceremonia en cambios triviales</th><td>La regla del 1% y el brainstorming antes de cualquier trabajo creativo</td><td>La 7.0.2 ya distingue la tarea clara (&quot;pintar el ícono de azul&quot;), que se hace y se informa sin preguntas</td></tr><tr><th scope="row">Dependencia del arranque</th><td>Si el hook de inicio falla, las skills dejan de ser obligatorias. Las notas de la 7.0.2 corrigen fallas de arranque en seis entornos, entre ellos Copilot en Windows y OpenCode</td><td>Verificar en el piloto que el arranque se cargue en el entorno real de cada persona</td></tr><tr><th scope="row">Caché de prompts</th><td>En Pi, el arranque se desactivaba tras el primer prompt y obligaba a reescribir la caché de toda la conversación; un usuario midió un 83% de transiciones afectadas</td><td>Mantener el plugin actualizado y medir costo por sesión antes y después</td></tr><tr><th scope="row">Código de terceros con acceso a la sesión</th><td>Un plugin con hooks se ejecuta en cada inicio de sesión y suele actualizarse solo</td><td>Fijar versiones, revisar las notas de cada release y tratarlo como cualquier dependencia</td></tr><tr><th scope="row">Telemetría</th><td>El acompañante visual de brainstorming carga un logo del sitio de Prime Radiant que incluye la versión</td><td>Es opcional; se desactiva con <code>SUPERPOWERS_DISABLE_TELEMETRY</code></td></tr><tr><th scope="row">Metodología cerrada</th><td>El proyecto, en general, no acepta contribuciones de skills nuevas</td><td>Escribir las skills propias del equipo en un plugin aparte, siguiendo <code>writing-skills</code></td></tr></tbody>
+            </table></div>
+          </figure><p>Hay un costo menos visible: Superpowers tiene opiniones fuertes. TDD estricto, worktrees, planes con código completo. Para un equipo que ya trabaja así es un multiplicador; para uno que no, la herramienta va a imponer un cambio de proceso que conviene decidir explícitamente y no descubrir en medio de un sprint.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Dónde encaja frente a otras propuestas</h2>
+          <p>En este blog analicé varias formas de darle estructura al trabajo con agentes, y Superpowers ocupa un lugar propio entre ellas.</p>
+          
+          
+          
+          <ul class="article__list"><li><strong>Frente a <a href="/blog/spec-kit-1-especificaciones-agentes-adopcion/">Spec Kit</a></strong>, que pone el foco en la especificación como artefacto versionado, Superpowers cubre todo el ciclo y trata la especificación como un paso más: el brainstorming produce un diseño y el plan se vuelve la autoridad de ejecución.</li><li><strong>Frente a colecciones de skills sueltas</strong>, como las de Matt Pocock que incorporé al ciclo de <a href="/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/">Knowledge-Centric Delivery</a>, Superpowers no es un menú: es una metodología completa con un orden obligatorio. Las sueltas se adoptan de a una; Superpowers se adopta entero o se adapta con cuidado.</li><li><strong>Frente al <a href="/blog/harness-engineering-agentes-codigo-guias-sensores/">harness engineering</a></strong>, Superpowers es mayormente guía, en el sentido de lo que se le indica al agente antes de actuar. Los sensores, es decir los tests, linters y checks que validan el resultado, siguen siendo del repositorio. La skill de verificación obliga a correrlos, pero no los reemplaza.</li></ul><p>Mi lectura es que estas propuestas no compiten tanto como parece. Una buena configuración de equipo combina una especificación versionada, una metodología de ejecución como la de Superpowers y un conjunto de sensores automáticos que no depende de la buena voluntad del agente.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Un plan de adopción para un equipo</h2>
+          <p>Desde el rol de Engineering Manager, no instalaría Superpowers para todo el equipo un lunes a la mañana. Lo trataría como cualquier cambio de proceso: con un piloto, una hipótesis y métricas.</p>
+          
+          
+          
+          <ol class="article__list"><li><strong>Semana 1: línea base.</strong> Antes de instalar nada, medir en dos o tres repositorios cuántos PRs generados con agentes necesitan más de una ronda de revisión, cuántos llegan sin tests y cuánto cuesta una sesión típica en tokens.</li><li><strong>Semana 2: piloto acotado.</strong> Dos o tres personas con experiencia en TDD lo usan en un repositorio con buena cobertura y una suite de tests confiable. Sin tests buenos, la ley de hierro de la verificación no tiene contra qué verificar.</li><li><strong>Semanas 3 y 4: uso real.</strong> Tareas reales del backlog, no demos. Registrar en cada caso qué modo de ejecución se usó, si el plan se sostuvo y qué decisiones quedaron en el libro de decisiones del agente.</li><li><strong>Revisión con datos.</strong> Comparar con la línea base: rondas de revisión, PRs sin tests, defectos detectados después del merge, costo por tarea y percepción del equipo sobre la ceremonia agregada.</li><li><strong>Decidir qué se adopta.</strong> Las opciones razonables son tres: Superpowers completo, solo algunas skills (verificación y TDD suelen dar el mayor retorno con el menor costo) o un plugin propio del equipo, escrito con la metodología de <code>writing-skills</code>.</li><li><strong>Fijar y gobernar.</strong> Si se adopta, fijar la versión, asignar a alguien la lectura de cada release y tratar las skills del equipo como código: con revisión, con escenarios de prueba y con historial.</li></ol><p class="article__note"><span>Una posición propia</span>Lo más valioso de Superpowers no es instalarlo sino lo que enseña: un proceso de ingeniería puede escribirse de forma que un agente lo cumpla, y esa escritura puede probarse y medirse. Los equipos que aprendan a escribir y probar sus propias skills van a tener una ventaja que no depende de ningún plugin.</p>
+          
+        </section>
+        <section>
+          
+          <h2>Lo que este análisis no puede afirmar</h2>
+          <p>Para mantener el estándar de este blog, conviene dejar claros los límites.</p>
+          
+          
+          
+          <ul class="article__list"><li>El análisis se basa en el README, en los SKILL.md de cinco de las quince skills, en las notas de la versión 7.0.2 y en la entrada de lanzamiento del autor. No leí todas las skills completas.</li><li>No medí el efecto de Superpowers en un equipo propio. No tengo datos independientes sobre calidad, velocidad o costo.</li><li>Las métricas de brainstorming son del propio proyecto, con escenarios definidos por sus mantenedores.</li><li>No verifiqué que los comandos de instalación funcionen en cada uno de los entornos listados.</li><li>Las estrellas y los forks son un indicador de interés, no de adopción en producción ni de calidad.</li></ul>
+          
+        </section>
+        <section>
+          
+          <h2>Conclusión</h2>
+          <p>Superpowers resume una idea que va a definir cómo trabajan los equipos de ingeniería en los próximos años: el proceso ya no es un documento que se espera que las personas sigan, sino un artefacto que el agente ejecuta y que se puede versionar, probar y medir. Brainstorming antes de construir, tests antes del código, evidencia antes de declarar éxito y un subagente con contexto limpio por tarea no son ideas nuevas. Lo nuevo es que se cumplen siempre, porque el agente no tiene la opción de saltearlas.</p><p>Para quienes lideramos equipos, la pregunta no es si instalar este plugin en particular, sino si nuestro proceso de ingeniería está escrito con la claridad suficiente como para que un agente lo pueda seguir. Si no lo está, tampoco lo estaba para las personas.</p>
+          
+          
+          
+          
+          
+        </section>
+        <section>
+          
+          <h2>Referencias</h2>
+          
+          
+          
+          
+          <ul class="article__list"><li>Vincent, J. y Prime Radiant. <a href="https://github.com/obra/superpowers" target="_blank" rel="noopener noreferrer">Superpowers</a>. Repositorio, README y SKILL.md, consultados el 21 de noviembre de 2026.</li><li>Superpowers. <a href="https://github.com/obra/superpowers/blob/main/RELEASE-NOTES.md" target="_blank" rel="noopener noreferrer">Notas de la versión 7.0.2</a>, 3 de noviembre de 2026.</li><li>Vincent, J. <a href="https://blog.fsck.com/2025/10/09/superpowers/" target="_blank" rel="noopener noreferrer">Superpowers: How I'm using coding agents in October 2025</a>, 9 de octubre de 2025.</li><li>Cialdini, R. <em>Influence: The Psychology of Persuasion</em>. Harper Business, edición revisada de 2021.</li></ul>
+          
+        </section>
+      
+      <p class="article__takeaway">En síntesis: Superpowers convierte una metodología de ingeniería completa (brainstorming, plan, TDD, revisión y verificación) en skills que el agente está obligado a usar, delega cada tarea a un subagente con contexto limpio y prueba sus propias reglas con escenarios medidos. Tiene costos reales en tokens, ceremonia y dependencia de un plugin de terceros, por lo que conviene adoptarlo con un piloto y métricas. Su mayor lección no es el plugin sino el método: un proceso escrito para que un agente lo cumpla, y probado como se prueba el código.</p>
+      
+      <aside class="article__linkedin" aria-labelledby="article-linkedin-title">
+      <svg class="article__linkedin-icon" aria-hidden="true" viewBox="0 0 24 24" width="28" height="28"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
+      <div>
+        <p class="article__conversation-label">Let's connect on LinkedIn</p>
+        <h2 id="article-linkedin-title">Found this useful? Connect with me on LinkedIn</h2>
+        <p>I share every new article there, along with short notes on architecture, applied AI and engineering leadership, and the conversations they spark.</p>
+        <a class="btn btn--primary js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">Follow me on LinkedIn <span aria-hidden="true">↗</span></a>
+      </div>
+    </aside>
+      <aside class="article__conversation">
+      <p class="article__conversation-label">Let's keep the conversation going</p>
+      <h2>Is your team evaluating applied AI? I'd like to hear about the problem you're trying to solve.</h2>
+      <p>If this topic relates to your product, team or research, write to me. I reply personally and with no sales pitch.</p>
+      <a class="btn btn--primary js-track-conversation" href="mailto:julian.cardozo.viggiano@gmail.com?subject=Conversation%20about%3A%20Superpowers%3A%20cuando%20la%20metodolog%C3%ADa%20de%20ingenier%C3%ADa%20se%20vuelve%20c%C3%B3digo%20que%20el%20agente%20ejecuta&amp;body=Is%20your%20team%20evaluating%20applied%20AI%3F%20I'd%20like%20to%20hear%20about%20the%20problem%20you're%20trying%20to%20solve.%0A%0AI%20came%20from%20the%20article%3A%20Superpowers%3A%20cuando%20la%20metodolog%C3%ADa%20de%20ingenier%C3%ADa%20se%20vuelve%20c%C3%B3digo%20que%20el%20agente%20ejecuta%0Ahttps%3A%2F%2Fjuliancardozo.github.io%2Fen%2Fblog%2Fsuperpowers-metodologia-agentes-codigo-skills%2F">Write to me about this</a>
+    </aside>
+    </div>
+  </div>
+  <section class="shell article__related" aria-labelledby="related-articles-title">
+    <p class="section__eyebrow">Keep reading</p>
+    <h2 id="related-articles-title">Related articles</h2>
+    <ul>
+      <li data-cat="ia-agentes"><a href="/en/blog/harness-engineering-agentes-codigo-guias-sensores/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
+        <strong>Harness engineering: cómo dar confianza al trabajo de un agente de código</strong>
+        <small>Una lectura técnica del modelo que Birgitta Böckeler publicó en martinfowler.com para quienes usan agentes de código: guías y sensores, controles computacionales e inferenciales, el momento en que conviene ejecutar cada uno, las tres dimensiones que un harness puede regular y sus límites. Incluye la aplicación del modelo a Website Factory, un sistema multiagente propio, y lo que ese ejercicio deja ver.</small>
+      </a></li><li data-cat="ia-agentes"><a href="/en/blog/agentes-ia-salidas-verificables/" class="js-track-related-article">
+        <span class="cat-label" data-cat="ia-agentes">AI and agents</span>
+        <strong>AI for compliance: an answer without evidence is an operational risk</strong>
+        <small>Designing verifiable agents for privacy: traceable evidence, explicit uncertainty and human review.</small>
+      </a></li><li data-cat="liderazgo-producto"><a href="/en/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/" class="js-track-related-article">
+        <span class="cat-label" data-cat="liderazgo-producto">Leadership and product</span>
+        <strong>Agile nos trajo hasta acá: Knowledge-Centric Delivery y las nuevas formas de trabajo con agentes de IA</strong>
+        <small>Un análisis de Knowledge-Centric Delivery, la propuesta de Rootstrap para organizar la entrega de software alrededor del conocimiento y no del código: qué problema resuelve, cómo funcionan Ground Truth y los gates de verificación, un ejemplo de punta a punta, cómo sumar las skills de Matt Pocock (grilling, specs, TDD, code review y retro) a cada fase de una regla, las nuevas formas de trabajo que habilita, cómo cambian los roles y las métricas, y una hoja de ruta de 90 días para empezar la transformación sin un big bang.</small>
+      </a></li>
+    </ul>
+    <p class="article__related-more">
+      <a href="/en/blog/?categoria=ia-agentes#articulos" class="js-track-related-category">More in AI and agents <span aria-hidden="true">→</span></a>
+      <a href="/en/topics/ingenieria-con-ia/" class="js-track-pillar-hub">Reading path: Engineering with AI and agents <span aria-hidden="true">→</span></a>
+    </p>
+  </section>
+</article><script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11.4.1/dist/mermaid.esm.min.mjs';
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? 'dark' : 'neutral', securityLevel: 'strict', fontFamily: 'Helvetica, Arial, sans-serif', themeVariables: dark ? { fontSize: '15px', edgeLabelBackground: '#161a1f', textColor: '#e9eaed' } : { fontSize: '15px' }, flowchart: { padding: 16 } });
+</script>
+</main>
+<footer class="site-footer">
+  <div class="shell site-footer__inner">
+    <p class="site-footer__name">Julián Cardozo · 2026</p>
+    <p class="site-footer__note">Static site with no frameworks or dependencies: HTML, CSS and a homemade Node generator.</p>
+    <ul class="site-footer__links">
+      <li><a href="/en/newsletter/">Newsletter</a></li>
+      <li><a href="/en/privacy/">Privacy</a></li>
+      <li><a href="https://github.com/juliancardozo" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+      <li><a class="js-track-linkedin" href="https://www.linkedin.com/in/juliancardozoviggiano/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+      <li><a href="mailto:julian.cardozo.viggiano@gmail.com">Email</a></li>
+    </ul>
+  </div>
+</footer>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

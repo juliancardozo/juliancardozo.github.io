@@ -6,6 +6,287 @@ import { categories } from './categories.js';
 
 const articleEntries = [
   {
+    slug: 'superpowers-metodologia-agentes-codigo-skills',
+    seoTitle: 'Superpowers: la metodología de desarrollo para agentes de código, analizada',
+    seoDescription: 'Un análisis de Superpowers (obra/superpowers), el plugin de skills para Claude Code, Codex, Cursor y otros agentes: flujo de trabajo, leyes de hierro, subagentes, costos y un plan de adopción para equipos.',
+    title: 'Superpowers: cuando la metodología de ingeniería se vuelve código que el agente ejecuta',
+    description: 'Un análisis de Superpowers, el proyecto open source de Jesse Vincent que convierte brainstorming, planificación, TDD, revisión de código y verificación en skills obligatorias para agentes de código. Qué flujo impone, cómo están escritas sus reglas, por qué cada tarea va a un subagente nuevo, cómo se prueban las skills con evidencia, qué cuesta adoptarlo y un plan concreto para incorporarlo en un equipo.',
+    category: 'IA y agentes',
+    tags: ['IA', 'Agentes', 'Arquitectura'],
+    date: '2026-11-21',
+    readingTime: '15 min de lectura',
+    projectSlug: '',
+    relatedSlugs: ['harness-engineering-agentes-codigo-guias-sensores', 'knowledge-centric-delivery-despues-de-agile-equipos-ia', 'agentes-ia-salidas-verificables'],
+    contextLabel: 'Análisis técnico · repositorio obra/superpowers v7.0.2, noviembre de 2026',
+    sourceUrl: 'https://github.com/obra/superpowers',
+    sourceLabel: 'Superpowers: metodología de desarrollo para agentes de código (GitHub)',
+    lead: 'Cualquier equipo que trabaja con agentes de código conoce el patrón: el agente entiende la tarea a medias, empieza a escribir antes de preguntar, declara que los tests pasan sin haberlos corrido y entrega un cambio que nadie pidió. La respuesta habitual es escribir instrucciones más largas. Superpowers propone otra cosa: empaquetar una metodología completa de ingeniería en skills que el agente está obligado a usar, y probar esas skills con la misma disciplina con la que se prueba el código. Con más de 320.000 estrellas en GitHub es, probablemente, el intento más adoptado de responder una pregunta que hoy es de gestión y no solo técnica: cómo se le enseña un proceso a un agente.',
+    sections: [
+      {
+        title: 'Qué es Superpowers',
+        paragraphs: [
+          'El README lo define como una metodología completa de desarrollo de software para agentes de código, construida sobre un conjunto de skills componibles y unas instrucciones iniciales que garantizan que el agente las use. La frase que mejor resume la intención aparece unas líneas más abajo: son **flujos de trabajo obligatorios, no sugerencias**.',
+          'El autor es Jesse Vincent (obra en GitHub), con el equipo de Prime Radiant. Lo presentó el 9 de octubre de 2025 en su blog con una entrada titulada, en inglés, "Superpowers: cómo uso agentes de código en octubre de 2025". Un año después el repositorio suma unas 323.000 estrellas, 28.700 forks y casi 700 commits, se distribuye con licencia MIT y la última versión publicada al momento de escribir esto es la 7.0.2, del 3 de noviembre de 2026.',
+          'Una skill es un directorio con un archivo SKILL.md: un nombre, una descripción que le indica al agente cuándo usarla y un cuerpo con el procedimiento. Superpowers trae 15. Lo que lo distingue de una colección de prompts es el mecanismo de arranque: un hook inyecta al inicio de cada sesión la skill `using-superpowers`, que obliga al agente a revisar qué skills aplican **antes de cualquier respuesta**, incluidas las preguntas de aclaración.',
+          'Empezó como un plugin de Claude Code y hoy se instala en una quincena de entornos: Claude Code, Codex (app y CLI), Cursor, Gemini CLI, GitHub Copilot CLI, OpenCode, Factory Droid, Devin CLI, Qwen Code, Kimi Code, Antigravity, Grok Build, Pi, Hermes Agent y Muse. Que una metodología escrita en Markdown funcione igual en herramientas de empresas distintas es, en sí mismo, un dato sobre hacia dónde va el ecosistema.',
+        ],
+        blocks: [
+          {
+            type: 'code',
+            caption: 'Instalación en Claude Code, según el README',
+            lang: 'text',
+            text: `# Desde el marketplace oficial de plugins
+/plugin install superpowers@claude-plugins-official
+
+# O desde el marketplace propio del proyecto
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace`,
+          },
+        ],
+      },
+      {
+        title: 'El flujo que impone',
+        paragraphs: [
+          'Lo más valioso de Superpowers no es ninguna skill aislada sino el orden en que se encadenan. El README describe un flujo básico de siete pasos, y cada uno se activa solo cuando corresponde.',
+        ],
+        blocks: [
+          {
+            type: 'mermaid',
+            caption: 'El flujo básico de Superpowers, según su README',
+            description: 'El trabajo empieza con brainstorming, que termina en un diseño aprobado. Luego se crea un worktree de git con una línea base de tests limpia. Se escribe un plan de tareas de dos a cinco minutos. El plan se ejecuta con un subagente por tarea o en línea. Cada tarea sigue el ciclo de TDD rojo, verde y refactor y pasa por una revisión de código; los problemas críticos bloquean el avance. Al final se verifica todo y se decide entre merge, pull request, conservar o descartar la rama.',
+            text: `flowchart LR
+  B["brainstorming<br/>el porqué y un diseño aprobado"] --> W["using-git-worktrees<br/>rama aislada y tests en verde"]
+  W --> P["writing-plans<br/>tareas de 2 a 5 minutos"]
+  P --> E{"¿Cómo se ejecuta?"}
+  E -->|un subagente por tarea| S["subagent-driven-development"]
+  E -->|en línea, un solo contexto| I["executing-plans"]
+  S --> T["test-driven-development<br/>rojo, verde, refactor"]
+  I --> T
+  T --> R["requesting-code-review<br/>lo crítico bloquea"]
+  R -->|siguiente tarea| T
+  R --> F["finishing-a-development-branch<br/>merge, PR, conservar o descartar"]`,
+          },
+          {
+            type: 'table',
+            caption: 'Las 15 skills de Superpowers v7.0.2',
+            head: ['Grupo', 'Skill', 'Para qué sirve'],
+            rows: [
+              ['Colaboración', '`brainstorming`', 'Descubrir qué se quiere construir y por qué, antes de construir'],
+              ['Colaboración', '`writing-plans`', 'Planes con rutas de archivo exactas, código completo y pasos de verificación'],
+              ['Colaboración', '`executing-plans`', 'Ejecutar el plan en un solo contexto, con una revisión final'],
+              ['Colaboración', '`subagent-driven-development`', 'Un subagente nuevo por tarea, con revisión de especificación y de calidad'],
+              ['Colaboración', '`dispatching-parallel-agents`', 'Trabajo concurrente con varios subagentes'],
+              ['Colaboración', '`using-git-worktrees`', 'Ramas de desarrollo aisladas y en paralelo'],
+              ['Colaboración', '`requesting-code-review`', 'Revisión contra el plan, con hallazgos por severidad'],
+              ['Colaboración', '`receiving-code-review`', 'Cómo responder a la revisión sin aceptar todo por complacencia'],
+              ['Colaboración', '`finishing-a-development-branch`', 'Verificar y decidir el destino de la rama'],
+              ['Testing', '`test-driven-development`', 'El ciclo rojo, verde y refactor, con antipatrones de testing'],
+              ['Depuración', '`systematic-debugging`', 'Causa raíz en cuatro fases, con rastreo y defensa en profundidad'],
+              ['Depuración', '`verification-before-completion`', 'Ninguna afirmación de éxito sin evidencia fresca'],
+              ['Depuración', '`diagnosing-superpowers`', 'Reconstruir con evidencia qué falló en una sesión'],
+              ['Meta', '`writing-skills`', 'Escribir skills nuevas y probarlas'],
+              ['Meta', '`using-superpowers`', 'El arranque: cómo encontrar y usar las skills'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Leída como un proceso de equipo, la secuencia no tiene nada de nuevo: descubrimiento, diseño, plan, implementación con tests, revisión y cierre. Lo nuevo es que el proceso deja de vivir en una wiki que nadie consulta y pasa a ejecutarse en cada sesión, para cada tarea, sin depender de que alguien se acuerde. Según el README, con este andamiaje el agente puede trabajar de forma autónoma un par de horas seguidas sin apartarse del plan.',
+          },
+        ],
+      },
+      {
+        title: 'Las leyes de hierro: reglas escritas para un lector que busca atajos',
+        paragraphs: [
+          'Al leer los SKILL.md se nota que están escritos para un lector muy particular: uno capaz, rápido y propenso a convencerse de que esta vez la regla no aplica. Por eso varias skills tienen una "ley de hierro" en mayúsculas y una tabla de racionalizaciones con su refutación.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Tres reglas centrales, traducidas de los SKILL.md',
+            head: ['Skill', 'Regla', 'Qué conducta corrige'],
+            rows: [
+              ['`using-superpowers`', 'Si hay aunque sea un 1% de probabilidad de que una skill aplique, el agente debe invocarla. No es negociable', 'Saltear el proceso porque la tarea "parece simple"'],
+              ['`test-driven-development`', 'Nada de código de producción sin un test que falle primero. El código escrito antes del test se borra: no se conserva "como referencia" ni se adapta', 'Tests escritos a posteriori que confirman lo que el código ya hace'],
+              ['`verification-before-completion`', 'Ninguna afirmación de que algo está terminado sin evidencia de verificación fresca, corrida en ese mismo mensaje', 'El "listo, los tests pasan" sin haberlos corrido'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'La tabla de `using-superpowers` es casi un catálogo de excusas reconocibles: "es solo una pregunta simple", "primero necesito más contexto", "déjame explorar el código antes", "esta skill es excesiva". Cada una tiene su respuesta. La de `verification-before-completion` va más lejos: trata como señales de alarma las palabras "debería", "probablemente" y "parece", y expresar satisfacción ("¡Perfecto!", "¡Listo!") antes de verificar. También incluye una línea que cualquier Tech Lead debería enmarcar: el reporte de éxito de un agente no alcanza; lo que cuenta es el diff en el control de versiones.',
+          },
+          {
+            type: 'note',
+            label: 'Por qué este tono funciona',
+            text: 'En su entrada de lanzamiento, Vincent cuenta que aplicó a las skills los principios de persuasión de Robert Cialdini (autoridad, compromiso, prueba social, entre otros) y cita un estudio de Wharton, en el que participó el propio Cialdini, sobre cómo esos principios influyen en los modelos de lenguaje. Se puede discutir la estética de escribir instrucciones en mayúsculas, pero la lógica es de ingeniería: si el lector tiende a racionalizar, la regla tiene que anticipar la racionalización.',
+          },
+        ],
+      },
+      {
+        title: 'Un subagente nuevo por tarea',
+        paragraphs: [
+          'La skill `subagent-driven-development` resuelve un problema que cualquiera que haya tenido sesiones largas con un agente reconoce: el contexto se ensucia. Después de una hora de exploración, intentos fallidos y correcciones, el agente arrastra decisiones viejas y supuestos que ya no valen.',
+          'La solución es delegar cada tarea del plan a un subagente que **no hereda el historial de la sesión**: el coordinador le arma exactamente el contexto que necesita, el subagente implementa y después pasa por una revisión en dos etapas, primero de cumplimiento de la especificación y luego de calidad de código. Al final hay una revisión amplia de toda la rama. Es el mismo principio que aplicamos a las personas cuando un ticket bien escrito vale más que una charla de pasillo: el contexto explícito escala, el implícito no.',
+          'La parte más interesante para quien gestiona equipos es cómo la skill resuelve la tensión entre autonomía y control. Prohíbe las pausas para preguntar "¿sigo?" y pide que el agente tome decisiones y las registre en un libro de decisiones con el formato: qué decidió, por qué y cuánto cuesta si se equivocó. Su argumento es directo: una decisión equivocada cuesta un retrabajo visible y reversible, mientras que una sesión detenida esperando una respuesta le cuesta a la persona el día entero.',
+        ],
+        blocks: [
+          {
+            type: 'p',
+            text: 'Hay exactamente cuatro motivos por los que el agente sí debe detenerse y preguntar:',
+          },
+          {
+            type: 'ol',
+            items: [
+              'Una operación irreversible o destructiva.',
+              'Una acción sensible para la seguridad.',
+              'Un efecto fuera del worktree que normalmente se consulta: un merge, un push a una rama compartida, una publicación.',
+              'Un plan tan roto que cualquier camino es una suposición.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Es una política de escalamiento bien diseñada, y sirve tal cual para un equipo humano: decidir dentro de un perímetro, dejar registro y escalar solo lo irreversible. Pocas organizaciones la tienen escrita con esta claridad.',
+          },
+        ],
+      },
+      {
+        title: 'Skills probadas con evidencia, no con intuición',
+        paragraphs: [
+          'La mayoría de las instrucciones para agentes se escriben a ojo: alguien nota un mal comportamiento, agrega una línea y sigue. Superpowers trata las skills como código. La skill `writing-skills` incluye una metodología de prueba, y en el lanzamiento Vincent la describe como TDD para skills: se arma un escenario de presión realista, se lo corre contra un subagente, se observa si la skill aguanta y se corrige cuando falla.',
+          'Cuenta también que los primeros escenarios fallaban por artificiales, porque los subagentes respondían como en un programa de preguntas. Los reemplazó por situaciones con presión real, como una caída en producción con el tiempo encima o el costo hundido de horas ya invertidas en un enfoque, con opciones cerradas para elegir.',
+          'Las notas de la versión 7.0.2 muestran que esa disciplina se sostiene. Para medir el cambio en `brainstorming` usaron conversaciones de prueba calificadas a ciegas, y reportan números concretos:',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Resultados reportados en las notas de la versión 7.0.2 para la skill de brainstorming',
+            head: ['Medición', 'Versión anterior', 'v7.0.2'],
+            rows: [
+              ['Preguntas de relleno en el conjunto de prueba', '41 (v7.0.1)', '23'],
+              ['Conversaciones donde surge el porqué antes que cualquier enfoque', '28 de 33 (v7.0.1)', '33 de 33'],
+              ['Ante un conflicto (un atajo de teclado asignado a dos funciones), presenta opciones con una recomendación', '0 de 8 (v7.0.1 preguntaba solo "¿cuál?" en 8 de 8)', '8 de 8'],
+              ['Contra la v6.4.2: el porqué aparece', '19 de 33', '33 de 33'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Son métricas del propio proyecto, no una evaluación independiente, pero el método es el punto: cambios de comportamiento medidos contra un conjunto fijo de escenarios, con regresiones visibles. Es exactamente lo que un equipo debería exigir antes de cambiar el AGENTS.md o el CLAUDE.md que usan treinta personas.',
+          },
+        ],
+      },
+      {
+        title: 'Lo que cuesta adoptarlo',
+        paragraphs: [
+          'Nada de esto es gratis, y una evaluación honesta tiene que poner los costos sobre la mesa.',
+        ],
+        blocks: [
+          {
+            type: 'table',
+            caption: 'Costos y riesgos a evaluar antes de adoptar Superpowers',
+            head: ['Costo o riesgo', 'De dónde viene', 'Cómo mitigarlo'],
+            rows: [
+              ['Más tokens y más tiempo por tarea', 'Un contexto nuevo por tarea y por revisión. La propia skill lo reconoce frente a la ejecución en línea, que cuesta un contexto y una revisión final', 'Usar `executing-plans` para cambios chicos y reservar los subagentes para trabajo con tareas independientes'],
+              ['Ceremonia en cambios triviales', 'La regla del 1% y el brainstorming antes de cualquier trabajo creativo', 'La 7.0.2 ya distingue la tarea clara ("pintar el ícono de azul"), que se hace y se informa sin preguntas'],
+              ['Dependencia del arranque', 'Si el hook de inicio falla, las skills dejan de ser obligatorias. Las notas de la 7.0.2 corrigen fallas de arranque en seis entornos, entre ellos Copilot en Windows y OpenCode', 'Verificar en el piloto que el arranque se cargue en el entorno real de cada persona'],
+              ['Caché de prompts', 'En Pi, el arranque se desactivaba tras el primer prompt y obligaba a reescribir la caché de toda la conversación; un usuario midió un 83% de transiciones afectadas', 'Mantener el plugin actualizado y medir costo por sesión antes y después'],
+              ['Código de terceros con acceso a la sesión', 'Un plugin con hooks se ejecuta en cada inicio de sesión y suele actualizarse solo', 'Fijar versiones, revisar las notas de cada release y tratarlo como cualquier dependencia'],
+              ['Telemetría', 'El acompañante visual de brainstorming carga un logo del sitio de Prime Radiant que incluye la versión', 'Es opcional; se desactiva con `SUPERPOWERS_DISABLE_TELEMETRY`'],
+              ['Metodología cerrada', 'El proyecto, en general, no acepta contribuciones de skills nuevas', 'Escribir las skills propias del equipo en un plugin aparte, siguiendo `writing-skills`'],
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Hay un costo menos visible: Superpowers tiene opiniones fuertes. TDD estricto, worktrees, planes con código completo. Para un equipo que ya trabaja así es un multiplicador; para uno que no, la herramienta va a imponer un cambio de proceso que conviene decidir explícitamente y no descubrir en medio de un sprint.',
+          },
+        ],
+      },
+      {
+        title: 'Dónde encaja frente a otras propuestas',
+        paragraphs: [
+          'En este blog analicé varias formas de darle estructura al trabajo con agentes, y Superpowers ocupa un lugar propio entre ellas.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              '**Frente a [Spec Kit](/blog/spec-kit-1-especificaciones-agentes-adopcion/)**, que pone el foco en la especificación como artefacto versionado, Superpowers cubre todo el ciclo y trata la especificación como un paso más: el brainstorming produce un diseño y el plan se vuelve la autoridad de ejecución.',
+              '**Frente a colecciones de skills sueltas**, como las de Matt Pocock que incorporé al ciclo de [Knowledge-Centric Delivery](/blog/knowledge-centric-delivery-despues-de-agile-equipos-ia/), Superpowers no es un menú: es una metodología completa con un orden obligatorio. Las sueltas se adoptan de a una; Superpowers se adopta entero o se adapta con cuidado.',
+              '**Frente al [harness engineering](/blog/harness-engineering-agentes-codigo-guias-sensores/)**, Superpowers es mayormente guía, en el sentido de lo que se le indica al agente antes de actuar. Los sensores, es decir los tests, linters y checks que validan el resultado, siguen siendo del repositorio. La skill de verificación obliga a correrlos, pero no los reemplaza.',
+            ],
+          },
+          {
+            type: 'p',
+            text: 'Mi lectura es que estas propuestas no compiten tanto como parece. Una buena configuración de equipo combina una especificación versionada, una metodología de ejecución como la de Superpowers y un conjunto de sensores automáticos que no depende de la buena voluntad del agente.',
+          },
+        ],
+      },
+      {
+        title: 'Un plan de adopción para un equipo',
+        paragraphs: [
+          'Desde el rol de Engineering Manager, no instalaría Superpowers para todo el equipo un lunes a la mañana. Lo trataría como cualquier cambio de proceso: con un piloto, una hipótesis y métricas.',
+        ],
+        blocks: [
+          {
+            type: 'ol',
+            items: [
+              '**Semana 1: línea base.** Antes de instalar nada, medir en dos o tres repositorios cuántos PRs generados con agentes necesitan más de una ronda de revisión, cuántos llegan sin tests y cuánto cuesta una sesión típica en tokens.',
+              '**Semana 2: piloto acotado.** Dos o tres personas con experiencia en TDD lo usan en un repositorio con buena cobertura y una suite de tests confiable. Sin tests buenos, la ley de hierro de la verificación no tiene contra qué verificar.',
+              '**Semanas 3 y 4: uso real.** Tareas reales del backlog, no demos. Registrar en cada caso qué modo de ejecución se usó, si el plan se sostuvo y qué decisiones quedaron en el libro de decisiones del agente.',
+              '**Revisión con datos.** Comparar con la línea base: rondas de revisión, PRs sin tests, defectos detectados después del merge, costo por tarea y percepción del equipo sobre la ceremonia agregada.',
+              '**Decidir qué se adopta.** Las opciones razonables son tres: Superpowers completo, solo algunas skills (verificación y TDD suelen dar el mayor retorno con el menor costo) o un plugin propio del equipo, escrito con la metodología de `writing-skills`.',
+              '**Fijar y gobernar.** Si se adopta, fijar la versión, asignar a alguien la lectura de cada release y tratar las skills del equipo como código: con revisión, con escenarios de prueba y con historial.',
+            ],
+          },
+          {
+            type: 'note',
+            label: 'Una posición propia',
+            text: 'Lo más valioso de Superpowers no es instalarlo sino lo que enseña: un proceso de ingeniería puede escribirse de forma que un agente lo cumpla, y esa escritura puede probarse y medirse. Los equipos que aprendan a escribir y probar sus propias skills van a tener una ventaja que no depende de ningún plugin.',
+          },
+        ],
+      },
+      {
+        title: 'Lo que este análisis no puede afirmar',
+        paragraphs: [
+          'Para mantener el estándar de este blog, conviene dejar claros los límites.',
+        ],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'El análisis se basa en el README, en los SKILL.md de cinco de las quince skills, en las notas de la versión 7.0.2 y en la entrada de lanzamiento del autor. No leí todas las skills completas.',
+              'No medí el efecto de Superpowers en un equipo propio. No tengo datos independientes sobre calidad, velocidad o costo.',
+              'Las métricas de brainstorming son del propio proyecto, con escenarios definidos por sus mantenedores.',
+              'No verifiqué que los comandos de instalación funcionen en cada uno de los entornos listados.',
+              'Las estrellas y los forks son un indicador de interés, no de adopción en producción ni de calidad.',
+            ],
+          },
+        ],
+      },
+      {
+        title: 'Conclusión',
+        paragraphs: [
+          'Superpowers resume una idea que va a definir cómo trabajan los equipos de ingeniería en los próximos años: el proceso ya no es un documento que se espera que las personas sigan, sino un artefacto que el agente ejecuta y que se puede versionar, probar y medir. Brainstorming antes de construir, tests antes del código, evidencia antes de declarar éxito y un subagente con contexto limpio por tarea no son ideas nuevas. Lo nuevo es que se cumplen siempre, porque el agente no tiene la opción de saltearlas.',
+          'Para quienes lideramos equipos, la pregunta no es si instalar este plugin en particular, sino si nuestro proceso de ingeniería está escrito con la claridad suficiente como para que un agente lo pueda seguir. Si no lo está, tampoco lo estaba para las personas.',
+        ],
+      },
+      {
+        title: 'Referencias',
+        paragraphs: [],
+        blocks: [
+          {
+            type: 'ul',
+            items: [
+              'Vincent, J. y Prime Radiant. [Superpowers](https://github.com/obra/superpowers). Repositorio, README y SKILL.md, consultados el 21 de noviembre de 2026.',
+              'Superpowers. [Notas de la versión 7.0.2](https://github.com/obra/superpowers/blob/main/RELEASE-NOTES.md), 3 de noviembre de 2026.',
+              'Vincent, J. [Superpowers: How I\'m using coding agents in October 2025](https://blog.fsck.com/2025/10/09/superpowers/), 9 de octubre de 2025.',
+              'Cialdini, R. *Influence: The Psychology of Persuasion*. Harper Business, edición revisada de 2021.',
+            ],
+          },
+        ],
+      },
+    ],
+    takeaway: 'En síntesis: Superpowers convierte una metodología de ingeniería completa (brainstorming, plan, TDD, revisión y verificación) en skills que el agente está obligado a usar, delega cada tarea a un subagente con contexto limpio y prueba sus propias reglas con escenarios medidos. Tiene costos reales en tokens, ceremonia y dependencia de un plugin de terceros, por lo que conviene adoptarlo con un piloto y métricas. Su mayor lección no es el plugin sino el método: un proceso escrito para que un agente lo cumpla, y probado como se prueba el código.',
+  },
+  {
     slug: 'artex-pentesting-autonomo-multiagente-impacto-2026',
     seoTitle: 'ARTEX: pentesting autónomo con agentes de IA y su impacto en 2026',
     seoDescription: 'Un análisis de ARTEX, el sistema multiagente de pentesting autónomo: cómo funciona, qué controles incorpora y qué dicen las noticias de 2026 sobre promesa, riesgo y doble uso.',

@@ -16,6 +16,7 @@ export const pillars = [
     articleSlugs: [
       'ingenieria-agentes-ia-empresa-arquitectura-controles',
       'harness-engineering-agentes-codigo-guias-sensores',
+      'superpowers-metodologia-agentes-codigo-skills',
       'loop-engineering-agentic-loops',
       'orquestacion-multiagente-website-factory',
       'ia-especificacion-antes-codigo',
